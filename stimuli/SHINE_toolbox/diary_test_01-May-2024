@@ -1,0 +1,673 @@
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('disp')" style="font-weight:bold">disp</a>
+Too many input arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SHINE', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m', 121)" style="font-weight:bold">SHINE</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',121,0)">line 121</a>)
+disp('SETTINGS: iterations: ', num2str(it),' | wholeIm: ', num2str(wholeIm), ' | mode: ',...
+} 
+opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',121,0)
+SHINE
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SHINE', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m', 77)" style="font-weight:bold">SHINE</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',77,0)">line 77</a>)] 
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('disp')" style="font-weight:bold">disp</a>
+Too many input arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SHINE', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m', 121)" style="font-weight:bold">SHINE</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',121,0)">line 121</a>)
+disp('SETTINGS: iterations: ', num2str(it),' | wholeIm: ', num2str(wholeIm), ' | mode: ',...
+} 
+if system_dependent('IsDebugMode')==1, dbquit all; end
+SHINE
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SHINE', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m', 77)" style="font-weight:bold">SHINE</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',77,0)">line 77</a>)] 
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :300 | rescaling :2 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   histMatch & sfMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 2
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 3
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 4
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 5
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 6
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 7
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 8
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 9
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 10
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+RMSE:     8.783480e+01
+SSIM:     3.627882e-01
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :300 | rescaling :2 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',273,1)">273 </a>            image = images{im};
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep in; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+image(mask_f)
+{Array indices must be positive integers or logical values.
+
+'image' appears to be both a function and a variable. If this is unintentional, use 'clear image' to remove the variable 'image' from the
+workspace.
+} 
+if system_dependent('IsDebugMode')==1, dbquit; end
+SHINE
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SHINE', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m', 77)" style="font-weight:bold">SHINE</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',77,0)">line 77</a>)] 
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :300 | rescaling :2 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',253,1)">253 </a>    [images,numim,imname] = readImages(input_folder,imformat);
+if system_dependent('IsDebugMode')==1, dbstep; end
+help readImages
+  [ims,nim,imname] = <strong>readImages</strong>(pathname,imformat)
+ 
+  Loads all images of the type specified by imformat that are saved in 
+  the folder specified by pathname
+ 
+  INPUT:
+  (1) pathname: directory (e.g. pathname = '/Applications/MATLAB/work')
+  (2) imformat: file format of the input images (e.g., imformat = 'tif')
+ 
+  OUTPUT:
+  (1) ims: a cell containing the image matrices
+  (2) nim: number of images
+
+I
+{Unrecognized function or variable 'I'.
+} 
+image(images{1})
+{Unrecognized function or variable 'image'.
+} 
+plot(images{1})
+imageviewer(images{1})
+{Unrecognized function or variable 'imageviewer'.
+} 
+imageview(images{1})
+if system_dependent('IsDebugMode')==1, dbcont; end
+ 
+Number of images: 18
+ 
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+imageview(mask_f)
+imageview(mask_)
+{Unrecognized function or variable 'mask_'.
+} 
+imageview(mask_b)
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+Option:   histMatch & sfMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+imageview(mask_b)
+if system_dependent('IsDebugMode')==1, dbcont; end
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 2
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 3
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 4
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 5
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 6
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 7
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 8
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 9
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 10
+Progress: histMatch successful
+Progress: sfMatch successful
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',437,1)">437 </a>            imwrite(images{im},fullfile(output_folder,strcat('',imname{im})));
+imageview(im)
+imageview(im)
+imageview(images{im})
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+imageview(images{im})
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+ 
+RMSE:     8.784053e+01
+SSIM:     3.628809e-01
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :300 | rescaling :2 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   histMatch & sfMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 2
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 3
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 4
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 5
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 6
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 7
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 8
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 9
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 10
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+RMSE:     8.784037e+01
+SSIM:     3.628659e-01
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :300 | rescaling :2 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   histMatch & sfMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 2
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 3
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 4
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 5
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 6
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 7
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 8
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 9
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 10
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+RMSE:     8.785184e+01
+SSIM:     3.627854e-01
+SETTINGS: iterations: 10 | wholeIm: 1 | mode: 8 | background :300 | rescaling :1 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   specMatch & histMatch with 10 iteration(s)
+Option:   whole image
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 2
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 3
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 4
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 5
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 6
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 7
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 8
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 9
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 10
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+RMSE:     8.799491e+01
+SSIM:     3.544009e-01
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 8 | background :300 | rescaling :1 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   specMatch & histMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 2
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 3
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 4
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 5
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 6
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 7
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 8
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 9
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 10
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+RMSE:     8.799640e+01
+SSIM:     3.536465e-01
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 8 | background :300 | rescaling :2 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   specMatch & histMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 2
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 3
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 4
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 5
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 6
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 7
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 8
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 9
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+Iteration 10
+Progress: specMatch successful
+Progress: histMatch successful
+ 
+RMSE:     8.800003e+01
+SSIM:     3.543884e-01
+SETTINGS: iterations: 10 | wholeIm: 1 | mode: 5 | background :3000 | rescaling :1 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   histMatch & sfMatch with 10 iteration(s)
+Option:   whole image
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 2
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 3
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 4
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 5
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 6
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 7
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 8
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 9
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 10
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+RMSE:     8.783955e+01
+SSIM:     3.625626e-01
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :3000 | rescaling :1 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   histMatch & sfMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 2
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 3
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 4
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 5
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('filter2')" style="font-weight:bold">filter2</a>
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('ssim_sens', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/ssim_sens.m', 49)" style="font-weight:bold">ssim_sens</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/ssim_sens.m',49,0)">line 49</a>)
+my2=filter2(window,y.*y);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('histMatch', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/histMatch.m', 120)" style="font-weight:bold">histMatch</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/histMatch.m',120,0)">line 120</a>)
+                sens = ssim_sens(double(images{ix}),Y);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SHINE', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m', 397)" style="font-weight:bold">SHINE</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',397,0)">line 397</a>)
+                images = histMatch(images,optim,[],mask_bgr);
+} 
+SHINE
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SHINE', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m', 77)" style="font-weight:bold">SHINE</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/stimuli/SHINE_toolbox/SHINE.m',77,0)">line 77</a>)] 
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :300 | rescaling :1 | optim: 1
+SHINE options    [1=default, 2=custom]: 1
+ 
+Number of images: 18
+ 
+Option:   histMatch & sfMatch with 10 iteration(s)
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
+
+ans =
+
+    'Initial std: 48.282636'
+
+ 
+Iteration 1
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 2
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 3
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 4
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 5
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 6
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 7
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 8
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 9
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+Iteration 10
+Progress: histMatch successful
+Progress: sfMatch successful
+ 
+RMSE:     8.784353e+01
+SSIM:     3.625518e-01

@@ -1,0 +1,265 @@
+amdvlk + kleinerm on Linux HDR color formats:
+
+Surface number of supported surface colorspace + pixelformat combinations: 8
+[0] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [0] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[1] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [1] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[2] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [2] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[3] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [3] Swapchain format VK_FORMAT_A2B10G10R10_UNORM_PACK32
+[4] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [4] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[5] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [5] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[6] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [6] Swapchain format VK_FORMAT_A2B10G10R10_UNORM_PACK32
+[7] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [7] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+
+-> SRGB formats also on SDR displays.
+-> amdvlk limits output precision to RandR 'max bpc' 10.
+
+Standard amdvlk:
+
+[0] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [0] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[1] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [1] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[2] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [2] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[3] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [3] Swapchain format VK_FORMAT_A2B10G10R10_UNORM_PACK32
+[5] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [5] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[6] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [6] Swapchain format VK_FORMAT_A2B10G10R10_UNORM_PACK32
+
+-> No 10 bit formats on SDR display.
+
+AMD Vulkan on Windows-10 HDR color formats:
+
+Surface number of supported surface colorspace + pixelformat combinations: 19
+[0] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [0] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[1] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [1] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[2] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [2] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[3] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [3] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[4] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [4] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[5] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [5] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[6] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [6] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[7] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [7] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[8] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [8] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[9] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [9] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[10] For colorspace VK_COLOR_SPACE_BT2020_LINEAR_EXT        - [10] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[11] For colorspace VK_COLOR_SPACE_BT2020_LINEAR_EXT        - [11] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[12] For colorspace VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT - [12] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[13] For colorspace VK_COLOR_SPACE_PASS_THROUGH_EXT         - [13] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[14] For colorspace VK_COLOR_SPACE_PASS_THROUGH_EXT         - [14] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[15] For colorspace VK_COLOR_SPACE_PASS_THROUGH_EXT         - [15] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[16] For colorspace VK_COLOR_SPACE_PASS_THROUGH_EXT         - [16] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[17] For colorspace VK_COLOR_SPACE_DISPLAY_NATIVE_AMD       - [17] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[18] For colorspace VK_COLOR_SPACE_DISPLAY_NATIVE_AMD       - [18] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+
+On SDR display:
+
+Surface number of supported surface colorspace + pixelformat combinations: 8
+[0] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [0] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[1] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [1] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[2] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [2] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[3] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [3] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[4] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [4] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[5] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [5] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[6] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [6] Swapchain format VK_FORMAT_A2R10G10B10_UNORM_PACK32
+[7] For colorspace VK_COLOR_SPACE_BT709_NONLINEAR_EXT      - [7] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+
+NVIDIA Vulkan on Windows-10 HDR display:
+
+Surface number of supported surface colorspace + pixelformat combinations: 4
+[0] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [0] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[1] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [1] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+[2] For colorspace VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT - [2] Swapchain format VK_FORMAT_R16G16B16A16_SFLOAT
+[3] For colorspace VK_COLOR_SPACE_HDR10_ST2084_EXT         - [3] Swapchain format VK_FORMAT_A2B10G10R10_UNORM_PACK32
+
+
+NVIDIA Vulkan on Windows-10 SDR display:
+
+Surface number of supported surface colorspace + pixelformat combinations: 2
+[0] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [0] Swapchain format VK_FORMAT_B8G8R8A8_UNORM
+[1] For colorspace VK_COLOR_SPACE_SRGB_NONLINEAR_KHR       - [1] Swapchain format VK_FORMAT_B8G8R8A8_SRGB
+
+
+
+
+Some notes about driver bugs encountered:
+
+AMD amdvlk on Linux, as tested with Ubuntu 19.10 and 20.04-LTS:
+
+NO relevant bugs since/as of the release of the 2020-Q2.6 driver in July 2020.
+Now supports HDR-10 with 10 bpc output precision properly in direct display mode.
+
+New bugs:
+
+* HDR color gamut parsing is broken AGAIN! Now all chroma coords are too low
+  by a factor 5. Workaround implemented in PsychVulkanCore to multiply by 5x.
+  -> Fixed by myself in amdvlk release v2.0.155 aka 2020-Q3.4 from August 24th 2020.
+
+* If one switches multiple displays/RandR outputs into direct-display-mode then
+  that works, but when one tries to close them again / release the displays:
+
+  - If each RandR output / VKDisplay is on its own X-Screen all is fine.
+
+  - If the outputs/VKDisplays are on the same X-Screen (multi-display, single X-Screen)
+    then the driver fails to release all but the last/most recently acquired display!
+    All others get stuck at their last image, until one acquires/releases that one
+    display again. Peculiar: Even quitting Octave doesn't release the display!!
+
+  -> Diagnosed to be a X-Server core RandR leasing bug. Fixed by myself in X-Server 21
+     and X-Server 1.20.14. X-Server 21 is in Ubuntu 22.04-LTS and later, so Ubuntu 22.04+
+     is fine. Unfortantely server 1.20.14 was not SRU'd for/as of Ubuntu 20.04.5-LTS, so
+     that remains broken.
+
+* Oh yeah, and while radv does do switching of a direct-display-mode display
+  into the requested mode, amdvlk ignores this and always switches to the
+  highest capability mode! Bad if the highest mode is also flaky due to
+  low link signal quality -- Displays blank out, DP link training fails etc.
+
+--> Last bug remains in amdvlk as of 2020-Q3.4, otherwise fine.
+
+Before that release there were various serious bugs for which i
+provided bug fixes, and one bug report fixed by AMD themselves:
+
+- Failure of RandR output --> VKDisplayKHR mapping in error handling and on repeat calls.
+- Failure of RandR output leasing --> Bugs in the build process, and other bugs.
+- Failure in DirectDisplayMode to provide any displayable pixel formats!
+- Failure in DirectDisplayMode to provide > 8 bpc formats.
+- Errors in HDR display colorimetry property queries.
+- Failure to allow setting HDR metadata for the display in RandR output leased mode.
+
+Mesa RADV:
+
+Can only handle one direct mode display (driver limitation).
+However if one tries to open a 2nd display on another driver like amdvlk,
+then radv doesn't fail gracefully. While 2nd display on amdvlk works, the
+1st display handled by radv gets stuck and the swapchain reports failure
+to present with some error code.
+
+Tested AMD gpu's for HDR et al:
+
+Discrete Advanced Micro Devices, Inc. [AMD/ATI] - Baffin [Radeon RX 460/560D / Pro 450/455/460/555/555X/560/560X] GPU found.
+AMD Radeon RX graphics (Polaris11). DCE 11.2 Polaris family.
+
+Integrated: AMD Raven Ridge DCN1.
+
+Windows-10:
+
+AMD: As of Radeon software release 2020.4.2 (June 2020)
+
+- Failure in HDR display colorimetry property queries. Misreports maxLuminance and
+  maxFALL: maxFALL not reported at all (ie. zero), maxLuminance misreported as what
+  should be maxFALL. Reported to AMD months ago, not fixed.
+
+- In fullscreen exclusive mode, surface properties report maxLayers == 0, which is
+  an impossible value, and leads to validation layers falsely reporting application
+  bugs. Ie. VkSurfaceCapabilities2KHR.surfaceCapabilities.maxImageArrayLayers == 0.
+
+- Switching to fullscreen exclusive mode works with Matlab (compiled with MSVC2019),
+  but not with Octave 5.1/5.2 (MinGW64) for unknown reasons. VK_ERROR_INITIALIZATION_FAILED.
+
+- Trying to display a VKSurface on any display not attached to the AMD gpu, but to
+  a different gpu (in my case, NVidia GeForce GTX-1650) leads to a amd driver crash,
+  not only in fullscreen exclusive mode, but even in regular windowed mode, when
+  displaying into a Window on the regular Windows-10 desktop, just located on a
+  different gpu's monitor!
+
+  Stack Trace (from fault):
+  [  0] 0x00007ffb8f65dc58 C:\WINDOWS\System32\DriverStore\FileRepository\u0355311.inf_amd64_183b8d63847c90cf\B355199\amdvlk64.dll+00121944 vk_icdNegotiateLoaderICDInterfaceVersion+00030360
+  [  1] 0x00007ffbe551c4c0                   C:\WINDOWS\SYSTEM32\vulkan-1.dll+00115904 vkDestroyDescriptorPool+00062320
+  [  2] 0x00007ffbe561c381 C:\Users\Mario Kleiner\Documents\GitHub\Psychtoolbox-3\Psychtoolbox\PsychBasic\MatlabWindowsFilesR2007a\PsychVulkanCore.mexw64+00050049 mexFunction+00023009
+
+- Control of local backlight dimming on a FreeSync-2 HDR certified monitor via
+  VkDisplayNativeHdrSurfaceCapabilitiesAMD does not work, despite the extension
+  reporting that the monitor supports control. Don't know if this is an AMD
+  driver bug, or monitor firmware bug.
+
+- Calling vkCreateInstance() after an OpenGL context was created, instead of before, somehow
+  damages the OpenGL context in a way that causes any OpenGL glXXX() to crash the AMD OpenGL
+  driver. Even trying to unbind an OpenGL context will crash the driver!
+
+  Graphics card 1          : Advanced Micro Devices, Inc. ( 0x1002 ) AMD Radeon(TM) RX Vega 11 Graphics Version 26.20.15029.27017 (2020-5-15)
+  Graphics card 2          : NVIDIA ( 0x10de ) NVIDIA GeForce GTX 1650 Version 26.21.14.4587 (2020-4-3)
+  Java Version             : Java 1.8.0_181-b13 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+  MATLAB Architecture      : win64
+  MATLAB Entitlement ID    : 6173418
+  MATLAB Root              : C:\Program Files\MATLAB\R2019a
+  MATLAB Version           : 9.6.0.1150989 (R2019a) Update 4
+  OpenGL                   : hardware
+  Operating System         : Microsoft Windows 10 Home
+  Process ID               : 8920
+  Processor ID             : x86 Family 143 Model 17 Stepping 0, AuthenticAMD
+  Session Key              : 15abeac6-e21d-4516-b749-94940f76e3bd
+  Window System            : Version 10.0 (Build 18363)
+
+Fault Count: 1
+
+
+Abnormal termination:
+Access violation
+
+Register State (from fault):
+  RAX = 000000000035b000  RBX = 00000000043fb100
+  RCX = 000000000000004d  RDX = 0000000000000000
+  RSP = 00000000043faeb0  RBP = 0000000000000001
+  RSI = 0000000000000001  RDI = 00007ffba3b97010
+ 
+   R8 = 0000000000000013   R9 = 0000000000000000
+  R10 = 0000000000000002  R11 = 00000000043fae90
+  R12 = 0000000000000000  R13 = 000000017c98d890
+  R14 = 00000000043fb100  R15 = 00007ffba3ce0e40
+ 
+  RIP = 00007ffb91ecb014  EFL = 00010202
+ 
+   CS = 0033   FS = 0053   GS = 002b
+
+Stack Trace (from fault):
+[  0] 0x00007ffb91ecb014 C:\WINDOWS\System32\DriverStore\FileRepository\u0355311.inf_amd64_183b8d63847c90cf\B355199\atio6axx.dll+17412116 DrvPresentBuffers+06413060
+[  1] 0x00007ffba3b4f30c C:\Users\Mario Kleiner\Documents\GitHub\Psychtoolbox-3\Psychtoolbox\PsychBasic\MatlabWindowsFilesR2007a\moglcore.mexw64+00258828
+
+
+NVidia: As of driver version 450, GeForce GTX 1650.
+
+Querying HDR display colorimetry/HDR metadata from within Vulkan via
+vkGetPhysicalDeviceSurfaceCapabilities2KHR() with .pNext chained VK_STRUCTURE_TYPE_HDR_METADATA_EXT
+struct fails. Works on AMD on both Windows and Linux.
+
+Needed to implement a fallback using MS-Windows 10 DXGI v1.6.
+
+Displaying in HDR-10 windowed mode sometimes gets the display stuck in HDR-10
+permanently, even across system reboots. One needs to manually disable in Windows-10
+display settings.
+
+macOS + MoltenVK on top of Metal: Tested on 10.15.7 Catalina AMD and Intel gfx, MBP 2017 15" Retina:
+This text from: https://github.com/KhronosGroup/MoltenVK/pull/1342#issuecomment-835408675
+
+This followup is probably more than you wanted to know, and a bit "ranty", so apologies, but maybe it helps somebody else who tries to make sense of timing and timestamping in Metal / Vulkan on macOS, by documenting my experience so far on Catalina:
+
+The "hanging together" part is unfortunately not quite where i wanted it to be, the jury is still out... The main motivator was to access Metal's timed presentation scheduling, and even more critical for us, the timestamping of when a swapchain image was truly presented onscreen. Iow. the `MTLDrawable presentAtTime: when`, `MTLDrawable:addPresentedHandler`, and `MTLDrawable:presentedTime` api's. These are exposed by MoltenVK's VK_GOOGLE_display_timing extension.
+
+I could only test this on macOS 10.15.7 on AMD and Intel gpu's (MBP Retina 15" 2017), but on that machine + OS combo, Metals timestamping and presentation scheduling proved to be very unreliable and underwhelming in performance, even now that i fixed MVK in that other pull request. As far as dozens of hours of testing and tinkering go, this is not a fault or bug of MoltenVK, but of Metal on Catalina itself. I also downloaded some of Apples "best practices" Metal sample XCode projects, traced their execution via the macOS Performance Tools - the Metal Performance Trace and Game trace templates, to watch application api calls, driver processing, gpu processing of command buffers, when drawable surfaces get scheduled for present, and actually presented in relation to vsync etc. If those went through the compositor/Windowserver or not, DirectToDisplay or not etc. I also used external measurement equipment and procedures of Psychtoolbox to compare Metal reported timestamps against ground truth etc. etc. I hacked Apples "best practices" Metal sample code to add presentAtTime, callbacks etc., to replicate the MoltenVK setup independently. Long story short, all the limtations and bugs i encountered with my Psychtoolbox+Vulkan+MoltenVK+Metal implementation also happened with the independent Apple Metal-only Obj-C sample code. This tells me we are not dealing with MoltenVK bugs or limitations, but macOS Metal brokeness.
+
+Some highlights:
+
+- On AMD, the reported presentedTime randomly goes from reasonable and reasonably accurate (seems to be a timestamp likely taken by the vsync hardware interrupt handler) to completely bogus: Sometimes reporting values that are a dozen milliseconds off wrt. special measurement hardware - and physically impossible. More often it reports a timestamp of zero, which according to Apples docs mean _"The property value is 0.0 if the drawable hasn’t been presented or if its associated frame was dropped."_ - Except this happens at random points in time, for random streaks of presentation (a few frames to a few hundred frames), while looking at the animation on the screen, presentation is just fine, and clearly the drawable has been presented and no frames were dropped at all, in direct contradiction to what Apple docs say a zero timestamp would mean. This happens both in windowed mode, fullscreen mode, and sometimes in DirectToDisplay fullscreen mode. It happens with the application in "steady state" with the animation running and no obvious trigger event, no other apps running, no other GUI activity, nobody touching keyboard or mouse...
+
+- On Intel gpu's the same holds true, except all timestamps are off by a factor of 1000x ! Apparently somebody doesn't understand multiplication and division in Apples Intel driver team, and nobody ever tested this before release of Catalina.
+
+- Sometimes presentation timestamps are not only zero for no reason, but also arrive out of sequence, the presented callback for frame i called after the callback for frame i+1 or i+2, which really throws off software that needs to wait for present completion of frame i before progressing to i+1, i+2. Sometimes this seems to get worse in DirectToDisplay mode or for longer time intervals between presents.
+
+- Things get worse in DirectToDisplay mode. The frequency and severity of above problems. So by default i intentionally choose pixel formats for the the swapchain to prevent DirectToDisplay...
+
+- But that doesn't matter, as DirectToDisplay mode does not seem to have the latency reduction benefit it is supposed to have, at least on Catalina. I see the same one frame extra latency in DtoD as in regular mode, as confirmed by using the Apple performance tools for tracing all application/windowserver/gpu driver/display hardware activity. So if you have an application that needs to wait for frame present completion of frame i before moving on to frame i+1, then that 1 frame extra lag will throttle any animation to half the video refresh rate: max 30 fps on a standard 60 Hz display. Tracing suggests that the WindowServer is still involved in triggering the actual present, even though it is supposed to be bypassed - the purpose of DirectToDisplay. Driver and gpu processing time for the server goes down from milliseconds to a few microseconds, but that doesn't matter because the server still runs on a fixed duty cycle, as if compositing a regular desktop GUI with multiple non-fullscreen application windows, despite there being no other application being on display that would need to be composited, just one DtoD fullscreen exclusive application on a pure single display setup. Things like Retina display vs. standard DPI display, scaled modes versus native modes didn't make any difference.
+
+All taken together, timing and performance is unusable for our very specific purpose due to both performance issues and reliability issues. But as far as i can see, this is not a fault of MoltenVK at all, but of macOS / Metal. And this is so far only confirmed to be broken on Catalina. Also, on macOS 10, and on macOS 11 with AMD/Intel/NVidia gpu's we have clever ways of timing and timestamping just using OpenGL and some custom written kext that does some low-level trickery by directly accessing the gpu hardware. Unfortunately with Apple clamping down on 3rd party kexts, supposedly planning to remove support completely in future macOS versions, and with the introduction of the Apple proprietary M1 SoC, our old tricks either do not work at all (M1's gpu and their OpenGL-on-top-of-Metal implementation), or are expected to fail on Intel machines with a future macOS version.
+
+My hope is that macOS 11 would be less broken and more usable in this area, or maybe at least on the ARM M1 Apple proprietary display hardware, but i currently lack the hardware and even more so the funding and time for further testing and investigation on Big Sur. At least MoltenVK gives us a way to utilize this functionality, in case Apple fixes (or fixed) their system in future macOS releases. And our main recommended target platform isn't macOS anyway, but desktop Linux, where these specific problems don't exist and we have excellent timing and control with the FOSS graphics and display stack since over a decade. I assume at some point one of our users will run this new Vulkan/WSI backend code on their macOS 11 or Apple M1 systems and then i'll see if things are as bad on those setups. So far the feature on our side is less than a month old, so time will tell...
+
+End rant ;-)
+
+- Retested on macOS with MoltenVK 1.1.12 on top of Metal: Tested on 12.6.0 Monterey final and AMD on MBP 2017
+  15" Retina with new workarounds in Screen() for new macOS 12 bugs which caused permanent zero timestamps and
+  no stimulus display at all:
+
+  - With workaround, timestamps are still flaky, but may be ok, according to FlipTimingWithPhotoDiodeTest, at least
+    under that tests conditions, with VideoSwitcher timestamping. More stringent testing with Datapixx etc. pending.
+
+  - Still ts failure especially at very beginning of a session.
+
+  - DirectToDisplay mode still totally broken timing-wise and also only reports invald ts.
+
+  - Max perf with no DirectToDisplay is still maxfps = videorefesh / 2, e.g., 30 fps on 60 Hz display.
