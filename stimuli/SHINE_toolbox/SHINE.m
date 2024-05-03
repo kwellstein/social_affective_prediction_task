@@ -73,7 +73,7 @@ template_folder = fullfile(thisroot,'SHINE_TEMPLATE');
 
 input_folder    = fullfile(thisroot,'SHINE_INPUT');
 date            = char(datetime('today'));
-output_folder   = fullfile([thisroot,'SHINE_OUTPUT/test_',date]);
+output_folder   = fullfile([thisroot,'/SHINE_OUTPUT/test_',date]);
 mkdir(output_folder);
 diaryName = ['diary_test_',date];
 diary(diaryName); diary ON;

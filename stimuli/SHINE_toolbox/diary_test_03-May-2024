@@ -1,9 +1,10 @@
+SETTINGS: iterations: 10 | wholeIm: 2 | mode: 5 | background :300 | rescaling :1 | optim: 1
 SHINE options    [1=default, 2=custom]: 1
  
 Number of images: 18
  
 Option:   histMatch & sfMatch with 10 iteration(s)
-Option:   whole image
+Option:   histMatch separately for the foregrounds and backgrounds (background = all regions of lum 0)
 
 ans =
 
@@ -50,5 +51,5 @@ Iteration 10
 Progress: histMatch successful
 Progress: sfMatch successful
  
-RMSE:     8.783342e+01
-SSIM:     3.624600e-01
+RMSE:     8.783739e+01
+SSIM:     3.625344e-01
