@@ -39,15 +39,19 @@ switch expMode
         options.screen.rect         = [0, 0, 1200, 600];
         screens                     = Screen('Screens');
         options.screen.number       = max(screens);
-        options.expMode             = 'experiment';
-
     case 'debug'
         % stimulus durations
         options.screen.nIntroSlides = 6;     % no. intro slides
         options.screen.rect         = [20, 10, 900, 450];
         screens                     = Screen('Screens');
         options.screen.number       = max(screens);  
-        options.expMode             = 'debug';
+
+    otherwise
+        disp(' ...no valid expMode specified, using debug options... ')
+        options.screen.nIntroSlides = 6;     % no. intro slides
+        options.screen.rect         = [20, 10, 900, 450];
+        screens                     = Screen('Screens');
+        options.screen.number       = max(screens);  
 end
 
 %% options screen
@@ -63,29 +67,39 @@ switch expType
         options.keys.stopSmile  = KbName('n'); % CHANGE
         options.keys.noSmile    = KbName('w'); % CHANGE
         options.keys.escape     = KbName('ESCAPE');
-        options.expType         = 'behav';
 
     case 'fmri'
         options.keys.startSmile = KbName('j'); % CHANGE
         options.keys.stopSmile  = KbName('n'); % CHANGE
         options.keys.noSmile    = KbName('w'); % CHANGE
         options.keys.escape     = KbName('ESCAPE');
-        options.expType         = 'fmri';
+
+    otherwise
+        disp(' ...no valid expType specified, using behav options... ')
+        options.keys.startSmile = KbName('j'); % CHANGE
+        options.keys.stopSmile  = KbName('n'); % CHANGE
+        options.keys.noSmile    = KbName('w'); % CHANGE
+        options.keys.escape     = KbName('ESCAPE');
 end
 
-%% options duration of events
+%% DURATIONS OF EVENTS
 % CHANGE
-options.dur.waitnxtkeypress   = 5000; % in ms
-options.dur.showScreen        = 3000;
-options.dur.showIntroScreen   = 10000;
-options.dur.showReadyScreen   = 2000;
-options.dur.countdown         = 1000;
-options.dur.showOff           = 1000; 
-options.dur.endWait           = 2000; 
-options.dur.rtTimeout         = 100;
+options.dur.waitnxtkeypress = 5000; % in ms
+options.dur.showScreen      = 3000;
+options.dur.showIntroScreen = 10000;
+options.dur.showReadyScreen = 2000;
+options.dur.countdown       = 1000;
+options.dur.showOff         = 1000; 
+options.dur.endWait         = 2000; 
+options.dur.rtTimeout       = 100;
 
-%% messages
-options.messages.abortText    = 'the experimen was aborted';
-options.messages.timeOut      = 'you did not answer in time';
+%% MESSAGES
+options.messages.abortText = 'the experiment was aborted';
+options.messages.timeOut   = 'you did not answer in time';
+
+%% DATAFILES & PATHS
+options.files.namePrefix   = ['SNG_SAP_',expType];
+options.files.savePath     = [pwd,'/data/',expMode,'/'];
+options.files.dataFileName = [options.files.namePrefix,'dataFile',date,'.mat'];
 
 end

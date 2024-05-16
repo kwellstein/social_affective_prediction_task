@@ -41,9 +41,8 @@ switch uid(1: end-1)
     case 'kwellste' % Mac User
         PsychPortAudio('Close');
         PsychRTBox('CloseAll');
-        options.KBNumber = eventListener.commandLine.findKeyboardNumber();
         options.OS       = 'Mac';
-        options.saveRoot = [pwd,'/data'];
+        options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
         
 %     case 'user' %  LINUX
@@ -58,7 +57,6 @@ switch uid(1: end-1)
     
 %     case 'yourID' % Windows User
 %         PsychRTBox('CloseAll'); 
-%         options.OS       = 'OS'; 
 %         options.KBNumber = eventListener.commandLine.findKeyboardNumber();
 %         options.OS       = 'OS';
 %         Screen('Preference', 'SkipSyncTests', 1);

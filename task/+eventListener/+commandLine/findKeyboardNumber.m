@@ -1,10 +1,10 @@
-function KBNumber = findKeyboardNumber()
+function KBNumber = findKeyboardNumber(OS)
 
 % -----------------------------------------------------------------------
 % findKeyboardNumber.m sometimes in Mac there are multiple devices and also
 %                      multiple keyboards. if you want to wait for a KB response
-%                      it can happem that KbCheck is looking at the wrong keyboard. 
-%                      This script returns the correct device number for the 
+%                      it can happem that KbCheck is looking at the wrong keyboard.
+%                      This script returns the correct device number for the
 %                      first keyboard detected
 %
 %   SYNTAX:     KBNumber = findKeyboardNumber()
@@ -25,14 +25,14 @@ function KBNumber = findKeyboardNumber()
 % ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 % FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 % more details.
-% 
+%
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 %
 
 % Enumerate all HID devices:
-if ~IsOSX
+if ~strcmp(OS,'Mac')
     % On Linux or Windows we only enumerate type 4 - slave keyboard devices. These are what we want:
     LoadPsychHID;
     devices = PsychHID('Devices', 4);
@@ -42,14 +42,14 @@ else
 end
 
 for k = 1:length(devices)
-    if ~IsOSX
+    if  ~strcmp(OS,'Mac')
         dT = devices(k).transport;
         dU = devices(k).usageName;
 
         if strcmp('Keyboard',dT)
             KBNumber = devices(k).index;
             break % takes first device that is a keyboard (no break would take last)
-            
+
         else strcmp('slave keyboard',dU)
             KBNumber = devices(k).index;
             break % takes first device that is a keyboard (no break would take last)

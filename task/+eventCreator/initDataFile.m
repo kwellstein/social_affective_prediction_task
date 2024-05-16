@@ -1,4 +1,4 @@
-function dataFile = initDataFile
+function dataFile = initDataFile(PID,expType,expMode)
 
 % -----------------------------------------------------------------------
 % initDataFile.m initializes the datafile for this experiment
@@ -30,23 +30,28 @@ function dataFile = initDataFile
 % _______________________________________________________________________________%
 %
 
+%% EXP METADATA
+dataFile.descr.PPID    = PID;
+dataFile.descr.date    = datetime;
+dataFile.descr.expType = expType;
+dataFile.descr.expMode = expMode;
+
 %% EVENTS 
 % Time stamps and special occurences (e.g. "abort event")
 
-dataFile.events.exp_startTime           = GetSecs();
-dataFile.events.intro_end               = [];
-    
-dataFile.events.exp_abort               = [];
-dataFile.events.exp_missedTrial         = []; logical(dataFile.events.exp_missedTrial);
-dataFile.events.exp_stopCriterion       = []; logical(dataFile.events.exp_stopCriterion);
-dataFile.events.exp_timeOut             = []; logical(dataFile.events.exp_timeOut);
-dataFile.events.exp_end                 = [];
+dataFile.events.exp_startTime     = GetSecs;
+dataFile.events.intro_end         = [];
+dataFile.events.exp_abort         = [];
+dataFile.events.exp_missedTrial   = []; logical(dataFile.events.exp_missedTrial);
+dataFile.events.exp_stopCriterion = []; logical(dataFile.events.exp_stopCriterion);
+dataFile.events.exp_timeOut       = []; logical(dataFile.events.exp_timeOut);
+dataFile.events.exp_end           = [];
 
 %% TASK DATA
-dataFile.smileRT     = [];
-dataFile.smileResp   = [];
-dataFile.congrResp   = zeros(1000,1);
-dataFile.smiliness   = [];
-dataFile.smileEffect = [];
+dataFile.data.smileRT     = zeros(1000,1);
+dataFile.data.smileResp   = zeros(1000,1);
+dataFile.data.congrResp   = zeros(1000,1);
+dataFile.data.smiliness   = zeros(1000,1);
+dataFile.data.smileEffect = zeros(1000,1);
 
 end

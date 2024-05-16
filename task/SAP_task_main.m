@@ -23,13 +23,10 @@
 % _______________________________________________________________________________%
 %
 %% _______________________________________________________________________________%
-% vagus_study.m allows the experimenter to specify information on the mode the 
-%               task will be run in, the participant's PPID, and the visit number.
-%               The latter will be converted to the protocol type, depending 
-%               on the PPID. This ensures the anonymous randomisation of study 
-%               visits per PPID as defined a-priori by an external entity.
+% this script allows the experimenter to specify information on the mode the 
+%               task will be run in.
 %
-% SYNTAX:  [expMode,PPID,visitNo,stairType] = vagus_study
+% SYNTAX:  XX
 %
 % OUT:      expMode: - In 'debug' mode timings are shorter, and the experiment
 %                     won't be full screen. You may use breakpoints.
@@ -42,18 +39,21 @@
 %           visitNo: A 1-digit integer (1:4). Each participant will be doing
 %                   this task 4 times.
 %
-%  AUTHOR:  Coded by: Katharina V. Wellstein, December 2019
+%  AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024
+%                     katharina.wellstein@newcastle.edu.au
 % _______________________________________________________________________________%
 
 %% INITIALIZE
 close all;
 clearvars;
 clc; 
+% add toolbox to path
+addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
 
 %% SPECIFY inputs
-expMode   = input('Enter ''debug'' or ''experiment'' ','s');
-expType   = input('Enter ''behav'' or ''fmri'' ','s');
-PPID      = input('SNG_SAPS_','s');
+expMode = input('Enter ''debug'' or ''experiment'' ','s');
+expType = input('Enter ''behav'' or ''fmri'' ','s');
+PID     = input('Enter participant id (PID)','s');
 
 %% Check if inputs are correct
 
@@ -65,22 +65,25 @@ if strcmp(expMode, 'debug')     % expMode check
         expMode = input('Your input is not correct, type either ''debug'' or ''experiment'' :','s');
 end                             % END of mode check
 
-if strcmp(stairType, 'behav')% expType check
+if strcmp(expType, 'behav')% expType check
    disp('You are running the SAP task behaviorally'); 
-elseif strcmp(stairType, 'fmri')
+elseif strcmp(expType, 'fmri')
            disp('You are running the the SAP task in the scanner'); 
     else
-        stairType = input('Your input is not correct, type either ''behav'' or ''fmri'' :','s');
+        expType = input('Your input is not correct, type either ''behav'' or ''fmri'' :','s');
 end % END expType check
 
-if ~numel(PPID) == 4 % PPID check
-    disp('PPID has to be a 4 digit string');
+if ~numel(PID) == 4 % PPID check
+    disp('PID has to be a 4 digit string');
 end                  % END PPID check
     
+%% SETUP DATAFILE
+dataFile = eventCreator.initDataFile(PID,expType,expMode);
+
 %% SETUP OPTIONS
-options = eventCreator.specifyOptions(expMode,expType);
+options  = eventCreator.specifyOptions(expMode,expType);
 
 %% SETUP ENVIRONMENT
-options = tools.prepEnvironment(options);
+options  = tools.prepEnvironment(options);
 
 %%

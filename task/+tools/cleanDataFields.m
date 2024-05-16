@@ -14,6 +14,8 @@ function dataFile = cleanDataFields(dataFile,task,trial)
 %
 %
 %   AUTHOR:     Coded by: Katharina V. Wellstein, December 2019
+%                         wellstein@biomed.ee.ethz.ch
+%               Amended by xxx, xx.xxxx
 % -------------------------------------------------------------------------
 %
 
