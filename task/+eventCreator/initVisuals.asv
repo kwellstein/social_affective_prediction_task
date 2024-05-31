@@ -19,8 +19,10 @@ function stimuli = initVisuals(options)
 %
 %% LOAD images
 switch expType
+
+    case 'behav'
 %~~~~~~~~~~~ general task introduction ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-imgIntro1             = imread('stimuli/vagus_intro_1','png');
+imgPracticeIntro1             = imread('stimuli/SAPS_practice_intro','png');
 imgIntro2             = imread('stimuli/vagus_intro_2','png');
 imgIntro3             = imread('stimuli/vagus_intro_3','png');
 imgIntro4             = imread('stimuli/vagus_intro_4','png');
@@ -155,5 +157,8 @@ stimuli.respYes           = Screen('MakeTexture', options.screen.windowPtr, imgR
 stimuli.respNo            = Screen('MakeTexture', options.screen.windowPtr, imgRespNo);
 stimuli.thankYou          = Screen('MakeTexture', options.screen.windowPtr, imgThankYou);
 
+    case 'fmri'
+
+end
 end
 

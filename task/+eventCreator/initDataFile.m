@@ -52,6 +52,6 @@ dataFile.data.smileRT     = zeros(1000,1);
 dataFile.data.smileResp   = zeros(1000,1);
 dataFile.data.congrResp   = zeros(1000,1);
 dataFile.data.smiliness   = zeros(1000,1);
-dataFile.data.smileEffect = zeros(1000,1);
+
 
 end

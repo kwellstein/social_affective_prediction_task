@@ -45,21 +45,17 @@ switch uid(1: end-1)
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
         
-%     case 'user' %  LINUX
-%         PsychPortAudio('Close');
-%         PsychRTBox('CloseAll');
-%         options.KBNumber = eventListener.commandLine.findKeyboardNumber();
-%         options.OS       = 'Linux';
-        
-%     case 'user' % Windows User
-%          PsychRTBox('CloseAll'); 
-%          options.OS       = 'Windows';     
+    case 'user' %  LINUX
+        PsychPortAudio('Close');
+        PsychRTBox('CloseAll');
+        options.OS       = 'Linux';
+        options.KBNumber = eventListener.commandLine.findKeyboardNumber();   
     
-%     case 'yourID' % Windows User
-%         PsychRTBox('CloseAll'); 
-%         options.KBNumber = eventListener.commandLine.findKeyboardNumber();
-%         options.OS       = 'OS';
-%         Screen('Preference', 'SkipSyncTests', 1);
+    case 'hmri721-btnysc3\katharina' % Windows User
+        PsychRTBox('CloseAll'); 
+        options.OS       = 'Windows';
+        options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
+        Screen('Preference', 'SkipSyncTests', 1);
 end
 
 end

@@ -32,7 +32,7 @@ function KBNumber = findKeyboardNumber(OS)
 %
 
 % Enumerate all HID devices:
-if ~strcmp(OS,'Mac')
+if ~strcmp(OS,'Windows')
     % On Linux or Windows we only enumerate type 4 - slave keyboard devices. These are what we want:
     LoadPsychHID;
     devices = PsychHID('Devices', 4);

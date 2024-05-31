@@ -81,7 +81,7 @@ end                  % END PPID check
 dataFile = eventCreator.initDataFile(PID,expType,expMode);
 
 %% SETUP OPTIONS
-options  = eventCreator.specifyOptions(expMode,expType);
+options  = eventCreator.specifyOptions(PID,expMode,expType);
 
 %% SETUP ENVIRONMENT
 options  = tools.prepEnvironment(options);
