@@ -2,7 +2,7 @@ function stimuli = initVisuals(options)
 % -----------------------------------------------------------------------
 % initVisuals.m prepares the experiment slides so that they can be
 %               presented via PsychToolbox
-%   
+%
 %   SYNTAX:       stimuli = initVisuals(options)
 %
 %   IN:           options:  struct, options the tasks will run with
@@ -18,142 +18,68 @@ function stimuli = initVisuals(options)
 % -------------------------------------------------------------------------
 %
 %% LOAD images
+
 switch expType
-%~~~~~~~~~~~ general task introduction ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-imgIntro1             = imread('stimuli/vagus_intro_1','png');
-imgIntro2             = imread('stimuli/vagus_intro_2','png');
-imgIntro3             = imread('stimuli/vagus_intro_3','png');
-imgIntro4             = imread('stimuli/vagus_intro_4','png');
-imgIntro5             = imread('stimuli/vagus_intro_5','png');
-imgIntro6             = imread('stimuli/vagus_intro_6','png');
 
-%~~~~~~~~~~~ introduction to rest / physio phase ~~~~~~~~~~~~~~~~~~~~~~~~~~
-imgRest1              = imread('stimuli/vagus_rest_1','png');
-imgRest2              = imread('stimuli/vagus_rest_2','png');
+    case 'behav'
 
-%~~~~~~~~~~~ introduction to calibration to pain threshhold ~~~~~~~~~~~~~~~
-imgPainDetect1        = imread('stimuli/vagus_painDetect_1','png');
-imgPainDetect2        = imread('stimuli/vagus_painDetect_2','png');
+        imgIntro         = imread('stimuli/practice/behav_practice_intro','png');
+        imgQBackgr_F1    = imread('stimuli/pactice/behav_practice_f1_questionBackground','png');
+        imgRespPrompt_F1 = imread('stimuli/pactice/behav_practice_f1_respPromt','png');
+        imgMinus         = imread('stimuli/pactice/behav_practice_minuspoint','png');
+        imgPlus          = imread('stimuli/pactice/behav_practice_pluspoint','png');
 
-%~~~~~~~~~~~ introduction to staircase measurement ~~~~~~~~~~~~~~~~~~~~~~~~
-imgStair1             = imread('stimuli/vagus_stair_1','png');
-imgStair2             = imread('stimuli/vagus_stair_2','png');
-imgStair3             = imread('stimuli/vagus_stair_3','png');
-imgStair4             = imread('stimuli/vagus_stair_4','png');
-imgStair5             = imread('stimuli/vagus_stair_5','png');
-imgStair6             = imread('stimuli/vagus_stair_6','png');
+        % MAKE images into a textures that can be drawn to the screen
+        stimuli.intro         = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+        stimuli.qBackgr_F1    = Screen('MakeTexture', options.screen.windowPtr, imgQBackgr_F1);
+        stimuli.respPrompt_F1 = Screen('MakeTexture', options.screen.windowPtr, imgRespPrompt_F1);
+        stimuli.minus         = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
+        stimuli.plus          = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
 
-%~~~~~~~~~~~ introduction to calibration of stimulation threshold ~~~~~~~~~
-imgCalib1             = imread('stimuli/vagus_calib_1','png');
-imgCalib2             = imread('stimuli/vagus_calib_2','png');
+    case 'fmri'
+        imgMinus         = imread('stimuli/minuspoint','png');
+        imgPlus          = imread('stimuli/pluspoint','png');
+        stimuli.minus         = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
+        stimuli.plus          = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
 
-%~~~~~~~~~~~ introduction to break ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-imgBreak              = imread('stimuli/vagus_break','png');
+        switch expMode
+            case 'practice'
+                imgIntro         = imread('stimuli/practice/fmri_practice_intro','png');
+                imgQBackgr_F1    = imread('stimuli/pactice/fmri_practice_f1_questionBackground','png');
+                imgRespPrompt_F1 = imread('stimuli/pactice/fmri_practice_f1_respPromt','png');
 
-%~~~~~~~~~~~ introduction to task phases for stimulation ~~~~~~~~~~~~~~~~~~
-imgStim1              = imread('stimuli/vagus_stim_1','png');
-imgStim2              = imread('stimuli/vagus_stim_2','png');
+                % make images into a textures that can be drawn to the screen
+                stimuli.intro         = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+                stimuli.qBackgr_F1    = Screen('MakeTexture', options.screen.windowPtr, imgQBackgr_F1);
+                stimuli.respPrompt_F1 = Screen('MakeTexture', options.screen.windowPtr, imgRespPrompt_F1);
 
-%~~~~~~~~~~~ indication of end of phases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-imgEndRestPhase1_1    = imread('stimuli/vagus_end_1','png');  % end of 1st rest phase
-imgEndRestPhase1_1_2  = imread('stimuli/vagus_end_2','png');  
-imgEndPainDetect1     = imread('stimuli/vagus_end_3','png');  % end of the pain detection
-imgEndPainDetect1_2   = imread('stimuli/vagus_end_4','png');  
-imgEndStair1          = imread('stimuli/vagus_end_5','png');  % end of staircase
-imgEndStair1_2        = imread('stimuli/vagus_end_6','png');  
-imgEndCalib           = imread('stimuli/vagus_end_7','png');  % end of calibration
-imgEndBreak           = imread('stimuli/vagus_end_8','png');  % end of break
-imgEndRestPhase2_1    = imread('stimuli/vagus_end_9','png');  % end of 2nd rest phase
-imgEndRestPhase2_1_2  = imread('stimuli/vagus_end_10','png');
-imgEndStimPhase1_1    = imread('stimuli/vagus_end_11','png');  % end of 1st stimulation phase
-imgEndStimPhase1_1_2  = imread('stimuli/vagus_end_12','png'); 
-imgEndRestPhase3_1    = imread('stimuli/vagus_end_13','png');  % end of 3rd rest phase
-imgEndRestPhase3_1_2  = imread('stimuli/vagus_end_14','png'); 
-imgEndStimPhase2_1    = imread('stimuli/vagus_end_15','png'); % end of 2nd stimulation phase
-imgEndStimPhase2_1_2  = imread('stimuli/vagus_end_16','png'); 
-imgEndExp             = imread('stimuli/vagus_end_exp','png'); % end of experimeny
+            case 'experiment'
+                imgIntro         = imread('stimuli/practice/fmri_exp_intro','png');
+                imgQBackgr_F1    = imread('stimuli/pactice/fmri_exp_f1_questionBackground','png');
+                imgRespPrompt_F1 = imread('stimuli/pactice/fmri_exp_f1_respPromt','png');
 
-%~~~~~~~~~~~ symbols for task ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-imgStimulationStart   = imread('stimuli/vagus_stimStart','png');
-imgStimulationOn      = imread('stimuli/vagus_stimOn','png');
-imgStimulationOff     = imread('stimuli/vagus_stimOff','png');
-imgDetectionT_q       = imread('stimuli/vagus_detectionT_question','png');
-imgPainT_q            = imread('stimuli/vagus_painDetect_question','png');
-imgCountdown1         = imread('stimuli/vagus_countdown_1','png'); %shows "3..."
-imgCountdown2         = imread('stimuli/vagus_countdown_2','png'); %shows "2..."
-imgCountdown3         = imread('stimuli/vagus_countdown_3','png'); %shows "1..."
-imgFixation           = imread('stimuli/vagus_attn','png');
-imgTimeOut            = imread('stimuli/vagus_timeOut','png');
-imgPainDetectRespYes  = imread('stimuli/vagus_painDetect_respYes','png');
-imgPainDetectRespNo  = imread('stimuli/vagus_painDetect_respNo','png');
-imgRespYes            = imread('stimuli/vagus_respYes','png');
-imgRespNo             = imread('stimuli/vagus_respNo','png');
-imgThankYou           = imread('stimuli/vagus_thankYou','png');
+                % make images into a textures that can be drawn to the screen
+                stimuli.intro         = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+                stimuli.qBackgr_F1    = Screen('MakeTexture', options.screen.windowPtr, imgQBackgr_F1);
+                stimuli.respPrompt_F1 = Screen('MakeTexture', options.screen.windowPtr, imgRespPrompt_F1);
 
-%% MAKE images into a textures that can be drawn to the screen
+            case 'debug'
+                imgIntro         = imread('stimuli/practice/fmri_practice_intro','png');
+                imgQBackgr_F1    = imread('stimuli/pactice/fmri_practice_f1_questionBackground','png');
+                imgRespPrompt_F1 = imread('stimuli/pactice/fmri_practice_f1_respPromt','png');
 
-stimuli.intro1            = Screen('MakeTexture', options.screen.windowPtr, imgIntro1);
-stimuli.intro2            = Screen('MakeTexture', options.screen.windowPtr, imgIntro2);
-stimuli.intro3            = Screen('MakeTexture', options.screen.windowPtr, imgIntro3);
-stimuli.intro4            = Screen('MakeTexture', options.screen.windowPtr, imgIntro4);
-stimuli.intro5            = Screen('MakeTexture', options.screen.windowPtr, imgIntro5);
-stimuli.intro6            = Screen('MakeTexture', options.screen.windowPtr, imgIntro6);
+                % make images into a textures that can be drawn to the screen
+                stimuli.intro         = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+                stimuli.qBackgr_F1    = Screen('MakeTexture', options.screen.windowPtr, imgQBackgr_F1);
+                stimuli.respPrompt_F1 = Screen('MakeTexture', options.screen.windowPtr, imgRespPrompt_F1);
+        end
+end
 
-stimuli.rest1             = Screen('MakeTexture', options.screen.windowPtr, imgRest1);
-stimuli.rest2             = Screen('MakeTexture', options.screen.windowPtr, imgRest2);
+imgF1_neutral = imread('stimuli/f1_neutral','png');
+imgITI        = imread('stimuli/iti_fixation','png');
 
-stimuli.painDetect1       = Screen('MakeTexture', options.screen.windowPtr, imgPainDetect1);
-stimuli.painDetect2       = Screen('MakeTexture', options.screen.windowPtr, imgPainDetect2);
-
-stimuli.stair1            = Screen('MakeTexture', options.screen.windowPtr, imgStair1);
-stimuli.stair2            = Screen('MakeTexture', options.screen.windowPtr, imgStair2);
-stimuli.stair3            = Screen('MakeTexture', options.screen.windowPtr, imgStair3);
-stimuli.stair4            = Screen('MakeTexture', options.screen.windowPtr, imgStair4);
-stimuli.stair5            = Screen('MakeTexture', options.screen.windowPtr, imgStair5);
-stimuli.stair6            = Screen('MakeTexture', options.screen.windowPtr, imgStair6);
-
-stimuli.calib1            = Screen('MakeTexture', options.screen.windowPtr, imgCalib1);
-stimuli.calib2            = Screen('MakeTexture', options.screen.windowPtr, imgCalib2);
-
-stimuli.break             = Screen('MakeTexture', options.screen.windowPtr, imgBreak);
-
-stimuli.stim1             = Screen('MakeTexture', options.screen.windowPtr, imgStim1);
-stimuli.stim2             = Screen('MakeTexture', options.screen.windowPtr, imgStim2);
-
-stimuli.endRestPhase1_1   = Screen('MakeTexture', options.screen.windowPtr, imgEndRestPhase1_1);
-stimuli.endRestPhase1_1_2 = Screen('MakeTexture', options.screen.windowPtr, imgEndRestPhase1_1_2);
-stimuli.endPainDetect1    = Screen('MakeTexture', options.screen.windowPtr, imgEndPainDetect1);
-stimuli.endPainDetect1_2  = Screen('MakeTexture', options.screen.windowPtr, imgEndPainDetect1_2);
-stimuli.endStair1         = Screen('MakeTexture', options.screen.windowPtr, imgEndStair1);
-stimuli.endStair1_2       = Screen('MakeTexture', options.screen.windowPtr, imgEndStair1_2);
-stimuli.endCalib          = Screen('MakeTexture', options.screen.windowPtr, imgEndCalib);
-stimuli.endBreak          = Screen('MakeTexture', options.screen.windowPtr, imgEndBreak);
-stimuli.endRestPhase2_1   = Screen('MakeTexture', options.screen.windowPtr, imgEndRestPhase2_1);
-stimuli.endRestPhase2_1_2 = Screen('MakeTexture', options.screen.windowPtr, imgEndRestPhase2_1_2);
-stimuli.endStimPhase1_1   = Screen('MakeTexture', options.screen.windowPtr, imgEndStimPhase1_1);
-stimuli.endStimPhase1_1_2 = Screen('MakeTexture', options.screen.windowPtr, imgEndStimPhase1_1_2);
-stimuli.endRestPhase3_1   = Screen('MakeTexture', options.screen.windowPtr, imgEndRestPhase3_1);
-stimuli.endRestPhase3_1_2 = Screen('MakeTexture', options.screen.windowPtr, imgEndRestPhase3_1_2);
-stimuli.endStimPhase2_1   = Screen('MakeTexture', options.screen.windowPtr, imgEndStimPhase2_1);
-stimuli.endStimPhase2_1_2 = Screen('MakeTexture', options.screen.windowPtr, imgEndStimPhase2_1_2);
-stimuli.endExp            = Screen('MakeTexture', options.screen.windowPtr, imgEndExp);
-
-stimuli.stimulationStart  = Screen('MakeTexture', options.screen.windowPtr, imgStimulationStart);
-stimuli.stimulationOn     = Screen('MakeTexture', options.screen.windowPtr, imgStimulationOn);
-stimuli.stimulationOff    = Screen('MakeTexture', options.screen.windowPtr, imgStimulationOff);
-stimuli.detectionT_q      = Screen('MakeTexture', options.screen.windowPtr, imgDetectionT_q);
-stimuli.painT_q            = Screen('MakeTexture', options.screen.windowPtr,imgPainT_q); 
-
-stimuli.countdown1        = Screen('MakeTexture', options.screen.windowPtr, imgCountdown1);
-stimuli.countdown2        = Screen('MakeTexture', options.screen.windowPtr, imgCountdown2);
-stimuli.countdown3        = Screen('MakeTexture', options.screen.windowPtr, imgCountdown3);
-stimuli.fixation          = Screen('MakeTexture', options.screen.windowPtr, imgFixation);
-stimuli.timeOut           = Screen('MakeTexture', options.screen.windowPtr, imgTimeOut);
-stimuli.painDetectRespYes = Screen('MakeTexture', options.screen.windowPtr, imgPainDetectRespYes);
-stimuli.painDetectRespNo  = Screen('MakeTexture', options.screen.windowPtr, imgPainDetectRespNo);
-stimuli.respYes           = Screen('MakeTexture', options.screen.windowPtr, imgRespYes);
-stimuli.respNo            = Screen('MakeTexture', options.screen.windowPtr, imgRespNo);
-stimuli.thankYou          = Screen('MakeTexture', options.screen.windowPtr, imgThankYou);
-
+% Make images into a textures that can be drawn to the screen
+stimuli.F1_neutral = Screen('MakeTexture', options.screen.windowPtr, imgF1_neutral);
+stimuli.ITI        = Screen('MakeTexture', options.screen.windowPtr, imgITI );
 end
 

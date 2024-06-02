@@ -1,10 +1,10 @@
-function dataFile = waitForNextKey(options,expInfo,dataFile)
+function dataFile = waitForNextKeyExperimenter(options,expInfo,dataFile)
 
 % -----------------------------------------------------------------------
-% waitfornextkey.m waits for a keyboard input to continue with the next
-%                      response
+% waitForNextKeyExperimenter.m waits for a keyboard input from the experimenter 
+%                              to continue with the next response
 %
-%   SYNTAX:         dataFile = eventListener.commandLine.waitForNextKey(options,expInfo,dataFile)
+%   SYNTAX:         dataFile = waitfornextkeyexperimenter(options,expInfo)
 %
 %   IN:             options: struct, with a subfield for the yes no keys
 %                   expInfo: struct, contains key info on how the experiment 
@@ -13,10 +13,10 @@ function dataFile = waitForNextKey(options,expInfo,dataFile)
 %
 %   OUT:            dataFile:struct, updated data file in case of abort
 %
-%   SUBFUNCTION(S): detectKey.m
+%   SUBFUNCTION(S): detectKey.m; logEvent.m 
 %
-%   AUTHOR(S):  coded by F.Petzschner 19. April 2017
-%               last change: Katharina V. Wellstein, December 2019
+%   AUTHOR(S):      coded by:   Frederike Petzschner, April 2017
+%                   amended by: Sandra Iglesias, October 2020
 %
 % -------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ keyCode = [];
 
 while waiting
     keyCode = eventListener.commandLine.detectKey(expInfo.KBNumber, options.doKeyboard);
-    if any(keyCode==options.keys.next)
+    if any(keyCode==options.keys.nextExperimenter)
         waiting = 0;
     elseif any(keyCode==options.keys.escape)
         DrawFormattedText(options.screen.window, options.messages.abortText, 'center', 'center', options.screen.black);

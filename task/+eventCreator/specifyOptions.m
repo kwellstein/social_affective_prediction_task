@@ -25,33 +25,52 @@ function options = specifyOptions(PID,expMode,expType)
 % ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 % FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 % more details.
-% 
+%
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 %
-%% specifing what steps will be executed
+%% specifing experiment mode specific settings
 
 switch expMode
     case 'experiment'
         % stimulus durations
-        options.screen.nIntroSlides = 6;     % no. intro slides
-        options.screen.rect         = [0, 0, 1200, 600];
-        screens                     = Screen('Screens');
-        options.screen.number       = max(screens);
+        options.screen.rect      = [0, 0, 1200, 600];
+        screens                  = Screen('Screens');
+        options.screen.number    = max(screens);
+        options.task.nTrials     = 180;
+        options.task.avatarArray = ['f1' 'f2' 'm2' 'f1' 'f1' 'm1'];
+
+    case 'practice'
+        % stimulus durations
+        options.screen.rect   = [0, 0, 1200, 600];
+        screens               = Screen('Screens');
+        options.screen.number = max(screens);
+
+        if strcmp(expType,'behav')
+            options.task.nTrials  = 10;
+        else
+            options.task.nTrials  = 4;
+        end
+
     case 'debug'
         % stimulus durations
-        options.screen.nIntroSlides = 6;     % no. intro slides
-        options.screen.rect         = [20, 10, 900, 450];
-        screens                     = Screen('Screens');
-        options.screen.number       = max(screens);  
+        options.screen.rect   = [20, 10, 900, 450];
+        screens               = Screen('Screens');
+        options.screen.number = max(screens);
+        options.task.nTrials  = 12;
 
     otherwise
         disp(' ...no valid expMode specified, using debug options... ')
-        options.screen.nIntroSlides = 6;     % no. intro slides
-        options.screen.rect         = [20, 10, 900, 450];
-        screens                     = Screen('Screens');
-        options.screen.number       = max(screens);  
+        options.screen.rect   = [20, 10, 900, 450];
+        screens               = Screen('Screens');
+        options.screen.number = max(screens);
+        options.task.nTrials  = 12;
+end
+
+if ~lenght(options.task.avatarArray)==options.task.nTrials
+    disp('error in avatar dislay array, specified number of trials greater or smaller than number of avatars specified!')
+    % INSERT ABORT funct
 end
 
 %% options screen
@@ -90,9 +109,7 @@ options.dur.waitnxtkeypress = 5000; % in ms
 options.dur.showScreen      = 3000;
 options.dur.showIntroScreen = 10000;
 options.dur.showReadyScreen = 2000;
-options.dur.countdown       = 1000;
-options.dur.showOff         = 1000; 
-options.dur.endWait         = 2000; 
+options.dur.endWait         = 2000;
 options.dur.rtTimeout       = 100;
 
 %% MESSAGES

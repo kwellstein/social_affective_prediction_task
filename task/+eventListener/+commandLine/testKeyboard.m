@@ -4,31 +4,15 @@ function keyCode = testKeyboard
 % testKeyboard checks if there is an input either from the keyboard or from the
 %              response box 
 %
-%   SYNTAX:      keyCode = testKeyboards
+%   SYNTAX:      keyCode = testKeyboard
 %
 %   OUT:         keyCode: vector of numbers corresponding to the pressed keys
 %
-%   SUBFUNCTION: keyCode = detectkey(deviceNumber,doKeyboard).m
+%   SUBFUNCTION(S): detectkey.m
 %
-%   AUTHOR:      Coded by:  Frederike Petzschner,  April 2017
-%                Amended:  Katharina V. Wellstein, December 2019 for VAGUS study,
-%	                                              XX.2024 for SAPS study
+%   AUTHOR(S):   coded by:  Frederike Petzschner, April 2017
+%                amended:  Katharina V. Wellstein, December 2019
 % -------------------------------------------------------------------------
-% This file is released under the terms of the GNU General Public Licence
-% (GPL), version 3. You can redistribute it and/or modify it under the
-% terms of the GNU General Public License as published by the Free Software
-% Foundation, either version 3 of the License, or (at your option) any
-% later version.
-%
-% This file is distributed in the hope that it will be useful, but WITHOUT
-% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-% more details.
-% 
-% You should have received a copy of the GNU General Public License along
-% with this program. If not, see <https://www.gnu.org/licenses/>.
-% _______________________________________________________________________________%
- 
 %
 
 %% INITIALIZE
@@ -38,10 +22,11 @@ ticID = tic();
 rt = 0;
 keyCode = [];
 KbName('UnifyKeyNames');
+
 while waiting
-    keyCode = detectkey(1, 1, 1); % deviceNumber, options.expType, option.OS
+    keyCode = detectkey(1, 1); % deviceNumber, doKeyboard
     rt = toc(ticID);
-    if any(keyCode==45) % CHANGE ALL HERE!!!
+    if any(keyCode==45)
         resp       = 1;
         waiting    = 0;
     elseif any(keyCode==58)
@@ -61,8 +46,21 @@ while waiting
         resp       = NaN;    
     end
 end
+end
 
 %% DETECT KEY
-keyCode = detectkey(options.KBNumber, options.expType, option.OS);
+function keyCode = detectkey(deviceNumber,doKeyboard)
+
+if doKeyboard == 0
+    % EEG
+    [~, keyCode, ~] = PsychRTBox('GetSecs', store.rtbox.rthandle);
+    % also check keyboard in case of an escape
+    [ ~, ~, keyCode2,  ~] = KbCheck(deviceNumber);
+    keyCode2 = find(keyCode2);
+    keyCode = [keyCode, keyCode2];
+else
+    [ ~, ~, keyCode,  ~] = KbCheck(deviceNumber);
+    keyCode = find(keyCode);
+end 
 
 end

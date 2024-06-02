@@ -51,7 +51,7 @@ clc;
 addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
 
 %% SPECIFY inputs
-expMode = input('Enter ''debug'' or ''experiment'' ','s');
+expMode = input('Enter ''debug'', ''practice'' or ''experiment'' ','s');
 expType = input('Enter ''behav'' or ''fmri'' ','s');
 PID     = input('Enter participant id (PID)','s');
 
@@ -62,7 +62,7 @@ if strcmp(expMode, 'debug')     % expMode check
     elseif strcmp(expMode, 'experiment')
            disp('You are running the SAP task in EXPERIMENT mode');
     else
-        expMode = input('Your input is not correct, type either ''debug'' or ''experiment'' :','s');
+        expMode = input('Your input is not correct, type either ''debug'',''practice'' or ''experiment'' :','s');
 end                             % END of mode check
 
 if strcmp(expType, 'behav')% expType check
