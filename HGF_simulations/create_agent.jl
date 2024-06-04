@@ -7,7 +7,7 @@ function multi_binary_hgf(config::Dict = Dict())
 
     #Defaults
     spec_defaults = Dict(
-        "n_bandits" => 4,
+        "n_avatars" => 4,
 
         ("xprob", "volatility") => -2,
         ("xprob", "drift") => 0,
@@ -42,8 +42,8 @@ function multi_binary_hgf(config::Dict = Dict())
     grouped_xbinary_xprob_coupling_strength = []
     grouped_xprob_xvol_coupling_strength = []
 
-    #For each bandit
-    for i = 1:config["n_bandits"]
+    #For each "avatar"
+    for i = 1:config["n_avatars"]
 
         #Add input node
         push!(nodes, BinaryInput("u$i"))
@@ -143,11 +143,27 @@ function multi_binary_hgf(config::Dict = Dict())
     )
 end
 
+# input_sequence = [
+#     [missing, missing, missing, 0],
+#     [missing, missing, missing, 0],
+#     [missing, missing, missing, 0],
+#     [missing, missing, missing, 0],
+#     [missing, missing, missing, 0],
+#     [missing, missing, missing, 0],
+# ]
+
+# give_inputs!(hgf, input_sequence)
+
+# plot_trajectory(hgf, "xvol")
+
+# get_parameters(hgf)
+
+
 ### MAKE AGENT WITH RESPONSE MODEL ###
 function respond_to_avatar(agent::Agent, input::Any)
 
     ### SETUP ###
-    #Unpack the input into which badnit has been observed, and what the observation was
+    #Unpack the input into which avatar has been observed, and what the observation was
     observed_avatar, observation = input
 
     #Extract the HGF
@@ -206,7 +222,7 @@ end
 function create_premade_hgf_agent(n_avatars::Int = 4)
 
     hgf = multi_binary_hgf(
-        Dict("n_bandits" => n_avatars)
+        Dict("n_avatars" => n_avatars)
     )
 
     #Add the temeprature parmaeter for the action model
