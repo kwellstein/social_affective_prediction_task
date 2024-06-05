@@ -143,7 +143,9 @@ function multi_binary_hgf(config::Dict = Dict())
     )
 end
 
-# input_sequence = [
+## ADD FUNCTION CREATING INPUT SEQUENCE
+# format required, cols = avatars, rows = trials:
+#input_sequence = [
 #     [missing, missing, missing, 0],
 #     [missing, missing, missing, 0],
 #     [missing, missing, missing, 0],
@@ -151,6 +153,13 @@ end
 #     [missing, missing, missing, 0],
 #     [missing, missing, missing, 0],
 # ]
+# test task length and volatile vs stable
+
+myTaskOptions = Dict("avatar1" => 0.9,"avatar2" => 0.1, "avatar3" => 0.7,"avatar4" => 0.3)
+nTrials=(45*config["n_avatars"])
+respArray = fill(0,myTaskOptions.nTrials)
+smileTrials = myTaskOptions.avatar1 + myTaskOptions.avatar2 + myTaskOptions.avatar3 myTaskOptions.avatar4
+smileIdxArray = rand(1:myTaskOptions.nTrials,smileTrials,1)
 
 # give_inputs!(hgf, input_sequence)
 
