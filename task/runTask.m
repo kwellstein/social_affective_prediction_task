@@ -238,7 +238,6 @@ end
         dataFile = eventListener.logEvent(task,'_timeOut',dataFile,timeOut,[]);
     end
  
-end
 
 %% SAVE data
 dataFile = eventListener.logEvent(task,'_off',dataFile,[],[]);

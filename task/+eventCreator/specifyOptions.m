@@ -49,26 +49,30 @@ switch expMode
 
         if strcmp(expType,'behav')
             options.task.nTrials  = 10;
+             options.task.avatarArray = {'f3','m3','f3','f3','m3',...
+                 'm3','m3','f3','f3','m3',};
         else
             options.task.nTrials  = 4;
+            options.task.avatarArray = {'f3','m3','m3','f3'};
         end
-
+       
     case 'debug'
         % stimulus durations
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.task.nTrials  = 12;
-
+        options.task.avatarArray =  {'f1','f2','m2','f1','f1','m1'};
     otherwise
         disp(' ...no valid expMode specified, using debug options... ')
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.task.nTrials  = 12;
+        options.task.avatarArray = {'f1','f2','m2','f1','f1','m1'};
 end
 
-if ~lenght(options.task.avatarArray)==options.task.nTrials
+if ~length(options.task.avatarArray)==options.task.nTrials
     disp('error in avatar dislay array, specified number of trials greater or smaller than number of avatars specified!')
     % INSERT ABORT funct
 end

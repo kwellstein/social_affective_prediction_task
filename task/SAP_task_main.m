@@ -86,4 +86,9 @@ options  = eventCreator.specifyOptions(PID,expMode,expType);
 %% SETUP ENVIRONMENT
 options  = tools.prepEnvironment(options);
 
+options = eventCreator.initScreen(options);
+
+%% RUN TASK
+runTask(expMode,expType,options,dataFile);
+
 %%
