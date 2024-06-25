@@ -1,4 +1,4 @@
-function options = initScreen(options)
+function options = initScreen(options,expMode)
 
 % -----------------------------------------------------------------------
 % initScreen.m initializes and opens the screen for the task
@@ -20,9 +20,13 @@ function options = initScreen(options)
 [options.screen.xpixels, options.screen.ypixels] = Screen('WindowSize', options.screen.number);
 
 % Open window
-[options.screen.windowPtr,~] = PsychImaging('OpenWindow', options.screen.number,...
-                                           options.screen.black, options.screen.rect);
-
+if strcmp(expMode,'debug')
+    % [win, winRect] = Screen('OpenWindow', screenid, clearcolor, winRect, pixelSize, numbuffers, stereomode, multiSample, imagingMode, specialFlags, clientRect, fbOverrideRect, vrrParams);
+[options.screen.windowPtr,~] = PsychImaging('OpenWindow', options.screen.number, options.screen.black, ...
+    options.screen.rect,[options.screen.xpixels, options.screen.ypixels]);
+else
+[options.screen.windowPtr,~] = PsychImaging('OpenWindow', options.screen.number, 'General','Full');
+end
 % Query the frame duration: [ monitorFlipInterval nrValidSamples stddev ]
 [options.screen.flipInterval,~,~] = Screen('GetFlipInterval', options.screen.windowPtr);
 

@@ -3,7 +3,7 @@ using ActionModels, HierarchicalGaussianFiltering
 using Distributions
 using StatsPlots
 
-include("HGF_simulations/create_agent.jl")
+include("create_agent.jl")
 
 ### CREATE INPUT SEQUENCES ###
 

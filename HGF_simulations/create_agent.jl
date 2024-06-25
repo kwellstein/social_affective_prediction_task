@@ -1,6 +1,7 @@
 using ActionModels, HierarchicalGaussianFiltering
 using Distributions
 using StatsPlots
+using Random
 
 ### MAKE SUITABLE HGF ###
 function multi_binary_hgf(config::Dict = Dict())
@@ -144,8 +145,50 @@ function multi_binary_hgf(config::Dict = Dict())
 end
 
 ## ADD FUNCTION CREATING INPUT SEQUENCE
+# create general task trajectory
+
+avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3)
+avatarTrials = 40
+nTrials      = (avatarTrials*length(avatarProbs))
+respArray    = fill(0,nTrials)
+phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60]
+phaseLength  = [40, 20, 20, 40, 40]
+nPhases      = length(phaseLength)
+nSmileTrials = Int(sum(phaseProb.*phaseLength))
+idxArray     = fill(0,nSmileTrials)
+
+for phase in 1:nPhases
+    if phase == 1
+    startIdx = 1
+    startSmileIdx = 1
+    else
+        startIdx = sum(phaseLength[1:phase-1])+1
+        smileTrialArray = smileTrialIdx;
+        startSmileIdx = sum(respArray)+1
+    end 
+    
+    nPhaseTrials  = phaseLength[phase]
+    currPhaseProb = phaseProb[phase]
+    nSmileTrials  = Int(currPhaseProb*nPhaseTrials)
+    endIdx = (startIdx+nPhaseTrials)-1
+    smileTrialIdx = shuffle(startIdx:endIdx)[1:nSmileTrials]
+
+    for iSmiles in 1:nSmileTrials
+    respArray[smileTrialIdx[iSmiles]] = 1;
+    end
+
+endSmileIdx = length(smileTrialIdx)
+    for iSmileIdx in 1:endSmileIdx
+        i = (startSmileIdx+iSmileIdx)-1
+        idxArray[i] = smileTrialIdx[iSmileIdx];
+    end
+end
+
+println("end debug")
+
+# create matrix of different avatars
 # format required, cols = avatars, rows = trials:
-#input_sequence = [
+# input_sequence = [
 #     [missing, missing, missing, 0],
 #     [missing, missing, missing, 0],
 #     [missing, missing, missing, 0],
@@ -153,13 +196,16 @@ end
 #     [missing, missing, missing, 0],
 #     [missing, missing, missing, 0],
 # ]
+
+# smileTrialIdx = shuffle(startIdx:endIdx)[1:nSmileTrials]
+# for iAvatar in length(avatarProbs)
+#    nAvatarSmiles = nSmileTrials*avatarProbs[iAvatar]
+#input_sequence[:,iAvatar] = 
+#end
+
 # test task length and volatile vs stable
 
-myTaskOptions = Dict("avatar1" => 0.9,"avatar2" => 0.1, "avatar3" => 0.7,"avatar4" => 0.3)
-nTrials=(45*config["n_avatars"])
-respArray = fill(0,myTaskOptions.nTrials)
-smileTrials = myTaskOptions.avatar1 + myTaskOptions.avatar2 + myTaskOptions.avatar3 myTaskOptions.avatar4
-smileIdxArray = rand(1:myTaskOptions.nTrials,smileTrials,1)
+shuffle(idxArray)
 
 # give_inputs!(hgf, input_sequence)
 
