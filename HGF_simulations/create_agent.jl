@@ -2,6 +2,7 @@ using ActionModels, HierarchicalGaussianFiltering
 using Distributions
 using StatsPlots
 using Random
+using Missings
 
 ### MAKE SUITABLE HGF ###
 function multi_binary_hgf(config::Dict = Dict())
@@ -149,29 +150,34 @@ end
 
 avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3)
 avatarTrials = 40
+nAvatars     = length(avatarProbs)
 nTrials      = (avatarTrials*length(avatarProbs))
 respArray    = fill(0,nTrials)
 phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60]
 phaseLength  = [40, 20, 20, 40, 40]
 nPhases      = length(phaseLength)
 nSmileTrials = Int(sum(phaseProb.*phaseLength))
-idxArray     = fill(0,nSmileTrials)
+smileIdxArray = fill(0,nSmileTrials)
+neutralIdxArray = fill(0,Int(nTrials-nSmileTrials))
 
 for phase in 1:nPhases
     if phase == 1
     startIdx = 1
-    startSmileIdx = 1
+    startSmileIdx   = 1
+    startNeutralIdx = 1
     else
         startIdx = sum(phaseLength[1:phase-1])+1
         smileTrialArray = smileTrialIdx;
-        startSmileIdx = sum(respArray)+1
+        startSmileIdx   = sum(respArray)+1
     end 
     
     nPhaseTrials  = phaseLength[phase]
     currPhaseProb = phaseProb[phase]
     nSmileTrials  = Int(currPhaseProb*nPhaseTrials)
     endIdx = (startIdx+nPhaseTrials)-1
-    smileTrialIdx = shuffle(startIdx:endIdx)[1:nSmileTrials]
+    trialIdx = shuffle(startIdx:endIdx)[1:nPhaseTrials]
+    smileTrialIdx = trialIdx[1:nSmileTrials]
+    neutralTrialIdx = trialIdx[nSmileTrials+1:end]
 
     for iSmiles in 1:nSmileTrials
     respArray[smileTrialIdx[iSmiles]] = 1;
@@ -180,11 +186,35 @@ for phase in 1:nPhases
 endSmileIdx = length(smileTrialIdx)
     for iSmileIdx in 1:endSmileIdx
         i = (startSmileIdx+iSmileIdx)-1
-        idxArray[i] = smileTrialIdx[iSmileIdx];
+        smileIdxArray[i] = smileTrialIdx[iSmileIdx];
     end
-end
 
+endNeutralIdx = nPhaseTrials-endSmileIdx
+    for iNeutralIdx in 1:endNeutralIdx
+            j = (startNeutralIdx+iNeutralIdx)-1
+            neutralIdxArray[j] = neutralTrialIdx[iNeutralIdx]
+    end
+    startNeutralIdx = startNeutralIdx+endNeutralIdx
+end
 println("end debug")
+
+if sum(phaseProb.*phaseLength)>nTrials/sum(avatarProbs)
+    diff = Int(sum(phaseProb.*phaseLength)-nTrials/sum(avatarProbs))
+    diffValues = ones(Int(diff))
+    addSmileTrials = zeros(nAvatars)
+
+    for i in 1:diff
+        if i > nAvatars
+            n = 1
+            addSmileTrials[n] = diffValues[n] + diffValues[i] 
+            n += 1
+        else
+            addSmileTrials[i] = diffValues[i]
+        end
+    end
+else 
+    diff = 0
+end
 
 # create matrix of different avatars
 # format required, cols = avatars, rows = trials:
@@ -197,21 +227,61 @@ println("end debug")
 #     [missing, missing, missing, 0],
 # ]
 
-# smileTrialIdx = shuffle(startIdx:endIdx)[1:nSmileTrials]
-# for iAvatar in length(avatarProbs)
-#    nAvatarSmiles = nSmileTrials*avatarProbs[iAvatar]
-#input_sequence[:,iAvatar] = 
-#end
+smileIdxArray   = shuffle(smileIdxArray)
+neutralIdxArray = shuffle(neutralIdxArray)
+input_sequence  = allowmissing(zeros(Int8,nTrials, nAvatars))
+
+for iAvatar in 1:nAvatars
+    if diff > 0
+        nSmiles  = Int(avatarTrials*avatarProbs[iAvatar] + addSmileTrials[iAvatar])
+        nNeutral = Int(avatarTrials-nSmiles)
+    else
+    nSmiles  = Int(avatarTrials*avatarProbs[iAvatar])
+    nNeutral = Int(avatarTrials-nSmiles)
+    end
+
+    if iAvatar == 1
+        startSmileIdx   = 1
+        startNeutralIdx = 1
+        endSmileIdx     = nSmiles
+        endNeutralIdx   = nNeutral
+    else
+        startSmileIdx   = endSmileIdx+1
+        startNeutralIdx = endNeutralIdx+1
+        endSmileIdx     = startSmileIdx + nSmiles-1
+        endNeutralIdx   = startNeutralIdx + nNeutral-1
+    end
+
+    smileIdx   = sort(smileIdxArray[startSmileIdx:endSmileIdx])
+    neutralIdx = sort(neutralIdxArray[startNeutralIdx:endNeutralIdx])
+
+    j = 1
+    k = 1
+    for i in 1:nTrials
+        iRow = i
+        if iRow == smileIdx[j]
+            input_sequence[smileIdx[j],iAvatar] = 1
+            if nSmiles<j
+            j+=1
+            end
+        elseif iRow == neutralIdx[k]
+            input_sequence[neutralIdx[k],iAvatar] = 0
+            if nNeutral<k
+            k+=1
+            end
+        else
+            input_sequence[i,iAvatar] = missing
+        end
+    end
+end
 
 # test task length and volatile vs stable
 
-shuffle(idxArray)
+give_inputs!(hgf, input_sequence)
 
-# give_inputs!(hgf, input_sequence)
+plot_trajectory(hgf, "xvol")
 
-# plot_trajectory(hgf, "xvol")
-
-# get_parameters(hgf)
+get_parameters(hgf)
 
 
 ### MAKE AGENT WITH RESPONSE MODEL ###
