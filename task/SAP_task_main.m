@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 %% _______________________________________________________________________________%
 %% MAIN Script for Social-Affective Prediction (SAP) Task 
 %
@@ -92,8 +90,6 @@ options = eventCreator.initScreen(options,expMode);
 %% RUN TASK
 runTask(expMode,expType,options,dataFile);
 
-=======
-
 %% _______________________________________________________________________________%
 %% MAIN Script for Social-Affective Prediction (SAP) Task 
 %
@@ -185,6 +181,4 @@ options = eventCreator.initScreen(options);
 
 %% RUN TASK
 runTask(expMode,expType,options,dataFile);
-
->>>>>>> 9f631d041dff21a58ab3d7694b516e47d77a9470
 %%

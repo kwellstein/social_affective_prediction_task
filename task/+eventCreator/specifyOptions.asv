@@ -38,7 +38,7 @@ switch expMode
         screens                  = Screen('Screens');
         options.screen.number    = max(screens);
         options.task.nTrials     = 180;
-        options.task.inputs      = readmatrix('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/HGF_simulations/input_sequence.csv');
+        options.task.inputs      = '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/HGF_simulations
         options.task.avatarArray = ['f1' 'f2' 'm2' 'f1' 'f1' 'm1'];
 
     case 'practice'

@@ -3,6 +3,7 @@ using Distributions
 using StatsPlots
 using Random
 using Missings
+using DelimitedFiles
 
 ### MAKE SUITABLE HGF ###
 function multi_binary_hgf(config::Dict = Dict())
@@ -143,10 +144,13 @@ function multi_binary_hgf(config::Dict = Dict())
         node_defaults = NodeDefaults(update_type = config["update_type"]),
         save_history = config["save_history"],
     )
+
 end
 
 ## ADD FUNCTION CREATING INPUT SEQUENCE
 # create general task trajectory
+
+function create_input_trajectory()
 
 avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3)
 avatarTrials = 40
@@ -196,7 +200,6 @@ endNeutralIdx = nPhaseTrials-endSmileIdx
     end
     startNeutralIdx = startNeutralIdx+endNeutralIdx
 end
-println("end debug")
 
 if sum(phaseProb.*phaseLength)>nTrials/sum(avatarProbs)
     diff = Int(sum(phaseProb.*phaseLength)-nTrials/sum(avatarProbs))
@@ -255,27 +258,28 @@ for iAvatar in 1:nAvatars
     smileIdx   = sort(smileIdxArray[startSmileIdx:endSmileIdx])
     neutralIdx = sort(neutralIdxArray[startNeutralIdx:endNeutralIdx])
 
-    j = 1
-    k = 1
-    for i in 1:nTrials
-        iRow = i
-        if iRow == smileIdx[j]
-            input_sequence[smileIdx[j],iAvatar] = 1
-            if nSmiles<j
-            j+=1
-            end
-        elseif iRow == neutralIdx[k]
-            input_sequence[neutralIdx[k],iAvatar] = 0
-            if nNeutral<k
-            k+=1
-            end
-        else
-            input_sequence[i,iAvatar] = missing
-        end
+    for iMissTrials in 1:nTrials
+        input_sequence[iMissTrials,iAvatar] = missing
     end
+
+    for i in 1:nSmiles
+        iSmileTrials = smileIdx[i]
+        input_sequence[iSmileTrials,iAvatar] = 1
+    end
+
+    for i in 1:nNeutral
+        iNeutralTrials = neutralIdx[i]
+        input_sequence[iNeutralTrials,iAvatar] = 0
+    end
+
 end
 
+writedlm( "input_sequence.csv",  input_sequence, ',')
+end
+
+input_sequence = create_input_trajectory()
 # test task length and volatile vs stable
+hgf = multi_binary_hgf()
 
 give_inputs!(hgf, input_sequence)
 
