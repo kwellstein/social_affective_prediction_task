@@ -4,22 +4,13 @@ using Distributions
 using StatsPlots
 
 include("create_agent.jl")
-
-### CREATE INPUT SEQUENCES ###
-
+include("create_input_sequence.jl")
 
 
-
-
-
+agent = create_agent()
 
 
 ####### PARAMETER RECOVERY #######
-
-agent = create_premade_hgf_agent()
-
-
-
 get_parameters(agent)
 
 
@@ -38,6 +29,7 @@ set_parameters!(agent,Dict(
 reset!(agent)
 
 #Different input sequences
+# To do: loop over different possibilities
 input_sequence = create_input_sequence()
 
 ### SIMULATE RESPONSES ###
@@ -73,6 +65,13 @@ results = fit_model(agent, priors, dataframe,
 
 
 
+plot_trajectory(hgf, "xvol")
+
+get_parameters(hgf)
+
+
+
+
 
 
 ########### NOTES ##########
@@ -89,11 +88,4 @@ results = fit_model(agent, priors, dataframe,
 # agent = premade_agent("hgf_gaussian", Dict(
 #     "HGF" => premade_hgf("JGET")
 # ))
-
-
-
-
-
-
-
 
