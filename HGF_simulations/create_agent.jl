@@ -3,7 +3,9 @@ using ActionModels, HierarchicalGaussianFiltering
 using Distributions
 using StatsPlots
 
-### MAKE SUITABLE HGF ###
+##########################################
+### FUNCTION FOR CREATING SUITABLE HGF ###
+##########################################
 function multi_binary_hgf(config::Dict = Dict())
 
     #Defaults
@@ -146,32 +148,11 @@ function multi_binary_hgf(config::Dict = Dict())
     return hgf
 end
 
-input_sequence = create_input_sequence()
 
-give_inputs!(hgf, input_sequence)
 
-### CREATE AGENT ###
-function create_premade_hgf_agent(n_avatars::Int = 4)
-
-    hgf = multi_binary_hgf(
-        Dict("n_avatars" => n_avatars)
-    )
-
-    #Add the temeprature parmaeter for the action model
-    parameters = Dict("action_noise" => 1)
-
-    #create the agent
-    agent = init_agent(
-        respond_to_avatar, 
-        substruct = hgf,
-        parameters = parameters
-    )
-
-end
-
-agent = init_agent()
-
-### MAKE AGENT WITH RESPONSE MODEL ###
+##########################################
+######## ACTION MODEL FUNCTION  ##########
+##########################################
 function respond_to_avatar(agent::Agent, input::Any)
 
     ### SETUP ###
@@ -227,4 +208,25 @@ function respond_to_avatar(agent::Agent, input::Any)
     update_hgf!(hgf, hgf_input)
 
     return action_distribution
+end
+
+##########################################
+### FUNCTION FOR CREATING HGF AGENT ######
+##########################################
+function create_premade_hgf_agent(n_avatars::Int = 4)
+
+    hgf = multi_binary_hgf(
+        Dict("n_avatars" => n_avatars)
+    )
+
+    #Add the temeprature parmaeter for the action model
+    parameters = Dict("action_noise" => 1)
+
+    #create the agent
+    agent = init_agent(
+        respond_to_avatar, 
+        substruct = hgf,
+        parameters = parameters
+    )
+
 end

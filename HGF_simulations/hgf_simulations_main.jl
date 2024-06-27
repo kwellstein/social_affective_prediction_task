@@ -1,36 +1,103 @@
 ####### SETUP ######
-using ActionModels, HierarchicalGaussianFiltering
-using Distributions
-using StatsPlots
+using ActionModels, HierarchicalGaussianFiltering #For creating HGFs
+using Distributions #For defining distributions
+using StatsPlots #For plotting
+using Random, Missings #For random number generation and missing values
+using DelimitedFiles #For reading and writing files
 
-include("create_agent.jl")
-include("create_input_sequence.jl")
+path_to_folder = "HGF_simulations/"
+
+#Read functions for creating agents and input sequences
+include(path_to_folder * "create_agent.jl")
+include( path_to_folder * "create_input_sequence.jl")
 
 
-agent = create_agent()
+####### PREPARATION ######
+n_avatars = 4
+
+#Create HGF agent that works for 4 avatars
+agent = create_premade_hgf_agent(n_avatars)
+
+#Create input sequence - this errors
+input_sequence = create_input_sequence(
+    avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3),
+    avatarTrials = 40,
+    phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60],
+    phaseLength  = [40, 20, 20, 40, 40]
+    )
+
+input_sequence = [[1,1], [4,1], [4,0], [3,0]]
+
+#Save input sequence
+writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
 
 
-####### PARAMETER RECOVERY #######
+
+####### TESTRUN ######
+#Check the parameters of the model
 get_parameters(agent)
 
+#Set parameters
+set_parameters!(agent, Dict(
+    #Parameters for the probability nodes    
+    "xprob_volatility"              => -1,
+    "xprob_initial_precision"       => 100,
+    "xprob_initial_mean"            => 0,
 
-#Different parameter settings
-set_parameters!(agent,Dict(
-    #Main parameters    
-    "xprob_volatility" => -8,
-    "action_noise" => 1,
-    
-    ("xvol", "volatility") => -4,
+    #Parameters for the volatility node
+    ("xvol", "volatility")          => -2,
+    ("xvol", "initial_precision")   => 1,
+    ("xvol", "initial_mean")        => 1,
+
+    #Action noise parameter
+    "action_noise"                  => 1,
+
+    #Coupling strengths
     "xbinary_xprob_coupling_strength" => 1,
-    "xprob_xvol_coupling_strength" => 1,
-)
+    "xprob_xvol_coupling_strength"    => 1,
+    )
 ) 
 
+#Reset the agent
 reset!(agent)
 
+#Give the inputs to the agent
+simulated_actions = give_inputs!(agent, input_sequence)
+
+
+#Colors for the different avatars
+avatar_colors = [:red, :blue, :green, :purple]
+
+#Plot the beliefs trajectories for the four avatars
+for i in 1:n_avatars
+    #Plot the belief trajectories (predictions about the timesteps)
+    if i == 1
+        plot_trajectory(agent, "xbinary$i", label = "avatar $i", color = avatar_colors[i])
+    else
+        plot_trajectory!(agent, "xbinary$i", label = "avatar $i", color = avatar_colors[i])
+    end
+
+    plot_trajectory!(agent, "u$i", label = "", color = avatar_colors[i])
+
+    #Add title
+    belief_plot = title!("Belief trajectories for the four avatars")
+
+    display(belief_plot)
+end
+
+
+
+
+
+
+
+
+
+
+
+####### TESTRUN ######
 #Different input sequences
 # To do: loop over different possibilities
-input_sequence = create_input_sequence()
 
 ### SIMULATE RESPONSES ###
 
