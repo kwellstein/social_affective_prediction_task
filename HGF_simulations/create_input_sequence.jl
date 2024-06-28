@@ -82,7 +82,11 @@ function create_input_sequence(;
 
     smileIdxArray   = shuffle(smileIdxArray)
     neutralIdxArray = shuffle(neutralIdxArray)
-    input_sequence  = allowmissing(zeros(Int8,nTrials,2))
+    input_sequence  = Vector{Vector}(undef,nTrials)
+
+    for i in 1:nTrials
+        input_sequence[i] = [0,0]
+    end
 
     for iAvatar in 1:nAvatars
         if diff > 0
@@ -110,14 +114,13 @@ function create_input_sequence(;
 
         for i in 1:nSmiles
             iSmileTrials = smileIdx[i]
-            input_sequence[iSmileTrials,1] = iAvatar
-            input_sequence[iSmileTrials,2] = 1
+            input_sequence[iSmileTrials] = [iAvatar,1]
+
         end
 
         for i in 1:nNeutral
             iNeutralTrials = neutralIdx[i]
-            input_sequence[iNeutralTrials,1] = iAvatar
-            input_sequence[iNeutralTrials,2] = 0
+            input_sequence[iNeutralTrials] = [iAvatar,0]
         end
     end
 

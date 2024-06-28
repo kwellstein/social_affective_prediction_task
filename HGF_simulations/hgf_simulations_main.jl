@@ -5,12 +5,13 @@ using StatsPlots #For plotting
 using Random, Missings #For random number generation and missing values
 using DelimitedFiles #For reading and writing files
 
-path_to_folder = "HGF_simulations/"
+#path_to_folder = "HGF_simulations/"
 
 #Read functions for creating agents and input sequences
-include(path_to_folder * "create_agent.jl")
-include( path_to_folder * "create_input_sequence.jl")
-
+#include(path_to_folder * "create_agent.jl")
+#include(path_to_folder * "create_input_sequence.jl")
+include("create_agent.jl")
+include("create_input_sequence.jl")
 
 ####### PREPARATION ######
 n_avatars = 4
@@ -25,8 +26,6 @@ input_sequence = create_input_sequence(
     phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60],
     phaseLength  = [40, 20, 20, 40, 40]
     )
-
-input_sequence = [[1,1], [4,1], [4,0], [3,0]]
 
 #Save input sequence
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
