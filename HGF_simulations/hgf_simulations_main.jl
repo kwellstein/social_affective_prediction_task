@@ -39,12 +39,12 @@ get_parameters(agent)
 #Set parameters
 set_parameters!(agent, Dict(
     #Parameters for the probability nodes    
-    "xprob_volatility"              => -1,
+    "xprob_volatility"              => -10,
     "xprob_initial_precision"       => 100,
     "xprob_initial_mean"            => 0,
 
     #Parameters for the volatility node
-    ("xvol", "volatility")          => -2,
+    ("xvol", "volatility")          => -10,
     ("xvol", "initial_precision")   => 1,
     ("xvol", "initial_mean")        => 1,
 
