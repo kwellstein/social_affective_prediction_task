@@ -29,17 +29,22 @@ function options = specifyOptions(PID,expMode,expType)
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 %
+
+%% specify paths
+
+options.paths.codeDir  = pwd;
+options.paths.inputDir = '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/HGF_simulations/generated_data/';
+options.paths.saveDir  = '/Users/kwellste/projects/SEPAB/tasks/data/';
 %% specifing experiment mode specific settings
 
 switch expMode
     case 'experiment'
         % stimulus durations
-        options.screen.rect      = [0, 0, 1200, 600];
-        screens                  = Screen('Screens');
-        options.screen.number    = max(screens);
-        options.task.nTrials     = 180;
-        options.task.inputs      = readmatrix('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/HGF_simulations/input_sequence.csv');
-        options.task.avatarArray = ['f1' 'f2' 'm2' 'f1' 'f1' 'm1'];
+        options.screen.rect   = [0, 0, 1200, 600];
+        screens               = Screen('Screens');
+        options.screen.number = max(screens);
+        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
+        options.task.nTrials  = size(options.task.inputs);
 
     case 'practice'
         % stimulus durations
@@ -49,13 +54,10 @@ switch expMode
 
         if strcmp(expType,'behav')
             options.task.nTrials  = 10;
-             options.task.avatarArray = {'f3','m3','f3','f3','m3',...
-                 'm3','m3','f3','f3','m3',};
         else
             options.task.nTrials  = 4;
-            options.task.avatarArray = {'f3','m3','m3','f3'};
         end
-       
+
     case 'debug'
         % stimulus durations
         options.screen.rect   = [20, 10, 900, 450];

@@ -1,8 +1,8 @@
 function create_input_sequence(;
-    avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3),
-    avatarTrials = 40,
-    phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60],
-    phaseLength  = [40, 20, 20, 40, 40],
+    avatarProbs ,
+    avatarTrials,
+    phaseProb,
+    phaseLength,
     )
 
     nAvatars     = length(avatarProbs)
@@ -63,10 +63,9 @@ function create_input_sequence(;
         diff = Int(sum(phaseProb.*phaseLength)-nTrials/sum(avatarProbs))
         diffValues = ones(Int(diff))
         addSmileTrials = zeros(nAvatars)
-
+        n = 1
         for i in 1:diff
             if i > nAvatars
-                n = 1
                 addSmileTrials[n] = diffValues[n] + diffValues[i] 
                 n += 1
             else
@@ -82,7 +81,11 @@ function create_input_sequence(;
 
     smileIdxArray   = shuffle(smileIdxArray)
     neutralIdxArray = shuffle(neutralIdxArray)
-    input_sequence  = allowmissing(zeros(Int8,nTrials,2))
+    input_sequence  = Vector{Vector}(undef,nTrials)
+
+    for i in 1:nTrials
+        input_sequence[i] = [0,0]
+    end
 
     for iAvatar in 1:nAvatars
         if diff > 0
@@ -110,14 +113,13 @@ function create_input_sequence(;
 
         for i in 1:nSmiles
             iSmileTrials = smileIdx[i]
-            input_sequence[iSmileTrials,1] = iAvatar
-            input_sequence[iSmileTrials,2] = 1
+            input_sequence[iSmileTrials] = [iAvatar,1]
+
         end
 
         for i in 1:nNeutral
             iNeutralTrials = neutralIdx[i]
-            input_sequence[iNeutralTrials,1] = iAvatar
-            input_sequence[iNeutralTrials,2] = 0
+            input_sequence[iNeutralTrials] = [iAvatar,0]
         end
     end
 
