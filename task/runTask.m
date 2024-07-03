@@ -34,31 +34,32 @@ function runTask(expMode,expType,options,dataFile)
 % _______________________________________________________________________________%
 
 %% SHOW intro
-Screen('DrawTexture', options.screen.windowPtr, stimuli.intro , [], options.screen.rect, 0);
+introSlide = ['stimuli/',expType,'_',expMode,'_intro.png'];
+Screen('DrawTexture', options.screen.windowPtr, introSlide, [], options.screen.rect, 0);
 Screen('Flip', options.screen.windowPtr);
 % [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
-eventListener.commandLine.wait2(options.dur.showOff,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);
 
     
-dataFile = eventListener.logEvent(task,'_on',dataFile,[],[]); %amend
+%dataFile = eventListener.logEvent(task,'_on',dataFile,[],[]); %amend
 
 %% INITIALIZE
 
-nTrial = 1;
+trial = 0;
 %% START task trials
 
-while taskNotDone
-nTrial  = nTrial + 1; % next step
-currAvatar  = d; % draw from array
-currOutcome = u; % draw from array
+while taskRunning
+trial  = trial + 1; % next step
+avatar  = options.task.inputs(trial,1);
+outcome = options.task.inputs(trial,2);
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro , [], options.screen.rect, 0);
 Screen('Flip', options.screen.windowPtr);
 % [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
 eventListener.commandLine.wait2(options.dur.showOff,options,dataFile,0);
 
-if nTrial == options.task.nTrials
-    taskNotDone = 0;
+if trial == options.task.nTrials
+    taskRunning = 0;
 end
 
 end
