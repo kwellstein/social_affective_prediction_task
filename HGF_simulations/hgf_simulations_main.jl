@@ -14,12 +14,8 @@ include("create_agent.jl")
 include("create_input_sequence.jl")
 
 ####### PREPARATION ######
-n_avatars = 4
 
-#Create HGF agent that works for 4 avatars
-agent = create_premade_hgf_agent(n_avatars)
-
-#Create input sequence - this errors
+#Create input sequence
 input_sequence = create_input_sequence(
     avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3),
     avatarTrials = 40,
@@ -30,7 +26,10 @@ input_sequence = create_input_sequence(
 #Save input sequence
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
 
-
+for nAgent in 1:100
+#Create HGF agent that works for 4 avatars
+n_avatars = 4
+agent = create_premade_hgf_agent(n_avatars)
 
 ####### TESTRUN ######
 #Check the parameters of the model
@@ -39,7 +38,7 @@ get_parameters(agent)
 #Set parameters
 set_parameters!(agent, Dict(
     #Parameters for the probability nodes    
-    "xprob_volatility"              => -4,
+    "xprob_volatility"              => -2,
     "xprob_initial_precision"       => 100,
     "xprob_initial_mean"            => 0,
 
@@ -86,14 +85,6 @@ end
 
 
 
-
-
-
-
-
-
-
-
 ####### TESTRUN ######
 #Different input sequences
 # To do: loop over different possibilities
@@ -101,7 +92,11 @@ end
 ### SIMULATE RESPONSES ###
 
 simulated_actions = give_inputs!(agent, input_sequence) #Put these in dataframe with the inputs and some ID
-#plot_trajectory(agent, "xprob")
+plot_trajectory(agent, "xprb")
+
+# save dataframe
+# to do
+end
 
 ### DO PARAMETER ESTIMATION ###
 ### For loop over: different input sequences, different true omega values, different priors
