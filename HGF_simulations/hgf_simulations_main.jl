@@ -8,9 +8,10 @@ using DelimitedFiles #For reading and writing files
 #path_to_folder = "HGF_simulations/"
 
 #Read functions for creating agents and input sequences
-include(path_to_folder * "create_agent.jl")
-include(path_to_folder * "create_input_sequence.jl")
-
+#include(path_to_folder * "create_agent.jl")
+#include(path_to_folder * "create_input_sequence.jl")
+include("create_agent.jl")
+include("create_input_sequence.jl")
 
 ####### PREPARATION ######
 
