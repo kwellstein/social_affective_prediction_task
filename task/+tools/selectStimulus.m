@@ -1,4 +1,4 @@
-function stimulus = selectStimulus(taskPhase,trial,inputs)
+function stimulus = selectStimulus(options, taskPhase,trial,inputs)
 
 switch taskPhase
     case 'first'
@@ -7,6 +7,7 @@ switch taskPhase
         [avatar,outcome] = inputs(trail,:)
 end
 
-end
+% select randomised face
 
 end
+

@@ -1,4 +1,4 @@
-function [options,abort] = checkEscape(options,expInfo,dataFile,trial)
+function [options,abort] = checkEscape(options,dataFile,trial)
 
 % -----------------------------------------------------------------------
 % checkEscape.m checks if the escape key was pressed and aborts the game in
@@ -22,7 +22,7 @@ function [options,abort] = checkEscape(options,expInfo,dataFile,trial)
 % -------------------------------------------------------------------------
 %
 
-keyCode = eventListener.commandLine.detectKey(expInfo.KBNumber, options.doKeyboard);
+keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
 
 if isempty(trial)
     trial = 1;
@@ -31,14 +31,11 @@ end
 if any(keyCode==options.keys.escape)
         eventListener.logData(1,'events','exp_abort',dataFile,trial);
         abort = 1;
-        
-        if options.doInitStim
-            stimulation.stopStim(expInfo.pStim.pStim_serial);
-        end
+       
         disp('<strong>Experiment was aborted.</strong>')
-        output.saveInterimData([],options,dataFile,expInfo);
+        % output.saveInterimData([],options,dataFile,expInfo);
         
-        save(fullfile([expInfo.saveData,'/',expInfo.PPID,'_',expInfo.RMNO,'_V',num2str(expInfo.visit.number),'/+expLog/workspace_',expInfo.PPID,'.mat']));
+        % save(fullfile([expInfo.saveData,'/',expInfo.PPID,'_',expInfo.RMNO,'_V',num2str(expInfo.visit.number),'/+expLog/workspace_',expInfo.PPID,'.mat']));
         ShowCursor;
         sca;
         PsychPortAudio('DeleteBuffer');

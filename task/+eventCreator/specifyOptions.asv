@@ -46,7 +46,7 @@ switch expMode
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nTrials  = size(options.task.inputs);
         options.task.nAvatars = 4;
-        options.doKeyboard    = 0;
+
     case 'practice'
         % stimulus durations
         options.screen.rect   = [0, 0, 1200, 600];
@@ -56,12 +56,10 @@ switch expMode
 
         if strcmp(expType,'behav')
             options.task.nTrials  = 10;
-            options.doKeyboard = 1;
         else
             options.task.nTrials  = 4;
         end
         options.task.nAvatars = 2;
-        
 
     case 'debug'
         % stimulus durations
@@ -71,7 +69,6 @@ switch expMode
         options.task.nTrials  = 12;
         options.task.nAvatars = 4;
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
-        options.doKeyboard = 1;
 
     otherwise
         disp(' ...no valid expMode specified, using debug options... ')
@@ -81,7 +78,6 @@ switch expMode
         options.task.nTrials  = 12;
         options.task.nAvatars = 4;
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
-        options.doKeyboard = 1;
 end
 
 %% Select Stimuli based on Randomisation list
@@ -97,7 +93,7 @@ else
 end
 
 for iAvatar = 1:options.task.nAvatars
-options.task.avatarArray(strcmp(avatars,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
+options.task.avatarArray(strcmp(avatarArray,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
 end
 
 %% options screen

@@ -66,7 +66,7 @@ function [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
     
       while elapsed <= timeout
             elapsed = toc(ticID);
-            [options,abort] = eventListener.commandLine.checkEscape(options,expInfo,dataFile,trial);
+            [options,abort] = eventListener.commandLine.checkEscape(options,dataFile,trial);
             if FlushEvents == true
                 drawnow();
             end  

@@ -1,4 +1,4 @@
-function runTask(expMode,expType,options,dataFile)
+function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %% _______________________________________________________________________________%
 %% runTask.m runs the Social Affective Prediction task 
 %
@@ -34,13 +34,17 @@ function runTask(expMode,expType,options,dataFile)
 % _______________________________________________________________________________%
 
 %% SHOW intro
-introSlide = ['stimuli/',expType,'_',expMode,'_intro.png'];
-Screen('DrawTexture', options.screen.windowPtr, introSlide, [], options.screen.rect, 0);
+
+Screen('DrawTexture', options.screen.windowPtr, stimuli.intro)
+%Screen('DrawTexture', options.screen.windowPtr, introSlide, [], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 % [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
 eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);
 
-    
+Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI);
+Screen('Flip', options.screen.windowPtr);
+% [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
+eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);  
 %dataFile = eventListener.logEvent(task,'_on',dataFile,[],[]); %amend
 
 %% INITIALIZE
@@ -50,10 +54,33 @@ trial = 0;
 
 while taskRunning
 trial  = trial + 1; % next step
-avatar  = options.task.inputs(trial,1);
+avatar  = options.task.avatarArray(trial);
 outcome = options.task.inputs(trial,2);
 
-Screen('DrawTexture', options.screen.windowPtr, stimuli.intro , [], options.screen.rect, 0);
+% specify slides
+firstSlide   = ['stimuli/',char(avatar),'_neutral.png'];
+
+% smileQSlide  = ['stimuli/',char(avatar),'_neutral.png'];
+% choiceSlide = ['stimuli/',char(avatar),'_neutral.png'];
+
+if outcome
+    outcomeSlide = ['stimuli/',char(avatar),'_smile.png'];
+else
+    outcomeSlide = ['stimuli/',char(avatar),'_neutral.png'];
+end
+
+
+% show first presentation of avatar
+Screen('DrawTexture', options.screen.windowPtr, firstSlide , [], options.screen.rect, 0);
+Screen('Flip', options.screen.windowPtr);
+% [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
+eventListener.commandLine.wait2(options.dur.showOff,options,dataFile,0);
+
+% showSlidingBarQuestion(cues,options,dataFile,expInfo,taskSaveName,trial)
+qResp = tools.showSlidingBarQuestion(smileQSlide,options,dataFile,0,trial);
+
+% show outcome
+Screen('DrawTexture', options.screen.windowPtr, firstSlide , [], options.screen.rect, 0);
 Screen('Flip', options.screen.windowPtr);
 % [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
 eventListener.commandLine.wait2(options.dur.showOff,options,dataFile,0);
@@ -64,165 +91,6 @@ end
 
 end
 
-
-    % stimulate
-     if calib2painT == 0
-       switch task 
-           case 'painDetect_rerun'
-               if isempty(dataFile.painDetect_rerun.detectThreshold)
-                 task = 'calib_rerun'; % ask Calibation questions first "did you feel the stimulation?"
-               end
-           case 'painDetect' 
-               if isempty(dataFile.painDetect.detectThreshold)
-                  task = 'calib'; % ask Calibation questions first "did you feel the stimulation?"
-               end
-       end   
-        if options.doInitStim
-           [A,dataFile,resp] = stimulation.adaptiveStimulation(A,cues,options,expInfo,dataFile,task,nStep);
-           detectAmplitude = A;
-           if resp == 1 && strcmp(task,'calib_rerun')
-               task = 'painDetect_rerun';
-           elseif resp == 1 && strcmp(task,'calib')
-               task = 'painDetect';
-           end
-        else
-           [A,dataFile,resp] = stimulation.simulateStimAmps(A,cues,options,expInfo,dataFile,task,nStep);
-           detectAmplitude = A;
-           if resp == 1 && strcmp(task,'calib_rerun')
-               task = 'painDetect_rerun';
-           elseif resp == 1 && strcmp(task,'calib')
-               task = 'painDetect';
-           end
-        end
-   
-    % print Amplitude to commandwindow
-    disp(['task: Pain Detection | trial: ',num2str(nStep),' | stimulated with (mV): '...
-        ,num2str(A),' | response: ',num2str(resp)])  
-    else
-        if options.doInitStim
-           [A,dataFile,resp] = stimulation.adaptiveStimulation(A,cues,options,expInfo,dataFile,task,nStep);
-        else
-           [A,dataFile,resp] = stimulation.simulateStimAmps(A,cues,options,expInfo,dataFile,task,nStep);
-        end
-        
-    % print Amplitude to commandwindow
-    disp(['task: Pain Detection |trial: ',num2str(nStep),' | stimulated with (mV): ',num2str(A),...
-    ' | response: ',num2str(resp)]) 
-    end
-    
-    % find next amplitude
-    response = resp;
-    
-  if calib2painT == 0
-    if response == 0  % stimulation not perceived
-        A = A + options.painDetect.stepSize;     % update amplitude
-        
-        if  A > options.painDetect.amplitudeMax  % if we reach the maximum amplitude without having felt the stimulation
-            A = options.painDetect.amplitudeMax; % reset to max amplitude
-            dataFile.(task).painThreshold = A;
-            amplitudeReset = 1;                  % save this as a reset event
-            disp(['<strong>Amplitude too high! </strong> It was reset to ', num2str(options.painDetect.amplitudeMax),'!'])
-            stepping       = 0;                  % stop stepping
-            
-            % abort message
-            DrawFormattedText(options.screen.window, options.messages.ampMaxText, 'center', 'center', options.screen.black);
-            Screen('Flip', options.screen.window);
-            
-            % save interim data
-            dataFile = eventListener.logEvent(task,'_amplitudeReset',dataFile,amplitudeReset,nStep);
-            dataFile = eventListener.logEvent(task,'_off',dataFile,[],[]);
-            dataFile.(task).detectThreshold = A;
-            options.stair.startValueDown        = options.calib.amplitudeMax;
-            dataFile = output.cleanDataFields(dataFile,task,nStep);
-            dataFile = output.calib2painDetect(dataFile,task);
-            output.saveInterimData(protocol,options,dataFile,expInfo);
-            
-          else
-            amplitudeReset = 0;
-        end
-        
-    elseif response == 1 && A < 101 % response stimulation was perceived when A<100mV for the first time
-        if repeatStep    == 0       % if this step has not been repeated before
-           amplitudeReset = 1;      % save this as a reset event
-           dataFile = eventListener.logEvent(task,'_amplitudeReset',dataFile,amplitudeReset,nStep);
-           disp('<strong> Amplitude too low </strong> to plausibly be felt. This step will be repeated once again.');
-           stepping       = 1;      % continue stepping
-           repeatStep     = 1;      % repeat this step as this might be a typo
-           
-        else                       
-           amplitudeReset = 0; % if this happenes again, we do not assume a typo any longer
-           dataFile.(task).detectThreshold = A; % save this as the true detection threshold
-           A = A + options.painDetect.stepSize;     % go to next higher amplitude in next step
-           stepping       = 1; % continue stepping
-           firstPainStep  = 1; % this will be the first step in calibrating to pain threshold
-           calib2painT    = 1; % in the next step we start calibrating to pain threshold
-        end
-        
-    elseif response == -99
-           amplitudeReset = 1;      % save this as a reset event
-           dataFile = eventListener.logEvent(task,'_amplitudeReset',dataFile,amplitudeReset,nStep);
-           disp('<strong> Missed trial </strong>. This step will be repeated once again.');
-           stepping       = 1;      % continue stepping
-           
-        else
-           dataFile.(task).detectThreshold = A; % save this as the detection threshold
-           A = A + options.painDetect.stepSize;    % go to next higher amplitude in next step
-           amplitudeReset = 0;  % not a reset event
-           stepping       = 1;  % continue stepping
-           firstPainStep  = 1;  % this will be the first step in calibrating to the pain threshold
-           calib2painT    = 1; % in the next step we start calibrating to pain threshol   
-    end
-    
-  elseif calib2painT == 1
-      if response == 0  % stimulation not painful
-        A = A + options.painDetect.stepSize;     % update amplitude
-        
-        if  A > options.painDetect.amplitudeMax  % if we reach the maximum amplitude without stimulation being painful
-            A = options.painDetect.amplitudeMax; % reset to max amplitude
-            dataFile.(task).painThreshold = A;
-            amplitudeReset = 1;                  % save this as a reset event
-            dataFile = eventListener.logEvent(task,'_amplitudeReset',dataFile,amplitudeReset,nStep);
-            disp(['<strong>Stimulation was not painful until now </strong>. Painthreshold will be ', num2str(options.painDetect.amplitudeMax),'!'])
-            stepping       = 0;                  % stop stepping
-          else
-            amplitudeReset = 0;
-            firstPainStep  = 0; % this is not the first step calibrating toward pain threshold any longer
-        end
-        
-    elseif response == 1 && firstPainStep == 1 % response stimulation was painful at the first step calibrating toward the pain threshold
-           amplitudeReset = 1;      % save this as a reset event
-           dataFile = eventListener.logEvent(task,'_amplitudeReset',dataFile,amplitudeReset,nStep);
-           disp('This is only a little bit higher than the detection threshold. This step will be repeated once again.');
-           stepping       = 1;      % continue stepping
-           repeatStep     = 1;      % repeat this step as this might be a typo
-           firstPainStep  = 0;
-           
-     elseif response == 1 && firstPainStep == 0                    
-           amplitudeReset = 0;                    % if this happenes again, we do not assume a typo any longer
-           dataFile.(task).painThreshold = A; % save this as the true pain threshold
-           stepping       = 0;                    % stop stepping
-           
-      else % if response = -99
-           amplitudeReset = 1;      % save this as a reset event
-           dataFile = eventListener.logEvent(task,'_amplitudeReset',dataFile,amplitudeReset,nStep);
-           disp('<strong> Missed trial </strong>. This step will be repeated once again.');
-           stepping       = 1;      % continue stepping
-           repeatStep     = 1;      % repeat this step as this might be a typo
-           firstPainStep  = 0;
-        end 
-        
-  end
-  
-    % show slide indicating that on the next step we will be asking if the stimulation was painful
-    if firstPainStep && calib2painT
-       Screen('DrawTexture', options.screen.windowPtr, cues.painDetect5, [], options.screen.rect, 0);
-       Screen('Flip', options.screen.windowPtr);
-
-       Screen('DrawTexture', options.screen.windowPtr, cues.painDetect6, [], options.screen.rect, 0);
-       Screen('Flip', options.screen.windowPtr);
-       dataFile = eventListener.commandLine.waitForNextKey(options,expInfo,dataFile);
-    end
-    
     % check if task timed out
     tocID = toc();
      
