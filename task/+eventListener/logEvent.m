@@ -19,9 +19,14 @@ function dataFile = logEvent(task,event,dataFile,X,trial)
 %               Amended:  Katharina V. Wellstein, December 2019
 % -------------------------------------------------------------------------
 %
+if strcmp(task,'debug')
+   task = 'practice'; 
+   eventName   = [task event];
+else
+    eventName   = [task event]; 
+end
 
-eventName   = [task event]; 
-    
+
 if   islogical(dataFile.events.(eventName))
      dataFile.events.(eventName(trial,:)) = [task, X];
      

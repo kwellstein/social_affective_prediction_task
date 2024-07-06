@@ -35,55 +35,55 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 
 %% SHOW intro
 
-Screen('DrawTexture', options.screen.windowPtr, stimuli.intro)
-%Screen('DrawTexture', options.screen.windowPtr, introSlide, [], options.screen.rect);
+Screen('DrawTexture', options.screen.windowPtr, stimuli.intro); %[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
-% [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
-eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI);
 Screen('Flip', options.screen.windowPtr);
-% [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
-eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);  
-%dataFile = eventListener.logEvent(task,'_on',dataFile,[],[]); %amend
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);  
+dataFile = eventListener.logEvent(expMode,'_startTime',dataFile,[],[]);
 
 %% INITIALIZE
-
-trial = 0;
+dataFile.events.exp_startTime = GetSecs();
+taskRunning = 1;
+trial       = 0;
 %% START task trials
 
 while taskRunning
-trial  = trial + 1; % next step
+trial   = trial + 1; % next step
 avatar  = options.task.avatarArray(trial);
 outcome = options.task.inputs(trial,2);
 
-% specify slides
-firstSlide   = ['stimuli/',char(avatar),'_neutral.png'];
+% pick slides
+firstSlide = [char(avatar),'_neutral'];
 
-% smileQSlide  = ['stimuli/',char(avatar),'_neutral.png'];
+% smileQSlide = ['stimuli/',char(avatar),'_neutral.png'];
 % choiceSlide = ['stimuli/',char(avatar),'_neutral.png'];
 
 if outcome
-    outcomeSlide = ['stimuli/',char(avatar),'_smile.png'];
+    outcomeSlide = [char(avatar),'_smile'];
 else
-    outcomeSlide = ['stimuli/',char(avatar),'_neutral.png'];
+    outcomeSlide = [char(avatar),'_neutral'];
 end
 
-
 % show first presentation of avatar
-Screen('DrawTexture', options.screen.windowPtr, firstSlide , [], options.screen.rect, 0);
+Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide));% , [], options.screen.rect, 0);
 Screen('Flip', options.screen.windowPtr);
-% [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
-eventListener.commandLine.wait2(options.dur.showOff,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);
 
 % showSlidingBarQuestion(cues,options,dataFile,expInfo,taskSaveName,trial)
-qResp = tools.showSlidingBarQuestion(smileQSlide,options,dataFile,0,trial);
+% To do, write line and text onto stimuluslide, maybe using this:
+% https://psychtoolbox.discourse.group/t/scale-slider-how-can-i-do-it/4650/2
+qResp = tools.showSlidingBarQuestion(firstSlide,options,dataFile,options.task.name,trial);
+
+% show answerpromt
 
 % show outcome
-Screen('DrawTexture', options.screen.windowPtr, firstSlide , [], options.screen.rect, 0);
+Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide));% , [], options.screen.rect, 0);
 Screen('Flip', options.screen.windowPtr);
 % [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
-eventListener.commandLine.wait2(options.dur.showOff,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);
 
 if trial == options.task.nTrials
     taskRunning = 0;
@@ -103,16 +103,16 @@ end
         fprintf('\n');
         timeOut        = 1;
         amplitudeReset = 1;
-        dataFile = eventListener.logEvent(task,'_amplitudeReset',dataFile,amplitudeReset,nStep);
-        dataFile = eventListener.logEvent(task,'_timeOut',dataFile,timeOut,[]);
+        dataFile = eventListener.logEvent(options.task.name,'_amplitudeReset',dataFile,amplitudeReset,nStep);
+        dataFile = eventListener.logEvent(options.task.name,'_timeOut',dataFile,timeOut,[]);
     end
  
 
 %% SAVE data
 dataFile = eventListener.logEvent(task,'_off',dataFile,[],[]);
 
-options.calib.amplitudeMax          = dataFile.(task).painThreshold - options.calib.stepSize;
-options.stair.startValueDown        = dataFile.(task).painThreshold - options.painDetect.stepSize;
+options.calib.amplitudeMax          = dataFile.(options.task.name).painThreshold - options.calib.stepSize;
+options.stair.startValueDown        = dataFile.(options.task.name).painThreshold - options.painDetect.stepSize;
 
 dataFile = output.cleanDataFields(dataFile,task,nStep);
 dataFile = output.calib2painDetect(dataFile,task);

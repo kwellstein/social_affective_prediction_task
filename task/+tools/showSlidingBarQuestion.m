@@ -1,4 +1,4 @@
-function dataFile = showSlidingBarQuestion(cues,options,dataFile,expInfo,taskSaveName,trial)
+function dataFile = showSlidingBarQuestion(cues,options,dataFile,task,trial)
 
 % -----------------------------------------------------------------------
 % showSlidingBarQuestion.m shows sliding bar question and records the response
@@ -10,7 +10,7 @@ function dataFile = showSlidingBarQuestion(cues,options,dataFile,expInfo,taskSav
 %               dataFile:     struct, data file initiated in initDataFile.m
 %               expInfo:      struct, contains key info on how the experiment is 
 %                                   run instance, incl. keyboard number 
-%               taskSaveName: string, name of how task output will be
+%               task:         string, name of how task output will be
 %                                     saved, i.e. task incl task run
 %               trial:        integer, trial number, i.e. "question trial"
 %
@@ -24,12 +24,12 @@ function dataFile = showSlidingBarQuestion(cues,options,dataFile,expInfo,taskSav
 % -------------------------------------------------------------------------
 
 %% INITIALIZE variables
-oscillationAmp = options.screen.yPixels*0.55; % space the bar will slide accross
+oscillationAmp = options.screen.ypixels*0.55; % space the bar will slide accross
 angFreq        = 0.8;                         % sliding bar speed
 startPhase     = rand(1)*100;                 % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
 baseRect       = [0 0 10 100];                % size of rectangles making up slider and min, max
-KBNumber       = expInfo.KBNumber; 
+KBNumber       = options.KBNumber; 
 doKeyboard     = options.doKeyboard;
 recordedResp   = 0;
 
@@ -87,7 +87,7 @@ loopStartTime = GetSecs();
 
 %% RECORD Response
 RT           = GetSecs() - loopStartTime;
-[~,dataFile] = eventListener.logData(RT,taskSaveName,'rt',dataFile,trial);
-[~,dataFile] = eventListener.logData(xPosition,taskSaveName,'response',dataFile,trial);
+[~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
+[~,dataFile] = eventListener.logData(xPosition,task,'response',dataFile,trial);
     
 end

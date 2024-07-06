@@ -84,6 +84,7 @@ switch expMode
         options.doKeyboard = 1;
 end
 
+options.task.name = 'SAP';
 %% Select Stimuli based on Randomisation list
 RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']); 
 rowIdx      = find(RandTable.PID==str2num(PID));
@@ -97,7 +98,7 @@ else
 end
 
 for iAvatar = 1:options.task.nAvatars
-options.task.avatarArray(strcmp(avatars,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
+options.task.avatarArray(strcmp(options.task.avatarArray,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
 end
 
 %% options screen
@@ -134,7 +135,7 @@ end
 % CHANGE
 options.dur.waitnxtkeypress = 5000; % in ms
 options.dur.showScreen      = 3000;
-options.dur.showIntroScreen = 10000;
+options.dur.showIntroScreen = 50000;
 options.dur.showReadyScreen = 2000;
 options.dur.endWait         = 2000;
 options.dur.rtTimeout       = 100;
@@ -144,7 +145,7 @@ options.messages.abortText = 'the experiment was aborted';
 options.messages.timeOut   = 'you did not answer in time';
 
 %% DATAFILES & PATHS
-date = datestr(now,2);
+date   = datestr(now,2);
 options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
 options.files.savePath     = [pwd,'/data/',expMode,'/','/',options.files.projectID,PID];

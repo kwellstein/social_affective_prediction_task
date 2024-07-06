@@ -39,19 +39,22 @@ dataFile.descr.expMode = expMode;
 %% EVENTS 
 % Time stamps and special occurences (e.g. "abort event")
 
-dataFile.events.exp_startTime     = GetSecs;
-dataFile.events.intro_end         = [];
-dataFile.events.exp_abort         = [];
-dataFile.events.exp_missedTrial   = []; logical(dataFile.events.exp_missedTrial);
-dataFile.events.exp_stopCriterion = []; logical(dataFile.events.exp_stopCriterion);
-dataFile.events.exp_timeOut       = []; logical(dataFile.events.exp_timeOut);
-dataFile.events.exp_end           = [];
+dataFile.events.exp_startTime        = GetSecs;
+dataFile.events.practice_startTime   = [];
+dataFile.events.practice_intro_end   = [];
+dataFile.events.experiment_startTime = [];
+dataFile.events.experiment_intro_end = [];
+dataFile.events.exp_abort            = [];
+dataFile.events.exp_missedTrial      = []; logical(dataFile.events.exp_missedTrial);
+dataFile.events.exp_stopCriterion    = []; logical(dataFile.events.exp_stopCriterion);
+dataFile.events.exp_timeOut          = []; logical(dataFile.events.exp_timeOut);
+dataFile.events.exp_end              = [];
 
 %% TASK DATA
-dataFile.data.smileRT     = zeros(1000,1);
-dataFile.data.smileResp   = zeros(1000,1);
-dataFile.data.congrResp   = zeros(1000,1);
-dataFile.data.smiliness   = zeros(1000,1);
-
+dataFile.SAP.smileRT     = zeros(200,1);
+dataFile.SAP.smileResp   = zeros(200,1);
+dataFile.SAP.congrResp   = zeros(200,1);
+dataFile.SAP.smiliness   = zeros(200,1);
+dataFile.SAP.smilinessRT = zeros(200,1);
 
 end

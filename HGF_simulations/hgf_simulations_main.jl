@@ -27,6 +27,7 @@ input_sequence = create_input_sequence(
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
 
 for nAgent in 1:100
+    println("......... processing agent no. $nAgent ........")
 #Create HGF agent that works for 4 avatars
 n_avatars = 4
 agent = create_premade_hgf_agent(n_avatars)
@@ -38,17 +39,17 @@ get_parameters(agent)
 #Set parameters
 set_parameters!(agent, Dict(
     #Parameters for the probability nodes    
-    "xprob_volatility"              => -2,
-    "xprob_initial_precision"       => 100,
-    "xprob_initial_mean"            => 0,
+    "xprob_volatility"                => -2,
+    "xprob_initial_precision"         => 100,
+    "xprob_initial_mean"              => 0,
 
     #Parameters for the volatility node
-    ("xvol", "volatility")          => -6,
-    ("xvol", "initial_precision")   => 1,
-    ("xvol", "initial_mean")        => 1,
+    ("xvol", "volatility")            => -8,
+    ("xvol", "initial_precision")     => 1,
+    ("xvol", "initial_mean")          => 1,
 
     #Action noise parameter
-    "action_noise"                  => 1,
+    "action_noise"                    => 1,
 
     #Coupling strengths
     "xbinary_xprob_coupling_strength" => 1,
@@ -61,7 +62,6 @@ reset!(agent)
 
 #Give the inputs to the agent
 simulated_actions = give_inputs!(agent, input_sequence)
-
 
 #Colors for the different avatars
 avatar_colors = [:red, :blue, :green, :purple]
@@ -81,22 +81,23 @@ for i in 1:n_avatars
     belief_plot = title!("Belief trajectories for the four avatars")
 
     display(belief_plot)
+    if i ==n_avatars
+    savefig("BeliefTraj_.png")
+    end
 end
 
-
-
-####### TESTRUN ######
-#Different input sequences
-# To do: loop over different possibilities
-
-### SIMULATE RESPONSES ###
-
-simulated_actions = give_inputs!(agent, input_sequence) #Put these in dataframe with the inputs and some ID
-plot_trajectory(agent, "xprb")
-
-# save dataframe
-# to do
+# Model inversion
+priors = Dict(
+    "xprob_volatility" => Normal(-2, 2),
+    "action_noise" => truncated(Normal(0, 2), lower = 0),
+)
+results = fit_model(agent, priors, input_sequence, simulated_actions)
+#plot(results)
+println("debugging...")
+plot_parameter_distribution(results, priors)
 end
+
+# TO DO: save dataframe
 
 ### DO PARAMETER ESTIMATION ###
 ### For loop over: different input sequences, different true omega values, different priors
@@ -105,43 +106,28 @@ end
 ### Pick the input sequence that gives the best recovery for the parameter values of interest
 
 
-priors = Dict(
-    "xprob_volatility" => Normal(-4, 2),
-    "action_noise" => truncated(Normal(0, 2), lower = 0),
-)
+
 
 ## DATAFRAME VERSION
-results = fit_model(agent, priors, dataframe, 
-                    input_cols = [:colname], 
-                    action_cols = [:colname], 
-                    independent_group_cols = [:colname],
-                    n_cores = 4,
-                    n_chains = 4,
-                    iterations = 1000)
+#results = fit_model(agent, priors, dataframe, 
+#                    input_cols = [:colname], 
+#                    action_cols = [:colname], 
+#                    independent_group_cols = [:colname],
+#                    n_cores = 4,
+#                    n_chains = 4,
+#                    iterations = 1000)
 
 
+#plot_trajectory(hgf, "xvol")
 
-
-
-
-
-
-plot_trajectory(hgf, "xvol")
-
-get_parameters(hgf)
-
-
-
-
+#get_parameters(hgf)
 
 
 ########### NOTES ##########
 
 # #Single agent fitting
 
-# results = fit_model(agent, priors, input_sequence, simulated_actions)
-# plot(results)
-# plot_parameter_distribution(results, priors)
+
 
 
 
