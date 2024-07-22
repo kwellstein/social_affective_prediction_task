@@ -46,11 +46,11 @@ for j = 2:5 % Can be used to loop over all stimuli listed above. Here only using
     
     %Read image in, convert to grayscale, and make square. 
     inImage = imread(strcat('stimuli_fMRI/',imName{j},'.PNG'));
-    template = imread(strcat('stimuli_fMRI/template.PNG'));
+    template = imread(strcat('stimuli_fMRI/template2.PNG'));
     template = template(:,:,1)~=0;
     %inImage = rgb2gray(inImage);
     imageOrig = im2double(inImage);
-    imageOrig = imageOrig.*template;
+    % imageOrig = imageOrig.*template;
     template = template(:,round((size(imageOrig,2)-origImageDim(1))/2):size(imageOrig,2)-round((size(imageOrig,2)-origImageDim(2))/2)-1);
     imageOrig = imageOrig(:,round((size(imageOrig,2)-origImageDim(1))/2):size(imageOrig,2)-round((size(imageOrig,2)-origImageDim(2))/2)-1);
     
