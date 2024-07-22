@@ -24,25 +24,25 @@ imName = {'DSCN2188';'F07_NE-HA_output01';'F33_NE-HA_output01';'F11_NE-HA_output
     'F11_NE-HA_output31'};
 
 % Define wavestrapping parameters
-wv = 'db12'; % Which wavelet: use 6th order Daubechies wavelet
+wv = 'db3'; % Which wavelet: use 6th order Daubechies wavelet
 cz = 1; % Which resampling scheme: 1 = permute, 2 = rotate
 
 % Now define spatial scale levels
 % Images that are 1536x1536 (like that used here) appear to be affected up
 % to level 10. We will be targeting different levels to construct our stimuli.
-nNoise = 1:6;% [1 2 3 4 5 6 7 8 9 10]; % So to destroy ALL structure, must target all 10 scales
+nNoise = 1:8;% [1 2 3 4 5 6 7 8 9 10]; % So to destroy ALL structure, must target all 10 scales
 nS1 = 3; % Fine scale (see publication for more details)
 nS2 = 5; % Coarse scale
 nS12 = [3 5]; % Both fine and coarse scale
 nAllButS12 = [1 2 4 6 7 8 9 10]; % All scales except fine and coarse
 
-rads=[230 220];%[230 172];
+rads=[230 230];%[230 172];
 
 origImageDim = [464 464];% [1536 1536]; %image dimensions of original
 N = 464;%768; % will end up resizing to 768 x 768
 
 %% Create stimuli
-for j = 3:5 % Can be used to loop over all stimuli listed above. Here only using one image. 
+for j = 2:5 % Can be used to loop over all stimuli listed above. Here only using one image. 
     
     %Read image in, convert to grayscale, and make square. 
     inImage = imread(strcat('stimuli_fMRI/',imName{j},'.PNG'));
@@ -152,7 +152,7 @@ for j = 3:5 % Can be used to loop over all stimuli listed above. Here only using
 
     % All noise blocks:
     % imageNoiseAllButS12 = rectsurr2(imageOrig, nNoise, wv, cz, 19.6/20);  %it is mixing ALL scales
-    imageNoiseAllButS12 = elipsurr2(imageOrig, nNoise, wv, cz, rads);
+    imageNoiseAllButS12 = elipsurr2(imageOrig, 1:10, wv, cz, rads);
     
     %Adjust amplitude so histogram of degraded image matches natural
     X_notResized=imageOrig(:);           
@@ -162,8 +162,8 @@ for j = 3:5 % Can be used to loop over all stimuli listed above. Here only using
     M(:,1)=sortrows(X_notResized);
     M=sortrows(M,2);
     Y=reshape(M(:,1),origImageDim(1),origImageDim(2));   
-      %  Y=Y.*template;
-      %  Y=Y+mean(mean(Y)).*~template;
+       Y=Y.*template;
+       Y=Y+mean(mean(Y)).*~template;
     imwrite(im2uint8(Y),strcat('stimuli_fMRI/imageNoiseAllButS12_',num2str(j),'_Father.tiff'))
     clear sX M Y
 
