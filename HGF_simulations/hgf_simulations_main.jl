@@ -4,6 +4,7 @@ using Distributions #For defining distributions
 using StatsPlots #For plotting
 using Random, Missings #For random number generation and missing values
 using DelimitedFiles #For reading and writing files
+using DataFrames
 
 #path_to_folder = "HGF_simulations/"
 

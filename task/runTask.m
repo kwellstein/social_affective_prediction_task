@@ -75,7 +75,7 @@ eventListener.commandLine.wait2(options.dur.showScreen,options,dataFile,0);
 % showSlidingBarQuestion(cues,options,dataFile,expInfo,taskSaveName,trial)
 % To do, write line and text onto stimuluslide, maybe using this:
 % https://psychtoolbox.discourse.group/t/scale-slider-how-can-i-do-it/4650/2
-qResp = tools.showSlidingBarQuestion(firstSlide,options,dataFile,options.task.name,trial);
+qResp = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,options.task.name,trial);
 
 % show answerpromt
 

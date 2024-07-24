@@ -40,19 +40,21 @@ options.paths.saveDir  = '/Users/kwellste/projects/SEPAB/tasks/data/';
 switch expMode
     case 'experiment'
         % stimulus durations
-        options.screen.rect   = [0, 0, 1200, 600];
+        % options.screen.rect   = [0, 0, 1200, 600];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
+        options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nTrials  = size(options.task.inputs);
-        options.task.nAvatars = 4;
         options.doKeyboard    = 0;
     case 'practice'
         % stimulus durations
-        options.screen.rect   = [0, 0, 1200, 600];
+        % options.screen.rect   = [0, 0, 1200, 600];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
-        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
+        options.screen.rect   = Screen('Rect', options.screen.number);
+        options.task.nAvatars = 2;
+        options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
 
         if strcmp(expType,'behav')
             options.task.nTrials  = 10;
@@ -60,17 +62,16 @@ switch expMode
         else
             options.task.nTrials  = 4;
         end
-        options.task.nAvatars = 2;
         
-
     case 'debug'
         % stimulus durations
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
+        % options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.nTrials  = 12;
-        options.task.nAvatars = 4;
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
+        options.task.nAvatars = 4;
         options.doKeyboard = 1;
 
     otherwise
@@ -79,8 +80,8 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.task.nTrials  = 12;
-        options.task.nAvatars = 4;
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
+        options.task.nAvatars = 4;
         options.doKeyboard = 1;
 end
 
@@ -105,7 +106,9 @@ end
 options.screen.white = WhiteIndex(options.screen.number);
 options.screen.black = BlackIndex(options.screen.number);
 options.screen.grey  = options.screen.white / 2;
+options.screen.task  = options.screen.grey / 2;
 options.screen.inc   = options.screen.white - options.screen.grey;
+options.screen.qText = 'How likely is this person to smile back when receiving a smile? \n Use your ringfinger to stop the sliding bar.';
 
 %% options keyboard
 % use KbDemo to identify kbName and Keycode
@@ -133,12 +136,21 @@ end
 
 %% DURATIONS OF EVENTS
 % CHANGE
+if strcmp(expMode,'debug')
 options.dur.waitnxtkeypress = 5000; % in ms
 options.dur.showScreen      = 3000;
-options.dur.showIntroScreen = 50000;
+options.dur.showIntroScreen = 2000;
+options.dur.showReadyScreen = 2000;
+options.dur.endWait         = 2000;
+options.dur.rtTimeout       = 100; 
+else
+options.dur.waitnxtkeypress = 5000; % in ms
+options.dur.showScreen      = 3000;
+options.dur.showIntroScreen = 10000;
 options.dur.showReadyScreen = 2000;
 options.dur.endWait         = 2000;
 options.dur.rtTimeout       = 100;
+end
 
 %% MESSAGES
 options.messages.abortText = 'the experiment was aborted';

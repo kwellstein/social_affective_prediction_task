@@ -1,4 +1,4 @@
-function dataFile = showSlidingBarQuestion(cues,options,dataFile,task,trial)
+function dataFile = showSlidingBarQuestion(cue,options,dataFile,task,trial)
 
 % -----------------------------------------------------------------------
 % showSlidingBarQuestion.m shows sliding bar question and records the response
@@ -25,53 +25,48 @@ function dataFile = showSlidingBarQuestion(cues,options,dataFile,task,trial)
 
 %% INITIALIZE variables
 oscillationAmp = options.screen.ypixels*0.55; % space the bar will slide accross
-angFreq        = 0.8;                         % sliding bar speed
+angFreq        = 0.5;                         % sliding bar speed
 startPhase     = rand(1)*100;                 % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
 baseRect       = [0 0 10 100];                % size of rectangles making up slider and min, max
 KBNumber       = options.KBNumber; 
 doKeyboard     = options.doKeyboard;
-recordedResp   = 0;
+waitingForResp = 1;
 
 %% PREPARE Screen
 
 % Get the centre coordinate of the window
 [xCenter, yCenter] = RectCenter(options.screen.rect);
 
-%[nx, ny, textbounds, wordbounds] = DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
-Screen('DrawTexture', options.screen.windowPtr, cues.slider, [], options.screen.rect, 0);
-Screen('Flip', options.screen.windowPtr);
-
 %% START Sliding Bar
 
 % Loop the animation until a key is pressed
 loopStartTime = GetSecs();
 
-    while recordedResp == 0
-
-         Screen('DrawTexture', options.screen.windowPtr, cues.slider, [], options.screen.rect, 0);
-        
+    while waitingForResp == 1
+        DrawFormattedText(options.screen.windowPtr,options.screen.qText,'center',[],[255 255 255],[],[],[],2);
         % Position of the square on this frame
         % positive values indicate right side to center, negative values left side
          xPosition = oscillationAmp * sin(angFreq * time + startPhase);
 
         % This is the point we want our square to oscillate around
         squareXpos     = xCenter + xPosition;
-        squareXposL    = xCenter - (options.screen.yPixels*0.55);
-        squareXposR    = xCenter + (options.screen.yPixels*0.55);
+        squareXposL    = xCenter - (options.screen.ypixels*0.55);
+        squareXposR    = xCenter + (options.screen.ypixels*0.55);
 
         % create horizontal line
         baseRectLong   = [0 0 (squareXposR-squareXposL) 10];
         
         % Center the rectangle on the centre of the screen
-        centeredRect   = CenterRectOnPointd(baseRect+(xPosition-1), squareXpos, yCenter);
-        centeredRectL  = CenterRectOnPointd(baseRect, squareXposL, yCenter);
-        centeredRectR  = CenterRectOnPointd(baseRect, squareXposR, yCenter);
+        centeredRect     = CenterRectOnPointd(baseRect+(xPosition-1), squareXpos, yCenter);
+        centeredRectL    = CenterRectOnPointd(baseRect, squareXposL, yCenter);
+        centeredRectR    = CenterRectOnPointd(baseRect, squareXposR, yCenter);
         centeredRectLong = CenterRectOnPointd(baseRectLong, xCenter, yCenter);
 
         % Draw the rect to the screen
         Screen('FillRect', options.screen.windowPtr, [],[centeredRect' centeredRectL'...
               centeredRectR' centeredRectLong']);
+        Screen('DrawTexture', options.screen.windowPtr, cue); %[], options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
 
         % Increment the time
