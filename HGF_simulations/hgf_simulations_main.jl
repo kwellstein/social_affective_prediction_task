@@ -6,15 +6,21 @@ using Random, Missings #For random number generation and missing values
 using DelimitedFiles #For reading and writing files
 using DataFrames
 
-#path_to_folder = "HGF_simulations/"
+path_to_folder = "HGF_simulations/"
+#path_to_folder = ""
 
 #Read functions for creating agents and input sequences
-#include(path_to_folder * "create_agent.jl")
-#include(path_to_folder * "create_input_sequence.jl")
-include("create_agent.jl")
-include("create_input_sequence.jl")
+include(path_to_folder * "create_agent.jl")
+include(path_to_folder * "create_input_sequence.jl")
+include(path_to_folder * "helper_functions.jl")
 
-####### PREPARATION ######
+####### OPTIONS ######
+
+#How many avatars to use
+n_avatars = 4
+
+#Colors for the different avatars
+avatar_colors = [:red, :blue, :green, :purple]
 
 #Create input sequence
 input_sequence = create_input_sequence(
@@ -24,79 +30,86 @@ input_sequence = create_input_sequence(
     phaseLength  = [40, 20, 20, 40, 40]
     )
 
+
+#Agent parameter
+agent_parameters = Dict(
+        #Parameters for the probability nodes    
+        "xprob_volatility"                => -2,
+        "xprob_initial_precision"         => 100,
+        "xprob_initial_mean"              => 0,
+
+        #Parameters for the volatility node
+        ("xvol", "volatility")            => -8,
+        ("xvol", "initial_precision")     => 1,
+        ("xvol", "initial_mean")          => 1,
+
+        #Action noise parameter
+        "action_noise"                    => 1,
+
+        #Coupling strengths
+        "xbinary_xprob_coupling_strength" => 1,
+        "xprob_xvol_coupling_strength"    => 1,
+)
+
+
+##### SIMULATION #####
+
 #Save input sequence
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
 
 for nAgent in 1:100
+    
     println("......... processing agent no. $nAgent ........")
-#Create HGF agent that works for 4 avatars
-n_avatars = 4
-agent = create_premade_hgf_agent(n_avatars)
+    #Create HGF agent that works for 4 avatars
+    agent = create_premade_hgf_agent(n_avatars)
+    #Set parameters
+    set_parameters!(agent, agent_parameters) 
+    #Reset the agent
+    reset!(agent)
 
-####### TESTRUN ######
-#Check the parameters of the model
-get_parameters(agent)
+    #Give the inputs to the agent
+    simulated_actions = give_inputs!(agent, input_sequence)
 
-#Set parameters
-set_parameters!(agent, Dict(
-    #Parameters for the probability nodes    
-    "xprob_volatility"                => -2,
-    "xprob_initial_precision"         => 100,
-    "xprob_initial_mean"              => 0,
-
-    #Parameters for the volatility node
-    ("xvol", "volatility")            => -8,
-    ("xvol", "initial_precision")     => 1,
-    ("xvol", "initial_mean")          => 1,
-
-    #Action noise parameter
-    "action_noise"                    => 1,
-
-    #Coupling strengths
-    "xbinary_xprob_coupling_strength" => 1,
-    "xprob_xvol_coupling_strength"    => 1,
+    # Model inversion
+    priors = Dict(
+        "xprob_volatility" => Normal(-2, 2),
+        "action_noise" => truncated(Normal(0, 2), lower = 0),
     )
-) 
+    results = fit_model(agent, priors, input_sequence, simulated_actions)
+    #plot(results)
+    plot_parameter_distribution(results, priors)
+end
 
-#Reset the agent
-reset!(agent)
+give_inputs!(agent, [(1,1), (4,1), (2,0)])
 
-#Give the inputs to the agent
-simulated_actions = give_inputs!(agent, input_sequence)
+plot_belief_trajectory(agent, n_avatars, avatar_colors)
 
-#Colors for the different avatars
-avatar_colors = [:red, :blue, :green, :purple]
 
-#Plot the beliefs trajectories for the four avatars
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+plot(simulated_actions, color = :black, label = "actions", linetype = :scatter, title = "simulated_actions")
 for i in 1:n_avatars
-    #Plot the belief trajectories (predictions about the timesteps)
-    if i == 1
-        plot_trajectory(agent, "xbinary$i", label = "avatar $i", color = avatar_colors[i])
-    else
-        plot_trajectory!(agent, "xbinary$i", label = "avatar $i", color = avatar_colors[i])
-    end
+    plot!(agent, "u$i", label = "avatar $i", color = avatar_colors[i])
+end
 
-    plot_trajectory!(agent, "u$i", label = "", color = avatar_colors[i])
 
-    #Add title
-    belief_plot = title!("Belief trajectories for the four avatars")
-
-    display(belief_plot)
-    if i ==n_avatars
+if i == n_avatars
     savefig("BeliefTraj_.png")
-    end
 end
 
-# Model inversion
-priors = Dict(
-    "xprob_volatility" => Normal(-2, 2),
-    "action_noise" => truncated(Normal(0, 2), lower = 0),
-)
-results = fit_model(agent, priors, input_sequence, simulated_actions)
-#plot(results)
-println("debugging...")
-plot_parameter_distribution(results, priors)
-end
 
 # TO DO: save dataframe
 
@@ -137,3 +150,14 @@ end
 #     "HGF" => premade_hgf("JGET")
 # ))
 
+
+
+
+#Step 1: try manually input sequences and parameter settings to see agent belief behaviour 
+#Step 2: try manually looking for differences in priors and posteriors 
+#Step 3: brutoe force method:
+
+#### BRUTE FORCE METHOD ###
+# FOR LOOP WITH DIFFERENT INPUT SEQUENCES
+    #FOR LOOP WITH DIFFERENT PARAMETER SETTINGS
+        # FOR LOOP WITH MULTIPLE AGENTS

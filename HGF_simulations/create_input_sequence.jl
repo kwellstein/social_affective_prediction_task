@@ -1,5 +1,5 @@
 function create_input_sequence(;
-    avatarProbs ,
+    avatarProbs,
     avatarTrials,
     phaseProb,
     phaseLength,
