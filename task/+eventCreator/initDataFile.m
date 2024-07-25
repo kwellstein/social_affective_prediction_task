@@ -51,10 +51,11 @@ dataFile.events.exp_timeOut          = []; logical(dataFile.events.exp_timeOut);
 dataFile.events.exp_end              = [];
 
 %% TASK DATA
-dataFile.SAP.smileRT     = zeros(200,1);
-dataFile.SAP.smileResp   = zeros(200,1);
-dataFile.SAP.congrResp   = zeros(200,1);
-dataFile.SAP.smiliness   = zeros(200,1);
-dataFile.SAP.smilinessRT = zeros(200,1);
+dataFile.SAPPrediction.rt       = zeros(200,1);
+dataFile.SAPSmileTime.rt        = zeros(200,1);
+dataFile.SAPPrediction.response = zeros(200,2);
+dataFile.SAPCongruent.response  = zeros(200,2);
+dataFile.SAPQuestion.response = zeros(200,2);
+dataFile.SAPQuestion.rt       = zeros(200,1);
 
 end

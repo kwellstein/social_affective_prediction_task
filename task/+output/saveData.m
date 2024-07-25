@@ -1,8 +1,8 @@
-function saveData(expInfo, dataFile, protocol)
+function saveData(options, dataFile)
 
-mkdir(fullfile(['+output/',expInfo.PPID]));
+mkdir(fullfile(options.files.savePath));
 
-save(fullfile(['+output/',expInfo.PPID,'/dataFile.mat']));
+save(fullfile([options.files.savePath,'/',options.files.dataFileName]),'dataFile');
 
 diary off
 save(['+output/+expLog',diaryname]);

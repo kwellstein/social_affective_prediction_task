@@ -46,6 +46,8 @@
 close all;
 clearvars;
 clc;
+
+diary on
 % add toolbox to path
 addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
 
@@ -91,4 +93,4 @@ options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
 %% RUN TASK
-dataFile = runTask(stimuli,expMode,expType,options,dataFile);
+runTask(stimuli,expMode,expType,options,dataFile);

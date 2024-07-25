@@ -29,6 +29,7 @@ angFreq        = 0.5;                         % sliding bar speed
 startPhase     = rand(1)*100;                 % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
 baseRect       = [0 0 10 100];                % size of rectangles making up slider and min, max
+middleRect     = [0 0 10 50]; 
 KBNumber       = options.KBNumber; 
 doKeyboard     = options.doKeyboard;
 waitingForResp = 1;
@@ -44,29 +45,38 @@ waitingForResp = 1;
 loopStartTime = GetSecs();
 
     while waitingForResp == 1
-        DrawFormattedText(options.screen.windowPtr,options.screen.qText,'center',[],[255 255 255],[],[],[],2);
+    
+        Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
+        Screen('TextSize', options.screen.windowPtr, 50);
+        DrawFormattedText(options.screen.windowPtr,options.screen.qText,'center',[],[255 255 255],[],[],[],1.5);
+        
         % Position of the square on this frame
         % positive values indicate right side to center, negative values left side
          xPosition = oscillationAmp * sin(angFreq * time + startPhase);
 
         % This is the point we want our square to oscillate around
-        squareXpos     = xCenter + xPosition;
         squareXposL    = xCenter - (options.screen.ypixels*0.55);
         squareXposR    = xCenter + (options.screen.ypixels*0.55);
+        squareYPos     = yCenter + (options.screen.xpixels*0.2);
+        squareXpos     = xCenter + xPosition;
 
         % create horizontal line
         baseRectLong   = [0 0 (squareXposR-squareXposL) 10];
         
         % Center the rectangle on the centre of the screen
-        centeredRect     = CenterRectOnPointd(baseRect+(xPosition-1), squareXpos, yCenter);
-        centeredRectL    = CenterRectOnPointd(baseRect, squareXposL, yCenter);
-        centeredRectR    = CenterRectOnPointd(baseRect, squareXposR, yCenter);
-        centeredRectLong = CenterRectOnPointd(baseRectLong, xCenter, yCenter);
+        centeredRect     = CenterRectOnPointd(baseRect+(xPosition-1), squareXpos, squareYPos);
+        centeredRectL    = CenterRectOnPointd(baseRect, squareXposL, squareYPos);
+        centeredRectR    = CenterRectOnPointd(baseRect, squareXposR, squareYPos);
+        centeredRectLong = CenterRectOnPointd(baseRectLong, xCenter, squareYPos);
+        centeredRectM    = CenterRectOnPointd(middleRect,(squareXposL+((squareXposR-squareXposL)/2)),squareYPos);
 
-        % Draw the rect to the screen
+        % Draw the rect to the screen: Screen(‘FillRect’, windowPtr [,color] [,rect] )
         Screen('FillRect', options.screen.windowPtr, [],[centeredRect' centeredRectL'...
               centeredRectR' centeredRectLong']);
-        Screen('DrawTexture', options.screen.windowPtr, cue); %[], options.screen.rect, 0);
+        Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
+        % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
+        DrawFormattedText(options.screen.windowPtr,options.screen.qTextL,'left',squareYPos,[255 255 255],[],[],[],1.5);
+        DrawFormattedText(options.screen.windowPtr,options.screen.qTextR,'right',squareYPos,[255 255 255],[],[],[],1.5);
         Screen('Flip', options.screen.windowPtr);
 
         % Increment the time
@@ -76,7 +86,7 @@ loopStartTime = GetSecs();
         keyCode      = eventListener.commandLine.detectKey(KBNumber,doKeyboard);
         
         if ~isempty(keyCode)
-            recordedResp = 1;
+            waitingForResp = 0;
         end
     end
 

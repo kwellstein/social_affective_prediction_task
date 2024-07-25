@@ -62,7 +62,7 @@ switch expMode
         else
             options.task.nTrials  = 4;
         end
-        
+
     case 'debug'
         % stimulus durations
         options.screen.rect   = [20, 10, 900, 450];
@@ -87,28 +87,42 @@ end
 
 options.task.name = 'SAP';
 %% Select Stimuli based on Randomisation list
-RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']); 
+RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
 rowIdx      = find(RandTable.PID==str2num(PID));
 avatars     = RandTable(rowIdx,:);
 options.task.avatarArray = string(options.task.inputs(:,1));
 
 if strcmp(expMode,'debug')
-cellName  = 'fmri_experiment_a';
+    cellName  = 'fmri_experiment_a';
 else
     cellName  = [expType,'_',expMode,'_a'];
 end
 
 for iAvatar = 1:options.task.nAvatars
-options.task.avatarArray(strcmp(options.task.avatarArray,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
+    options.task.avatarArray(strcmp(options.task.avatarArray,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
 end
 
 %% options screen
-options.screen.white = WhiteIndex(options.screen.number);
-options.screen.black = BlackIndex(options.screen.number);
-options.screen.grey  = options.screen.white / 2;
-options.screen.task  = options.screen.grey / 2;
-options.screen.inc   = options.screen.white - options.screen.grey;
-options.screen.qText = 'How likely is this person to smile back when receiving a smile? \n Use your ringfinger to stop the sliding bar.';
+options.screen.white  = WhiteIndex(options.screen.number);
+options.screen.black  = BlackIndex(options.screen.number);
+options.screen.grey   = options.screen.white / 2;
+options.screen.task   = options.screen.grey / 2;
+options.screen.inc    = options.screen.white - options.screen.grey;
+
+switch expMode
+    case 'experiment'
+        options.screen.qText  = '\n How often does this person usually smile back when receiving a smile?';
+        options.screen.predictText = ['Choose to smile: use index finger to start and ring finger when your face is neutral again.' ...
+                             '\n Choose to stay neutral: indicate choice with middle finger.'];
+    case 'practice'
+        options.screen.qText  = '\n How often does this person usually smile back when receiving a smile? \n Use your ringfinger to stop the sliding bar.';
+        options.screen.predictText = ['Do you choose to smile at this person because you predict that they will smile back?' ...
+            ' \n Use your index finger to start smiling and your ringfinger once you stopped smiling' ...
+            ' \n use your middlefinger if you choose not to smile at this person because you predict that they will not smile back.'];
+end
+
+options.screen.qTextL = '           Never';
+options.screen.qTextR = 'Always          ';
 
 %% options keyboard
 % use KbDemo to identify kbName and Keycode
@@ -137,19 +151,21 @@ end
 %% DURATIONS OF EVENTS
 % CHANGE
 if strcmp(expMode,'debug')
-options.dur.waitnxtkeypress = 5000; % in ms
-options.dur.showScreen      = 3000;
-options.dur.showIntroScreen = 2000;
-options.dur.showReadyScreen = 2000;
-options.dur.endWait         = 2000;
-options.dur.rtTimeout       = 100; 
+    options.dur.waitnxtkeypress = 5000; % in ms
+    options.dur.showStimulus    = 1000;
+    options.dur.showOutcome     = 400;
+    options.dur.showIntroScreen = 1000;
+    options.dur.showReadyScreen = 200;
+    options.dur.rtTimeout       = 100;
+    options.dur.ITI             = randi([50,200],options.task.nTrials,1);
 else
-options.dur.waitnxtkeypress = 5000; % in ms
-options.dur.showScreen      = 3000;
-options.dur.showIntroScreen = 10000;
-options.dur.showReadyScreen = 2000;
-options.dur.endWait         = 2000;
-options.dur.rtTimeout       = 100;
+    options.dur.waitnxtkeypress = 5000; % in ms
+    options.dur.showStimulus    = 2000;
+    options.dur.showOutcome     = 400;
+    options.dur.showIntroScreen = 2000;
+    options.dur.showReadyScreen = 200;
+    options.dur.rtTimeout       = 100;
+    options.dur.ITI             = randi([400,2000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 %% MESSAGES
@@ -160,8 +176,8 @@ options.messages.timeOut   = 'you did not answer in time';
 date   = datestr(now,2);
 options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
-options.files.savePath     = [pwd,'/data/',expMode,'/','/',options.files.projectID,PID];
-% mkdir(options.files.projectID);
+options.files.savePath     = [pwd,'/data/',expMode,'/',options.files.projectID,PID];
+mkdir(options.files.savePath);
 options.files.dataFileName = [options.files.namePrefix,'dataFile',date,'.mat'];
 
 end
