@@ -23,9 +23,12 @@ fieldName = dataFile.(task).(event);
 switch event
     case'rt'
     fieldName(trial,:) = X;
-    otherwise 
+    case 'response' 
     eventTime          = GetSecs() - dataFile.events.exp_startTime;
     fieldName(trial,:) = [X, eventTime];
+    case 'congruent' 
+    fieldName(trial,:) = X;
+    X = sum(fieldName);
 end
 
 dataFile.(task).(event) = fieldName;

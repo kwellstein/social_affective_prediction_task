@@ -86,6 +86,9 @@ switch expMode
 end
 
 options.task.name = 'SAP';
+options.task.firstTarget = 80;
+options.task.finalTarget = 120;
+
 %% Select Stimuli based on Randomisation list
 RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
 rowIdx      = find(RandTable.PID==str2num(PID));
@@ -112,13 +115,26 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 switch expMode
     case 'experiment'
         options.screen.qText  = '\n How often does this person usually smile back when receiving a smile?';
-        options.screen.predictText = ['Choose to smile: use index finger to start and ring finger when your face is neutral again.' ...
+        options.screen.predictText = ['Choose to smile: use index finger to start and ring finger once your face is neutral again.' ...
                              '\n Choose to stay neutral: indicate choice with middle finger.'];
+        options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
+                                        '\n This added AUD 5 to your reimbursement.'];
+        options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
+                                        '\n This added another AUD 5 to your reimbursement.'];
+        options.screen.expEndText = ['Thank you, you finished the ',options.task.name, 'task!'];
+
     case 'practice'
-        options.screen.qText  = '\n How often does this person usually smile back when receiving a smile? \n Use your ringfinger to stop the sliding bar.';
+        options.screen.qText  = ['\n How often does this person usually smile back when receiving a smile? ' ...
+                                 '\n Use your ringfinger to stop the sliding bar.'];
         options.screen.predictText = ['Do you choose to smile at this person because you predict that they will smile back?' ...
-            ' \n Use your index finger to start smiling and your ringfinger once you stopped smiling' ...
-            ' \n use your middlefinger if you choose not to smile at this person because you predict that they will not smile back.'];
+                                 '\n Use your index finger to start smiling and your ringfinger once you stopped smiling' ...
+                                 '\n use your middlefinger if you choose not to smile at this ' ...
+                                 '\n person because you predict that they will not smile back.'];
+        options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
+                                        '\n This added AUD 5 to your reimbursement.'];
+        options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
+                                        '\n This added another AUD 5 to your reimbursement.'];
+        options.screen.expEndText = ['Thank you, you finished the ',options.task.name, 'task!'];
 end
 
 options.screen.qTextL = '           Never';

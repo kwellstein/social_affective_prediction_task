@@ -51,11 +51,15 @@ dataFile.events.exp_timeOut          = []; logical(dataFile.events.exp_timeOut);
 dataFile.events.exp_end              = [];
 
 %% TASK DATA
-dataFile.SAPPrediction.rt       = zeros(200,1);
-dataFile.SAPSmileTime.rt        = zeros(200,1);
-dataFile.SAPPrediction.response = zeros(200,2);
-dataFile.SAPCongruent.response  = zeros(200,2);
+% COL 1: if smile predicted ==1, if neutral predicted == 0
+dataFile.SAPPrediction.rt        = zeros(200,1);
+dataFile.SAPSmileTime.rt         = zeros(200,1);
+% COL 1: if smile response ==1, if neutral response == 0, COL 2: time point
+dataFile.SAPPrediction.response  = zeros(200,2);
+dataFile.SAPPrediction.congruent = zeros(200,1); % if congruent ==1, if incongurent == 0
+% COL 1: response on sliding bar, COL 2: time point
 dataFile.SAPQuestion.response = zeros(200,2);
 dataFile.SAPQuestion.rt       = zeros(200,1);
+dataFile.SAPsummary.points    = 0;
 
 end

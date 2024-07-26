@@ -36,11 +36,11 @@ while waiting
     % show predictionslide
     Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
     Screen('TextSize', options.screen.windowPtr, 50);
-    DrawFormattedText(options.screen.windowPtr,options.screen.predictText,'center',[],[255 255 255],[],[],[],0.5);
+    DrawFormattedText(options.screen.windowPtr,options.screen.predictText,'center',[],[255 255 255],[],[],[],1);
     Screen('Flip', options.screen.windowPtr);
 
     % detect response
-    keyCode = eventListener.commandLine.detectKey(expInfo.KBNumber, options.doKeyboard);
+    keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
     RT      = toc(ticID);
 
     if any(keyCode == options.keys.startSmile)
@@ -91,7 +91,7 @@ if resp == 1
         % button or time-out
         Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect,0);
         Screen('Flip', options.screen.windowPtr);
-        keyCode = eventListener.commandLine.detectKey(expInfo.KBNumber, options.doKeyboard);
+        keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
 
         RT      = toc(ticID);
         [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
@@ -129,7 +129,7 @@ if resp == 1
 elseif resp == 0
     % show screen with stimulus for a fixed duration
     Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showOutcome,options,expInfo,dataFile,trial);
+    eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,trial);
 end
 
 
