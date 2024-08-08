@@ -25,7 +25,7 @@ function dataFile = showSlidingBarQuestion(cue,options,dataFile,task,trial)
 
 %% INITIALIZE variables
 oscillationAmp = options.screen.ypixels*0.55; % space the bar will slide accross
-angFreq        = 0.5;                         % sliding bar speed
+angFreq        = 0.75;                        % sliding bar speed
 startPhase     = rand(1)*100;                 % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
 baseRect       = [0 0 10 100];                % size of rectangles making up slider and min, max
@@ -84,9 +84,15 @@ loopStartTime = GetSecs();
         
        % wait for response
         keyCode      = eventListener.commandLine.detectKey(KBNumber,doKeyboard);
-        
-        if ~isempty(keyCode)
-            waitingForResp = 0;
+
+        if any(keyCode == options.keys.stopSmile)
+        waitingForResp = 0;
+
+        elseif ~isempty(keyCode)
+            DrawFormattedText(options.screen.windowPtr,options.messages.wrongButton,'center','center',[0 1 1],[],[],[],1.5);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
+            disp(['Participant pressed wrong button on trial ',num2str(trial),'... ']);
         end
     end
 

@@ -44,9 +44,16 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
+        options.task.nAvatars = 4;
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
-        options.task.nTrials  = size(options.task.inputs);
-        options.doKeyboard    = 0;
+        options.task.nTrials  = size(options.task.inputs,1);
+
+        if strcmp(expType,'behav')
+            options.doKeyboard = 1;
+        else
+            options.doKeyboard    = 0;
+        end
+
     case 'practice'
         % stimulus durations
         % options.screen.rect   = [0, 0, 1200, 600];
@@ -57,7 +64,7 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
 
         if strcmp(expType,'behav')
-            options.task.nTrials  = 10;
+            options.task.nTrials  = 8;
             options.doKeyboard = 1;
         else
             options.task.nTrials  = 4;
@@ -69,9 +76,9 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         % options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.nTrials  = 12;
-        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
-        options.task.nAvatars = 4;
+        options.task.nTrials  = 8;
+        options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.nAvatars = 2;
         options.doKeyboard = 1;
 
     otherwise
@@ -79,9 +86,9 @@ switch expMode
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
-        options.task.nTrials  = 12;
-        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
-        options.task.nAvatars = 4;
+        options.task.nTrials  = 8;
+        options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.nAvatars = 2;
         options.doKeyboard = 1;
 end
 
@@ -96,6 +103,8 @@ avatars     = RandTable(rowIdx,:);
 options.task.avatarArray = string(options.task.inputs(:,1));
 
 if strcmp(expMode,'debug')
+    cellName  = 'fmri_experiment_a';
+elseif strcmp(expType,'behav') || strcmp(expMode,'experiment')
     cellName  = 'fmri_experiment_a';
 else
     cellName  = [expType,'_',expMode,'_a'];
@@ -114,27 +123,33 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 
 switch expMode
     case 'experiment'
-        options.screen.qText  = '\n How often does this person usually smile back when receiving a smile?';
-        options.screen.predictText = ['Choose to smile: use index finger to start and ring finger once your face is neutral again.' ...
-                             '\n Choose to stay neutral: indicate choice with middle finger.'];
+        options.screen.qText       = '\n How often does this person usually smile back when receiving a smile?';
+        options.screen.predictText = ['Choose to smile: use index finger to start & ring finger once your face is neutral again.' ...
+            '\n Choose to stay neutral: indicate choice with middle finger.'];
+        options.screen.smileHoldText  = 'stop smile button not active yet!';
         options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
-                                        '\n This added AUD 5 to your reimbursement.'];
+            '\n This added AUD 5 to your reimbursement.'];
         options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
-                                        '\n This added another AUD 5 to your reimbursement.'];
-        options.screen.expEndText = ['Thank you, you finished the ',options.task.name, 'task!'];
+            '\n This added another AUD 5 to your reimbursement.'];
+        options.screen.expEndText     = ['Thank you! ' ...
+            'You finished the ',options.task.name, 'task.'];
 
     case 'practice'
-        options.screen.qText  = ['\n How often does this person usually smile back when receiving a smile? ' ...
-                                 '\n Use your ringfinger to stop the sliding bar.'];
+        options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
+            '\n Use your ringfinger to stop the sliding bar.'];
         options.screen.predictText = ['Do you choose to smile at this person because you predict that they will smile back?' ...
-                                 '\n Use your index finger to start smiling and your ringfinger once you stopped smiling' ...
-                                 '\n use your middlefinger if you choose not to smile at this ' ...
-                                 '\n person because you predict that they will not smile back.'];
-        options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
-                                        '\n This added AUD 5 to your reimbursement.'];
-        options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
-                                        '\n This added another AUD 5 to your reimbursement.'];
-        options.screen.expEndText = ['Thank you, you finished the ',options.task.name, 'task!'];
+            '\n Use your index finger to start smiling and your ringfinger once you stopped smiling.' ...
+            '\n Use your middlefinger if you choose not to smile at this ' ...
+            '\n person because you predict that they will not smile back.'];
+        options.screen.smileHoldText   = ['please spend some time smiling,' ...
+            '\n  the button to stop smiling won''t be active immediately'];
+        options.screen.waitNoSmileText = 'wait and see how the face will respond';
+        options.screen.firstTagetText  = ['You reached ',options.task.firstTarget,' points! ' ...
+            '\n This added AUD 5 to your reimbursement.'];
+        options.screen.finalTagetText  = ['You reached ',options.task.finalTarget,' points! ' ...
+            '\n This added another AUD 5 to your reimbursement.'];
+        options.screen.expEndText      = ['Thank you! \n' ...
+            'You finished the ',options.task.name, 'task!'];
 end
 
 options.screen.qTextL = '           Never';
@@ -167,33 +182,40 @@ end
 %% DURATIONS OF EVENTS
 % CHANGE
 if strcmp(expMode,'debug')
-    options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 1000;
-    options.dur.showOutcome     = 400;
+    options.dur.waitnxtkeypress = 2000; % in ms
+    options.dur.showStimulus    = 500; % in ms
+    options.dur.showSmile       = 3;    % in sec
+    options.dur.showOutcome     = 500;
+    options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
     options.dur.showReadyScreen = 200;
-    options.dur.rtTimeout       = 100;
-    options.dur.ITI             = randi([50,200],options.task.nTrials,1);
+    options.dur.rtTimeout       = 500;
+    options.dur.showWarning     = 500;
+    options.dur.ITI             = randi([150,250],options.task.nTrials,1);
 else
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 2000;
-    options.dur.showOutcome     = 400;
-    options.dur.showIntroScreen = 2000;
-    options.dur.showReadyScreen = 200;
-    options.dur.rtTimeout       = 100;
-    options.dur.ITI             = randi([400,2000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.showStimulus    = 300;  % in ms
+    options.dur.showSmile       = 2;   % in sec
+    options.dur.showOutcome     = 500;
+    options.dur.showPoints      = 700;
+    options.dur.showIntroScreen = 30000; % in ms
+    options.dur.showReadyScreen =  2000;
+    options.dur.rtTimeout       =  1500;
+    options.dur.showWarning     =  1000;
+    options.dur.ITI             = randi([1500,2500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 %% MESSAGES
-options.messages.abortText = 'the experiment was aborted';
-options.messages.timeOut   = 'you did not answer in time';
+options.messages.abortText     = 'the experiment was aborted';
+options.messages.timeOut       = 'you did not answer in time';
+options.messages.wrongButton   = 'you pressed the wrong button';
+
 
 %% DATAFILES & PATHS
-date   = datestr(now,2);
 options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
 options.files.savePath     = [pwd,'/data/',expMode,'/',options.files.projectID,PID];
 mkdir(options.files.savePath);
-options.files.dataFileName = [options.files.namePrefix,'dataFile',date,'.mat'];
+options.files.dataFileName = [options.files.namePrefix,'dataFile.mat'];
 
 end

@@ -32,10 +32,10 @@ switch expType
                 stimuli.minus = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
                 stimuli.plus  = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
 
-            case 'main'
+            case 'experiment'
                 imgIntro = imread('stimuli/behav_main_intro','png');
-                imgMinus = imread('stimuli/minuspoint','png');
-                imgPlus  = imread('stimuli/pluspoint','png');
+                imgMinus = imread('stimuli/minus_point','png');
+                imgPlus  = imread('stimuli/plus_point','png');
 
                 % MAKE images into a textures that can be drawn to the screen
                 stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
@@ -44,8 +44,8 @@ switch expType
         end
 
     case 'fmri'
-        imgMinus      = imread('stimuli/minuspoint','png');
-        imgPlus       = imread('stimuli/pluspoint','png');
+        imgMinus      = imread('stimuli/minus_point','png');
+        imgPlus       = imread('stimuli/plus_point','png');
         stimuli.minus = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
         stimuli.plus  = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
 
@@ -57,10 +57,14 @@ switch expType
                 stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
 
             case 'experiment'
-                imgIntro      = imread('stimuli/fmri_exp_intro','png');
+                imgIntro = imread('stimuli/fmri_main_intro','png');
+                imgMinus = imread('stimuli/minus_point','png');
+                imgPlus  = imread('stimuli/plus_point','png');
 
-                % make images into a textures that can be drawn to the screen
+                % MAKE images into a textures that can be drawn to the screen
                 stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+                stimuli.minus = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
+                stimuli.plus  = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
 
             case 'debug'
                 imgIntro      = imread('stimuli/fmri_practice_intro','png');

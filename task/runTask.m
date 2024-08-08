@@ -1,4 +1,4 @@
-function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
+function dataFile = runTask(stimuli,expMode,~,options,dataFile)
 %% _______________________________________________________________________________%
 %% runTask.m runs the Social Affective Prediction task
 %
@@ -80,13 +80,12 @@ while taskRunning
     dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
 
     % show answer promt
-    [dataFile,~,resp] = tools.showResponseScreen(stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial);
+    [dataFile,~,resp] = tools.showResponseScreen(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial);
 
+    % show stimulus again
     Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
-
-    % ADD JITTER!!!!
-    eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+    eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
     % show outcome
     Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
@@ -98,37 +97,43 @@ while taskRunning
         [X,dataFile] = eventListener.logData(1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+        eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
+    elseif isnan(resp)
+        [X,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
+        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
         [X,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+        eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     end
 
 
-if strcmp(expMode,'experiment')
-    % calculate total points
-    points(trial) = X;
-    score = sum(points);
+    if strcmp(expMode,'experiment')
+        % calculate total points
+        points(trial) = X;
+        score = sum(points);
 
-    if score == options.task.firstTarget
-    Screen('TextSize', options.screen.windowPtr, 50);
-     % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
-    DrawFormattedText(options.screen.windowPtr,options.screen.firstTagetText,'center','center',[255 255 255],[],[],[],2);
-    Screen('Flip', options.screen.windowPtr);
-    elseif score == options.task.finalTarget
-    Screen('TextSize', options.screen.windowPtr, 50);
-     % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
-    DrawFormattedText(options.screen.windowPtr,options.screen.finalTagetText,'center','center',[255 255 255],[],[],[],2);
-    Screen('Flip', options.screen.windowPtr);
+        if score == options.task.firstTarget
+            Screen('TextSize', options.screen.windowPtr, 50);
+            % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
+            DrawFormattedText(options.screen.windowPtr,options.screen.firstTagetText,'center','center',[255 255 255],[],[],[],2);
+            Screen('Flip', options.screen.windowPtr);
+        elseif score == options.task.finalTarget
+            Screen('TextSize', options.screen.windowPtr, 50);
+            % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
+            DrawFormattedText(options.screen.windowPtr,options.screen.finalTagetText,'center','center',[255 255 255],[],[],[],2);
+            Screen('Flip', options.screen.windowPtr);
+        end
     end
-end
 
-    % Show Fixation cross ADD JITTER!!!!
+    % Show Fixation cross % ADD JITTER with optseq2!!!!
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.ITI,options,dataFile,0);
+    eventListener.commandLine.wait2(options.dur.ITI(trial),options,dataFile,0);
 
     % check if this is the last trial
     if trial == options.task.nTrials
@@ -137,23 +142,20 @@ end
 
 end
 
-%% END OF TASK
-
-
 %% SAVE data
 
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
-dataFile = output.cleanDataFields(dataFile,task,nStep);
+% dataFile = output.cleanDataFields(dataFile,task,nStep);
 
-% save all data to 
+% save all data to
 output.saveData(options,dataFile);
 
 % show end screen
-Screen('DrawTexture', options.screen.windowPtr, cues.thankYou, [], options.screen.rect, 0);
+DrawFormattedText(options.screen.windowPtr,options.screen.waitNoSmileText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showOff,options,expInfo,dataFile,nStep);
+eventListener.commandLine.wait2(options.screen.expEndText,options,dataFile,0);
 
 end

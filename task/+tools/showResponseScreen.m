@@ -1,4 +1,4 @@
-function [dataFile,RT,resp] = showResponseScreen(cue,options,dataFile,task,trial)
+function [dataFile,RT,resp] = showResponseScreen(expMode,cue,options,dataFile,task,trial)
 
 % -----------------------------------------------------------------------
 % showResponseScreen.m shows the response screen depending on the
@@ -10,8 +10,6 @@ function [dataFile,RT,resp] = showResponseScreen(cue,options,dataFile,task,trial
 %   IN:           cues:     struct, contains names of slides initiated in
 %                                   initiate Visuals
 %                 options:  struct, options the tasks will run with
-%                 expInfo:  struct, contains key info on how the experiment is
-%                                   run instance
 %                 dataFile: struct, data file initiated in initDataFile.m
 %                 task:     string, task name
 %                 trial:    integer, trial number
@@ -27,7 +25,6 @@ function [dataFile,RT,resp] = showResponseScreen(cue,options,dataFile,task,trial
 waiting = 1;
 ticID   = tic();
 RT      = 0;
-keyCode = [];
 
 %% WAIT for response
 
@@ -42,14 +39,16 @@ while waiting
     % detect response
     keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
     RT      = toc(ticID);
+    disp(num2str(trial))
+    disp(['prediction rt: ',num2str(RT)]);
 
     if any(keyCode == options.keys.startSmile)
         resp        = 1;
         waiting     = 0;
 
     elseif any(keyCode == options.keys.noSmile)
-        resp            = 0;
-        waiting         = 0;
+        resp         = 0;
+        waiting      = 0;
 
         % in case ESC is pressed this will be logged and saved and the
         % experiment stops here
@@ -71,8 +70,9 @@ while waiting
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
             'center', 'center', options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
         dataFile = eventListener.logEvent('exp','_missedTrial', [],trial);
-        disp('Participant missed a trial.')
+        disp(['Participant missed trial ',num2str(trial),'... ']);
         waiting  = 0;
         resp     = NaN;
 
@@ -86,21 +86,31 @@ end
 if resp == 1
     smiling = 1;
     ticID   = tic();
+
+    % in case this is not the main experiment add an instruction that the stop smile button wont be active for a bit.
+    if ~strcmp(expMode,'experiment')
+        Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect,0);
+        DrawFormattedText(options.screen.windowPtr,options.screen.smileHoldText,'center',[],[255 255 255],[],[],[],1);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+    end
+
     while smiling
         % show screen with stimulus and wait for participant to press a
         % button or time-out
+
         Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect,0);
         Screen('Flip', options.screen.windowPtr);
         keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
-
         RT      = toc(ticID);
-        [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
-
+    disp(num2str(trial))
+    disp(['stopsmile rt: ',num2str(RT)])
         if any(keyCode == options.keys.stopSmile)
-            smiling     = 0;
+            if RT > options.dur.showSmile
+                smiling = 0;
+            end
 
-            % in case ESC is pressed this will be logged and saved and the
-            % experiment stops here
+            % in case ESC is pressed this will be logged and saved and the experiment stops here
         elseif any(keyCode == options.keys.escape)
             DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
                 'center', 'center', options.screen.grey);
@@ -112,9 +122,8 @@ if resp == 1
             sca
             return;
 
-            % if the participant takes too long (as defined in the options)
-            % this will be logged and saved as NaN. A time-out message will be
-            % displayed
+            % if the participant takes too long (as defined in the options)this will
+            % be logged and saved as NaN. A time-out message will be displayed
         elseif RT > options.dur.showOutcome
             DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
                 'center', 'center', options.screen.grey);
@@ -124,13 +133,24 @@ if resp == 1
             smiling  = 0;
             resp     = NaN;
         end
+        [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
     end
 
 elseif resp == 0
-    % show screen with stimulus for a fixed duration
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,trial);
+   ticID   = tic();
+    % in case this is not the main experiment add an instruction that the outcome wont be shown immediately
+    if ~strcmp(expMode,'experiment')
+        Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect,0);
+        DrawFormattedText(options.screen.windowPtr,options.screen.waitNoSmileText,'center',[],[255 255 255],[],[],[],1);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+    end
+        Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect,0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+        
+        RT = toc(ticID);
+        disp(num2str(trial))
+    disp(['no smile rt: ',num2str(RT)]);
 end
-
-
 end

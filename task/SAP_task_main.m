@@ -94,3 +94,4 @@ stimuli = eventCreator.initVisuals(options,expMode,expType);
 
 %% RUN TASK
 runTask(stimuli,expMode,expType,options,dataFile);
+
