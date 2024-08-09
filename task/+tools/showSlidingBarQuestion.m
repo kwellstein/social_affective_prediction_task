@@ -24,7 +24,7 @@ function dataFile = showSlidingBarQuestion(cue,options,dataFile,task,trial)
 % -------------------------------------------------------------------------
 
 %% INITIALIZE variables
-oscillationAmp = options.screen.ypixels*0.55; % space the bar will slide accross
+oscillationAmp = options.screen.ypixels*0.25; % space the bar will slide accross
 angFreq        = 0.75;                        % sliding bar speed
 startPhase     = rand(1)*100;                 % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
@@ -55,8 +55,8 @@ loopStartTime = GetSecs();
          xPosition = oscillationAmp * sin(angFreq * time + startPhase);
 
         % This is the point we want our square to oscillate around
-        squareXposL    = xCenter - (options.screen.ypixels*0.55);
-        squareXposR    = xCenter + (options.screen.ypixels*0.55);
+        squareXposL    = xCenter - (options.screen.ypixels*0.25);
+        squareXposR    = xCenter + (options.screen.ypixels*0.25);
         squareYPos     = yCenter + (options.screen.xpixels*0.2);
         squareXpos     = xCenter + xPosition;
 

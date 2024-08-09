@@ -79,6 +79,10 @@ if strcmp(respMode,'start')
 
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
+    % show face
+    Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
 else
     while waiting
@@ -90,11 +94,11 @@ else
         Screen('TextSize', options.screen.windowPtr, 50);
         DrawFormattedText(options.screen.windowPtr,options.screen.stopPredictText,'center',[],[255 255 255],[],[],[],1);
         Screen('Flip', options.screen.windowPtr);
-        
+
         keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
         RT      = toc(ticID);
         if any(keyCode == options.keys.stopSmile)
-           waiting = 0;
+            waiting = 0;
 
             % in case ESC is pressed this will be logged and saved and the experiment stops here
         elseif any(keyCode == options.keys.escape)
@@ -110,7 +114,7 @@ else
 
             % if the participant takes too long (as defined in the options)this will
             % be logged and saved as NaN. A time-out message will be displayed
-        elseif RT > options.dur.rtTimeout 
+        elseif RT > options.dur.rtTimeout
             DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);

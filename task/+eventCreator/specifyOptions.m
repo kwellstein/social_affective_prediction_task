@@ -126,8 +126,8 @@ switch expMode
         options.screen.qText       = '\n How often does this person usually smile back when receiving a smile?';
         options.screen.predictText = ['Choose to smile: use index finger to start & ring finger once your face is neutral again.' ...
             '\n Choose to stay neutral: indicate choice with middle finger.'];
-        options.screen.startPredictText = 'Choose to smile: index finger, Choose to stay neutral: middle finger';
-        options.screen.stopPredictText  = 'Finished smiling and face neutral again: ring finger';
+        options.screen.startPredictText = 'smile or neutral?';
+        options.screen.stopPredictText  = 'stopped smiling?';
         options.screen.smileHoldText    = 'stop smile button not active yet!'; %% UNUSED AS OF NOW
         options.screen.firstTagetText   = ['You reached ',options.task.firstTarget,' points! ' ...
             '\n This added AUD 5 to your reimbursement.'];
@@ -200,10 +200,10 @@ if strcmp(expMode,'debug')
     options.dur.ITI             = randi([150,250],options.task.nTrials,1);
 else
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 300;  % in ms
-    options.dur.showSmile       = 2;   % in sec
+    options.dur.showStimulus    = 400;  % in ms
+    options.dur.showSmile       = 1000;   % in sec
     options.dur.showOutcome     = 500;
-    options.dur.showPoints      = 700;
+    options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showReadyScreen =  2000;
     options.dur.rtTimeout       =  1500;
