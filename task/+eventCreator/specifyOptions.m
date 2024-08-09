@@ -93,8 +93,8 @@ switch expMode
 end
 
 options.task.name = 'SAP';
-options.task.firstTarget = 60;
-options.task.finalTarget = 100;
+options.task.firstTarget = 50;
+options.task.finalTarget = 80;
 
 %% Select Stimuli based on Randomisation list
 RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
@@ -123,12 +123,12 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 
 switch expMode
     case 'experiment'
-        options.screen.qText       = '\n How often does this person usually smile back when receiving a smile?';
+        options.screen.qText       = '\n Frequency of smiling back?';
         options.screen.predictText = ['Choose to smile: use index finger to start & ring finger once your face is neutral again.' ...
             '\n Choose to stay neutral: indicate choice with middle finger.'];
-        options.screen.startPredictText = 'smile or neutral?';
-        options.screen.stopPredictText  = 'stopped smiling?';
-        options.screen.smileHoldText    = 'stop smile button not active yet!'; %% UNUSED AS OF NOW
+        options.screen.startPredictText = '\n smile or neutral?';
+        options.screen.stopPredictText  = '\n stopped smiling?';
+        options.screen.smileHoldText    = '\n stop smile button not active yet!'; %% UNUSED AS OF NOW
         options.screen.firstTagetText   = ['You reached ',options.task.firstTarget,' points! ' ...
             '\n This added AUD 5 to your reimbursement.'];
         options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
@@ -158,8 +158,8 @@ switch expMode
             'You finished the ',options.task.name, 'task!'];
 end
 
-options.screen.qTextL = '           Never';
-options.screen.qTextR = 'Always          ';
+options.screen.qTextL = '                       Never';
+options.screen.qTextR = 'Always                      ';
 
 %% options keyboard
 % use KbDemo to identify kbName and Keycode
@@ -205,7 +205,7 @@ else
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
-    options.dur.showReadyScreen =  2000;
+    options.dur.showReadyScreen =  1500;
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
     options.dur.ITI             = randi([1500,2500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2

@@ -1,4 +1,4 @@
-function dataFile = runTask(stimuli,expMode,~,options,dataFile)
+function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %% _______________________________________________________________________________%
 %% runTask.m runs the Social Affective Prediction task
 %
@@ -33,18 +33,12 @@ function dataFile = runTask(stimuli,expMode,~,options,dataFile)
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 
-%% INITIALIZE POINTS COUNTER
-points = zeros(options.task.nTrials);
 
 %% SHOW intro
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
-
-Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI,[], options.screen.rect);
-Screen('Flip', options.screen.windowPtr);
-[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
@@ -91,16 +85,22 @@ while taskRunning
     eventListener.commandLine.wait2(options.dur.showSmile,options,dataFile,0);
 
     if resp == 1
-        ticID   = tic();
-        dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
-        % show stimulus again
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
-        dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'stop');
-        RT = toc(ticID);
-        [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
-        
+
+        if strcmp(expType,'fmri')
+            ticID   = tic();
+            dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
+            % show stimulus again
+            Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
+            dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'stop');
+            RT = toc(ticID);
+            [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
+        else
+            Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
+        end
     else
         dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
         % show stimulus again
@@ -121,18 +121,18 @@ while taskRunning
 
     % log congruency and show points slide
     if resp==outcome
-        [X,dataFile] = eventListener.logData(1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        [~,dataFile] = eventListener.logData(1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     elseif isnan(resp)
-        [X,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        [~,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
-        [X,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        [~,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
@@ -141,8 +141,7 @@ while taskRunning
 
     if strcmp(expMode,'experiment')
         % calculate total points
-        points(trial) = X;
-        score = sum(points);
+        score = sum(dataFile.SAPPrediction.congruent);
 
         if score == options.task.firstTarget
             Screen('TextSize', options.screen.windowPtr, 50);
