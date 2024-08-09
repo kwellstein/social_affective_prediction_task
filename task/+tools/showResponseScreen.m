@@ -90,7 +90,7 @@ if resp == 1
     % in case this is not the main experiment add an instruction that the stop smile button wont be active for a bit.
     if ~strcmp(expMode,'experiment')
         Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect,0);
-        DrawFormattedText(options.screen.windowPtr,options.screen.smileHoldText,'center',[],[255 255 255],[],[],[],1);
+        DrawFormattedText(options.screen.windowPtr,options.screen.stopPredictText,'center',[],[255 255 255],[],[],[],1);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
     end
