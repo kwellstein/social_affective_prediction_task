@@ -190,7 +190,7 @@ end
 if strcmp(expMode,'debug')
     options.dur.waitnxtkeypress = 2000; % in ms
     options.dur.showStimulus    = 500; % in ms
-    options.dur.showSmile       = 3;    % in sec
+    options.dur.showSmile       = 2;    % in sec
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
