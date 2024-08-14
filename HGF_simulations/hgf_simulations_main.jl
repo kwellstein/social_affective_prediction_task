@@ -5,9 +5,11 @@ using StatsPlots #For plotting
 using Random, Missings #For random number generation and missing values
 using DelimitedFiles #For reading and writing files
 using DataFrames
+using CSV
 
-path_to_folder = "HGF_simulations/"
-#path_to_folder = ""
+
+#path_to_folder = "HGF_simulations/"
+path_to_folder = ""
 
 #Read functions for creating agents and input sequences
 include(path_to_folder * "create_agent.jl")
@@ -16,19 +18,20 @@ include(path_to_folder * "helper_functions.jl")
 
 ####### OPTIONS ######
 
+# get input sequence
+#load(path_to_folder * "input_sequence.csv")#
 #How many avatars to use
-n_avatars = 4
+n_avatars = 3
+
+ input_sequence = create_input_sequence(
+   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
+   avatarTrials = 50,
+   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.80],
+   phaseLength  = [40, 15, 15, 40, 40]
+  )
 
 #Colors for the different avatars
 avatar_colors = [:red, :blue, :green, :purple]
-
-#Create input sequence
-input_sequence = create_input_sequence(
-    avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3),
-    avatarTrials = 40,
-    phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60],
-    phaseLength  = [40, 20, 20, 40, 40]
-    )
 
 
 #Agent parameter
@@ -57,9 +60,9 @@ agent_parameters = Dict(
 #Save input sequence
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
 
-for nAgent in 1:100
+#
     
-    println("......... processing agent no. $nAgent ........")
+    #println("......... processing agent no. $nAgent ........")
     #Create HGF agent that works for 4 avatars
     agent = create_premade_hgf_agent(n_avatars)
     #Set parameters
@@ -78,9 +81,9 @@ for nAgent in 1:100
     results = fit_model(agent, priors, input_sequence, simulated_actions)
     #plot(results)
     plot_parameter_distribution(results, priors)
-end
+#end
 
-give_inputs!(agent, [(1,1), (4,1), (2,0)])
+give_inputs!(agent, input_sequence)
 
 plot_belief_trajectory(agent, n_avatars, avatar_colors)
 
@@ -100,10 +103,10 @@ plot_belief_trajectory(agent, n_avatars, avatar_colors)
 
 
 
-plot(simulated_actions, color = :black, label = "actions", linetype = :scatter, title = "simulated_actions")
-for i in 1:n_avatars
-    plot!(agent, "u$i", label = "avatar $i", color = avatar_colors[i])
-end
+#
+#for i in 1:n_avatars
+###    plot!(agent, "u$i", label = "avatar $i", color = avatar_colors[i])
+#end
 
 
 if i == n_avatars

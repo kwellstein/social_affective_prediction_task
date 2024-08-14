@@ -16,7 +16,7 @@ function plot_belief_trajectory(agent, n_avatars, avatar_colors)
     #Plot the actions
     actions = get_history(agent, "action")
     popfirst!(actions)
-    plot!(actions .+ .1, color = :black, label = "actions", linetype = :scatter, title = "simulated_actions")
+   # plot!(actions .+ .1, color = :black, label = "actions", linetype = :scatter, title = "simulated_actions")
 
     #Add title
     belief_plot = title!("Belief trajectories for the four avatars")

@@ -1,3 +1,24 @@
+using DataFrames
+
+#Create input sequence
+#input_sequence = create_input_sequence(
+ #   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3),
+  #  avatarTrials = 40,
+ #   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60],
+ #   phaseLength  = [40, 20, 20, 40, 40]
+  #  )
+ # input_sequence = create_input_sequence(
+ #   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
+ #   avatarTrials = 50,
+ #   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.80],
+ #   phaseLength  = [40, 15, 15, 40, 40]
+#  )
+
+ #   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
+ #   avatarTrials = 50,
+ #   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.80],
+ #   phaseLength  = [40, 15, 15, 40, 40]
+ 
 function create_input_sequence(;
     avatarProbs,
     avatarTrials,
@@ -9,7 +30,7 @@ function create_input_sequence(;
     nTrials      = (avatarTrials*length(avatarProbs))
     respArray    = fill(0,nTrials)
     nPhases      = length(phaseLength)
-    nSmileTrials = Int(sum(phaseProb.*phaseLength))
+    nSmileTrials = Int(round(sum(phaseProb.*phaseLength)))
 
     smileIdxArray   = fill(0,nSmileTrials)
     neutralIdxArray = fill(0,Int(nTrials-nSmileTrials))
@@ -32,13 +53,13 @@ function create_input_sequence(;
         
         nPhaseTrials  = phaseLength[phase]
         currPhaseProb = phaseProb[phase]
-        nSmileTrials  = Int(currPhaseProb*nPhaseTrials)
+        nPhaseSmileTrials  = Int(round(currPhaseProb*nPhaseTrials))
         endIdx   = (startIdx+nPhaseTrials)-1
         trialIdx = shuffle(startIdx:endIdx)[1:nPhaseTrials]
-        smileTrialIdx   = trialIdx[1:nSmileTrials]
-        neutralTrialIdx = trialIdx[nSmileTrials+1:end]
+        smileTrialIdx   = trialIdx[1:nPhaseSmileTrials]
+        neutralTrialIdx = trialIdx[nPhaseSmileTrials+1:end]
 
-        for iSmiles in 1:nSmileTrials
+        for iSmiles in 1:nPhaseSmileTrials
             respArray[smileTrialIdx[iSmiles]] = 1;
         end
 
@@ -74,6 +95,7 @@ function create_input_sequence(;
         end
     else 
         diff = 0
+        addSmileTrials = zeros(nAvatars)
     end
 
     # create matrix assigning different avatar numbers in the first column
@@ -108,20 +130,30 @@ function create_input_sequence(;
             endNeutralIdx   = startNeutralIdx + nNeutral-1
         end
 
+        if iAvatar == nAvatars
+            smileIdx   = sort(smileIdxArray[startSmileIdx:end])
+            neutralIdx = sort(neutralIdxArray[startNeutralIdx:end])
+        else
         smileIdx   = sort(smileIdxArray[startSmileIdx:endSmileIdx])
         neutralIdx = sort(neutralIdxArray[startNeutralIdx:endNeutralIdx])
+        end
 
-        for i in 1:nSmiles
+        for i in 1:size(smileIdx,1)
             iSmileTrials = smileIdx[i]
             input_sequence[iSmileTrials] = [iAvatar,1]
 
         end
 
-        for i in 1:nNeutral
+        for i in 1:size(neutralIdx,1)
             iNeutralTrials = neutralIdx[i]
             input_sequence[iNeutralTrials] = [iAvatar,0]
         end
     end
 
     return input_sequence
+  #Save input sequence
+writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
+dict = Dict(input_sequence, :auto)
+
+
 end
