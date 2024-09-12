@@ -1,7 +1,5 @@
 
 using ActionModels, HierarchicalGaussianFiltering
-using Distributions
-using StatsPlots
 
 ##########################################
 ### FUNCTION FOR CREATING SUITABLE HGF ###

@@ -1,11 +1,7 @@
 
 using ActionModels, HierarchicalGaussianFiltering #For creating HGFs
-using Distributions #For defining distributions
 using StatsPlots #For plotting
-using Random, Missings #For random number generation and missing values
-using DelimitedFiles #For reading and writing files
-using DataFrames
-using CSV
+using DataFrames, CSV #For data
 
 include("helper_functions/create_agent.jl")
 include("helper_functions/create_input_sequence.jl")
