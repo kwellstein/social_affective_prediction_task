@@ -93,7 +93,7 @@ switch expMode
 end
 
 options.task.name = 'SAP';
-options.task.firstTarget = 50;
+options.task.firstTarget = 440;
 options.task.finalTarget = 80;
 
 %% Select Stimuli based on Randomisation list

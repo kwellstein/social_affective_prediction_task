@@ -25,9 +25,9 @@ n_avatars = 3
 
  input_sequence = create_input_sequence(
    avatarProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
-   avatarTrials = 50,
-   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.80],
-   phaseLength  = [40, 15, 15, 40, 40]
+   avatarTrials = 40,
+   phaseProb    = [0.80, 0.20, 0.80, 0.60, 0.20, 0.80],
+   phaseLength  = [40, 10, 10, 20, 20, 20]
   )
 
 #Colors for the different avatars

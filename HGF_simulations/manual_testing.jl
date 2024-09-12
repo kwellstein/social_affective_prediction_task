@@ -25,7 +25,7 @@ end
 begin 
 	
 	#How many avatars to use
-	n_avatars = 4
+	n_avatars = 3
 	#Colors for the different avatars
 	avatar_colors = [:red, :blue, :green, :purple]
 	

@@ -81,7 +81,7 @@ function create_input_sequence(;
     end
 
     if sum(phaseProb.*phaseLength)>nTrials/sum(avatarProbs)
-        diff = Int(sum(phaseProb.*phaseLength)-nTrials/sum(avatarProbs))
+        diff = Int(sum(phaseProb.*phaseLength)-round(nTrials/sum(avatarProbs)))
         diffValues = ones(Int(diff))
         addSmileTrials = zeros(nAvatars)
         n = 1
