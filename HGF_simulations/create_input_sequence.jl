@@ -1,5 +1,7 @@
 using DataFrames
 
+
+
 #Create input sequence
 #input_sequence = create_input_sequence(
  #   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3),
@@ -44,11 +46,11 @@ function create_input_sequence(;
         else
             @show phase
             @show sum(phaseLength[1:phase-1])
-            @show smileTrialIdx
+            @show startSmileIdx
             
             startIdx = sum(phaseLength[1:phase-1])+1
-            smileTrialArray = smileTrialIdx;
             startSmileIdx   = sum(respArray)+1
+            startNeutralIdx =
         end 
         
         nPhaseTrials  = phaseLength[phase]
