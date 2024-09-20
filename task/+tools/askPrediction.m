@@ -74,8 +74,8 @@ if strcmp(respMode,'start')
             waiting  = 0;
             resp     = NaN;
 
-        end
-    end
+        end % END STARTSMILE detection loop
+    end % END WAITING loop
 
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
@@ -122,7 +122,7 @@ else
             disp('Participant missed a trial.')
             waiting  = 0;
             resp     = NaN;
-        end
-    end
+        end % END STARTSMILE detection loop
+    end % END WAITING loop
 end
 end

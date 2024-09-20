@@ -87,7 +87,7 @@ while taskRunning
     eventListener.commandLine.wait2(options.dur.showSmile,options,dataFile,0);
 
     if resp == 1
-% I dont remember what I did this if else statement for... :p
+
         % if strcmp(expType,'fmri')
             ticID   = tic();
             dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);

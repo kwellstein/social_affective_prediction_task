@@ -44,7 +44,7 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.nAvatars = 4;
+        options.task.nAvatars = 3; % softcode!
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nTrials  = size(options.task.inputs,1);
 

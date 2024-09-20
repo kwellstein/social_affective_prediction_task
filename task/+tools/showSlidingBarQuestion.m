@@ -55,9 +55,9 @@ loopStartTime = GetSecs();
          xPosition = oscillationAmp * sin(angFreq * time + startPhase);
 
         % This is the point we want our square to oscillate around
-        squareXposL    = xCenter - (options.screen.ypixels*0.25);
-        squareXposR    = xCenter + (options.screen.ypixels*0.25);
-        squareYPos     = yCenter + (options.screen.xpixels*0.2);
+        squareXposL    = xCenter - (options.screen.ypixels*0.25);  % left tic
+        squareXposR    = xCenter + (options.screen.ypixels*0.25);  % right tic
+        % squareYPos     = yCenter + (options.screen.xpixels*0.2); % centertic
         squareXpos     = xCenter + xPosition;
 
         % create horizontal line
@@ -68,13 +68,15 @@ loopStartTime = GetSecs();
         centeredRectL    = CenterRectOnPointd(baseRect, squareXposL, squareYPos);
         centeredRectR    = CenterRectOnPointd(baseRect, squareXposR, squareYPos);
         centeredRectLong = CenterRectOnPointd(baseRectLong, xCenter, squareYPos);
-        centeredRectM    = CenterRectOnPointd(middleRect,(squareXposL+((squareXposR-squareXposL)/2)),squareYPos);
+        % centeredRectM    =
+        % CenterRectOnPointd(middleRect,(squareXposL+((squareXposR-squareXposL)/2)),squareYPos); % centertic
 
-        % Draw the rect to the screen: Screen(‘FillRect’, windowPtr [,color] [,rect] )
+        % Draw the rect to the screen: [function format: Screen(‘FillRect’,windowPtr [,color] [,rect] )]
         Screen('FillRect', options.screen.windowPtr, [],[centeredRect' centeredRectL'...
               centeredRectR' centeredRectLong']);
         Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
-        % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
+        % [function format: DrawFormattedText(win, tstring [, sx][, sy][,color]
+        % [, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])}
         DrawFormattedText(options.screen.windowPtr,options.screen.qTextL,'left',squareYPos,[255 255 255],[],[],[],1.5);
         DrawFormattedText(options.screen.windowPtr,options.screen.qTextR,'right',squareYPos,[255 255 255],[],[],[],1.5);
         Screen('Flip', options.screen.windowPtr);
@@ -83,12 +85,23 @@ loopStartTime = GetSecs();
         time = time + options.screen.flipInterval;
         
        % wait for response
-        keyCode      = eventListener.commandLine.detectKey(KBNumber,doKeyboard);
+        keyCode = eventListener.commandLine.detectKey(KBNumber,doKeyboard);
 
-        if any(keyCode == options.keys.stopSmile)
-        waitingForResp = 0;
+        if any(keyCode == options.keys.escape)
+            DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
+                'center', 'center', options.screen.grey);
+            Screen('Flip', options.screen.windowPtr);
+            dataFile        = eventListener.logEvent('exp','_abort', [],trial);
+            disp('Game was aborted.')
+            PsychPortAudio('DeleteBuffer');
+            PsychPortAudio('Close');
+            sca
+            return;
+            
+        elseif any(keyCode)
+            waitingForResp = 0;
 
-        elseif ~isempty(keyCode)
+        elseif ~isempty(keyCode) % only used when only a specific button can stop the sliding bar!
             DrawFormattedText(options.screen.windowPtr,options.messages.wrongButton,'center','center',[0 1 1],[],[],[],1.5);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
