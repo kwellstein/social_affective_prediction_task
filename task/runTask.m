@@ -176,13 +176,14 @@ end
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
-% dataFile = output.cleanDataFields(dataFile,task,nStep);
+dataFile = tools.cleanDataFields(dataFile,trial);
+dataFile.SAPQuestion.sliderStart = options.task.slidingBarStart;
 
 % save all data to
 output.saveData(options,dataFile);
 
 % show end screen
-DrawFormattedText(options.screen.windowPtr,options.screen.waitNoSmileText,'center',[],[255 255 255],[],[],[],1);
+DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.screen.expEndText,options,dataFile,0);
 

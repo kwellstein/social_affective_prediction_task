@@ -52908,3 +52908,2896 @@ WARNING: This session of your experiment was run by you with the setting Screen(
 WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
 WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
 WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' experiment
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1001
+You are running the SAP task in EXPERIMENT mode
+You are running the SAP task behaviorally
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m',100,1)">100 </a>RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
+if system_dependent('IsDebugMode')==1, dbcont; end
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m', 224)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m',224,0)">line 224</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 87)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',87,0)">line 87</a>)] 
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+
+
+PTB-INFO: This is Psychtoolbox-3 for Apple macOS, under Matlab 64-Bit (Version 3.0.19 - Build date: Dec 16 2023).
+PTB-INFO: OS support status: macOS version 13 Intel is minimally tested and supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: Installation of the PsychtoolboxKernelDriver is strongly recommended if you care about precise visual
+PTB-INFO: onset timestamping or timing. See 'help PsychtoolboxKernelDriver' for installation instructions.
+
+
+PTB-INFO: OpenGL-Renderer is Intel Inc. :: Intel(R) Iris(TM) Plus Graphics 650 :: 2.1 INTEL-20.7.2
+PTB-INFO: Renderer has 1536 MB of VRAM and a maximum 3072 MB of texture memory.
+PTB-INFO: VBL startline = 1080 , VBL Endline = -1
+PTB-INFO: Beamposition queries unsupported or defective on this system. Using basic timestamping as fallback.
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.664002 ms [60.009594 Hz]. (60 valid samples taken, stddev=0.412669 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+
+WARNING: Couldn't compute a reliable estimate of monitor refresh interval! Trouble with VBL syncing?!?
+
+
+----- ! PTB - ERROR: SYNCHRONIZATION FAILURE ! -----
+
+One or more internal checks (see Warnings above) indicate that synchronization
+of Psychtoolbox to the vertical retrace (VBL) is not working on your setup.
+
+This will seriously impair proper stimulus presentation and stimulus presentation timing!
+Please read 'help SyncTrouble' for information about how to solve or work-around the problem.
+You can force Psychtoolbox to continue, despite the severe problems, by adding the command
+Screen('Preference', 'SkipSyncTests', 1); at the top of your script, if you really know what you are doing.
+
+
+PTB-WARNING: DrawText: Failed to load external drawtext plugin [dlopen(/Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib, 0x000A): Library not loaded: /Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib
+  Referenced from: <196C96CD-AE88-31D3-B735-C650101C3062> /Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib
+  Reason: tried: '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/usr/local/lib/libfontconfig.1.dylib' (no such file), '/usr/lib/libfontconfig.1.dylib' (no such file, not in dyld cache)]. Retrying under generic name [libptbdrawtext_ftgl64.dylib].
+PTB-WARNING: DrawText: Failed to load external drawtext plugin 'libptbdrawtext_ftgl64.dylib' [dlopen(libptbdrawtext_ftgl64.dylib, 0x000A): tried: 'libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibptbdrawtext_ftgl64.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/./libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../standalone/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../sys/os/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache), 'libptbdrawtext_ftgl64.dylib' (no such file), '/usr/local/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache)]. Reverting to legacy text renderer.
+PTB-WARNING: DrawText: Functionality of Screen('DrawText') and Screen('TextBounds') may be limited and text quality may be impaired.
+PTB-WARNING: DrawText: Type 'help DrawTextPlugin' at the command prompt to receive instructions for troubleshooting.
+
+{Unrecognized function or variable 'squareYPos'.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('tools.showSlidingBarQuestion', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m', 67)" style="font-weight:bold">tools.showSlidingBarQuestion</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m',67,0)">line 67</a>)
+        centeredRect     = CenterRectOnPointd(baseRect+(xPosition-1), squareXpos, squareYPos);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m', 107)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m',107,0)">line 107</a>)
+        dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 96)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',96,0)">line 96</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+} 
+if system_dependent('IsDebugMode')==1, dbquit; end
+clear all
+
+
+PTB-INFO: There are still 21 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+INFO: PTB's Screen('Flip', 10) command seems to have missed the requested stimulus presentation deadline
+INFO: a total of 12 times out of a total of 529 flips during this session.
+
+INFO: This number is fairly accurate (and indicative of real timing problems in your own code or your system)
+INFO: if you provided requested stimulus onset times with the 'when' argument of Screen('Flip', window [, when]);
+INFO: If you called Screen('Flip', window); without the 'when' argument, this count is more of a ''mild'' indicator
+INFO: of timing behaviour than a hard reliable measurement. Large numbers may indicate problems and should at least
+INFO: deserve your closer attention. Cfe. 'help SyncTrouble', the FAQ section at www.psychtoolbox.org and the
+INFO: examples in the PDF presentation in PsychDocumentation/Psychtoolbox3-Slides.pdf for more info and timing tips.
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' experiment
+Enter 'behav' or 'fmri' fmri
+Enter participant id (PID)1001
+You are running the SAP task in EXPERIMENT mode
+You are running the the SAP task in the scanner
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m', 224)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m',224,0)">line 224</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 87)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',87,0)">line 87</a>)] 
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+
+
+PTB-INFO: This is Psychtoolbox-3 for Apple macOS, under Matlab 64-Bit (Version 3.0.19 - Build date: Dec 16 2023).
+PTB-INFO: OS support status: macOS version 13 Intel is minimally tested and supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: Installation of the PsychtoolboxKernelDriver is strongly recommended if you care about precise visual
+PTB-INFO: onset timestamping or timing. See 'help PsychtoolboxKernelDriver' for installation instructions.
+
+
+PTB-INFO: OpenGL-Renderer is Intel Inc. :: Intel(R) Iris(TM) Plus Graphics 650 :: 2.1 INTEL-20.7.2
+PTB-INFO: Renderer has 1536 MB of VRAM and a maximum 3072 MB of texture memory.
+PTB-INFO: VBL startline = 1080 , VBL Endline = -1
+PTB-INFO: Beamposition queries unsupported or defective on this system. Using basic timestamping as fallback.
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.661864 ms [60.017294 Hz]. (50 valid samples taken, stddev=0.081269 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+{Unable to resolve the name 'store.rtbox.rthandle'.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventListener.commandLine.detectKey', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/+commandLine/detectKey.m', 22)" style="font-weight:bold">eventListener.commandLine.detectKey</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/+commandLine/detectKey.m',22,0)">line 22</a>)
+    [~, keyCode, ~] = PsychRTBox('GetSecs', store.rtbox.rthandle);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventListener.commandLine.checkEscape', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/+commandLine/checkEscape.m', 25)" style="font-weight:bold">eventListener.commandLine.checkEscape</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/+commandLine/checkEscape.m',25,0)">line 25</a>)
+keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventListener.commandLine.wait2', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/+commandLine/wait2.m', 69)" style="font-weight:bold">eventListener.commandLine.wait2</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/+commandLine/wait2.m',69,0)">line 69</a>)
+            [options,abort] = eventListener.commandLine.checkEscape(options,dataFile,trial);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m', 41)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m',41,0)">line 41</a>)
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 96)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',96,0)">line 96</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+} 
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/+commandLine/detectKey.m',22,1)">22  </a>    [~, keyCode, ~] = PsychRTBox('GetSecs', store.rtbox.rthandle);
+if system_dependent('IsDebugMode')==1, dbquit; end
+clear all
+
+
+PTB-INFO: There are still 23 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' experiment
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1001
+You are running the SAP task in EXPERIMENT mode
+You are running the SAP task behaviorally
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m', 224)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m',224,0)">line 224</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 87)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',87,0)">line 87</a>)] 
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+
+
+PTB-INFO: This is Psychtoolbox-3 for Apple macOS, under Matlab 64-Bit (Version 3.0.19 - Build date: Dec 16 2023).
+PTB-INFO: OS support status: macOS version 13 Intel is minimally tested and supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: Installation of the PsychtoolboxKernelDriver is strongly recommended if you care about precise visual
+PTB-INFO: onset timestamping or timing. See 'help PsychtoolboxKernelDriver' for installation instructions.
+
+
+PTB-INFO: OpenGL-Renderer is Intel Inc. :: Intel(R) Iris(TM) Plus Graphics 650 :: 2.1 INTEL-20.7.2
+PTB-INFO: Renderer has 1536 MB of VRAM and a maximum 3072 MB of texture memory.
+PTB-INFO: VBL startline = 1080 , VBL Endline = -1
+PTB-INFO: Beamposition queries unsupported or defective on this system. Using basic timestamping as fallback.
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.679977 ms [59.952121 Hz]. (50 valid samples taken, stddev=0.456201 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+
+WARNING: Couldn't compute a reliable estimate of monitor refresh interval! Trouble with VBL syncing?!?
+
+
+----- ! PTB - ERROR: SYNCHRONIZATION FAILURE ! -----
+
+One or more internal checks (see Warnings above) indicate that synchronization
+of Psychtoolbox to the vertical retrace (VBL) is not working on your setup.
+
+This will seriously impair proper stimulus presentation and stimulus presentation timing!
+Please read 'help SyncTrouble' for information about how to solve or work-around the problem.
+You can force Psychtoolbox to continue, despite the severe problems, by adding the command
+Screen('Preference', 'SkipSyncTests', 1); at the top of your script, if you really know what you are doing.
+
+
+PTB-WARNING: DrawText: Failed to load external drawtext plugin [dlopen(/Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib, 0x000A): Library not loaded: /Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib
+  Referenced from: <196C96CD-AE88-31D3-B735-C650101C3062> /Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib
+  Reason: tried: '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/usr/local/lib/libfontconfig.1.dylib' (no such file), '/usr/lib/libfontconfig.1.dylib' (no such file, not in dyld cache)]. Retrying under generic name [libptbdrawtext_ftgl64.dylib].
+PTB-WARNING: DrawText: Failed to load external drawtext plugin 'libptbdrawtext_ftgl64.dylib' [dlopen(libptbdrawtext_ftgl64.dylib, 0x000A): tried: 'libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibptbdrawtext_ftgl64.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/./libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../standalone/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../sys/os/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache), 'libptbdrawtext_ftgl64.dylib' (no such file), '/usr/local/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache)]. Reverting to legacy text renderer.
+PTB-WARNING: DrawText: Functionality of Screen('DrawText') and Screen('TextBounds') may be limited and text quality may be impaired.
+PTB-WARNING: DrawText: Type 'help DrawTextPlugin' at the command prompt to receive instructions for troubleshooting.
+
+{Unrecognized function or variable 'centeredRectM'.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('tools.showSlidingBarQuestion', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m', 77)" style="font-weight:bold">tools.showSlidingBarQuestion</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m',77,0)">line 77</a>)
+        Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m', 107)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m',107,0)">line 107</a>)
+        dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 96)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',96,0)">line 96</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+} 
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m',77,1)">77  </a>        Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
+if system_dependent('IsDebugMode')==1, dbquit; end
+clear all
+
+
+PTB-INFO: There are still 21 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+INFO: PTB's Screen('Flip', 10) command seems to have missed the requested stimulus presentation deadline
+INFO: a total of 5 times out of a total of 46 flips during this session.
+
+INFO: This number is fairly accurate (and indicative of real timing problems in your own code or your system)
+INFO: if you provided requested stimulus onset times with the 'when' argument of Screen('Flip', window [, when]);
+INFO: If you called Screen('Flip', window); without the 'when' argument, this count is more of a ''mild'' indicator
+INFO: of timing behaviour than a hard reliable measurement. Large numbers may indicate problems and should at least
+INFO: deserve your closer attention. Cfe. 'help SyncTrouble', the FAQ section at www.psychtoolbox.org and the
+INFO: examples in the PDF presentation in PsychDocumentation/Psychtoolbox3-Slides.pdf for more info and timing tips.
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' experiment
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1002
+You are running the SAP task in EXPERIMENT mode
+You are running the SAP task behaviorally
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+
+
+PTB-INFO: This is Psychtoolbox-3 for Apple macOS, under Matlab 64-Bit (Version 3.0.19 - Build date: Dec 16 2023).
+PTB-INFO: OS support status: macOS version 13 Intel is minimally tested and supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: Installation of the PsychtoolboxKernelDriver is strongly recommended if you care about precise visual
+PTB-INFO: onset timestamping or timing. See 'help PsychtoolboxKernelDriver' for installation instructions.
+
+
+PTB-INFO: OpenGL-Renderer is Intel Inc. :: Intel(R) Iris(TM) Plus Graphics 650 :: 2.1 INTEL-20.7.2
+PTB-INFO: Renderer has 1536 MB of VRAM and a maximum 3072 MB of texture memory.
+PTB-INFO: VBL startline = 1080 , VBL Endline = -1
+PTB-INFO: Beamposition queries unsupported or defective on this system. Using basic timestamping as fallback.
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.662290 ms [60.015759 Hz]. (50 valid samples taken, stddev=0.199354 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-WARNING: DrawText: Failed to load external drawtext plugin [dlopen(/Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib, 0x000A): Library not loaded: /Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib
+  Referenced from: <196C96CD-AE88-31D3-B735-C650101C3062> /Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib
+  Reason: tried: '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/usr/local/lib/libfontconfig.1.dylib' (no such file), '/usr/lib/libfontconfig.1.dylib' (no such file, not in dyld cache)]. Retrying under generic name [libptbdrawtext_ftgl64.dylib].
+PTB-WARNING: DrawText: Failed to load external drawtext plugin 'libptbdrawtext_ftgl64.dylib' [dlopen(libptbdrawtext_ftgl64.dylib, 0x000A): tried: 'libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibptbdrawtext_ftgl64.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/./libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../standalone/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../sys/os/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache), 'libptbdrawtext_ftgl64.dylib' (no such file), '/usr/local/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache)]. Reverting to legacy text renderer.
+PTB-WARNING: DrawText: Functionality of Screen('DrawText') and Screen('TextBounds') may be limited and text quality may be impaired.
+PTB-WARNING: DrawText: Type 'help DrawTextPlugin' at the command prompt to receive instructions for troubleshooting.
+
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m',126,1)">126 </a>        [~,dataFile] = eventListener.logData(1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+if system_dependent('IsDebugMode')==1, dbcont; end
+dataFile.SAPPrediction
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+           rt: [200×1 double]
+     response: [200×2 double]
+    congruent: [200×1 double]
+
+dataFile.SAPPrediction.response
+
+ans =
+
+         0    1.5861
+    1.0000   16.9148
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+
+if system_dependent('IsDebugMode')==1, dbcont; end
+trial
+
+trial =
+
+   120
+
+dataFile.events
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+           exp_startTime: 8.3277e+04
+      practice_startTime: []
+      practice_intro_end: []
+    experiment_startTime: 38.8896
+    experiment_intro_end: []
+               exp_abort: []
+         exp_missedTrial: []
+       exp_stopCriterion: []
+             exp_timeOut: []
+                 exp_end: []
+
+dataFile.SAPPrediction.response
+
+ans =
+
+   1.0e+03 *
+
+         0    0.0016
+    0.0010    0.0169
+         0    0.0640
+    0.0010    0.0773
+    0.0010    0.0897
+         0    0.0999
+         0    0.1119
+    0.0010    0.1233
+         0    0.1322
+    0.0010    0.1410
+    0.0010    0.1496
+         0    0.1579
+    0.0010    0.1671
+    0.0010    0.1778
+         0    0.1861
+    0.0010    0.1975
+    0.0010    0.2060
+    0.0010    0.2142
+    0.0010    0.2238
+         0    0.2338
+         0    0.2432
+         0    0.2554
+    0.0010    0.2654
+    0.0010    0.2744
+    0.0010    0.2870
+         0    0.2963
+         0    0.3054
+         0    0.3152
+         0    0.3271
+    0.0010    0.3352
+         0    0.3456
+    0.0010    0.3539
+         0    0.3634
+         0    0.3722
+         0    0.3833
+    0.0010    0.3928
+    0.0010    0.4109
+         0    0.4193
+         0    0.4289
+         0    0.4392
+    0.0010    0.4778
+         0    0.4857
+         0    0.4941
+         0    0.5023
+    0.0010    0.5113
+    0.0010    0.5197
+    0.0010    0.5287
+         0    0.5377
+         0    0.5471
+    0.0010    0.5555
+         0    0.5648
+         0    0.5738
+    0.0010    0.5836
+         0    0.5931
+    0.0010    0.6037
+         0    0.6127
+         0    0.6215
+         0    0.6305
+         0    0.6389
+    0.0010    0.6475
+         0    0.6564
+    0.0010    0.6872
+    0.0010    0.6979
+         0    0.7075
+         0    0.7151
+         0    0.7319
+    0.0010    0.7401
+         0    0.7492
+         0    0.7580
+         0    0.7675
+    0.0010    0.7773
+         0    0.7877
+    0.0010    0.7963
+         0    0.8055
+         0    0.8172
+    0.0010    0.8265
+    0.0010    0.8385
+         0    0.8558
+    0.0010    0.8699
+         0    0.8784
+    0.0010    0.8865
+    0.0010    0.8956
+         0    0.9042
+    0.0010    0.9133
+         0    0.9272
+    0.0010    0.9361
+         0    0.9505
+         0    0.9627
+    0.0010    0.9714
+    0.0010    0.9832
+         0    0.9908
+    0.0010    0.9991
+         0    1.0079
+         0    1.0162
+         0    1.0280
+    0.0010    1.0405
+         0    1.0496
+         0    1.0578
+    0.0010    1.0670
+    0.0010    1.0762
+         0    1.0853
+    0.0010    1.0960
+         0    1.1074
+    0.0010    1.1147
+         0    1.1248
+         0    1.1350
+         0    1.1435
+    0.0010    1.1582
+         0    1.1727
+    0.0010    1.1803
+    0.0010    1.1917
+    0.0010    1.2048
+    0.0010    1.2141
+         0    1.2222
+         0    1.2329
+    0.0010    1.2450
+    0.0010    1.2560
+    0.0010    1.2643
+    0.0010    1.2741
+         0    1.2830
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+
+dataFile.SAPPrediction.rt
+
+ans =
+
+    1.1651
+    0.7683
+    2.3504
+    1.8816
+    2.1971
+    1.4846
+    2.1164
+    1.6006
+    0.4489
+    0.6512
+    0.9348
+    0.4811
+    1.0670
+    3.1671
+    0.5378
+    0.8660
+    0.6238
+    0.6819
+    1.7051
+    0.4825
+    0.8488
+    2.5974
+    0.6975
+    0.5279
+    0.6235
+    0.6835
+    1.1465
+    0.5755
+    1.3715
+    0.5142
+    0.7353
+    0.6170
+    0.6814
+    0.5512
+    1.5183
+    1.6149
+    0.7149
+    0.5816
+    1.4656
+    2.4799
+   30.7099
+    0.4982
+    0.6029
+    0.5991
+    1.3686
+    0.9354
+    0.5312
+    0.5321
+    1.6307
+    0.1797
+    1.0168
+    0.3369
+    1.2891
+    0.9728
+    1.1005
+    0.5380
+    1.1019
+    0.7049
+    0.4678
+    0.6667
+    0.5719
+   23.0216
+    1.3501
+    0.8202
+    0.3495
+    8.7137
+    0.8492
+    0.4214
+    1.1876
+    1.3382
+    0.5156
+    0.5337
+    0.9179
+    0.9641
+    2.5498
+    1.9193
+    1.0534
+    0.9525
+    3.9168
+    0.5684
+    0.5839
+    0.4624
+    0.5807
+    1.9024
+    0.6932
+    0.9511
+    6.3022
+    1.4318
+    1.0030
+    3.5695
+    0.1496
+    0.7073
+    1.2571
+    0.3998
+    0.7601
+    0.3674
+    0.4843
+    0.5014
+    0.8156
+    0.2173
+    0.3855
+    0.8978
+    0.5724
+    0.2348
+    0.3858
+    0.6282
+    0.8323
+    0.8300
+    1.2475
+    0.5154
+    0.6807
+    0.3552
+    0.7655
+    0.4370
+    0.8842
+    0.8150
+    0.9241
+    0.4297
+    1.5674
+    1.1086
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+
+dataFile.SAPPrediction.congruent
+
+ans =
+
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+    -1
+     1
+     1
+     1
+     1
+     1
+    -1
+     1
+     1
+     1
+     1
+     1
+    -1
+    -1
+     1
+     1
+     1
+    -1
+    -1
+    -1
+     1
+     1
+    -1
+     1
+    -1
+     1
+    -1
+     1
+     1
+    -1
+    -1
+    -1
+    -1
+    -1
+     1
+     1
+    -1
+    -1
+    -1
+     1
+     1
+     1
+    -1
+    -1
+     1
+     1
+     1
+    -1
+     1
+    -1
+    -1
+     1
+     1
+     1
+    -1
+    -1
+    -1
+     1
+    -1
+    -1
+     1
+    -1
+     1
+     1
+     1
+    -1
+    -1
+    -1
+     1
+    -1
+    -1
+    -1
+    -1
+    -1
+     1
+    -1
+     1
+    -1
+    -1
+     1
+    -1
+    -1
+     1
+    -1
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+    -1
+     1
+    -1
+    -1
+    -1
+     1
+    -1
+     1
+    -1
+     1
+     1
+    -1
+     1
+     1
+     1
+     1
+    -1
+    -1
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+
+sum(dataFile.SAPPrediction.congruent)
+
+ans =
+
+    16
+
+outcome
+
+outcome =
+
+     1
+
+score
+
+score =
+
+    16
+
+dataFile.descr.date
+
+ans = 
+
+  <a href="matlab:helpPopup('datetime')" style="font-weight:bold">datetime</a>
+
+   20-Sep-2024 14:00:59
+
+dataFile.descr.expMode
+
+ans =
+
+    'experiment'
+
+dataFile.descr.expType
+
+ans =
+
+    'behav'
+
+dataFile.descr.PPID
+
+ans =
+
+    '1002'
+
+dataFile.events
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+           exp_startTime: 8.3277e+04
+      practice_startTime: []
+      practice_intro_end: []
+    experiment_startTime: 38.8896
+    experiment_intro_end: []
+               exp_abort: []
+         exp_missedTrial: []
+       exp_stopCriterion: []
+             exp_timeOut: []
+                 exp_end: []
+
+dataFile.SAPQuestion.response
+
+ans =
+
+   1.0e+03 *
+
+   -0.2031    0.0074
+   -0.0086    0.0221
+   -0.0145    0.0715
+   -0.0515    0.0821
+   -0.2609    0.0927
+    0.2424    0.1051
+    0.1259    0.1177
+    0.1144    0.1262
+   -0.0866    0.1359
+    0.1962    0.1443
+    0.1213    0.1526
+   -0.1069    0.1619
+   -0.1223    0.1704
+   -0.2699    0.1805
+   -0.1399    0.1926
+    0.1169    0.2005
+   -0.2640    0.2089
+   -0.1215    0.2171
+    0.1402    0.2285
+   -0.0340    0.2385
+   -0.1380    0.2483
+   -0.1378    0.2606
+    0.0790    0.2688
+    0.1137    0.2809
+    0.2105    0.2904
+   -0.1077    0.2999
+   -0.2083    0.3104
+    0.0448    0.3218
+   -0.0880    0.3304
+    0.1742    0.3385
+    0.0637    0.3486
+    0.0562    0.3569
+   -0.1022    0.3676
+   -0.0292    0.3774
+   -0.1656    0.3867
+   -0.2132    0.3970
+    0.1682    0.4141
+   -0.2352    0.4227
+   -0.1801    0.4328
+    0.2267    0.4432
+   -0.2699    0.4806
+   -0.2328    0.4895
+   -0.1661    0.4973
+    0.2689    0.5055
+    0.0496    0.5143
+   -0.2700    0.5226
+    0.1586    0.5321
+   -0.0846    0.5409
+    0.2464    0.5515
+   -0.0870    0.5585
+   -0.1250    0.5687
+    0.0088    0.5775
+    0.2699    0.5866
+    0.0139    0.5980
+    0.0047    0.6070
+    0.0868    0.6165
+    0.0693    0.6256
+   -0.1008    0.6345
+   -0.1469    0.6430
+   -0.2594    0.6502
+   -0.1253    0.6601
+   -0.0093    0.6914
+   -0.0265    0.7017
+   -0.1802    0.7105
+   -0.0012    0.7187
+    0.0034    0.7354
+   -0.1153    0.7431
+   -0.2088    0.7525
+   -0.0757    0.7615
+   -0.1232    0.7727
+   -0.1062    0.7815
+    0.1043    0.7916
+    0.1577    0.8000
+    0.1086    0.8102
+   -0.2170    0.8204
+   -0.1714    0.8311
+   -0.1106    0.8472
+    0.0751    0.8612
+    0.0794    0.8728
+    0.0126    0.8814
+   -0.2561    0.8900
+   -0.2675    0.8989
+   -0.2385    0.9072
+   -0.2509    0.9180
+   -0.0926    0.9306
+    0.0594    0.9388
+    0.2144    0.9573
+   -0.1384    0.9664
+   -0.0901    0.9746
+   -0.2547    0.9862
+   -0.2541    0.9941
+    0.1810    1.0020
+    0.0644    1.0118
+   -0.1336    1.0232
+   -0.2126    1.0354
+   -0.0184    1.0439
+   -0.0638    1.0530
+   -0.1798    1.0615
+    0.1181    1.0714
+    0.1906    1.0800
+   -0.0844    1.0905
+    0.0703    1.1016
+   -0.2397    1.1105
+    0.0751    1.1193
+   -0.2045    1.1303
+    0.0452    1.1387
+    0.1301    1.1533
+    0.2117    1.1645
+   -0.1414    1.1759
+   -0.0066    1.1859
+    0.0644    1.1970
+    0.1251    1.2085
+    0.1271    1.2171
+   -0.1567    1.2273
+   -0.2025    1.2401
+    0.1392    1.2483
+    0.1934    1.2590
+   -0.1319    1.2678
+    0.2568    1.2773
+   -0.1461    1.2871
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+         0         0
+
+dataFile.SAPQuestion.rt
+
+ans =
+
+    3.2694
+    2.6378
+    4.9301
+    2.2695
+    0.4960
+    2.7293
+    3.2732
+    0.3652
+    1.1939
+    0.7420
+    0.4923
+    1.4632
+    0.7022
+    0.1649
+    3.9877
+    0.4341
+    0.3502
+    0.4314
+    2.2153
+    2.1289
+    2.5828
+    2.7155
+    0.8004
+    4.0293
+    0.8664
+    1.1452
+    2.3994
+    4.0761
+    0.7536
+    0.7152
+    0.5157
+    0.4652
+    1.6852
+    2.6743
+    0.8672
+    1.6167
+    0.6190
+    0.8309
+    1.3786
+    1.4671
+    0.2660
+    1.3004
+    0.7122
+    0.6647
+    0.5302
+    0.4045
+    0.7858
+    0.6313
+    1.8886
+    0.4332
+    1.4319
+    1.1671
+    0.4829
+    2.2910
+    0.7823
+    1.2204
+    1.5657
+    1.3986
+    1.5940
+    0.0996
+    1.1009
+    1.6642
+    1.2170
+    0.4712
+    1.0693
+    0.9779
+    0.4656
+    0.7027
+    0.9196
+    2.6609
+    1.6685
+    1.3170
+    1.0964
+    2.1825
+    0.6393
+    2.0879
+    6.1201
+    2.8836
+    0.3125
+    0.5027
+    0.9137
+    0.8019
+    0.4536
+    2.0985
+    0.8697
+    0.1344
+    4.2500
+    1.2271
+    0.6682
+    0.5049
+    0.7860
+    0.3150
+    1.3320
+    4.4814
+    4.9352
+    0.8831
+    0.9060
+    1.1738
+    1.7842
+    1.2332
+    2.7266
+    3.0800
+    0.6162
+    2.0000
+    2.9655
+    1.1850
+    7.2760
+    3.7510
+    0.6680
+    3.0492
+    2.8036
+    1.2003
+    0.4628
+    2.5646
+    4.7330
+    0.8025
+    0.5040
+    1.0135
+    0.6832
+    1.5992
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+
+dataFile.SAPSmileTime
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+    rt: [200×1 double]
+
+dataFile.SAPSmileTime.rt
+
+ans =
+
+         0
+    4.6216
+         0
+    3.4007
+    2.2815
+         0
+         0
+    1.9009
+         0
+    1.6596
+    1.3139
+         0
+    1.5470
+    1.3474
+         0
+    1.8466
+    1.3173
+    1.8297
+    3.4511
+         0
+         0
+         0
+    1.9466
+    5.4152
+    2.1342
+         0
+         0
+         0
+         0
+    2.8506
+         0
+    2.6032
+         0
+         0
+         0
+   11.0324
+    1.6825
+         0
+         0
+         0
+    1.2849
+         0
+         0
+         0
+    1.4791
+    1.6834
+    1.7993
+         0
+         0
+    1.4331
+         0
+         0
+    1.7632
+         0
+    2.0815
+         0
+         0
+         0
+         0
+    1.4636
+         0
+    3.1512
+    2.4851
+         0
+         0
+         0
+    1.9958
+         0
+         0
+         0
+    3.4488
+         0
+    2.1002
+         0
+         0
+    4.1793
+   10.3112
+         0
+    1.4489
+         0
+    1.7011
+    1.7991
+         0
+    6.7978
+         0
+    1.3824
+         0
+         0
+    1.8980
+    1.5134
+         0
+    1.2707
+         0
+         0
+         0
+    1.9981
+         0
+         0
+    2.9650
+    1.9632
+         0
+    4.3124
+         0
+    3.1163
+         0
+         0
+         0
+    6.4464
+         0
+    4.5280
+    6.7972
+    2.1991
+    1.6993
+         0
+         0
+    4.0655
+    1.6145
+    1.9313
+    1.7656
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+
+dataFile.SAPsummary
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+    points: 0
+
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+output/saveData.m', 3)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+output/saveData.m',3,0)">line 3</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m', 182)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m',182,0)">line 182</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 96)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',96,0)">line 96</a>)] 
+Enter 'debug', 'practice' or 'experiment' {Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 55)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',55,0)">line 55</a>)
+} 
+rand(1)*100
+
+ans =
+
+   65.5573
+
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' experiment
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1001
+You are running the SAP task in EXPERIMENT mode
+You are running the SAP task behaviorally
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m', 224)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/specifyOptions.m',224,0)">line 224</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 87)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',87,0)">line 87</a>)] 
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+
+
+PTB-INFO: This is Psychtoolbox-3 for Apple macOS, under Matlab 64-Bit (Version 3.0.19 - Build date: Dec 16 2023).
+PTB-INFO: OS support status: macOS version 13 Intel is minimally tested and supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: Installation of the PsychtoolboxKernelDriver is strongly recommended if you care about precise visual
+PTB-INFO: onset timestamping or timing. See 'help PsychtoolboxKernelDriver' for installation instructions.
+
+
+PTB-INFO: OpenGL-Renderer is Intel Inc. :: Intel(R) Iris(TM) Plus Graphics 650 :: 2.1 INTEL-20.7.2
+PTB-INFO: Renderer has 1536 MB of VRAM and a maximum 3072 MB of texture memory.
+PTB-INFO: VBL startline = 1080 , VBL Endline = -1
+PTB-INFO: Beamposition queries unsupported or defective on this system. Using basic timestamping as fallback.
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.666706 ms [59.999858 Hz]. (50 valid samples taken, stddev=0.137208 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-WARNING: DrawText: Failed to load external drawtext plugin [dlopen(/Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib, 0x000A): Library not loaded: /Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib
+  Referenced from: <196C96CD-AE88-31D3-B735-C650101C3062> /Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib
+  Reason: tried: '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/usr/local/lib/libfontconfig.1.dylib' (no such file), '/usr/lib/libfontconfig.1.dylib' (no such file, not in dyld cache)]. Retrying under generic name [libptbdrawtext_ftgl64.dylib].
+PTB-WARNING: DrawText: Failed to load external drawtext plugin 'libptbdrawtext_ftgl64.dylib' [dlopen(libptbdrawtext_ftgl64.dylib, 0x000A): tried: 'libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibptbdrawtext_ftgl64.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/./libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../standalone/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../sys/os/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache), 'libptbdrawtext_ftgl64.dylib' (no such file), '/usr/local/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache)]. Reverting to legacy text renderer.
+PTB-WARNING: DrawText: Functionality of Screen('DrawText') and Screen('TextBounds') may be limited and text quality may be impaired.
+PTB-WARNING: DrawText: Type 'help DrawTextPlugin' at the command prompt to receive instructions for troubleshooting.
+
+{Dot indexing is not supported for variables of this type.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventListener.logEvent', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/logEvent.m', 30)" style="font-weight:bold">eventListener.logEvent</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/logEvent.m',30,0)">line 30</a>)
+if   islogical(dataFile.events.(eventName))
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('tools.showSlidingBarQuestion', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m', 94)" style="font-weight:bold">tools.showSlidingBarQuestion</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m',94,0)">line 94</a>)
+            dataFile        = eventListener.logEvent('exp','_abort', [],trial);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m', 107)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m',107,0)">line 107</a>)
+        dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 96)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',96,0)">line 96</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+} 
+<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventListener/logEvent.m',30,1)">30  </a>if   islogical(dataFile.events.(eventName))
+if system_dependent('IsDebugMode')==1, dbquit; end
+rand(2)*100
+
+ans =
+
+    6.0019   63.1189
+   86.6750   35.5074
+
+rand
+
+ans =
+
+    0.9970
+
+rand(1)
+
+ans =
+
+    0.2242
+
+rand(2)
+
+ans =
+
+    0.6525    0.3872
+    0.6050    0.1422
+
+rand(1)
+
+ans =
+
+    0.0251
+
+help rand
+ <strong>rand</strong> Uniformly distributed pseudorandom numbers.
+    R = <strong>rand</strong>(N) returns an N-by-N matrix containing pseudorandom values drawn
+    from the standard uniform distribution on the open interval(0,1).  <strong>rand</strong>(M,N)
+    or <strong>rand</strong>([M,N]) returns an M-by-N matrix.  <strong>rand</strong>(M,N,P,...) or
+    <strong>rand</strong>([M,N,P,...]) returns an M-by-N-by-P-by-... array.  <strong>rand</strong> returns a
+    scalar.  <strong>rand</strong>(SIZE(A)) returns an array the same size as A.
+ 
+    Note: The size inputs M, N, P, ... should be nonnegative integers.
+    Negative integers are treated as 0.
+ 
+    R = <strong>rand</strong>(..., CLASSNAME) returns an array of uniform values of the 
+    specified class. CLASSNAME can be 'double' or 'single'.
+ 
+    R = <strong>rand</strong>(..., 'like', Y) is an array of uniform values with the same
+    data type and complexity (real or complex) as the numeric variable Y.
+ 
+    The sequence of numbers produced by <strong>rand</strong> is determined by the settings of
+    the uniform random number generator that underlies <strong>rand</strong>, RANDI, and RANDN.
+    Control that shared random number generator using RNG.
+ 
+    Examples:
+ 
+       Example 1: Generate values from the uniform distribution on the
+       interval (a, b).
+          r = a + (b-a).*rand(100,1);
+ 
+       Example 2: Use the RANDI function, instead of <strong>rand</strong>, to generate
+       integer values from the uniform distribution on the set 1:100.
+          r = randi(100,1,5);
+ 
+       Example 3: Reset the random number generator used by <strong>rand</strong>, RANDI, and
+       RANDN to its default startup settings, so that <strong>rand</strong> produces the same
+       random numbers as if you restarted MATLAB.
+          rng('default')
+          rand(1,5)
+ 
+       Example 4: Save the settings for the random number generator used by
+       <strong>rand</strong>, RANDI, and RANDN, generate 5 values from <strong>rand</strong>, restore the
+       settings, and repeat those values.
+          s = rng
+          u1 = rand(1,5)
+          rng(s);
+          u2 = rand(1,5) % contains exactly the same values as u1
+ 
+       Example 5: Reinitialize the random number generator used by <strong>rand</strong>,
+       RANDI, and RANDN with a seed based on the current time.  <strong>rand</strong> will
+       return different values each time you do this.  NOTE: It is usually
+       not necessary to do this more than once per MATLAB session.
+          rng('shuffle');
+          rand(1,5)
+ 
+    See <a href="matlab:helpview([docroot '\techdoc\math\math.map'],'update_random_number_generator')">Replace Discouraged Syntaxes of rand and randn</a> to use RNG to replace
+    <strong>rand</strong> with the 'seed', 'state', or 'twister' inputs.
+ 
+    See also <a href="matlab:help randi -displayBanner">randi</a>, <a href="matlab:help randn -displayBanner">randn</a>, <a href="matlab:help rng -displayBanner">rng</a>, <a href="matlab:help RandStream -displayBanner">RandStream</a>, <a href="matlab:help RandStream/rand -displayBanner">RandStream/rand</a>,
+             <a href="matlab:help sprand -displayBanner">sprand</a>, <a href="matlab:help sprandn -displayBanner">sprandn</a>, <a href="matlab:help randperm -displayBanner">randperm</a>.
+
+    <a href="matlab:doc rand">Documentation for rand</a>
+    <a href="matlab:matlab.lang.internal.introspective.overloads.displayOverloads('rand')">Other uses of rand</a>
+
+Screen('CloseAll')
+
+
+PTB-INFO: There are still 21 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+INFO: PTB's Screen('Flip', 10) command seems to have missed the requested stimulus presentation deadline
+INFO: a total of 55 times out of a total of 1039 flips during this session.
+
+INFO: This number is fairly accurate (and indicative of real timing problems in your own code or your system)
+INFO: if you provided requested stimulus onset times with the 'when' argument of Screen('Flip', window [, when]);
+INFO: If you called Screen('Flip', window); without the 'when' argument, this count is more of a ''mild'' indicator
+INFO: of timing behaviour than a hard reliable measurement. Large numbers may indicate problems and should at least
+INFO: deserve your closer attention. Cfe. 'help SyncTrouble', the FAQ section at www.psychtoolbox.org and the
+INFO: examples in the PDF presentation in PsychDocumentation/Psychtoolbox3-Slides.pdf for more info and timing tips.
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+help rand
+ <strong>rand</strong> Uniformly distributed pseudorandom numbers.
+    R = <strong>rand</strong>(N) returns an N-by-N matrix containing pseudorandom values drawn
+    from the standard uniform distribution on the open interval(0,1).  <strong>rand</strong>(M,N)
+    or <strong>rand</strong>([M,N]) returns an M-by-N matrix.  <strong>rand</strong>(M,N,P,...) or
+    <strong>rand</strong>([M,N,P,...]) returns an M-by-N-by-P-by-... array.  <strong>rand</strong> returns a
+    scalar.  <strong>rand</strong>(SIZE(A)) returns an array the same size as A.
+ 
+    Note: The size inputs M, N, P, ... should be nonnegative integers.
+    Negative integers are treated as 0.
+ 
+    R = <strong>rand</strong>(..., CLASSNAME) returns an array of uniform values of the 
+    specified class. CLASSNAME can be 'double' or 'single'.
+ 
+    R = <strong>rand</strong>(..., 'like', Y) is an array of uniform values with the same
+    data type and complexity (real or complex) as the numeric variable Y.
+ 
+    The sequence of numbers produced by <strong>rand</strong> is determined by the settings of
+    the uniform random number generator that underlies <strong>rand</strong>, RANDI, and RANDN.
+    Control that shared random number generator using RNG.
+ 
+    Examples:
+ 
+       Example 1: Generate values from the uniform distribution on the
+       interval (a, b).
+          r = a + (b-a).*rand(100,1);
+ 
+       Example 2: Use the RANDI function, instead of <strong>rand</strong>, to generate
+       integer values from the uniform distribution on the set 1:100.
+          r = randi(100,1,5);
+ 
+       Example 3: Reset the random number generator used by <strong>rand</strong>, RANDI, and
+       RANDN to its default startup settings, so that <strong>rand</strong> produces the same
+       random numbers as if you restarted MATLAB.
+          rng('default')
+          rand(1,5)
+ 
+       Example 4: Save the settings for the random number generator used by
+       <strong>rand</strong>, RANDI, and RANDN, generate 5 values from <strong>rand</strong>, restore the
+       settings, and repeat those values.
+          s = rng
+          u1 = rand(1,5)
+          rng(s);
+          u2 = rand(1,5) % contains exactly the same values as u1
+ 
+       Example 5: Reinitialize the random number generator used by <strong>rand</strong>,
+       RANDI, and RANDN with a seed based on the current time.  <strong>rand</strong> will
+       return different values each time you do this.  NOTE: It is usually
+       not necessary to do this more than once per MATLAB session.
+          rng('shuffle');
+          rand(1,5)
+ 
+    See <a href="matlab:helpview([docroot '\techdoc\math\math.map'],'update_random_number_generator')">Replace Discouraged Syntaxes of rand and randn</a> to use RNG to replace
+    <strong>rand</strong> with the 'seed', 'state', or 'twister' inputs.
+ 
+    See also <a href="matlab:help randi -displayBanner">randi</a>, <a href="matlab:help randn -displayBanner">randn</a>, <a href="matlab:help rng -displayBanner">rng</a>, <a href="matlab:help RandStream -displayBanner">RandStream</a>, <a href="matlab:help RandStream/rand -displayBanner">RandStream/rand</a>,
+             <a href="matlab:help sprand -displayBanner">sprand</a>, <a href="matlab:help sprandn -displayBanner">sprandn</a>, <a href="matlab:help randperm -displayBanner">randperm</a>.
+
+    <a href="matlab:doc rand">Documentation for rand</a>
+    <a href="matlab:matlab.lang.internal.introspective.overloads.displayOverloads('rand')">Other uses of rand</a>
+
+dataFile.events
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+           exp_startTime: 8.5162e+04
+      practice_startTime: []
+      practice_intro_end: []
+    experiment_startTime: []
+    experiment_intro_end: []
+               exp_abort: []
+         exp_missedTrial: []
+       exp_stopCriterion: []
+             exp_timeOut: []
+                 exp_end: []
+
+dataFile.SAPPrediction.congruent
+
+ans =
+
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+
+dataFile.SAPPrediction.rt
+
+ans =
+
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+     0
+
+dataFile.SAPQuestion.response
+
+ans =
+
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+     0     0
+
+dataFile.SAPsummary
+
+ans = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+    points: 0
+
+rng(1)
+rand(rng(1),1)
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('rand')" style="font-weight:bold">rand</a>
+Size inputs must be numeric.
+} 
+seed = rng(1)
+
+seed = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+     Type: 'twister'
+     Seed: 1
+    State: [625×1 uint32]
+
+rand(seed,1)
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('rand')" style="font-weight:bold">rand</a>
+Size inputs must be numeric.
+} 
+rand(1,seed)
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('rand')" style="font-weight:bold">rand</a>
+Size inputs must be numeric.
+} 
+rand(seed)
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('rand')" style="font-weight:bold">rand</a>
+Size inputs must be numeric.
+} 
+seed
+
+seed = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+     Type: 'twister'
+     Seed: 1
+    State: [625×1 uint32]
+
+rand(seed.State,1)
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('rand')" style="font-weight:bold">rand</a>
+Size inputs must be scalar.
+} 
+rand(seed.State(1),1)
+
+ans =
+
+    0.4170
+
+rand(seed.State(1),1)
+
+ans =
+
+    0.7203
+
+rand(seed.State(1),1)
+
+ans =
+
+   1.1437e-04
+
+clear all
+rng(1,"twister")
+rand(1)
+
+ans =
+
+    0.4170
+
+rng(1,"twister")
+rand(1)
+
+ans =
+
+    0.4170
+
+rand(2,1)
+
+ans =
+
+    0.7203
+    0.0001
+
+rand(1,2)
+
+ans =
+
+    0.3023    0.1468
+
+rand(2)
+
+ans =
+
+    0.0923    0.3456
+    0.1863    0.3968
+
+rand(10,1)*100
+
+ans =
+
+   53.8817
+   41.9195
+   68.5220
+   20.4452
+   87.8117
+    2.7388
+   67.0468
+   41.7305
+   55.8690
+   14.0387
+
+rng(1,"twister")
+rand(10,1)*100
+
+ans =
+
+   41.7022
+   72.0324
+    0.0114
+   30.2333
+   14.6756
+    9.2339
+   18.6260
+   34.5561
+   39.6767
+   53.8817
+
+rng(1,"twister")
+rand(10,1)*100
+
+ans =
+
+   41.7022
+   72.0324
+    0.0114
+   30.2333
+   14.6756
+    9.2339
+   18.6260
+   34.5561
+   39.6767
+   53.8817
+
+ans(3)
+
+ans =
+
+    0.0114
+

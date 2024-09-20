@@ -25,11 +25,11 @@ function dataFile = showSlidingBarQuestion(cue,options,dataFile,task,trial)
 
 %% INITIALIZE variables
 oscillationAmp = options.screen.ypixels*0.25; % space the bar will slide accross
-angFreq        = 0.75;                        % sliding bar speed
-startPhase     = rand(1)*100;                 % starting point of sliding bar
+angFreq        = 0.85;                        % sliding bar speed
+startPhase     = options.task.slidingBarStart(trial); % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
 baseRect       = [0 0 10 100];                % size of rectangles making up slider and min, max
-middleRect     = [0 0 10 50]; 
+% middleRect     = [0 0 10 50]; 
 KBNumber       = options.KBNumber; 
 doKeyboard     = options.doKeyboard;
 waitingForResp = 1;
@@ -57,7 +57,7 @@ loopStartTime = GetSecs();
         % This is the point we want our square to oscillate around
         squareXposL    = xCenter - (options.screen.ypixels*0.25);  % left tic
         squareXposR    = xCenter + (options.screen.ypixels*0.25);  % right tic
-        % squareYPos     = yCenter + (options.screen.xpixels*0.2); % centertic
+        squareYPos     = yCenter + (options.screen.xpixels*0.2);
         squareXpos     = xCenter + xPosition;
 
         % create horizontal line
@@ -74,7 +74,7 @@ loopStartTime = GetSecs();
         % Draw the rect to the screen: [function format: Screen(‘FillRect’,windowPtr [,color] [,rect] )]
         Screen('FillRect', options.screen.windowPtr, [],[centeredRect' centeredRectL'...
               centeredRectR' centeredRectLong']);
-        Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
+        % Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
         % [function format: DrawFormattedText(win, tstring [, sx][, sy][,color]
         % [, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])}
         DrawFormattedText(options.screen.windowPtr,options.screen.qTextL,'left',squareYPos,[255 255 255],[],[],[],1.5);

@@ -47,6 +47,8 @@ switch expMode
         options.task.nAvatars = 3; % softcode!
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nTrials  = size(options.task.inputs,1);
+        rng(1,"twister");
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
@@ -222,6 +224,7 @@ options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
 options.files.savePath     = [pwd,'/data/',expMode,'/',options.files.projectID,PID];
 mkdir(options.files.savePath);
-options.files.dataFileName = [options.files.namePrefix,'dataFile.mat'];
+options.files.dataFileName = [options.files.namePrefix,'_dataFile.mat'];
+options.files.dataFileName = [options.files.namePrefix,'_optionsFile.mat'];
 
 end
