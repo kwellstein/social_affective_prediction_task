@@ -44,6 +44,7 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
+        options.task.showPoints = 0;
         options.task.nAvatars = 3; % softcode!
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nTrials  = size(options.task.inputs,1);
@@ -62,6 +63,7 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
+        options.task.showPoints = 1;
         options.task.nAvatars = 2;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
 
@@ -78,6 +80,7 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         % options.screen.rect   = Screen('Rect', options.screen.number);
+        options.task.showPoints = 1;
         options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = 2;
@@ -88,6 +91,7 @@ switch expMode
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
+        options.task.showPoints = 1;
         options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = 2;
@@ -95,8 +99,8 @@ switch expMode
 end
 
 options.task.name = 'SAP';
-options.task.firstTarget = 440;
-options.task.finalTarget = 80;
+options.task.firstTarget = 50;
+options.task.finalTarget = 100;
 
 %% Select Stimuli based on Randomisation list
 RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
@@ -132,9 +136,9 @@ switch expMode
         options.screen.stopPredictText  = '\n stopped smiling?';
         options.screen.smileHoldText    = '\n stop smile button not active yet!'; %% UNUSED AS OF NOW
         options.screen.firstTagetText   = ['You reached ',options.task.firstTarget,' points! ' ...
-            '\n This added AUD 5 to your reimbursement.'];
+            '\n This added AUD 3 to your reimbursement.'];
         options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
-            '\n This added another AUD 5 to your reimbursement.'];
+            '\n This added another AUD 3 to your reimbursement.'];
         options.screen.expEndText     = ['Thank you! ' ...
             'You finished the ',options.task.name, 'task.'];
 
@@ -153,9 +157,9 @@ switch expMode
             '\n  the button to stop smiling won''t be active immediately']; 
         options.screen.waitNoSmileText = 'wait and see how the face will respond';
         options.screen.firstTagetText  = ['You reached ',options.task.firstTarget,' points! ' ...
-            '\n This added AUD 5 to your reimbursement.'];
+            '\n This added AUD 3 to your reimbursement.'];
         options.screen.finalTagetText  = ['You reached ',options.task.finalTarget,' points! ' ...
-            '\n This added another AUD 5 to your reimbursement.'];
+            '\n This added another AUD 3 to your reimbursement.'];
         options.screen.expEndText      = ['Thank you! \n' ...
             'You finished the ',options.task.name, 'task!'];
 end
