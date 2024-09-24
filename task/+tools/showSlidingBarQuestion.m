@@ -93,8 +93,7 @@ loopStartTime = GetSecs();
             Screen('Flip', options.screen.windowPtr);
             dataFile        = eventListener.logEvent('exp','_abort', [],trial);
             disp('Game was aborted.')
-            PsychPortAudio('DeleteBuffer');
-            PsychPortAudio('Close');
+            Screen('CloseAll');
             sca
             return;
             
