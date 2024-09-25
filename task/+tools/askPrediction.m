@@ -87,7 +87,9 @@ else
     while waiting
         % show screen with stimulus and wait for participant to press a
         % button or time-out
-
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showSmile,options,dataFile,0);
         % show predictionslide
         Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
         Screen('TextSize', options.screen.windowPtr, 50);

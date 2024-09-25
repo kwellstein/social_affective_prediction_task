@@ -34,6 +34,7 @@ while waiting
         disp('Experiment was aborted.')
         PsychPortAudio('DeleteBuffer');
         PsychPortAudio('Close');
+        Screen('CloseAll');
         sca
         return;
     end

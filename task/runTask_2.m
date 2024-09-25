@@ -70,32 +70,45 @@ while taskRunning
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
-    dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
+    % % new version with sliding bar after stimulus presentation and choice
+    % and before outcome. This allows for some more time to recover from producing a smile
     [dataFile,~,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'start');
 
+    % show first presentation of avatar
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showSmile,options,dataFile,0);
 
     if resp == 1
         % make sure that participants delineate smile perios with start and stop button
         if strcmp(expType,'fmri')
             ticID   = tic();
-
-            % make sure participants pressed the stop button to indicate that they have
-            % stopped smiling
+            dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
+            % show stimulus again
+            Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
             dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'stop');
             RT = toc(ticID);
             [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
-
         else
+            dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
             Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
         end
     else
+        dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
         % show stimulus again
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
     end
+
+    % show stimulus again
+    Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     % show outcome
     Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);

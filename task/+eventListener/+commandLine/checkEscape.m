@@ -30,19 +30,16 @@ end
 
 if any(keyCode==options.keys.escape)
         eventListener.logData(1,'events','exp_abort',dataFile,trial);
-        abort = 1;
-       
+
         disp('<strong>Experiment was aborted.</strong>')
         % output.saveInterimData([],options,dataFile,expInfo);
-        
-        % save(fullfile([expInfo.saveData,'/',expInfo.PPID,'_',expInfo.RMNO,'_V',num2str(expInfo.visit.number),'/+expLog/workspace_',expInfo.PPID,'.mat']));
+
         ShowCursor;
-        sca;
         PsychPortAudio('DeleteBuffer');
         PsychPortAudio('Close');
-        
-        % stop the experiment:
-        error('ESC key was detected; experiment was aborted.');
+        Screen('CloseAll');
+        sca;
+        abort = 1;
 else
     abort = 0;
 end

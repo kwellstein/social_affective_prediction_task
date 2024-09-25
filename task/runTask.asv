@@ -79,13 +79,18 @@ while taskRunning
         if strcmp(expType,'fmri')
             ticID   = tic();
 
-            % make sure participants pressed the stop button to indicate that they have
-            % stopped smiling
+            % show stimulus again
+            % show first presentation of avatar
+            Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(options.dur.showSmile,options,dataFile,0);
+% make su
             dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'stop');
             RT = toc(ticID);
             [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
 
         else
+
             Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
@@ -96,6 +101,11 @@ while taskRunning
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
     end
+
+    % show stimulus again
+    Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     % show outcome
     Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
