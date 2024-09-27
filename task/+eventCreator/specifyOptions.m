@@ -49,7 +49,7 @@ switch expMode
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
 
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
@@ -66,6 +66,8 @@ switch expMode
         options.task.showPoints = 1;
         options.task.nAvatars = 2;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.nTrials = size(options.task.inputs,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
 
         if strcmp(expType,'behav')
             options.task.nTrials  = 8;
@@ -81,10 +83,11 @@ switch expMode
         options.screen.number = max(screens);
         % options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.showPoints = 1;
-        options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.nTrials  = size(options.task.inputs,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
         options.task.nAvatars = 2;
-        options.doKeyboard = 1;
+        options.doKeyboard    = 1;
 
     otherwise
         disp(' ...no valid expMode specified, using debug options... ')
@@ -94,8 +97,9 @@ switch expMode
         options.task.showPoints = 1;
         options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
         options.task.nAvatars = 2;
-        options.doKeyboard = 1;
+        options.doKeyboard    = 1;
 end
 
 options.task.name = 'SAP';
