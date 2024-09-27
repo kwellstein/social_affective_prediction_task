@@ -42,7 +42,6 @@ function create_input_sequence(;
             startIdx = 1
             startSmileIdx   = 1
             startNeutralIdx = 1
-
         else
             @show phase
             @show sum(phaseLength[1:phase-1])
@@ -50,7 +49,7 @@ function create_input_sequence(;
             
             startIdx = sum(phaseLength[1:phase-1])+1
             startSmileIdx   = sum(respArray)+1
-            startNeutralIdx =
+            startNeutralIdx = x;
         end 
         
         nPhaseTrials  = phaseLength[phase]
@@ -157,5 +156,5 @@ function create_input_sequence(;
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
 dict = Dict(input_sequence, :auto)
 
-
+end
 end

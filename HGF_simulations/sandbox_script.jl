@@ -3,26 +3,34 @@ using ActionModels, HierarchicalGaussianFiltering
 using Distributions
 using StatsPlots
 using Random, Missings 
+using CSV
 
 categProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6)
-categTrials = 40
+nCategTrials = 40
 phaseProb    = [0.80, 0.20, 0.80, 0.60, 0.20, 0.80]
 phaseLength  = [40, 10, 10, 20, 20, 20]
 
-    nCategories = length(categProbs)
-    nTrials     = (categTrials*length(categProbs))
-    respArray   = fill(0,nTrials)
-    nPhases     = length(phaseLength)
-    nTrueTrials = Int(round(sum(phaseProb.*phaseLength)))
+# find size indicators for different vectors
+nCategories = length(categProbs)
+nTrials     = (nCategTrials*length(categProbs))
+nPhases     = length(phaseLength)
+nTrueTrials = Int(round(sum(phaseProb.*phaseLength)))
 
-   trueIdxArray  = fill(0,nTrueTrials)
-   falseIdxArray = fill(0,Int(nTrials-nTrueTrials))
-   input_sequence = Vector{Vector}(undef,nTrials) # initialize vector for input sequence
+# initialize arrays
+input_sequence = Vector{Vector}(undef,nTrials) # initialize vector for input sequence
 
-   ## LOOPING over task phases and creating response arrays
+for i in 1:nTrials # put in required format (1st column for category indicator, 2nd column for outcome)
+    input_sequence[i] = [0,0]
+end
 
-   global startTrueIdx
-   global startFalseIdx
+respArray   = fill(0,nTrials)
+trueIdxArray  = fill(0,nTrueTrials)
+falseIdxArray = fill(0,Int(nTrials-nTrueTrials))
+
+## LOOPING over task phases and creating response arrays
+
+   global startTrueIdx # when the first outcome=1 starts in each phase: this is a variable that is updated throughout
+   global startFalseIdx # when the first outcome=0 starts in each phase: this is a variable that is updated throughout
     for phase in 1:nPhases
 
         if phase == 1
@@ -30,8 +38,8 @@ phaseLength  = [40, 10, 10, 20, 20, 20]
             startFalseIdx = 1
         end 
 
-        startIdx = sum(phaseLength[1:phase-1])+1   
-        nCurrPhaseTrials = phaseLength[phase]  # how many trials are in the current phase
+        startIdx         = sum(phaseLength[1:phase-1])+1   # at what index this phase starts in the inut_structure
+        nCurrPhaseTrials = phaseLength[phase]   # how many trials are in the current phase
         currPhaseProb    = phaseProb[phase]     # whats the current probability of this phase
         nCurrTrueTrials  = Int(round(currPhaseProb*nCurrPhaseTrials)) # how many trials in this phase have outcome = 1
         endIdx           = (startIdx+nCurrPhaseTrials)-1 # whats the last trial number of this phase
@@ -66,6 +74,7 @@ phaseLength  = [40, 10, 10, 20, 20, 20]
     
     end # end phases loop
 
+
 ## sometimes the combination of the probabilities of the task phases and categories may not lead to real numbers.
 # taking that into account here
 
@@ -88,22 +97,25 @@ phaseLength  = [40, 10, 10, 20, 20, 20]
         addTrueTrials = zeros(nCategories)
     end
 
-    ## create matrix assigning different avatar numbers in the first column and responses in the second column
+## fill outcome column in input_sequence
+#= for i in trueIdxArray # put in required format (1st column for category indicator, 2nd column for outcome)
+    input_sequence[i] = [0,1]
+end =#
 
-    trueIdxArray  = shuffle(trueIdxArray)
+## create matrix assigning different category indicators into the first column that 
+# corresponds to both their inhereent categoriy probabilities and the already defined outcome array
+
+# shuffle the array so that chunks of idxs can be cut out for each one of the categories
+    trueIdxArray  = shuffle(trueIdxArray) 
     falseIdxArray = shuffle(falseIdxArray)
-
-    for i in 1:nTrials
-        input_sequence[i] = [0,0]
-    end
 
     for iCategory in 1:nCategories
         if delta > 0
-            nTrues  = Int(categTrials*categProbs[iCategory] + addTrueTrials[iCategory])
-            nFalses = Int(categTrials-nTrues)
+            nTrues  = Int(nCategTrials*categProbs[iCategory] + addTrueTrials[iCategory])
+            nFalses = Int(nCategTrials-nTrues)
         else
-            nTrues  = Int(categTrials*categProbs[iCategory])
-            nFalses = Int(categTrials-nTrues)
+            nTrues  = Int(nCategTrials*categProbs[iCategory])
+            nFalses = Int(nCategTrials-nTrues)
         end
 
         if iCategory == 1
@@ -111,30 +123,26 @@ phaseLength  = [40, 10, 10, 20, 20, 20]
             startFalseIdx = 1
             endTrueIdx    = nTrues
             endFalseIdx   = nFalses
-        else
+
+         else
             startTrueIdx  = endTrueIdx+1
             startFalseIdx = endFalseIdx+1
-            endTrueIdx    = startSmileIdx + nSmiles-1
-            endFalseIdx   = startNeutralIdx + nNeutral-1
-        end
+            endTrueIdx    = startTrueIdx + nTrues-1
+            endFalseIdx   = startFalseIdx + nFalses-1
+        end 
 
-        if iCategory == nAvatars
-            smileIdx   = sort(smileIdxArray[startSmileIdx:end])
-            neutralIdx = sort(neutralIdxArray[startNeutralIdx:end])
+        if iCategory == nCategories # if this is the last category hard stop at last trial idx just to make sure that there is no unnecassary bug due to numerical inaccuracies
+            trueIdxs  = sort(trueIdxArray[startTrueIdx:end])
+            falseIdxs = sort(falseIdxArray[startFalseIdx:end])
         else
-        smileIdx   = sort(smileIdxArray[startSmileIdx:endSmileIdx])
-        neutralIdx = sort(neutralIdxArray[startNeutralIdx:endNeutralIdx])
+            trueIdxs  = sort(trueIdxArray[startTrueIdx:endTrueIdx])
+            falseIdxs = sort(falseIdxArray[startFalseIdx:endFalseIdx])
         end
 
-        for i in 1:size(smileIdx,1)
-            iSmileTrials = smileIdx[i]
-            input_sequence[iSmileTrials] = [iAvatar,1]
+        for i in 1:size(trueIdxs,1)
+            iTrueTrials = trueIdxs[i]
+            input_sequence[iTrueTrials] = [iCategory,1]
 
-        end
-
-        for i in 1:size(neutralIdx,1)
-            iNeutralTrials = neutralIdx[i]
-            input_sequence[iNeutralTrials] = [iAvatar,0]
         end
     end
 
