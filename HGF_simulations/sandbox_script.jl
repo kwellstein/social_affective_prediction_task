@@ -3,7 +3,7 @@ using ActionModels, HierarchicalGaussianFiltering
 using Distributions
 using StatsPlots
 using Random, Missings 
-using CSV
+using DelimitedFiles
 
 categProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6)
 nCategTrials = 40
@@ -149,4 +149,5 @@ end =#
     return input_sequence
   #Save input sequence
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
+
 dict = Dict(input_sequence, :auto)
