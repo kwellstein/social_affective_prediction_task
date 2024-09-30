@@ -93,5 +93,6 @@ options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
 %% RUN TASK
+% runTask_2(stimuli,expMode,expType,options,dataFile);
 runTask(stimuli,expMode,expType,options,dataFile);
 

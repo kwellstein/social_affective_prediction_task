@@ -25,11 +25,11 @@ function dataFile = showSlidingBarQuestion(cue,options,dataFile,task,trial)
 
 %% INITIALIZE variables
 oscillationAmp = options.screen.ypixels*0.25; % space the bar will slide accross
-angFreq        = 0.75;                        % sliding bar speed
-startPhase     = rand(1)*100;                 % starting point of sliding bar
+angFreq        = 0.85;                        % sliding bar speed
+startPhase     = options.task.slidingBarStart(trial); % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
 baseRect       = [0 0 10 100];                % size of rectangles making up slider and min, max
-middleRect     = [0 0 10 50]; 
+% middleRect     = [0 0 10 50]; 
 KBNumber       = options.KBNumber; 
 doKeyboard     = options.doKeyboard;
 waitingForResp = 1;
@@ -55,8 +55,8 @@ loopStartTime = GetSecs();
          xPosition = oscillationAmp * sin(angFreq * time + startPhase);
 
         % This is the point we want our square to oscillate around
-        squareXposL    = xCenter - (options.screen.ypixels*0.25);
-        squareXposR    = xCenter + (options.screen.ypixels*0.25);
+        squareXposL    = xCenter - (options.screen.ypixels*0.25);  % left tic
+        squareXposR    = xCenter + (options.screen.ypixels*0.25);  % right tic
         squareYPos     = yCenter + (options.screen.xpixels*0.2);
         squareXpos     = xCenter + xPosition;
 
@@ -68,13 +68,15 @@ loopStartTime = GetSecs();
         centeredRectL    = CenterRectOnPointd(baseRect, squareXposL, squareYPos);
         centeredRectR    = CenterRectOnPointd(baseRect, squareXposR, squareYPos);
         centeredRectLong = CenterRectOnPointd(baseRectLong, xCenter, squareYPos);
-        centeredRectM    = CenterRectOnPointd(middleRect,(squareXposL+((squareXposR-squareXposL)/2)),squareYPos);
+        % centeredRectM    =
+        % CenterRectOnPointd(middleRect,(squareXposL+((squareXposR-squareXposL)/2)),squareYPos); % centertic
 
-        % Draw the rect to the screen: Screen(‘FillRect’, windowPtr [,color] [,rect] )
+        % Draw the rect to the screen: [function format: Screen(‘FillRect’,windowPtr [,color] [,rect] )]
         Screen('FillRect', options.screen.windowPtr, [],[centeredRect' centeredRectL'...
               centeredRectR' centeredRectLong']);
-        Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
-        % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
+        % Screen('FillRect', options.screen.windowPtr, [],centeredRectM);
+        % [function format: DrawFormattedText(win, tstring [, sx][, sy][,color]
+        % [, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])}
         DrawFormattedText(options.screen.windowPtr,options.screen.qTextL,'left',squareYPos,[255 255 255],[],[],[],1.5);
         DrawFormattedText(options.screen.windowPtr,options.screen.qTextR,'right',squareYPos,[255 255 255],[],[],[],1.5);
         Screen('Flip', options.screen.windowPtr);
@@ -83,12 +85,22 @@ loopStartTime = GetSecs();
         time = time + options.screen.flipInterval;
         
        % wait for response
-        keyCode      = eventListener.commandLine.detectKey(KBNumber,doKeyboard);
+        keyCode = eventListener.commandLine.detectKey(KBNumber,doKeyboard);
 
-        if any(keyCode == options.keys.stopSmile)
-        waitingForResp = 0;
+        if any(keyCode == options.keys.escape)
+            DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
+                'center', 'center', options.screen.grey);
+            Screen('Flip', options.screen.windowPtr);
+            dataFile        = eventListener.logEvent('exp','_abort', [],trial);
+            disp('Game was aborted.')
+            Screen('CloseAll');
+            sca
+            return;
+            
+        elseif any(keyCode)
+            waitingForResp = 0;
 
-        elseif ~isempty(keyCode)
+        elseif ~isempty(keyCode) % only used when only a specific button can stop the sliding bar!
             DrawFormattedText(options.screen.windowPtr,options.messages.wrongButton,'center','center',[0 1 1],[],[],[],1.5);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);

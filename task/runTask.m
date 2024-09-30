@@ -70,49 +70,32 @@ while taskRunning
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
-    % % first version
-    % % showSlidingBarQuestion(cues,options,dataFile,expInfo,taskSaveName,trial)
-    % dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
-    %
-    % % show answer promt
-    % [dataFile,~,resp] = tools.showResponseScreen(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial);
-
-    % % new version
+    dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
     [dataFile,~,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'start');
-    % show first presentation of avatar
-    Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showSmile,options,dataFile,0);
+
 
     if resp == 1
-
+        % make sure that participants delineate smile perios with start and stop button
         if strcmp(expType,'fmri')
             ticID   = tic();
-            dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
-            % show stimulus again
-            Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-            Screen('Flip', options.screen.windowPtr);
-            eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
+
+            % make sure participants pressed the stop button to indicate that they have
+            % stopped smiling
             dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'stop');
             RT = toc(ticID);
             [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
+
         else
             Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
         end
     else
-        dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,[options.task.name,'Question'],trial);
         % show stimulus again
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
     end
-
-    % show stimulus again
-    Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     % show outcome
     Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
@@ -122,37 +105,24 @@ while taskRunning
     % log congruency and show points slide
     if resp==outcome
         [~,dataFile] = eventListener.logData(1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
+        if options.task.showPoints
+            Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
+        end
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        dataFile     = eventListener.logEvent('exp','_missedTrial ',dataFile,trial,[]);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
-    end
-
-
-    if strcmp(expMode,'experiment')
-        % calculate total points
-        score = sum(dataFile.SAPPrediction.congruent);
-
-        if score == options.task.firstTarget
-            Screen('TextSize', options.screen.windowPtr, 50);
-            % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
-            DrawFormattedText(options.screen.windowPtr,options.screen.firstTagetText,'center','center',[255 255 255],[],[],[],2);
+        if options.task.showPoints
+            Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
-        elseif score == options.task.finalTarget
-            Screen('TextSize', options.screen.windowPtr, 50);
-            % DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
-            DrawFormattedText(options.screen.windowPtr,options.screen.finalTagetText,'center','center',[255 255 255],[],[],[],2);
-            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     end
 
@@ -172,15 +142,16 @@ end
 
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
-
+dataFile.SAPSummary.points = sum(dataFile.SAPPrediction.congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
-% dataFile = output.cleanDataFields(dataFile,task,nStep);
+dataFile = tools.cleanDataFields(dataFile,trial);
+dataFile.SAPQuestion.sliderStart = options.task.slidingBarStart;
 
 % save all data to
 output.saveData(options,dataFile);
 
 % show end screen
-DrawFormattedText(options.screen.windowPtr,options.screen.waitNoSmileText,'center',[],[255 255 255],[],[],[],1);
+DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.screen.expEndText,options,dataFile,0);
 

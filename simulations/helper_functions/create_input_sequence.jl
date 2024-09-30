@@ -1,159 +1,142 @@
-using DataFrames
 
-#Create input sequence
-#input_sequence = create_input_sequence(
- #   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.1, avatar3 = 0.7,avatar4 = 0.3),
-  #  avatarTrials = 40,
- #   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.60],
- #   phaseLength  = [40, 20, 20, 40, 40]
-  #  )
- # input_sequence = create_input_sequence(
- #   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
- #   avatarTrials = 50,
- #   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.80],
- #   phaseLength  = [40, 15, 15, 40, 40]
-#  )
+# find size indicators for different vectors
+nCategories = length(categProbs)
+nTrials     = (nCategTrials*length(categProbs))
+nPhases     = length(phaseLength)
+nTrueTrials = Int(round(sum(phaseProb.*phaseLength)))
 
- #   avatarProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
- #   avatarTrials = 50,
- #   phaseProb    = [0.80, 0.20, 0.80, 0.20, 0.80],
- #   phaseLength  = [40, 15, 15, 40, 40]
- 
-function create_input_sequence(;
-    avatarProbs,
-    avatarTrials,
-    phaseProb,
-    phaseLength,
-    )
+# initialize arrays
+input_sequence = Vector{Vector}(undef,nTrials) # initialize vector for input sequence
 
-    nAvatars     = length(avatarProbs)
-    nTrials      = (avatarTrials*length(avatarProbs))
-    respArray    = fill(0,nTrials)
-    nPhases      = length(phaseLength)
-    nSmileTrials = Int(round(sum(phaseProb.*phaseLength)))
+for i in 1:nTrials # put in required format (1st column for category indicator, 2nd column for outcome)
+    input_sequence[i] = [0,0]
+end
 
-    smileIdxArray   = fill(0,nSmileTrials)
-    neutralIdxArray = fill(0,Int(nTrials-nSmileTrials))
+respArray   = fill(0,nTrials)
+trueIdxArray  = fill(0,nTrueTrials)
+falseIdxArray = fill(0,Int(nTrials-nTrueTrials))
 
+## LOOPING over task phases and creating response arrays
+
+   global startTrueIdx # when the first outcome=1 starts in each phase: this is a variable that is updated throughout
+   global startFalseIdx # when the first outcome=0 starts in each phase: this is a variable that is updated throughout
     for phase in 1:nPhases
+
         if phase == 1
-            startIdx = 1
-            startSmileIdx   = 1
-            startNeutralIdx = 1
-
-        else
-            @show phase
-            @show sum(phaseLength[1:phase-1])
-            @show smileTrialIdx
-            
-            startIdx = sum(phaseLength[1:phase-1])+1
-            smileTrialArray = smileTrialIdx;
-            startSmileIdx   = sum(respArray)+1
+            startTrueIdx  = 1
+            startFalseIdx = 1
         end 
-        
-        nPhaseTrials  = phaseLength[phase]
-        currPhaseProb = phaseProb[phase]
-        nPhaseSmileTrials  = Int(round(currPhaseProb*nPhaseTrials))
-        endIdx   = (startIdx+nPhaseTrials)-1
-        trialIdx = shuffle(startIdx:endIdx)[1:nPhaseTrials]
-        smileTrialIdx   = trialIdx[1:nPhaseSmileTrials]
-        neutralTrialIdx = trialIdx[nPhaseSmileTrials+1:end]
 
-        for iSmiles in 1:nPhaseSmileTrials
-            respArray[smileTrialIdx[iSmiles]] = 1;
+        startIdx         = sum(phaseLength[1:phase-1])+1   # at what index this phase starts in the inut_structure
+        nCurrPhaseTrials = phaseLength[phase]   # how many trials are in the current phase
+        currPhaseProb    = phaseProb[phase]     # whats the current probability of this phase
+        nCurrTrueTrials  = Int(round(currPhaseProb*nCurrPhaseTrials)) # how many trials in this phase have outcome = 1
+        endIdx           = (startIdx+nCurrPhaseTrials)-1 # whats the last trial number of this phase
+        shuffledTrials   = shuffle(startIdx:endIdx)[1:nCurrPhaseTrials] # shuffle trial indices within this phase
+        trueTrialIdxs    = shuffledTrials[1:nCurrTrueTrials] # extract some trial indices (nCurrTrueTrials) that will have outcome = 1
+        falseTrialIdxs   = shuffledTrials[nCurrTrueTrials+1:end] # rest of the indices is assigned to outcome = 0
+        nCurrFalseTrials = length(falseTrialIdxs)
+
+        # assign ones to the trials that should have outcome = 1
+        for iTrue in 1:nCurrTrueTrials
+            respArray[trueTrialIdxs[iTrue]] = 1; 
         end
 
-        endSmileIdx = length(smileTrialIdx)
-        
-        for iSmileIdx in 1:endSmileIdx
-            i = (startSmileIdx+iSmileIdx)-1
-            smileIdxArray[i] = smileTrialIdx[iSmileIdx];
+        # save the indices of all the trials with outcome = 1 into an array
+        # this could probably done without a loop but rather my stacking trueTrialIdxs ontop of eachother
+        for iTrueIdx in 1:nCurrTrueTrials
+            i = (startTrueIdx+iTrueIdx)-1
+            trueIdxArray[i] = trueTrialIdxs[iTrueIdx];
         end
 
-        endNeutralIdx = nPhaseTrials-endSmileIdx
-        
-        for iNeutralIdx in 1:endNeutralIdx
-                j = (startNeutralIdx+iNeutralIdx)-1
-                neutralIdxArray[j] = neutralTrialIdx[iNeutralIdx]
+        # assign ones to the trials that should have outcome = 0
+        for iFalseIdx in 1:nCurrFalseTrials
+                j = (startFalseIdx+iFalseIdx)-1
+                falseIdxArray[j] = falseTrialIdxs[iFalseIdx]
         end
-        
-        startNeutralIdx = startNeutralIdx+endNeutralIdx
-    end
 
-    if sum(phaseProb.*phaseLength)>nTrials/sum(avatarProbs)
-        diff = Int(sum(phaseProb.*phaseLength)-round(nTrials/sum(avatarProbs)))
-        diffValues = ones(Int(diff))
-        addSmileTrials = zeros(nAvatars)
-        n = 1
-        for i in 1:diff
-            if i > nAvatars
-                addSmileTrials[n] = diffValues[n] + diffValues[i] 
+
+    # update start index for filling in the index array for outcome = 0 in prep for next phase iteration
+    startFalseIdx = startFalseIdx+nCurrFalseTrials      
+    # update start index for filling in the index array for outcome = 1 in prep for next phase iteration
+    startTrueIdx = startTrueIdx+nCurrTrueTrials
+    
+    end # end phases loop
+
+
+## sometimes the combination of the probabilities of the task phases and categories may not lead to real numbers.
+# taking that into account here
+
+    if sum(phaseProb.*phaseLength)>nTrials/sum(categProbs) # if the category probabilities dont fully map onto all trials...
+        delta = Int(sum(phaseProb.*phaseLength)-round(nTrials/sum(categProbs))) #calculate the difference and make it a real number by rounding
+        diffValues = ones(Int(delta)) # create a vector that contains a one for each trial that has not been considered due to this
+        addTrueTrials  = zeros(nCategories) # create a vector of zeros for each category that will be considered to "fill in the difference"
+        
+        n = 1 # initialize loop
+        for i in 1:delta
+            if i > nCategories # if there are more trials that have to be filled up than there are categories, 
+                addTrueTrials[n] = diffValues[n] + diffValues[i] 
                 n += 1
             else
-                addSmileTrials[i] = diffValues[i]
+                addTrueTrials[i] = diffValues[i] # add a trial with outcome = 1 to
             end
         end
     else 
-        diff = 0
-        addSmileTrials = zeros(nAvatars)
+        delta = 0
+        addTrueTrials = zeros(nCategories)
     end
 
-    # create matrix assigning different avatar numbers in the first column
-    # and responses in the second column
+## fill outcome column in input_sequence
+#= for i in trueIdxArray # put in required format (1st column for category indicator, 2nd column for outcome)
+    input_sequence[i] = [0,1]
+end =#
 
-    smileIdxArray   = shuffle(smileIdxArray)
-    neutralIdxArray = shuffle(neutralIdxArray)
-    input_sequence  = Vector{Vector}(undef,nTrials)
+## create matrix assigning different category indicators into the first column that 
+# corresponds to both their inhereent categoriy probabilities and the already defined outcome array
 
-    for i in 1:nTrials
-        input_sequence[i] = [0,0]
-    end
+# shuffle the array so that chunks of idxs can be cut out for each one of the categories
+    trueIdxArray  = shuffle(trueIdxArray) 
+    falseIdxArray = shuffle(falseIdxArray)
 
-    for iAvatar in 1:nAvatars
-        if diff > 0
-            nSmiles  = Int(avatarTrials*avatarProbs[iAvatar] + addSmileTrials[iAvatar])
-            nNeutral = Int(avatarTrials-nSmiles)
+    for iCategory in 1:nCategories
+        if delta > 0
+            nTrues  = Int(nCategTrials*categProbs[iCategory] + addTrueTrials[iCategory])
+            nFalses = Int(nCategTrials-nTrues)
         else
-            nSmiles  = Int(avatarTrials*avatarProbs[iAvatar])
-            nNeutral = Int(avatarTrials-nSmiles)
+            nTrues  = Int(nCategTrials*categProbs[iCategory])
+            nFalses = Int(nCategTrials-nTrues)
         end
 
-        if iAvatar == 1
-            startSmileIdx   = 1
-            startNeutralIdx = 1
-            endSmileIdx     = nSmiles
-            endNeutralIdx   = nNeutral
+        if iCategory == 1
+            startTrueIdx  = 1
+            startFalseIdx = 1
+            endTrueIdx    = nTrues
+            endFalseIdx   = nFalses
+
+         else
+            startTrueIdx  = endTrueIdx+1
+            startFalseIdx = endFalseIdx+1
+            endTrueIdx    = startTrueIdx + nTrues-1
+            endFalseIdx   = startFalseIdx + nFalses-1
+        end 
+
+        if iCategory == nCategories # if this is the last category hard stop at last trial idx just to make sure that there is no unnecassary bug due to numerical inaccuracies
+            trueIdxs  = sort(trueIdxArray[startTrueIdx:end])
+            falseIdxs = sort(falseIdxArray[startFalseIdx:end])
         else
-            startSmileIdx   = endSmileIdx+1
-            startNeutralIdx = endNeutralIdx+1
-            endSmileIdx     = startSmileIdx + nSmiles-1
-            endNeutralIdx   = startNeutralIdx + nNeutral-1
+            trueIdxs  = sort(trueIdxArray[startTrueIdx:endTrueIdx])
+            falseIdxs = sort(falseIdxArray[startFalseIdx:endFalseIdx])
         end
 
-        if iAvatar == nAvatars
-            smileIdx   = sort(smileIdxArray[startSmileIdx:end])
-            neutralIdx = sort(neutralIdxArray[startNeutralIdx:end])
-        else
-        smileIdx   = sort(smileIdxArray[startSmileIdx:endSmileIdx])
-        neutralIdx = sort(neutralIdxArray[startNeutralIdx:endNeutralIdx])
-        end
+        for i in 1:size(trueIdxs,1)
+            iTrueTrials = trueIdxs[i]
+            input_sequence[iTrueTrials] = [iCategory,1]
 
-        for i in 1:size(smileIdx,1)
-            iSmileTrials = smileIdx[i]
-            input_sequence[iSmileTrials] = [iAvatar,1]
-
-        end
-
-        for i in 1:size(neutralIdx,1)
-            iNeutralTrials = neutralIdx[i]
-            input_sequence[iNeutralTrials] = [iAvatar,0]
         end
     end
 
     return input_sequence
   #Save input sequence
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
+
 dict = Dict(input_sequence, :auto)
-
-
-end

@@ -56,8 +56,7 @@ if strcmp(respMode,'start')
             Screen('Flip', options.screen.windowPtr);
             dataFile        = eventListener.logEvent('exp','_abort', [],trial);
             disp('Game was aborted.')
-            PsychPortAudio('DeleteBuffer');
-            PsychPortAudio('Close');
+            Screen('CloseAll');
             sca
             return;
 
@@ -74,8 +73,8 @@ if strcmp(respMode,'start')
             waiting  = 0;
             resp     = NaN;
 
-        end
-    end
+        end % END STARTSMILE detection loop
+    end % END WAITING loop
 
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
@@ -88,7 +87,9 @@ else
     while waiting
         % show screen with stimulus and wait for participant to press a
         % button or time-out
-
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showSmile,options,dataFile,0);
         % show predictionslide
         Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
         Screen('TextSize', options.screen.windowPtr, 50);
@@ -107,8 +108,7 @@ else
             Screen('Flip', options.screen.windowPtr);
             dataFile        = eventListener.logEvent('exp','_abort', [],trial);
             disp('Game was aborted.')
-            PsychPortAudio('DeleteBuffer');
-            PsychPortAudio('Close');
+            Screen('CloseAll');
             sca
             return;
 
@@ -122,7 +122,7 @@ else
             disp('Participant missed a trial.')
             waiting  = 0;
             resp     = NaN;
-        end
-    end
+        end % END STARTSMILE detection loop
+    end % END WAITING loop
 end
 end

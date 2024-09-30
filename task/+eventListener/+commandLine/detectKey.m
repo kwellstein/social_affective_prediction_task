@@ -18,7 +18,7 @@ function keyCode = detectKey(KBNumber,doKeyboard)
 %
  
 if doKeyboard == 0
-    % EEG Responsebox
+    % Responsebox
     [~, keyCode, ~] = PsychRTBox('GetSecs', store.rtbox.rthandle);
     
     % also check keyboard in case of an escape

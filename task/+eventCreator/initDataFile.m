@@ -41,9 +41,7 @@ dataFile.descr.expMode = expMode;
 
 dataFile.events.exp_startTime        = GetSecs;
 dataFile.events.practice_startTime   = [];
-dataFile.events.practice_intro_end   = [];
 dataFile.events.experiment_startTime = [];
-dataFile.events.experiment_intro_end = [];
 dataFile.events.exp_abort            = [];
 dataFile.events.exp_missedTrial      = []; logical(dataFile.events.exp_missedTrial);
 dataFile.events.exp_stopCriterion    = []; logical(dataFile.events.exp_stopCriterion);
