@@ -1,14 +1,3 @@
-####### SETUP ######
-using ActionModels, HierarchicalGaussianFiltering
-using Distributions
-using StatsPlots
-using Random, Missings 
-using DelimitedFiles
-
-categProbs  = (avatar1 = 0.9, avatar2 = 0.2)
-nCategTrials = 60
-phaseProb    = [0.80, 0.20, 0.80, 0.60, 0.20, 0.80]
-phaseLength  = [40, 10, 10, 20, 20, 20]
 
 # find size indicators for different vectors
 nCategories = length(categProbs)
