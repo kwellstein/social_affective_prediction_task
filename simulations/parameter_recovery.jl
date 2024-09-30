@@ -86,4 +86,4 @@ rmprocs(workers())
 
 
 #Save the results
-CSV.write("parameter_recovery_results.csv",results_df)
+CSV.write("generated_data/parameter_recovery_results.csv",results_df)
