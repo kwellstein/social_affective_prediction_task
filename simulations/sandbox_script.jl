@@ -29,8 +29,8 @@ falseIdxArray = fill(0,Int(nTrials-nTrueTrials))
 
 ## LOOPING over task phases and creating response arrays
 
-   global startTrueIdx # when the first outcome=1 starts in each phase: this is a variable that is updated throughout
-   global startFalseIdx # when the first outcome=0 starts in each phase: this is a variable that is updated throughout
+   startTrueIdx = 1 # when the first outcome=1 starts in each phase: this is a variable that is updated throughout
+   startFalseIdx = 1 # when the first outcome=0 starts in each phase: this is a variable that is updated throughout
     for phase in 1:nPhases
 
         if phase == 1
@@ -109,6 +109,9 @@ end =#
     trueIdxArray  = shuffle(trueIdxArray) 
     falseIdxArray = shuffle(falseIdxArray)
 
+    endTrueIdx    = 0
+    endFalseIdx   = 0
+
     for iCategory in 1:nCategories
         if delta > 0
             nTrues  = Int(nCategTrials*categProbs[iCategory] + addTrueTrials[iCategory])
@@ -146,7 +149,7 @@ end =#
         end
     end
 
-    return input_sequence
+    return input_sequence[2:end]
   #Save input sequence
 writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
 

@@ -1,7 +1,5 @@
 
 using ActionModels, HierarchicalGaussianFiltering
-using Distributions
-using StatsPlots
 
 ##########################################
 ### FUNCTION FOR CREATING SUITABLE HGF ###
@@ -159,7 +157,6 @@ end
 ######## ACTION MODEL FUNCTION  ##########
 ##########################################
 function respond_to_avatar(agent::Agent, input::Any)
-
     ### SETUP ###
     #Unpack the input into which avatar has been observed, and what the observation was
     observed_avatar, observation = input
