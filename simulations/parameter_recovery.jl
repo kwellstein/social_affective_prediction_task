@@ -55,11 +55,6 @@ addprocs(4)
         "action_noise" => collect(0.1:0.3:2.5),
     )
 
-    true_parameters = Dict(
-        "xprob_volatility" => collect(-10:5:-1),
-        "action_noise" => collect(0.1:1:2.5),
-    )
-
     ## Priors to use ##
     priors = Dict(
         "xprob_volatility" => truncated(Normal(-5, 2), upper = -0.5),
@@ -71,7 +66,6 @@ addprocs(4)
 
     #Sampler settings
     sampler_settings = (;n_iterations = 1000)
-    sampler_settings = (;n_iterations = 10)
 end
 
 #Run parameter recovery
@@ -86,4 +80,10 @@ results_df = parameter_recovery(
     show_progress = true,
 )
 
+
+#Turn off extra cores
 rmprocs(workers())
+
+
+#Save the results
+CSV.write("parameter_recovery_results.csv",results_df)
