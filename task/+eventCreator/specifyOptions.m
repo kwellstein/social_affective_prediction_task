@@ -33,7 +33,7 @@ function options = specifyOptions(PID,expMode,expType)
 %% specify paths
 
 options.paths.codeDir  = pwd;
-options.paths.inputDir = '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/HGF_simulations/generated_data/';
+options.paths.inputDir = '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/simulations/generated_data/';
 options.paths.saveDir  = '/Users/kwellste/projects/SEPAB/tasks/data/';
 %% specifing experiment mode specific settings
 

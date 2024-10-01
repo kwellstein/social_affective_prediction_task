@@ -76,7 +76,7 @@ while taskRunning
 
     if resp == 1
         % make sure that participants delineate smile perios with start and stop button
-        if strcmp(expType,'fmri')
+        % if strcmp(expType,'fmri')
             ticID   = tic();
 
             % make sure participants pressed the stop button to indicate that they have
@@ -85,11 +85,11 @@ while taskRunning
             RT = toc(ticID);
             [~,dataFile] = eventListener.logData(RT,[options.task.name,'SmileTime'],'rt',dataFile,trial);
 
-        else
-            Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-            Screen('Flip', options.screen.windowPtr);
-            eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
-        end
+        % else
+        %     Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
+        %     Screen('Flip', options.screen.windowPtr);
+        %     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
+        % end
     else
         % show stimulus again
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
