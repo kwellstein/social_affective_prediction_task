@@ -3,7 +3,7 @@ using Distributed #For parallel processing
 using StatsPlots #For plotting
 include("helper_functions/helper_functions.jl") #Plots for the simulations
 
-#Active cores
+#NUmber of cores
 addprocs(4)
 
 #On all cores
@@ -19,23 +19,23 @@ addprocs(4)
     #Which input sequences to use
     input_sequence = CSV.File("generated_data/input_sequence.csv") |> Tables.matrix
     
-    #Number of avatars
-    n_avatars = 3
+    #Number of avatars (the max of the inputs)
+    n_avatars = findmax(input_sequence[:,1])[1]
 
     #Set the default parameters
     default_parameters = Dict(
         #Parameters for the probability nodes    
-        "xprob_volatility"                => -2,
-        "xprob_initial_precision"         => 100,
+        "xprob_volatility"                => -2, #This will be estimated
+        "xprob_initial_precision"         => 1,
         "xprob_initial_mean"              => 0,
 
         #Parameters for the volatility node
-        ("xvol", "volatility")            => -8,
+        ("xvol", "volatility")            => -10, #This can be estimated, porbably won't recover
         ("xvol", "initial_precision")     => 1,
         ("xvol", "initial_mean")          => 1,
 
         #Action noise parameter
-        "action_noise"                    => 1,
+        "action_noise"                    => 1, #This will be estimated
 
         #Coupling strengths
         "xbinary_xprob_coupling_strength" => 1,
@@ -51,18 +51,20 @@ addprocs(4)
 
     ## The ranges of parameters to be recovered ##
     true_parameters = Dict(
-        "xprob_volatility" => collect(-10:1:-1),
+        #("xvol", "volatility") => collect(-10:1:-1), #Comment this out to not estimate the volatility of the volatility
+        "xprob_volatility" => collect(-10:1:-2),
         "action_noise" => collect(0.1:0.3:2.5),
     )
 
     ## Priors to use ##
     priors = Dict(
+        #("xvol", "volatility") => truncated(Normal(-5, 2), upper = -0.5), #Comment this out if you want to not estimate the volatility of the volatility
         "xprob_volatility" => truncated(Normal(-5, 2), upper = -0.5),
         "action_noise" => truncated(Normal(0, 1), lower = 0),
     )
 
     #Times to repeat each recovery
-    n_repetitions = 3
+    n_repetitions = 10
 
     #Sampler settings
     sampler_settings = (;n_iterations = 1000)

@@ -35,12 +35,12 @@ phaseLength  = [40, 10, 10, 20, 20, 20],
 #Agent parameter
 agent_parameters = Dict(
         #Parameters for the probability nodes    
-        "xprob_volatility"                => -2,
-        "xprob_initial_precision"         => 100,
+        "xprob_volatility"                => -3, #This is typically between -3 and -8 ish
+        "xprob_initial_precision"         => 1,
         "xprob_initial_mean"              => 0,
 
         #Parameters for the volatility node
-        ("xvol", "volatility")            => -8,
+        ("xvol", "volatility")            => -2, #This shouldn't really matter much
         ("xvol", "initial_precision")     => 1,
         ("xvol", "initial_mean")          => 1,
 
@@ -66,111 +66,10 @@ reset!(agent)
 simulated_actions = give_inputs!(agent, input_sequence);
 
 #Plot the belief trajectory
-plot_belief_trajectory(agent, n_avatars, avatar_colors)
+plt = plot_belief_trajectory(agent, n_avatars, avatar_colors)
 
+#Save the plot
+savefig(plt,"generated_data/belief_trajectory$n_avatars.png")
 
 #This line can save the generated input sequence
-writedlm( "generated_data/input_sequence2.csv", input_sequence, ',')
-
-
-
-
-
-
-
-
-
-
-
-
-# # Model inversion
-# priors = Dict(
-#     "xprob_volatility" => Normal(-2, 2),
-#     "action_noise" => truncated(Normal(0, 2), lower = 0),
-# )
-# results = fit_model(agent, priors, input_sequence, simulated_actions)
-# #plot(results)
-# plot_parameter_distribution(results, priors)
-# #end
-
-# give_inputs!(agent, input_sequence)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
-#for i in 1:n_avatars
-###    plot!(agent, "u$i", label = "avatar $i", color = avatar_colors[i])
-#end
-
-
-# if i == n_avatars
-#     savefig("BeliefTraj_.png")
-# end
-
-
-# TO DO: save dataframe
-
-### DO PARAMETER ESTIMATION ###
-### For loop over: different input sequences, different true omega values, different priors
-### Create dataframe
-### Fit all the models
-### Pick the input sequence that gives the best recovery for the parameter values of interest
-
-
-
-
-## DATAFRAME VERSION
-#results = fit_model(agent, priors, dataframe, 
-#                    input_cols = [:colname], 
-#                    action_cols = [:colname], 
-#                    independent_group_cols = [:colname],
-#                    n_cores = 4,
-#                    n_chains = 4,
-#                    iterations = 1000)
-
-
-#plot_trajectory(hgf, "xvol")
-
-#get_parameters(hgf)
-
-
-########### NOTES ##########
-
-# #Single agent fitting
-
-
-
-
-
-# ##### JGET MODEL ####
-# agent = premade_agent("hgf_gaussian", Dict(
-#     "HGF" => premade_hgf("JGET")
-# ))
-
-
-
-
-#Step 1: try manually input sequences and parameter settings to see agent belief behaviour 
-#Step 2: try manually looking for differences in priors and posteriors 
-#Step 3: brutoe force method:
-
-#### BRUTE FORCE METHOD ###
-# FOR LOOP WITH DIFFERENT INPUT SEQUENCES
-    #FOR LOOP WITH DIFFERENT PARAMETER SETTINGS
-        # FOR LOOP WITH MULTIPLE AGENTS
+writedlm( "generated_data/input_sequence$n_avatars.csv", input_sequence, ',')
