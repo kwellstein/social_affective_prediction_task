@@ -24,7 +24,7 @@ function dataFile = showSlidingBarQuestion(cue,options,dataFile,task,trial)
 % -------------------------------------------------------------------------
 
 %% INITIALIZE variables
-oscillationAmp = options.screen.ypixels*0.25; % space the bar will slide accross
+oscillationAmp = options.screen.ypixels*0.2; % space the bar will slide accross
 angFreq        = 0.85;                        % sliding bar speed
 startPhase     = options.task.slidingBarStart(trial); % starting point of sliding bar
 time           = 0;                           % initialized as "0", is updated in sliding bar loop
@@ -97,7 +97,7 @@ loopStartTime = GetSecs();
             sca
             return;
             
-        elseif any(keyCode)
+        elseif keyCode == options.keys.stopSmile
             waitingForResp = 0;
 
         elseif ~isempty(keyCode) % only used when only a specific button can stop the sliding bar!

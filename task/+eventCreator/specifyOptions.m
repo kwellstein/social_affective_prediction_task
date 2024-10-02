@@ -140,9 +140,9 @@ switch expMode
         options.screen.stopPredictText  = '\n stopped smiling?';
         options.screen.smileHoldText    = '\n stop smile button not active yet!'; %% UNUSED AS OF NOW
         options.screen.firstTagetText   = ['You reached ',options.task.firstTarget,' points! ' ...
-            '\n This added AUD 3 to your reimbursement.'];
+            '\n This added AUD 5 to your reimbursement.'];
         options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
-            '\n This added another AUD 3 to your reimbursement.'];
+            '\n This added another AUD 5 to your reimbursement.'];
         options.screen.expEndText     = ['Thank you! ' ...
             'You finished the ',options.task.name, 'task.'];
 
@@ -161,9 +161,9 @@ switch expMode
             '\n  the button to stop smiling won''t be active immediately']; 
         options.screen.waitNoSmileText = 'wait and see how the face will respond';
         options.screen.firstTagetText  = ['You reached ',options.task.firstTarget,' points! ' ...
-            '\n This added AUD 3 to your reimbursement.'];
+            '\n This added AUD 5 to your reimbursement.'];
         options.screen.finalTagetText  = ['You reached ',options.task.finalTarget,' points! ' ...
-            '\n This added another AUD 3 to your reimbursement.'];
+            '\n This added another AUD 5 to your reimbursement.'];
         options.screen.expEndText      = ['Thank you! \n' ...
             'You finished the ',options.task.name, 'task!'];
 end
@@ -197,10 +197,10 @@ end
 
 %% DURATIONS OF EVENTS
 % CHANGE
-if strcmp(expMode,'debug')
+if strcmp(expMode,'debug') % in ms
     options.dur.waitnxtkeypress = 2000; % in ms
     options.dur.showStimulus    = 500; % in ms
-    options.dur.showSmile       = 2;    % in sec
+    options.dur.showSmile       = 15000; 
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
@@ -208,10 +208,10 @@ if strcmp(expMode,'debug')
     options.dur.rtTimeout       = 500;
     options.dur.showWarning     = 500;
     options.dur.ITI             = randi([150,250],options.task.nTrials,1);
-else
+else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 400;  % in ms
-    options.dur.showSmile       = 1000;   % in sec
+    options.dur.showStimulus    = 1000;  % in ms
+    options.dur.showSmile       = 15000;  
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms

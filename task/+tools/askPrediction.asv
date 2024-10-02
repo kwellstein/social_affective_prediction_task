@@ -95,11 +95,7 @@ else
 
         if any(keyCode == options.keys.stopSmile)
             waiting = 0;
-            % show face
-            Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
-            Screen('Flip', options.screen.windowPtr);
-            eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
-            
+
             % in case ESC is pressed this will be logged and saved and the experiment stops here
         elseif any(keyCode == options.keys.escape)
             DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
@@ -113,7 +109,7 @@ else
 
             % if the participant takes too long (as defined in the options)this will
             % be logged and saved as NaN. A time-out message will be displayed
-        elseif RT > options.dur.showSmile
+        elseif RT > options.dur.showSmil
             DrawFormattedText(options.screen.windowPtr, options.screen.stopPredictText,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);

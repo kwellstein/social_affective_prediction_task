@@ -24,6 +24,5 @@ dataFile.SAPPrediction.rt        = dataFile.SAPPrediction.rt(1:trial,:);
 dataFile.SAPQuestion.response    = dataFile.SAPQuestion.response(1:trial,:);
 dataFile.SAPQuestion.rt          = dataFile.SAPQuestion.rt(1:trial,:);
 dataFile.SAPSmileTime.rt         = dataFile.SAPSmileTime.rt(1:trial,:);
-dataFile.SAPSummary.points       = dataFile.SAPSummary.points (1:trial,:);
 
 end
