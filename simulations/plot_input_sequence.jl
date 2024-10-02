@@ -26,19 +26,10 @@ n_avatars = length(avatar_colors)
 
 #Generate input sequence
 input_sequence = create_input_sequence(;
-    #Probabilities of each avatar smiling
-    AvatarTrueProbs = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
-    #Number of trials in each phase
-    PhaseLenghts = [40, 10, 10, 20, 20, 20],
-    #Probabilitiy of each avatar being shown in each phase
-    PhaseAvatarProbs = [
-        [0.8, 0.1, 0.1],
-        [0.1, 0.1, 0.8],
-        [0.1, 0.8, 0.1],
-        [0.3, 0.3, 0.4],
-        [0.5, 0.0, 0.5],
-        [1.0, 0.0, 0.0],
-    ]
+categProbs  = (avatar1 = 0.8, avatar2 = 0.2, avatar3 = 0.6),
+nCategTrials = 40,
+phaseProb    = [0.80, 0.20, 0.80, 0.60, 0.20, 0.80],
+phaseLength  = [40, 10, 10, 20, 20, 20],
 )
 
 #Agent parameter
@@ -79,7 +70,7 @@ plot_belief_trajectory(agent, n_avatars, avatar_colors)
 
 
 #This line can save the generated input sequence
-writedlm( "generated_data/input_sequence.csv",  input_sequence, ',')
+writedlm( "generated_data/input_sequence2.csv", input_sequence, ',')
 
 
 

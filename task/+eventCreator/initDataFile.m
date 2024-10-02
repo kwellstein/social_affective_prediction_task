@@ -1,4 +1,4 @@
-function dataFile = initDataFile(PID,expType,expMode)
+function dataFile = initDataFile(PID,expType,expMode,handedness)
 
 % -----------------------------------------------------------------------
 % initDataFile.m initializes the datafile for this experiment
@@ -31,10 +31,11 @@ function dataFile = initDataFile(PID,expType,expMode)
 %
 
 %% EXP METADATA
-dataFile.descr.PPID    = PID;
-dataFile.descr.date    = datetime;
-dataFile.descr.expType = expType;
-dataFile.descr.expMode = expMode;
+dataFile.descr.PPID       = PID;
+dataFile.descr.date       = datetime;
+dataFile.descr.expType    = expType;
+dataFile.descr.expMode    = expMode;
+dataFile.descr.handedness = handedness;
 
 %% EVENTS 
 % Time stamps and special occurences (e.g. "abort event")

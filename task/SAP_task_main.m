@@ -52,9 +52,10 @@ diary on
 addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
 
 %% SPECIFY inputs
-expMode = input('Enter ''debug'', ''practice'' or ''experiment'' ','s');
-expType = input('Enter ''behav'' or ''fmri'' ','s');
-PID     = input('Enter participant id (PID)','s');
+expMode    = input('Enter ''debug'', ''practice'' or ''experiment'' ','s');
+expType    = input('Enter ''behav'' or ''fmri'' ','s');
+PID        = input('Enter participant id (PID)','s');
+handedness = input('Enter participant''s handedness, ''right'' or ''left''','s');
 
 %% Check if inputs are correct
 
@@ -80,11 +81,20 @@ if ~numel(PID) == 4 % PPID check
     disp('PID has to be a 4 digit string');
 end                  % END PPID check
 
+if strcmp(handedness, 'right')% handedness check
+    disp('The participant''s dominant hand is the right one');
+elseif strcmp(handedness, 'left')
+    disp('The participant''s dominant hand is the left one');
+
+else
+    expType = input('Your input is not correct, type either ''right'' or ''left'' :','s');
+end % END expType check
+
 %% SETUP DATAFILE
-dataFile = eventCreator.initDataFile(PID,expType,expMode);
+dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness);
 
 %% SETUP OPTIONS
-options  = eventCreator.specifyOptions(PID,expMode,expType);
+options  = eventCreator.specifyOptions(PID,expMode,expType,handedness);
 
 %% SETUP ENVIRONMENT
 options  = tools.prepEnvironment(options);

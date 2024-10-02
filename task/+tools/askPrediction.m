@@ -98,7 +98,7 @@ else
             % show face
             Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
-            eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+            eventListener.commandLine.wait2(options.dur.beforeOutcome,options,dataFile,0);
             
             % in case ESC is pressed this will be logged and saved and the experiment stops here
         elseif any(keyCode == options.keys.escape)

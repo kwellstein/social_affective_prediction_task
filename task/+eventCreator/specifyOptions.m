@@ -1,4 +1,4 @@
-function options = specifyOptions(PID,expMode,expType)
+function options = specifyOptions(PID,expMode,expType,handedness)
 % -----------------------------------------------------------------------
 % specifyOptions.m creates structs for the different stages in the task
 %                  Change this file if you would like to change task settings
@@ -176,23 +176,43 @@ options.screen.qTextR = 'Always                      ';
 KbName('UnifyKeyNames')
 switch expType
     case 'behav'
-        options.keys.startSmile = KbName('LeftArrow'); % KeyCode: 37
-        options.keys.stopSmile  = KbName('RightArrow'); % KeyCode: 39
-        options.keys.noSmile    = KbName('UpArrow'); % KeyCode: 38
         options.keys.escape     = KbName('ESCAPE');
+
+        if strcmp(handedness,'right')
+        options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+        options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+        options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+
+        else
+        options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+        options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+        options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+        end
 
     case 'fmri'
-        options.keys.startSmile = KbName('LeftArrow'); % CHANGE
-        options.keys.stopSmile  = KbName('RightArrow'); % CHANGE
-        options.keys.noSmile    = KbName('UpArrow'); % CHANGE
         options.keys.escape     = KbName('ESCAPE');
 
+        if strcmp(handedness,'right')
+        options.keys.startSmile = KbName('1');   % CHANGE: This should dominant hand index finger
+        options.keys.stopSmile  = KbName('3');    % CHANGE: This should non-dominant hand index finger
+        options.keys.noSmile    = KbName('2'); % CHANGE: This should dominant hand ring finger
+        else
+        options.keys.startSmile = KbName('3');     % KeyCode: 226, dominant hand index finger
+        options.keys.stopSmile  = KbName('2');   % KeyCode: 37, non-dominant hand index finger
+        options.keys.noSmile    = KbName('4'); % KeyCode: 224, dominant hand ring finger
+        end
+
     otherwise
-        disp(' ...no valid expType specified, using behav options... ')
-        options.keys.startSmile = KbName('LeftArrow'); % CHANGE
-        options.keys.stopSmile  = KbName('RightArrow'); % CHANGE
-        options.keys.noSmile    = KbName('UpArrow'); % CHANGE
-        options.keys.escape     = KbName('ESCAPE');
+        if strcmp(handedness,'right')
+        options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+        options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+        options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+
+        else
+        options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+        options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+        options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+        end
 end
 
 %% DURATIONS OF EVENTS
@@ -216,9 +236,10 @@ else % in ms
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showReadyScreen =  1500;
+    options.dur.beforeOutcome   =  500;
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([1500,2500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.ITI             = randi([2000,5000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 %% MESSAGES
