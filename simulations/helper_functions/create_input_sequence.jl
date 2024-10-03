@@ -1,10 +1,10 @@
 using Distributions
 
- ### OLD VERSION ###
+
 function create_input_sequence(;
-     categProbs  = (avatar1 = 0.8, avatar2 = 0.2, avatar3 = 0.6),
+     categProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
      nCategTrials = 40,
-     phaseProb    = [0.80, 0.20, 0.80, 0.60, 0.20, 0.80],
+     phaseProb    = [0.80, 0.30, 0.80, 0.30, 0.60, 0.80],
      phaseLength  = [40, 10, 10, 20, 20, 20],
  )
 
@@ -149,43 +149,3 @@ function create_input_sequence(;
 
      return input_sequence
  end
-
- #= function create_input_sequence(;
-    #Probabilities of each avatar smiling
-    AvatarTrueProbs = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
-    #Number of trials in each phase
-    PhaseLenghts = [40, 10, 10, 20, 20, 20],
-    #Probabilitiy of each avatar being shown in each phase
-    PhaseAvatarProbs = [
-        [0.8, 0.1, 0.1],
-        [0.1, 0.1, 0.8],
-        [0.1, 0.8, 0.1],
-        [0.3, 0.3, 0.4],
-        [0.5, 0.0, 0.5],
-        [1.0, 0.0, 0.0],
-    ]
-)
-
-    #Calcualte the probabilities of smiles at each phase
-    PhaseTrueProbs = map(PhaseProbs -> sum(collect(AvatarTrueProbs) .* PhaseProbs), PhaseAvatarProbs)
-
-    #Display it to Katharina
-    @warn "the probabilities of smiles in each phase are: $PhaseTrueProbs"
-
-    #Initialize array for the shown avatars
-    shown_avatars = Int64[]
-    
-    #Go through each phase
-    for (phase_length, avatar_probs) in zip(PhaseLenghts, PhaseAvatarProbs)
-        #Sample which avatar is shown on each trial and store it
-        shown_avatars = vcat(shown_avatars, rand(Categorical(avatar_probs), phase_length))
-    end
-
-    #Sample the smiles for each shown avatar (on each trial)
-    shown_smiles = map(shown_avatar -> rand(Bernoulli(AvatarTrueProbs[shown_avatar])), shown_avatars)
-
-    input_sequence = hcat(shown_avatars, shown_smiles)
-
-    return input_sequence
-
-end =#

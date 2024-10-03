@@ -26,9 +26,9 @@ n_avatars = length(avatar_colors)
 
 #Generate input sequence
 input_sequence = create_input_sequence(;
-categProbs  = (avatar1 = 0.8, avatar2 = 0.2, avatar3 = 0.6),
+categProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
 nCategTrials = 40,
-phaseProb    = [0.80, 0.20, 0.80, 0.60, 0.20, 0.80],
+phaseProb    = [0.80, 0.30, 0.80, 0.30, 0.60, 0.80],
 phaseLength  = [40, 10, 10, 20, 20, 20],
 )
 

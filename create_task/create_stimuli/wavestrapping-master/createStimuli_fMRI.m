@@ -18,9 +18,9 @@ dwtmode('per')
 %% Input
 % Read Images that will be amended
 imName = {'F07_NE-HA_output01';'F07_NE-HA_output31';'F11_NE-HA_output01';'F11_NE-HA_output31';...
-    'F22_NE-HA_output01';'F22_NE-HA_output31';'F33_NE-HA_output01';'F11_NE-HA_output01';'F11_NE-HA_output31'; ...
+    'F22_NE-HA_output01';'F22_NE-HA_output31';'F33_NE-HA_output01';'F33_NE-HA_output31';...
     'M13_NE-HA_output01';'M13_NE-HA_output31';'M14_NE-HA_output01';'M14_NE-HA_output31';...
-    'M24_NE-HA_output01';'M24_NE-HA_output31';'M29_NE-HA_output01';'F11_NE-HA_output31'};
+    'M24_NE-HA_output01';'M24_NE-HA_output31';'M29_NE-HA_output01';'M29_NE-HA_output31'};
 
 % Define wavestrapping parameters
 wv = 'db3'; % Which wavelet: use 6th order Daubechies wavelet
@@ -60,9 +60,9 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     imageOrigResize = imageOrig;
     %imageOrigResize = imageOrig(111:1426,111:1426);
     %imageOrigResize = imresize(imageOrigResize,0.5835);
-    imwrite(im2uint8(imageOrigResize),strcat('stimuli_fMRI/B1/N1S0F0R0_',num2str(j),'_1.tiff'))
-    imwrite(im2uint8(imageOrigResize),strcat('stimuli_fMRI/B2/N1S1F1R1_',num2str(j),'_1.tiff'))
-    imwrite(im2uint8(imageOrigResize),strcat('stimuli_fMRI/B7/N1S2F1R1_',num2str(j),'_1.tiff'))
+    imwrite(im2uint8(imageOrigResize),strcat('stimuli_fMRI/B1/N1S0F0R0_',imName{j},'_1.tiff'))
+    imwrite(im2uint8(imageOrigResize),strcat('stimuli_fMRI/B2/N1S1F1R1_',imName{j},'_1.tiff'))
+    imwrite(im2uint8(imageOrigResize),strcat('stimuli_fMRI/B7/N1S2F1R1_',imName{j},'_1.tiff'))
 
     % B2_2
     %imageN1S1F1R1 = rectsurr2(imageOrig, nS1, wv, cz, 19/20); % wavestrap using rectsurr2
@@ -85,7 +85,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
     %Write out image and clear some variables
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B2/N1S1F1R1_',num2str(j),'_2.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B2/N1S1F1R1_',imName{j},'_2.tiff'))
     clear sX M Y
 
     % B3
@@ -104,7 +104,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
         Y=reshape(M(:,1),N,N);
         Y=Y.*template;
         Y=Y+mean(mean(Y)).*~template;
-        imwrite(im2uint8(Y),strcat('stimuli_fMRI/B3/N1S1F2R1_',num2str(j),'_',num2str(k),'.tiff'))
+        imwrite(im2uint8(Y),strcat('stimuli_fMRI/B3/N1S1F2R1_',imName{j},'_',num2str(k),'.tiff'))
         clear sX M Y
     end
 
@@ -123,7 +123,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),N,N);
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B7/N1S2F1R1_',num2str(j),'_2.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B7/N1S2F1R1_',imName{j},'_2.tiff'))
     clear sX M Y
 
     % B8
@@ -142,7 +142,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
         Y=reshape(M(:,1),N,N);
         Y=Y.*template;
         Y=Y+mean(mean(Y)).*~template;
-        imwrite(im2uint8(Y),strcat('stimuli_fMRI/B8/N1S2F2R1_',num2str(j),'_',num2str(k),'.tiff'))
+        imwrite(im2uint8(Y),strcat('stimuli_fMRI/B8/N1S2F2R1_',imName{j},'_',num2str(k),'.tiff'))
         clear sX M Y
     end
 
@@ -162,7 +162,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),origImageDim(1),origImageDim(2));
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/imageNoiseAllButS12_',num2str(j),'_Father.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/imageNoiseAllButS12_',imName{j},'_Father.tiff'))
     clear sX M Y
 
     imageNoise = rectsurr2(imageNoiseAllButS12, nS12, wv, cz, 19/20);
@@ -176,7 +176,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),origImageDim(1),origImageDim(2));   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B12/imageNoise_',num2str(j),'_Father.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B12/imageNoise_',imName{j},'_Father.tiff'))
     clear sX M Y
 
     %B4 and B5
@@ -197,10 +197,10 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
         Y=Y.*template;
         Y=Y+mean(mean(Y)).*~template;
         if k == 1 || k == 2
-            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B4/N2S1F1R1_',num2str(j),'_',num2str(k),'.tiff'))
-            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B5/N2S1F2R1_',num2str(j),'_',num2str(k),'.tiff'))
+            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B4/N2S1F1R1_',imName{j},'_',num2str(k),'.tiff'))
+            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B5/N2S1F2R1_',imName{j},'_',num2str(k),'.tiff'))
         else
-            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B5/N2S1F2R1_',num2str(j),'_',num2str(k),'.tiff'))
+            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B5/N2S1F2R1_',imName{j},'_',num2str(k),'.tiff'))
         end
         clear sX M Y
     end
@@ -217,7 +217,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),origImageDim(1),origImageDim(2));   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B6/N3S1F1R1_',num2str(j),'_Father.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B6/N3S1F1R1_',imName{j},'_Father.tiff'))
     clear sX M Y
 
     %imageN3S1F1R1_FatherResize = imageN3S1F1R1_Father(111:1426,111:1426);
@@ -233,7 +233,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),N,N);   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B6/N3S1F1R1_',num2str(j),'_1.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B6/N3S1F1R1_',imName{j},'_1.tiff'))
     clear sX M Y
 
     imageN3S1F1R1_Child = rectsurr2(imageN3S1F1R1_Father, nS1, wv, cz, 19/20);
@@ -251,7 +251,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),N,N);   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B6/N3S1F1R1_',num2str(j),'_2.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B6/N3S1F1R1_',imName{j},'_2.tiff'))
     clear sX M Y
 
 
@@ -273,10 +273,10 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
         %                       Y=Y.*template;
         %      Y=Y+mean(mean(Y)).*~template;
         if k == 1 || k == 2
-            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B9/N2S2F1R1_',num2str(j),'_',num2str(k),'.tiff'))
-            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B10/N2S2F2R1_',num2str(j),'_',num2str(k),'.tiff'))
+            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B9/N2S2F1R1_',imName{j},'_',num2str(k),'.tiff'))
+            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B10/N2S2F2R1_',imName{j},'_',num2str(k),'.tiff'))
         else
-            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B10/N2S2F2R1_',num2str(j),'_',num2str(k),'.tiff'))
+            imwrite(im2uint8(Y),strcat('stimuli_fMRI/B10/N2S2F2R1_',imName{j},'_',num2str(k),'.tiff'))
         end
         clear sX M Y
     end
@@ -293,7 +293,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),origImageDim(1),origImageDim(2));   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B11/N3S2F1R1_',num2str(j),'_Father.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B11/N3S2F1R1_',imName{j},'_Father.tiff'))
     clear sX M Y
 
     %imageN3S2F1R1_FatherResize = imageN3S2F1R1_Father(111:1426,111:1426);
@@ -309,7 +309,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),N,N);   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B11/N3S2F1R1_',num2str(j),'_1.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B11/N3S2F1R1_',imName{j},'_1.tiff'))
     clear sX M Y
 
     imageN3S2F1R1_Child = rectsurr2(imageN3S2F1R1_Father, nS2, wv, cz, 19/20);
@@ -327,7 +327,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),N,N);   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B11/N3S2F1R1_',num2str(j),'_2.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B11/N3S2F1R1_',imName{j},'_2.tiff'))
     clear sX M Y
 
     % B12
@@ -344,7 +344,7 @@ for j = 1:size(imName,1) % loop over all stimuli listed above.
     Y=reshape(M(:,1),N,N);   %surrogate image with amplitude spectra of natural one
     Y=Y.*template;
     Y=Y+mean(mean(Y)).*~template;
-    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B12/N2S0F0R0_',num2str(j),'_1.tiff'))
+    imwrite(im2uint8(Y),strcat('stimuli_fMRI/B12/N2S0F0R0_',imName{j},'_1.tiff'))
 
     clear X sX M Y X_notResized
 
