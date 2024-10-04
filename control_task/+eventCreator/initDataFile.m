@@ -1,4 +1,4 @@
-function dataFile = initDataFile(PID,expType,expMode)
+function dataFile = initDataFile(PID,expType,expMode,handedness)
 
 % -----------------------------------------------------------------------
 % initDataFile.m initializes the datafile for this experiment
@@ -35,6 +35,7 @@ dataFile.descr.PPID    = PID;
 dataFile.descr.date    = datetime;
 dataFile.descr.expType = expType;
 dataFile.descr.expMode = expMode;
+dataFile.descr.handedness = handedness;
 
 %% EVENTS 
 % Time stamps and special occurences (e.g. "abort event")
@@ -50,14 +51,11 @@ dataFile.events.exp_end              = [];
 
 %% TASK DATA
 % COL 1: if smile predicted ==1, if neutral predicted == 0
-dataFile.SAPPrediction.rt        = zeros(200,1);
-dataFile.SAPSmileTime.rt         = zeros(200,1);
+dataFile.SAPCPrediction.rt        = zeros(200,1);
 % COL 1: if smile response ==1, if neutral response == 0, COL 2: time point
-dataFile.SAPPrediction.response  = zeros(200,2);
-dataFile.SAPPrediction.congruent = zeros(200,1); % if congruent ==1, if incongurent == 0
+dataFile.SAPCPrediction.response  = zeros(200,2);
+dataFile.SAPCPrediction.congruent = zeros(200,1); % if congruent ==1, if incongurent == 0
 % COL 1: response on sliding bar, COL 2: time point
-dataFile.SAPQuestion.response = zeros(200,2);
-dataFile.SAPQuestion.rt       = zeros(200,1);
-dataFile.SAPsummary.points    = 0;
+dataFile.SAPSummary.points    = 0;
 
 end

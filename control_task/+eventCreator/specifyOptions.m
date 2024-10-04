@@ -37,6 +37,10 @@ options.paths.inputDir = '/Users/kwellste/projects/SEPAB/tasks/social_affective_
 options.paths.saveDir  = '/Users/kwellste/projects/SEPAB/tasks/data/';
 %% specifing experiment mode specific settings
 
+options.task.name = 'SAPC';
+options.task.firstTarget = 50;
+options.task.finalTarget = 100;
+
 switch expMode
     case 'experiment'
         % stimulus durations
@@ -45,11 +49,9 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.showPoints = 0;
-        options.task.nAvatars = 3; % softcode!
-        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
+        options.task.nEggs = 3; % softcode!
+        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence_',options.task.name,'.csv']));
         options.task.nTrials  = size(options.task.inputs,1);
-        rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
@@ -64,7 +66,7 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.showPoints = 1;
-        options.task.nAvatars = 2;
+        options.task.nEggs = 2;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
 
         if strcmp(expType,'behav')
@@ -83,7 +85,7 @@ switch expMode
         options.task.showPoints = 1;
         options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nAvatars = 2;
+        options.task.nEggs = 2;
         options.doKeyboard = 1;
 
     otherwise
@@ -94,19 +96,16 @@ switch expMode
         options.task.showPoints = 1;
         options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nAvatars = 2;
+        options.task.nEGGS = 2;
         options.doKeyboard = 1;
 end
 
-options.task.name = 'SAP';
-options.task.firstTarget = 50;
-options.task.finalTarget = 100;
 
 %% Select Stimuli based on Randomisation list
-RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
-rowIdx      = find(RandTable.PID==str2num(PID));
-avatars     = RandTable(rowIdx,:);
-options.task.avatarArray = string(options.task.inputs(:,1));
+RandTable = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
+rowIdx    = find(RandTable.PID==str2num(PID));
+eggs      = RandTable(rowIdx,:);
+options.task.eggArray = string(options.task.inputs(:,1));
 
 if strcmp(expMode,'debug')
     cellName  = 'fmri_experiment_a';
@@ -116,8 +115,8 @@ else
     cellName  = [expType,'_',expMode,'_a'];
 end
 
-for iAvatar = 1:options.task.nAvatars
-    options.task.avatarArray(strcmp(options.task.avatarArray,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
+for iEgg = 1:options.task.nEggs
+    options.task.eggArray(strcmp(options.task.avatarArray,num2str(iEgg))) = string(eggs.([cellName,num2str(iEgg)]));
 end
 
 %% options screen
@@ -129,67 +128,54 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 
 switch expMode
     case 'experiment'
-        options.screen.qText       = '\n Frequency of smiling back?';
-        options.screen.predictText = ['Choose to smile: use index finger to start & ring finger once your face is neutral again.' ...
-            '\n Choose to stay neutral: indicate choice with middle finger.'];
-        options.screen.startPredictText = '\n smile or neutral?';
-        options.screen.stopPredictText  = '\n stopped smiling?';
-        options.screen.smileHoldText    = '\n stop smile button not active yet!'; %% UNUSED AS OF NOW
-        options.screen.firstTagetText   = ['You reached ',options.task.firstTarget,' points! ' ...
-            '\n This added AUD 3 to your reimbursement.'];
-        options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
-            '\n This added another AUD 3 to your reimbursement.'];
-        options.screen.expEndText     = ['Thank you! ' ...
-            'You finished the ',options.task.name, 'task.'];
-
+        options.screen.predictText    = 'collect?';
     case 'practice'
-        options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
-            '\n Use your ringfinger to stop the sliding bar.'];
-        options.screen.predictText = ['Do you choose to smile at this person because you predict that they will smile back?' ...
-            '\n Use your index finger to start smiling and your ringfinger once you stopped smiling.' ...
-            '\n Use your middlefinger if you choose not to smile at this ' ...
-            '\n person because you predict that they will not smile back.'];
-        options.screen.startPredictText =  ['Do you choose to smile at this person because you predict that they will smile back?' ...
-            '\n Use your index finger to start smiling and continue to smile at them while answering the next question.' ...
-            '\n Use your middlefinger if you choose not to smile at this person because you predict that they will not smile back.'];
-        options.screen.stopPredictText  = 'Finished smiling: use your ring finger to indicate that yoru face is neutral again';
-        options.screen.smileHoldText   = ['please spend some time smiling,' ...
-            '\n  the button to stop smiling won''t be active immediately']; 
-        options.screen.waitNoSmileText = 'wait and see how the face will respond';
-        options.screen.firstTagetText  = ['You reached ',options.task.firstTarget,' points! ' ...
-            '\n This added AUD 3 to your reimbursement.'];
-        options.screen.finalTagetText  = ['You reached ',options.task.finalTarget,' points! ' ...
-            '\n This added another AUD 3 to your reimbursement.'];
-        options.screen.expEndText      = ['Thank you! \n' ...
-            'You finished the ',options.task.name, 'task!'];
+        options.screen.predictText = ['Do you choose to collect this egg because you believe you can resell it at your shop?' ...
+            '\n Use your index finger to collect or your ring finger to reject the egg.'];
 end
 
-options.screen.qTextL = '                       Never';
-options.screen.qTextR = 'Always                      ';
+options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
+    '\n This added AUD 5 to your reimbursement.'];
+options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
+    '\n This added another AUD 5 to your reimbursement.'];
+options.screen.expEndText     = ['Thank you! ' ...
+    'You finished the ',options.task.name, ' ',expMode, '.'];
 
 %% options keyboard
 % use KbDemo to identify kbName and Keycode
 KbName('UnifyKeyNames')
 switch expType
     case 'behav'
-        options.keys.startSmile = KbName('LeftArrow'); % KeyCode: 37
-        options.keys.stopSmile  = KbName('RightArrow'); % KeyCode: 39
-        options.keys.noSmile    = KbName('UpArrow'); % KeyCode: 38
-        options.keys.escape     = KbName('ESCAPE');
+        if strcmp(handedness,'right')
+            options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+
+        else
+            options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+            options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+        end
 
     case 'fmri'
-        options.keys.startSmile = KbName('LeftArrow'); % CHANGE
-        options.keys.stopSmile  = KbName('RightArrow'); % CHANGE
-        options.keys.noSmile    = KbName('UpArrow'); % CHANGE
-        options.keys.escape     = KbName('ESCAPE');
+        if strcmp(handedness,'right')
+            options.keys.collect = KbName('1');   % CHANGE: This should dominant hand index finger
+            options.keys.reject  = KbName('2'); % CHANGE: This should dominant hand ring finger
+        else
+            options.keys.collect = KbName('3');     % KeyCode: 226, dominant hand index finger
+            options.keys.reject  = KbName('4'); % KeyCode: 224, dominant hand ring finger
+        end
 
     otherwise
-        disp(' ...no valid expType specified, using behav options... ')
-        options.keys.startSmile = KbName('LeftArrow'); % CHANGE
-        options.keys.stopSmile  = KbName('RightArrow'); % CHANGE
-        options.keys.noSmile    = KbName('UpArrow'); % CHANGE
-        options.keys.escape     = KbName('ESCAPE');
+        if strcmp(handedness,'right')
+            options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+
+        else
+            options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+            options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+        end
 end
+
+options.keys.escape     = KbName('ESCAPE');
 
 %% DURATIONS OF EVENTS
 % CHANGE
@@ -225,7 +211,7 @@ options.messages.wrongButton   = 'you pressed the wrong button';
 
 %% DATAFILES & PATHS
 options.files.projectID    = 'SAPS_';
-options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
+options.files.namePrefix   = ['SNG_SAPC_',PID,'_',expType];
 options.files.savePath     = [pwd,'/data/',expMode,'/',options.files.projectID,PID];
 mkdir(options.files.savePath);
 options.files.dataFileName = [options.files.namePrefix,'_dataFile.mat'];

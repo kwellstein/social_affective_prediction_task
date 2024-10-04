@@ -18,12 +18,9 @@ function dataFile = cleanDataFields(dataFile,trial)
 % -------------------------------------------------------------------------
 %
 
-dataFile.SAPPrediction.congruent = dataFile.SAPPrediction.congruent(1:trial,:);
-dataFile.SAPPrediction.response  = dataFile.SAPPrediction.response(1:trial,:);
-dataFile.SAPPrediction.rt        = dataFile.SAPPrediction.rt(1:trial,:);
-dataFile.SAPQuestion.response    = dataFile.SAPQuestion.response(1:trial,:);
-dataFile.SAPQuestion.rt          = dataFile.SAPQuestion.rt(1:trial,:);
-dataFile.SAPSmileTime.rt         = dataFile.SAPSmileTime.rt(1:trial,:);
-dataFile.SAPSummary.points       = dataFile.SAPSummary.points (1:trial,:);
+dataFile.SAPCPrediction.congruent = dataFile.SAPPrediction.congruent(1:trial,:);
+dataFile.SAPCPrediction.response  = dataFile.SAPPrediction.response(1:trial,:);
+dataFile.SAPCPrediction.rt        = dataFile.SAPPrediction.rt(1:trial,:);
+dataFile.SAPCSummary.points       = dataFile.SAPSummary.points (1:trial,:);
 
 end

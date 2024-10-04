@@ -1,5 +1,5 @@
 %% _______________________________________________________________________________%
-%% MAIN Script for Social-Affective Prediction (SAP) Task
+%% MAIN Script for Social-Affective Prediction Control (SAPC) Task
 %
 % SYNTAX:  ....
 %
@@ -52,26 +52,27 @@ diary on
 addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
 
 %% SPECIFY inputs
-expMode = input('Enter ''debug'', ''practice'' or ''experiment'' ','s');
-expType = input('Enter ''behav'' or ''fmri'' ','s');
-PID     = input('Enter participant id (PID)','s');
+expMode    = input('Enter ''debug'', ''practice'' or ''experiment'' ','s');
+expType    = input('Enter ''behav'' or ''fmri'' ','s');
+PID        = input('Enter participant id (PID)','s');
+handedness = input('Enter participant''s handedness, ''right'' or ''left''','s');
 
 %% Check if inputs are correct
 
 if strcmp(expMode, 'debug')     % expMode check
-    disp('You are running the SAP task in DEBUG mode');
+    disp('You are running the SAPC task in DEBUG mode');
 elseif strcmp(expMode, 'experiment')
-    disp('You are running the SAP task in EXPERIMENT mode');
+    disp('You are running the SAPC task in EXPERIMENT mode');
 elseif strcmp(expMode, 'practice')
-    disp('You are running the PRACTICE of the SAP task');
+    disp('You are running the PRACTICE of the SAPC task');
 else
     expMode = input('Your input is not correct, type either ''debug'',''practice'' or ''experiment'' :','s');
 end                             % END of mode check
 
 if strcmp(expType, 'behav')% expType check
-    disp('You are running the SAP task behaviorally');
+    disp('You are running the SAPC task behaviorally');
 elseif strcmp(expType, 'fmri')
-    disp('You are running the the SAP task in the scanner');
+    disp('You are running the the SAPC task in the scanner');
 else
     expType = input('Your input is not correct, type either ''behav'' or ''fmri'' :','s');
 end % END expType check
@@ -80,15 +81,23 @@ if ~numel(PID) == 4 % PPID check
     disp('PID has to be a 4 digit string');
 end                  % END PPID check
 
+if strcmp(handedness, 'right')% handedness check
+    disp('The participant''s dominant hand is the right one');
+elseif strcmp(handedness, 'left')
+    disp('The participant''s dominant hand is the left one');
+
+else
+    expType = input('Your input is not correct, type either ''right'' or ''left'' :','s');
+end % END expType check
+
 %% SETUP DATAFILE
-dataFile = eventCreator.initDataFile(PID,expType,expMode);
+dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness);
 
 %% SETUP OPTIONS
-options  = eventCreator.specifyOptions(PID,expMode,expType);
+options  = eventCreator.specifyOptions(PID,expMode,expType,handedness);
 
 %% SETUP ENVIRONMENT
 options  = tools.prepEnvironment(options);
-
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 

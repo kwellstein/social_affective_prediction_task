@@ -2,10 +2,10 @@ using Distributions
 
 
 function create_input_sequence(;
-     categProbs  = (avatar1 = 0.9, avatar2 = 0.2, avatar3 = 0.6),
-     nCategTrials = 40,
-     phaseProb    = [0.80, 0.30, 0.80, 0.30, 0.60, 0.80],
-     phaseLength  = [40, 10, 10, 20, 20, 20],
+     categProbs  = (avatar1 = 0.80, avatar2 = 0.30),
+     nCategTrials = 70,
+     phaseProb    = [0.80, 0.20, 0.70, 0.40, 0.20, 0.80],
+     phaseLength  = [40, 20, 20, 10, 20, 30],
  )
 
      # find size indicators for different vectors
