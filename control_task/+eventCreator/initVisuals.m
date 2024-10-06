@@ -74,45 +74,29 @@ switch expType
         end
 end
 
-imgF1_neutral = imread('stimuli/f1_neutral','png');
-imgF2_neutral = imread('stimuli/f2_neutral','png');
-imgF3_neutral = imread('stimuli/f3_neutral','png');
-imgF4_neutral = imread('stimuli/f4_neutral','png');
-imgM1_neutral = imread('stimuli/m1_neutral','png');
-imgM2_neutral = imread('stimuli/m2_neutral','png');
-imgM3_neutral = imread('stimuli/m3_neutral','png');
-imgM4_neutral = imread('stimuli/m4_neutral','png');
+imgF1_egg = imread('stimuli/f1_egg','png');
+imgF2_egg = imread('stimuli/f2_egg','png');
+imgF3_egg = imread('stimuli/f3_egg','png');
+imgF4_egg = imread('stimuli/f4_egg','png');
+imgM1_egg = imread('stimuli/m1_egg','png');
+imgM2_egg = imread('stimuli/m2_egg','png');
+imgM3_egg = imread('stimuli/m3_egg','png');
+imgM4_egg = imread('stimuli/m4_egg','png');
 
-imgF1_smile = imread('stimuli/f1_smile','png');
-imgF2_smile = imread('stimuli/f2_smile','png');
-imgF3_smile = imread('stimuli/f3_smile','png');
-imgF4_smile = imread('stimuli/f4_smile','png');
-imgM1_smile = imread('stimuli/m1_smile','png');
-imgM2_smile = imread('stimuli/m2_smile','png');
-imgM3_smile = imread('stimuli/m3_smile','png');
-imgM4_smile = imread('stimuli/m4_smile','png');
 
 imgITI   = imread('stimuli/iti_fixation','png');
 imgReady = imread('stimuli/task_starting','png');
 
 % Make images into a textures that can be drawn to the screen
-stimuli.f1_neutral = Screen('MakeTexture', options.screen.windowPtr, imgF1_neutral);
-stimuli.f2_neutral = Screen('MakeTexture', options.screen.windowPtr, imgF2_neutral);
-stimuli.f3_neutral = Screen('MakeTexture', options.screen.windowPtr, imgF3_neutral);
-stimuli.f4_neutral = Screen('MakeTexture', options.screen.windowPtr, imgF4_neutral);
-stimuli.m1_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM1_neutral);
-stimuli.m2_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM2_neutral);
-stimuli.m3_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM3_neutral);
-stimuli.m4_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM4_neutral);
+stimuli.f1_egg = Screen('MakeTexture', options.screen.windowPtr, imgF1_egg);
+stimuli.f2_egg = Screen('MakeTexture', options.screen.windowPtr, imgF2_egg);
+stimuli.f3_egg = Screen('MakeTexture', options.screen.windowPtr, imgF3_egg);
+stimuli.f4_egg = Screen('MakeTexture', options.screen.windowPtr, imgF4_egg);
+stimuli.m1_egg = Screen('MakeTexture', options.screen.windowPtr, imgM1_egg);
+stimuli.m2_egg = Screen('MakeTexture', options.screen.windowPtr, imgM2_egg);
+stimuli.m3_egg = Screen('MakeTexture', options.screen.windowPtr, imgM3_egg);
+stimuli.m4_egg = Screen('MakeTexture', options.screen.windowPtr, imgM4_egg);
 
-stimuli.f1_smile = Screen('MakeTexture', options.screen.windowPtr, imgF1_smile);
-stimuli.f2_smile = Screen('MakeTexture', options.screen.windowPtr, imgF2_smile);
-stimuli.f3_smile = Screen('MakeTexture', options.screen.windowPtr, imgF3_smile);
-stimuli.f4_smile = Screen('MakeTexture', options.screen.windowPtr, imgF4_smile);
-stimuli.m1_smile = Screen('MakeTexture', options.screen.windowPtr, imgM1_smile);
-stimuli.m2_smile = Screen('MakeTexture', options.screen.windowPtr, imgM2_smile);
-stimuli.m3_smile = Screen('MakeTexture', options.screen.windowPtr, imgM3_smile);
-stimuli.m4_smile = Screen('MakeTexture', options.screen.windowPtr, imgM4_smile);
 
 stimuli.ITI    = Screen('MakeTexture', options.screen.windowPtr, imgITI);
 stimuli.ready  = Screen('MakeTexture', options.screen.windowPtr, imgReady);
