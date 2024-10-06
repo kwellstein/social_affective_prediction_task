@@ -71,7 +71,7 @@ addprocs(4)
 end
 
 #Run parameter recovery
-results_df = parameter_recovery(``
+results_df = parameter_recovery(
     agent,
     true_parameters,
     input_sequence,

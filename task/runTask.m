@@ -62,7 +62,7 @@ while taskRunning
     if outcome
         outcomeSlide = [char(avatar),'_smile'];   % if outcome is 1
     else
-        outcomeSlide = [char(avatar),'_neutral']; % if outcome is 0
+        outcomeSlide = [char(avatar),'_neutral']; % if outcome is 0 %TODO: once stimuli are ready, add neutral outcome slides
     end
 
     % show first presentation of avatar
@@ -75,7 +75,7 @@ while taskRunning
 
 
     if resp == 1
-        % make sure that participants delineate smile perios with start and stop button
+        % make sure that participants delineate smile periods with start and stop button
         % if strcmp(expType,'fmri')
             ticID   = tic();
 
@@ -153,6 +153,6 @@ output.saveData(options,dataFile);
 % show end screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.screen.expEndText,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
 end

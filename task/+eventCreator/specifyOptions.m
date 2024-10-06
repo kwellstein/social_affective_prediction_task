@@ -65,12 +65,12 @@ switch expMode
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.showPoints = 1;
         options.task.nAvatars = 2;
-        options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.inputs   = [1 2 2 1 2 1 ; 1 0 1 1 0 1]';
         options.task.nTrials = size(options.task.inputs,1);
         options.task.slidingBarStart = rand(options.task.nTrials,1);
 
         if strcmp(expType,'behav')
-            options.task.nTrials  = 8;
+            options.task.nTrials  = 6;
             options.doKeyboard = 1;
         else
             options.task.nTrials  = 4;
@@ -133,27 +133,31 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 
 switch expMode
     case 'experiment'
-        options.screen.qText       = '\n Frequency of smiling back?';
-        options.screen.predictText = ['Choose to smile: use index finger to start & ring finger once your face is neutral again.' ...
-            '\n Choose to stay neutral: indicate choice with middle finger.'];
+        options.screen.qText       = '\n frequency of smiling back?';
         options.screen.startPredictText = '\n smile or neutral?';
         options.screen.stopPredictText  = '\n stopped smiling?';
-        options.screen.smileHoldText    = '\n stop smile button not active yet!'; %% UNUSED AS OF NOW
+
 
     case 'practice'
-        options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
-            '\n Use your ringfinger to stop the sliding bar.'];
-        options.screen.predictText = ['Do you choose to smile at this person because you predict that they will smile back?' ...
-            '\n Use your index finger to start smiling and your ringfinger once you stopped smiling.' ...
-            '\n Use your middlefinger if you choose not to smile at this ' ...
-            '\n person because you predict that they will not smile back.'];
-        options.screen.startPredictText =  ['Do you choose to smile at this person because you predict that they will smile back?' ...
-            '\n Use your index finger to start smiling and continue to smile at them while answering the next question.' ...
-            '\n Use your middlefinger if you choose not to smile at this person because you predict that they will not smile back.'];
-        options.screen.stopPredictText  = 'Finished smiling: use your ring finger to indicate that yoru face is neutral again';
-        options.screen.smileHoldText   = ['please spend some time smiling,' ...
-            '\n  the button to stop smiling won''t be active immediately']; 
-        options.screen.waitNoSmileText = 'wait and see how the face will respond';
+        if strcmp(expType,'behav')
+            options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
+                '\n Use your ringfinger to stop the sliding bar.'];
+            options.screen.startPredictText = ['Do you choose to smile at this person because you think that they will smile back?' ...
+                '\n Use your ',handedness,' index finger to start smiling '...
+                '\n and your other indexfinger once you stopped smiling.' ...
+                '\n Use your ',handedness,' ring finger if you choose not to smile' ...
+                '\n because you predict that this person will not smile back.'];
+        else
+            if strcmp(handedness,'right')
+                options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
+                    '\n Use your left ringfinger to stop the sliding bar.'];
+            else
+                options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
+                    '\n Use your right ringfinger to stop the sliding bar.'];
+            end
+            options.screen.startPredictText = ['Choose to smile: use ',handedness,' index finger to start & other index finger once your face is neutral again.' ...
+                '\n Choose to stay neutral: indicate choice with ',handedness,' ring finger.'];
+        end
 end
 
 options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
@@ -173,39 +177,39 @@ switch expType
         options.keys.escape     = KbName('ESCAPE');
 
         if strcmp(handedness,'right')
-        options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-        options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
-        options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+            options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+            options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
 
         else
-        options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-        options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
-        options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+            options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+            options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+            options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
         end
 
     case 'fmri'
         options.keys.escape     = KbName('ESCAPE');
 
         if strcmp(handedness,'right')
-        options.keys.startSmile = KbName('1');   % CHANGE: This should dominant hand index finger
-        options.keys.stopSmile  = KbName('3');    % CHANGE: This should non-dominant hand index finger
-        options.keys.noSmile    = KbName('2'); % CHANGE: This should dominant hand ring finger
+            options.keys.startSmile = KbName('1');   % CHANGE: This should dominant hand index finger
+            options.keys.stopSmile  = KbName('3');    % CHANGE: This should non-dominant hand index finger
+            options.keys.noSmile    = KbName('2'); % CHANGE: This should dominant hand ring finger
         else
-        options.keys.startSmile = KbName('3');     % KeyCode: 226, dominant hand index finger
-        options.keys.stopSmile  = KbName('2');   % KeyCode: 37, non-dominant hand index finger
-        options.keys.noSmile    = KbName('4'); % KeyCode: 224, dominant hand ring finger
+            options.keys.startSmile = KbName('3');     % KeyCode: 226, dominant hand index finger
+            options.keys.stopSmile  = KbName('2');   % KeyCode: 37, non-dominant hand index finger
+            options.keys.noSmile    = KbName('4'); % KeyCode: 224, dominant hand ring finger
         end
 
     otherwise
         if strcmp(handedness,'right')
-        options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-        options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
-        options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+            options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+            options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
 
         else
-        options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-        options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
-        options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+            options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+            options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+            options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
         end
 end
 
@@ -214,7 +218,7 @@ end
 if strcmp(expMode,'debug') % in ms
     options.dur.waitnxtkeypress = 2000; % in ms
     options.dur.showStimulus    = 500; % in ms
-    options.dur.showSmile       = 15000; 
+    options.dur.showSmile       = 15000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
@@ -225,7 +229,7 @@ if strcmp(expMode,'debug') % in ms
 else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 1000;  % in ms
-    options.dur.showSmile       = 15000;  
+    options.dur.showSmile       = 15000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
@@ -247,7 +251,7 @@ options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
 options.files.savePath     = [pwd,'/data/',expMode,'/',options.files.projectID,PID];
 mkdir(options.files.savePath);
-options.files.dataFileName = [options.files.namePrefix,'_dataFile.mat'];
-options.files.dataFileName = [options.files.namePrefix,'_optionsFile.mat'];
+options.files.dataFileName    = [options.files.namePrefix,'_dataFile.mat'];
+options.files.optionsFileName = [options.files.namePrefix,'_optionsFile.mat'];
 
 end
