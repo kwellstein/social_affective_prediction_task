@@ -1,5 +1,6 @@
+function SAPC_task_main
 %% _______________________________________________________________________________%
-%% MAIN Script for Social-Affective Prediction Control (SAPC) Task
+%% MAIN Function for Social-Affective Prediction Control (SAPC) Task
 %
 % SYNTAX:  ....
 %
@@ -104,3 +105,4 @@ stimuli = eventCreator.initVisuals(options,expMode,expType);
 %% RUN TASK
 runTask(stimuli,expMode,expType,options,dataFile);
 
+end

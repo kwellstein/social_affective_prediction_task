@@ -1,5 +1,7 @@
+function SAP_task_main
+
 %% _______________________________________________________________________________%
-%% MAIN Script for Social-Affective Prediction (SAP) Task
+%% MAIN FUNCTION for Social-Affective Prediction (SAP) Task
 %
 % SYNTAX:  ....
 %
@@ -98,12 +100,12 @@ options  = eventCreator.specifyOptions(PID,expMode,expType,handedness);
 
 %% SETUP ENVIRONMENT
 options  = tools.prepEnvironment(options);
-
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
 %% RUN TASK
-% runTask_2(stimuli,expMode,expType,options,dataFile);
 runTask(stimuli,expMode,expType,options,dataFile);
 
 Sceen('CloseAll');
+
+end

@@ -155,4 +155,6 @@ DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[]
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
+tools.showPoints(options,dataFile.SAPSummary.points);
+
 end

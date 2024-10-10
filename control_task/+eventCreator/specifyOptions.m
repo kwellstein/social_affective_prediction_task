@@ -212,7 +212,7 @@ options.messages.wrongButton   = 'you pressed the wrong button';
 %% DATAFILES & PATHS
 options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAPC_',PID,'_',expType];
-options.files.savePath     = [pwd,'/data/',expMode,'/',options.files.projectID,PID];
+options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID];
 mkdir(options.files.savePath);
 options.files.dataFileName = [options.files.namePrefix,'_dataFile.mat'];
 options.files.dataFileName = [options.files.namePrefix,'_optionsFile.mat'];
