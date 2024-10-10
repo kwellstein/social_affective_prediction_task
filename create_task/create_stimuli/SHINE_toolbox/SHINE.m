@@ -69,8 +69,8 @@ function images = SHINE(images,templ)
 
 imformat = 'PNG';
 thisroot = pwd;
-template_folder = fullfile(thisroot,'SHINE_TEMPLATE');
 
+template_folder    = fullfile(thisroot,'SHINE_TEMPLATE');
 input_folder    = fullfile(thisroot,'SHINE_INPUT');
 date            = char(datetime('today'));
 output_folder   = fullfile([thisroot,'/SHINE_OUTPUT']);
