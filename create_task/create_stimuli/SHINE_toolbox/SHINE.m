@@ -62,7 +62,6 @@
 % ------------------------------------------------------------------------
 
 function images = SHINE(images,templ)
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Specify the image format and the input/output directories here if SHINE  
 % is called without input or output arguments:
@@ -75,7 +74,7 @@ input_folder    = fullfile(thisroot,'SHINE_INPUT');
 date            = char(datetime('today'));
 output_folder   = fullfile([thisroot,'/SHINE_OUTPUT']);
 mkdir(output_folder);
-diaryName = ['diary_test_',date];
+diaryName = ['LuminanceMatching_Settings_used_on_',date];
 diary(diaryName); diary ON;
 
 
