@@ -2,10 +2,10 @@ clc;
 clear all;
 
 thisroot = pwd;
-images_folder = [pwd,'/SHINE_toolbox/SHINE_OUTPUT/'];
+images_folder = [pwd,'/wavestrapping-master/stimuli_fmri/'];
 templates_folder = [pwd,'/SHINE_toolbox/SHINE_TEMPLATE/'];
 save_folder = [pwd,'/final_stimuli/'];
-imgs = dir([images_folder '*.png']);
+imgs = dir([images_folder '*.tiff']);
 
 mask = imread([templates_folder,'template.png']);
 mask = mask(:,:,1)>0;

@@ -62,7 +62,7 @@ while taskRunning
     if outcome
         outcomeSlide = [char(avatar),'_smile'];   % if outcome is 1
     else
-        outcomeSlide = [char(avatar),'_neutral']; % if outcome is 0 %TODO: once stimuli are ready, add neutral outcome slides
+        outcomeSlide = [char(avatar),'_noSmile']; % if outcome is 0 %TODO: once stimuli are ready, add neutral outcome slides
     end
 
     % show first presentation of avatar

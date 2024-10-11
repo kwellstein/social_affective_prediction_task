@@ -83,6 +83,15 @@ imgM2_neutral = imread('stimuli/m2_neutral','png');
 imgM3_neutral = imread('stimuli/m3_neutral','png');
 imgM4_neutral = imread('stimuli/m4_neutral','png');
 
+imgF1_noSmile = imread('stimuli/f1_noSmile','png');
+imgF2_noSmile = imread('stimuli/f2_noSmile','png');
+imgF3_noSmile = imread('stimuli/f3_noSmile','png');
+imgF4_noSmile = imread('stimuli/f4_noSmile','png');
+imgM1_noSmile = imread('stimuli/m1_noSmile','png');
+imgM2_noSmile = imread('stimuli/m2_noSmile','png');
+imgM3_noSmile = imread('stimuli/m3_noSmile','png');
+imgM4_noSmile = imread('stimuli/m4_noSmile','png');
+
 imgF1_smile = imread('stimuli/f1_smile','png');
 imgF2_smile = imread('stimuli/f2_smile','png');
 imgF3_smile = imread('stimuli/f3_smile','png');
@@ -104,6 +113,15 @@ stimuli.m1_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM1_neutr
 stimuli.m2_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM2_neutral);
 stimuli.m3_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM3_neutral);
 stimuli.m4_neutral = Screen('MakeTexture', options.screen.windowPtr, imgM4_neutral);
+
+stimuli.f1_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgF1_noSmile);
+stimuli.f2_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgF2_noSmile);
+stimuli.f3_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgF3_noSmile);
+stimuli.f4_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgF4_noSmile);
+stimuli.m1_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgM1_noSmile);
+stimuli.m2_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgM2_noSmile);
+stimuli.m3_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgM3_noSmile);
+stimuli.m4_noSmile = Screen('MakeTexture', options.screen.windowPtr, imgM4_noSmile);
 
 stimuli.f1_smile = Screen('MakeTexture', options.screen.windowPtr, imgF1_smile);
 stimuli.f2_smile = Screen('MakeTexture', options.screen.windowPtr, imgF2_smile);
