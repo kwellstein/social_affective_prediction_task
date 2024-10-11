@@ -33,13 +33,9 @@ function options = specifyOptions(PID,expMode,expType)
 %% specify paths
 
 options.paths.codeDir  = pwd;
-options.paths.inputDir = '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/HGF_simulations/generated_data/';
+options.paths.inputDir = [pwd,filesep,'+eventCreator/'];
 options.paths.saveDir  = '/Users/kwellste/projects/SEPAB/tasks/data/';
 %% specifing experiment mode specific settings
-
-options.task.name = 'SAPC';
-options.task.firstTarget = 50;
-options.task.finalTarget = 100;
 
 switch expMode
     case 'experiment'
@@ -48,11 +44,11 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.showPoints = 0;
-        options.task.nEggs = 3; % softcode!
-        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence_',options.task.name,'.csv']));
+        options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
+        options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-
+        
+        options.task.showPoints = 0;
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
         else
@@ -65,9 +61,10 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.showPoints = 1;
-        options.task.nEggs = 2;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.nEggs    = max(options.task.inputs);
+        options.task.nTrials  = size(options.task.inputs,1);
+        options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
             options.task.nTrials  = 8;
@@ -83,9 +80,9 @@ switch expMode
         options.screen.number = max(screens);
         % options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.showPoints = 1;
-        options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nEggs = 2;
+        options.task.nEggs    = max(options.task.inputs);
+        options.task.nTrials  = size(options.task.inputs,1);
         options.doKeyboard = 1;
 
     otherwise
@@ -100,6 +97,9 @@ switch expMode
         options.doKeyboard = 1;
 end
 
+options.task.name = 'SAPC';
+options.task.firstTarget = 50;
+options.task.finalTarget = 100;
 
 %% Select Stimuli based on Randomisation list
 RandTable = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
@@ -131,7 +131,7 @@ switch expMode
         options.screen.predictText    = 'collect?';
     case 'practice'
         options.screen.predictText = ['Do you choose to collect this egg because you believe you can resell it at your shop?' ...
-            '\n Use your index finger to collect or your ring finger to reject the egg.'];
+            '\n Use your index finger to collect or your middle finger to reject the egg.'];
 end
 
 options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
@@ -200,7 +200,7 @@ else
     options.dur.showReadyScreen =  1500;
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([1500,2500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.ITI             = randi([2000,5000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 %% MESSAGES

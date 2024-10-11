@@ -11,7 +11,7 @@ function options = specifyOptions(PID,expMode,expType,handedness)
 %   OUT:        options: struct containing general and task specific
 %                        options
 %
-%   AUTHOR:     Katharina V. Wellstein, XX 2024
+%   AUTHOR:     Katharina V. Wellstein, October 2024
 %
 % -------------------------------------------------------------------------------%
 % This file is released under the terms of the GNU General Public Licence
@@ -33,7 +33,7 @@ function options = specifyOptions(PID,expMode,expType,handedness)
 %% specify paths
 
 options.paths.codeDir  = pwd;
-options.paths.inputDir = '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/simulations/generated_data/';
+options.paths.inputDir = [pwd,filesep,'+eventCreator/'];
 options.paths.saveDir  = '/Users/kwellste/projects/SEPAB/tasks/data/';
 %% specifing experiment mode specific settings
 
@@ -45,8 +45,8 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.showPoints = 0;
-        options.task.nAvatars = 3; % softcode!
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
+        options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
         options.task.slidingBarStart = rand(options.task.nTrials,1);
@@ -54,7 +54,7 @@ switch expMode
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
         else
-            options.doKeyboard    = 0;
+            options.doKeyboard = 0;
         end
 
     case 'practice'
@@ -63,15 +63,15 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.showPoints = 1;
-        options.task.nAvatars = 2;
         options.task.inputs   = [1 2 2 1 2 1 ; 1 0 1 1 0 1]';
-        options.task.nTrials = size(options.task.inputs,1);
+        options.task.nAvatars = max(options.task.inputs);
+        rng(1,"twister");
         options.task.slidingBarStart = rand(options.task.nTrials,1);
+        options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
             options.task.nTrials  = 6;
-            options.doKeyboard = 1;
+            options.doKeyboard    = 1;
         else
             options.task.nTrials  = 4;
         end
@@ -82,24 +82,24 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         % options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.showPoints = 1;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.nAvatars = max(options.task.inputs);
         options.task.nTrials  = size(options.task.inputs,1);
         options.task.slidingBarStart = rand(options.task.nTrials,1);
-        options.task.nAvatars = 2;
-        options.doKeyboard    = 1;
+        options.task.showPoints = 1;
+        options.doKeyboard      = 1;
 
     otherwise
         disp(' ...no valid expMode specified, using debug options... ')
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
-        options.task.showPoints = 1;
-        options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.nAvatars = max(options.task.inputs);
+        options.task.nTrials  = size(options.task.inputs,1);
         options.task.slidingBarStart = rand(options.task.nTrials,1);
-        options.task.nAvatars = 2;
-        options.doKeyboard    = 1;
+        options.task.showPoints = 1;
+        options.doKeyboard      = 1;
 end
 
 options.task.name = 'SAP';
@@ -145,18 +145,18 @@ switch expMode
             options.screen.startPredictText = ['Do you choose to smile at this person because you think that they will smile back?' ...
                 '\n Use your ',handedness,' index finger to start smiling '...
                 '\n and your other indexfinger once you stopped smiling.' ...
-                '\n Use your ',handedness,' ring finger if you choose not to smile' ...
+                '\n Use your ',handedness,' middle finger if you choose not to smile' ...
                 '\n because you predict that this person will not smile back.'];
         else
             if strcmp(handedness,'right')
                 options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
-                    '\n Use your left ringfinger to stop the sliding bar.'];
+                    '\n Use your left index finger to stop the sliding bar.'];
             else
                 options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
-                    '\n Use your right ringfinger to stop the sliding bar.'];
+                    '\n Use your right index finger to stop the sliding bar.'];
             end
             options.screen.startPredictText = ['Choose to smile: use ',handedness,' index finger to start & other index finger once your face is neutral again.' ...
-                '\n Choose to stay neutral: indicate choice with ',handedness,' ring finger.'];
+                '\n Choose to stay neutral: indicate choice with ',handedness,' middle finger.'];
         end
 end
 
