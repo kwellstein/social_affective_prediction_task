@@ -1,4 +1,4 @@
-function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
+function dataFile = runTask(stimuli,expMode,options,dataFile)
 %% _______________________________________________________________________________%
 %% runTask.m runs the Social Affective Prediction task
 %

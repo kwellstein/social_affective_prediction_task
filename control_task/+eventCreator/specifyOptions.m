@@ -31,11 +31,19 @@ function options = specifyOptions(PID,expMode,expType)
 %
 
 %% specify paths
-
 options.paths.codeDir  = pwd;
 options.paths.inputDir = [pwd,filesep,'+eventCreator/'];
-options.paths.saveDir  = '/Users/kwellste/projects/SEPAB/tasks/data/';
+options.paths.tasksDir = '/Users/kwellste/projects/SEPAB/tasks/';
+options.paths.saveDir  = [options.paths.tasksDir,'data/'];
+
 %% specifing experiment mode specific settings
+options.task.name = 'SAPC';
+
+%specify the task number (i.e. the place in the tasks sequence this task has) in this study
+options.task.sequenceIdx    = 2; 
+options.task.maxSequenceIdx = 3;
+options.task.firstTarget = 50; 
+options.task.finalTarget = 100;
 
 switch expMode
     case 'experiment'
@@ -97,10 +105,6 @@ switch expMode
         options.doKeyboard = 1;
 end
 
-options.task.name = 'SAPC';
-options.task.firstTarget = 50;
-options.task.finalTarget = 100;
-
 %% Select Stimuli based on Randomisation list
 RandTable = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
 rowIdx    = find(RandTable.PID==str2num(PID));
@@ -134,10 +138,22 @@ switch expMode
             '\n Use your index finger to collect or your middle finger to reject the egg.'];
 end
 
-options.screen.firstTagetText = ['You reached ',options.task.firstTarget,' points! ' ...
-    '\n This added AUD 5 to your reimbursement.'];
-options.screen.finalTagetText = ['You reached ',options.task.finalTarget,' points! ' ...
-    '\n This added another AUD 5 to your reimbursement.'];
+if options.task.sequenceIdx<options.task.maxSequenceIdx
+    options.screen.firstTagetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
+        '\n You will receive an additional AUD 5 to your reimbursement if you keep this score.'];
+    options.screen.finalTagetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
+        '\n You will receive an additional AUD 10 to your reimbursement if you keep this score.'];
+    options.screen.noTagetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
+        '\n Keep collecting points in the next task!'];
+else
+    options.screen.firstTagetText = ['You collected more than ', options.task.firstTarget,' points across all tasks! ' ...
+        '\n You will receive an additional AUD 5 to your reimbursement.'];
+    options.screen.finalTagetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
+        '\n You will receive an additional AUD 10 to your reimbursement.'];
+        options.screen.noTagetText = 'You have not collected enough points to reach one of the reimbursed targets.';
+end
+
+options.screen.pointsText = 'You collected the following amount of points: ';
 options.screen.expEndText     = ['Thank you! ' ...
     'You finished the ',options.task.name, ' ',expMode, '.'];
 

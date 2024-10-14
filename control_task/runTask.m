@@ -1,4 +1,4 @@
-function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
+function dataFile = runTask(stimuli,expMode,options,dataFile)
 %% _______________________________________________________________________________%
 %% runTask.m runs the Social Affective Prediction task
 %
@@ -117,10 +117,10 @@ end
 
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
-dataFile.SAPSummary.points = sum(dataFile.SAPPrediction.congruent);
+dataFile.SAPCSummary.points = sum(dataFile.SAPCPrediction.congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial);
-dataFile.SAPQuestion.sliderStart = options.task.slidingBarStart;
+dataFile.SAPCQuestion.sliderStart = options.task.slidingBarStart;
 
 % save all data to
 output.saveData(options,dataFile);
@@ -130,4 +130,5 @@ DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[]
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.screen.expEndText,options,dataFile,0);
 
+tools.showPoints(options,dataFile.SAPCSummary.points);
 end
