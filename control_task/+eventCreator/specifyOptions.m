@@ -40,9 +40,9 @@ options.paths.saveDir  = [options.paths.tasksDir,'data/'];
 options.task.name = 'SAPC';
 
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
-options.task.sequenceIdx    = 2; 
+options.task.sequenceIdx    = 2;
 options.task.maxSequenceIdx = 3;
-options.task.firstTarget = 50; 
+options.task.firstTarget = 50;
 options.task.finalTarget = 100;
 
 switch expMode
@@ -54,8 +54,10 @@ switch expMode
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nEggs    = max(options.task.inputs(:,1));
-        options.task.nTrials  = size(options.task.inputs,1);
-        
+        options.task.nTrials  = size(options.task.inputs,1);        
+        rng(1,"twister");
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
+
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
@@ -72,6 +74,9 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nEggs    = max(options.task.inputs);
         options.task.nTrials  = size(options.task.inputs,1);
+        rng(1,"twister");
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
+
         options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
@@ -91,6 +96,9 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nEggs    = max(options.task.inputs);
         options.task.nTrials  = size(options.task.inputs,1);
+        rng(1,"twister");
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
+
         options.doKeyboard = 1;
 
     otherwise
@@ -133,7 +141,11 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 switch expMode
     case 'experiment'
         options.screen.predictText    = 'collect?';
+        options.screen.qText       = ['\n How often do you make a profit from reselling this type of egg? ' ...
+            '\n Use your other index finger to stop the sliding bar.'];
     case 'practice'
+        options.screen.qText       = ['\n How often do you make a profit from reselling this type of egg? ' ...
+            '\n Use your other index finger to stop the sliding bar.'];
         options.screen.predictText = ['Do you choose to collect this egg because you believe you can resell it at your shop?' ...
             '\n Use your index finger to collect or your middle finger to reject the egg.'];
 end
@@ -150,10 +162,12 @@ else
         '\n You will receive an additional AUD 5 to your reimbursement.'];
     options.screen.finalTagetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
         '\n You will receive an additional AUD 10 to your reimbursement.'];
-        options.screen.noTagetText = 'You have not collected enough points to reach one of the reimbursed targets.';
+    options.screen.noTagetText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
 
 options.screen.pointsText = 'You collected the following amount of points: ';
+options.screen.qTextL = '                       Never';
+options.screen.qTextR = 'Always                      ';
 options.screen.expEndText     = ['Thank you! ' ...
     'You finished the ',options.task.name, ' ',expMode, '.'];
 
@@ -230,7 +244,9 @@ options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAPC_',PID,'_',expType];
 options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID];
 mkdir(options.files.savePath);
-options.files.dataFileName = [options.files.namePrefix,'_dataFile.mat'];
-options.files.dataFileName = [options.files.namePrefix,'_optionsFile.mat'];
+options.files.dataFileExtension    = 'dataFile.mat';
+options.files.optionsFileExtension = 'optionsFile.mat';
+options.files.dataFileName = [options.files.namePrefix,'_',options.files.dataFileExtension];
+options.files.dataFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
 
 end

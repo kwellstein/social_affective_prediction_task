@@ -74,18 +74,19 @@ switch expType
         end
 end
 
-imgF1_egg = imread('stimuli/f1_egg','png');
-imgF2_egg = imread('stimuli/f2_egg','png');
-imgF3_egg = imread('stimuli/f3_egg','png');
-imgF4_egg = imread('stimuli/f4_egg','png');
-imgM1_egg = imread('stimuli/m1_egg','png');
-imgM2_egg = imread('stimuli/m2_egg','png');
-imgM3_egg = imread('stimuli/m3_egg','png');
-imgM4_egg = imread('stimuli/m4_egg','png');
+imgF1_egg = imread('stimuli/f1_eggFace','png');
+imgF2_egg = imread('stimuli/f2_eggFace','png');
+imgF3_egg = imread('stimuli/f3_eggFace','png');
+imgF4_egg = imread('stimuli/f4_eggFace','png');
+imgM1_egg = imread('stimuli/m1_eggFace','png');
+imgM2_egg = imread('stimuli/m2_eggFace','png');
+imgM3_egg = imread('stimuli/m3_eggFace','png');
+imgM4_egg = imread('stimuli/m4_eggFace','png');
 
-
-imgITI   = imread('stimuli/iti_fixation','png');
-imgReady = imread('stimuli/task_starting','png');
+imgCoin   = imread('stimuli/outcome_coin','png');
+imgNoCoin = imread('stimuli/outcome_noCoin','png');
+imgITI    = imread('stimuli/iti_fixation','png');
+imgReady  = imread('stimuli/task_starting','png');
 
 % Make images into a textures that can be drawn to the screen
 stimuli.f1_egg = Screen('MakeTexture', options.screen.windowPtr, imgF1_egg);
@@ -97,7 +98,8 @@ stimuli.m2_egg = Screen('MakeTexture', options.screen.windowPtr, imgM2_egg);
 stimuli.m3_egg = Screen('MakeTexture', options.screen.windowPtr, imgM3_egg);
 stimuli.m4_egg = Screen('MakeTexture', options.screen.windowPtr, imgM4_egg);
 
-
+stimuli.coin   = Screen('MakeTexture', options.screen.windowPtr, imgCoin);
+stimuli.noCoin = Screen('MakeTexture', options.screen.windowPtr, imgNoCoin);
 stimuli.ITI    = Screen('MakeTexture', options.screen.windowPtr, imgITI);
 stimuli.ready  = Screen('MakeTexture', options.screen.windowPtr, imgReady);
 end

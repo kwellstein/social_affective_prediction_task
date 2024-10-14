@@ -46,6 +46,11 @@ Screen('Flip', options.screen.windowPtr);
 dataFile = eventListener.logEvent(expMode,'_startTime',dataFile,[],[]);
 
 %% INITIALIZE
+summaryField   = [options.task.name,'Summary'];
+predictField   = [options.task.name,'Prediction'];
+questField     = [options.task.name,'Question'];
+smileTimeField = [options.task.name,'SmileTime'];
+
 dataFile.events.exp_startTime = GetSecs();
 taskRunning = 1;
 trial       = 0;
@@ -53,7 +58,7 @@ trial       = 0;
 
 while taskRunning
     trial   = trial + 1; % next step
-    egg  = options.task.eggArray(trial);
+    egg     = options.task.eggArray(trial);
     outcome = options.task.inputs(trial,2);
 
     % pick egg of current trial
@@ -70,7 +75,9 @@ while taskRunning
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
-    [dataFile,~,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,[options.task.name,'Prediction'],trial,'start');
+
+    dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,questField,trial);
+    [dataFile,~,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
 
     % show outcome
     Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
@@ -79,21 +86,21 @@ while taskRunning
 
     % log congruency and show points slide
     if resp==outcome
-        [~,dataFile] = eventListener.logData(1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     elseif isnan(resp)
-        [~,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         dataFile     = eventListener.logEvent('exp','_missedTrial ',dataFile,trial,[]);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
-        [~,dataFile] = eventListener.logData(-1,[options.task.name,'Prediction'],'congruent',dataFile,trial);
+        [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
@@ -117,10 +124,10 @@ end
 
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
-dataFile.SAPCSummary.points = sum(dataFile.SAPCPrediction.congruent);
+dataFile.(summaryField).points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial);
-dataFile.SAPCQuestion.sliderStart = options.task.slidingBarStart;
+dataFile.(questField).sliderStart = options.task.slidingBarStart;
 
 % save all data to
 output.saveData(options,dataFile);
@@ -130,5 +137,5 @@ DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[]
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.screen.expEndText,options,dataFile,0);
 
-tools.showPoints(options,dataFile.SAPCSummary.points);
+tools.showPoints(options,dataFile.(summaryField).points);
 end

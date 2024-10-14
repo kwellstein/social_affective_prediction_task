@@ -21,6 +21,8 @@ function showPoints(options,currPoints)
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
+
+%% collect and sum up all points across tasks
 points = zeros(1,options.task.sequenceIdx);
 points(1) = currPoints;
 
@@ -37,9 +39,8 @@ if options.task.sequenceIdx>1
 end
 
 totalPoints = sum(points);
-options.task.firstTarget = 50; 
-options.task.finalTarget = 100;
 
+%% select text to be shown on screen
 if totalPoints >= options.task.firstTarget
     targetText = options.screen.firstTagetText;
 elseif totalPoints >= options.task.finalTarget
@@ -48,8 +49,11 @@ else
     targetText = options.screen.noTagetText;
 end
 
+pointsText = [options.screen.pointsText,num2str(totalPoints)];
+
+%% show points screens
 % show points screen
-DrawFormattedText(options.screen.windowPtr,targetText,'center',[],[255 255 255],[],[],[],1);
+DrawFormattedText(options.screen.windowPtr,pointsText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
