@@ -106,6 +106,6 @@ stimuli = eventCreator.initVisuals(options,expMode,expType);
 %% RUN TASK
 runTask(stimuli,expMode,options,dataFile);
 
-Sceen('CloseAll');
+Screen('CloseAll');
 
 end

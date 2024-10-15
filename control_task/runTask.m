@@ -40,6 +40,10 @@ Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
 
+Screen('DrawTexture', options.screen.windowPtr, stimuli.intro2,[], options.screen.rect);
+Screen('Flip', options.screen.windowPtr);
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
+
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
@@ -49,7 +53,6 @@ dataFile = eventListener.logEvent(expMode,'_startTime',dataFile,[],[]);
 summaryField   = [options.task.name,'Summary'];
 predictField   = [options.task.name,'Prediction'];
 questField     = [options.task.name,'Question'];
-smileTimeField = [options.task.name,'SmileTime'];
 
 dataFile.events.exp_startTime = GetSecs();
 taskRunning = 1;
@@ -62,7 +65,8 @@ while taskRunning
     outcome = options.task.inputs(trial,2);
 
     % pick egg of current trial
-    firstSlide = char(egg);  % prediction
+    firstSlide  = [char(egg),'_egg'];  % prediction
+    choiceSlide = [char(egg),'_eggCollected'];  % choice stimulus if decided to collect
 
     if outcome
         outcomeSlide = 'coin';   % if outcome is 1
@@ -75,9 +79,19 @@ while taskRunning
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
-
     dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,questField,trial);
-    [dataFile,~,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
+    [dataFile,~,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
+
+    if resp ==1
+        % show choice with jitter
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.(choiceSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
+    else
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.no_eggCollected,[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
+    end
 
     % show outcome
     Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
@@ -126,7 +140,7 @@ end
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 dataFile.(summaryField).points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
-dataFile = tools.cleanDataFields(dataFile,trial);
+dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField);
 dataFile.(questField).sliderStart = options.task.slidingBarStart;
 
 % save all data to
@@ -135,7 +149,7 @@ output.saveData(options,dataFile);
 % show end screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.screen.expEndText,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
 tools.showPoints(options,dataFile.(summaryField).points);
 end

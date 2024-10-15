@@ -28,17 +28,33 @@ points(1) = currPoints;
 
 if options.task.sequenceIdx>1
 
-    for i = 2:options.task.sequenceIdx
-        data = load(fullfile(options.files.savePath,filesep,'*',options.files.dataFileExtension));
-        opt  = load(fullfile(options.files.savePath,filesep,'*',options.files.optionsFileExtension));
+    % find the indices for valid files that can be loaded
+    d = dir(options.files.savePath);
+    fileIdx = zeros(1,size(d,1));
+    for f = 1:size(d,1)
+        if endsWith(d(f).name,'dataFile.mat')
+        fileIdx(f) = f;
+        else
+            fileIdx(f) = 0;
+        end
+    end
+
+fileIdx(fileIdx==0)=[];
+
+    for i = 1:size(fileIdx,2)
+        dataFileName = d(fileIdx(i)).name;
+        optFileName  = d(fileIdx(i)).name;
+        data = load([options.files.savePath,filesep,dataFileName]);
+        opt  = load([options.files.savePath,filesep,optFileName]);
         fieldName = [opt.task.name,'Summary'];
-        points(i) = data.(fieldName).points;
+        points(i+1) = data.(fieldName).points;
         clear data
         clear opt
     end
 end
 
 totalPoints = sum(points);
+pointsText  = [options.screen.pointsText,num2str(totalPoints)];
 
 %% select text to be shown on screen
 if totalPoints >= options.task.firstTarget
@@ -49,17 +65,16 @@ else
     targetText = options.screen.noTagetText;
 end
 
-pointsText = [options.screen.pointsText,num2str(totalPoints)];
 
 %% show points screens
 % show points screen
 DrawFormattedText(options.screen.windowPtr,pointsText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
 
 % show target screen
 DrawFormattedText(options.screen.windowPtr,targetText,'center',[],[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
 
 end

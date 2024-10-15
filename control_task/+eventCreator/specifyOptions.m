@@ -1,4 +1,4 @@
-function options = specifyOptions(PID,expMode,expType)
+function options = specifyOptions(PID,expMode,expType,handedness)
 % -----------------------------------------------------------------------
 % specifyOptions.m creates structs for the different stages in the task
 %                  Change this file if you would like to change task settings
@@ -115,7 +115,7 @@ end
 
 %% Select Stimuli based on Randomisation list
 RandTable = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
-rowIdx    = find(RandTable.PID==str2num(PID));
+rowIdx    = find(RandTable.PID==str2double(PID));
 eggs      = RandTable(rowIdx,:);
 options.task.eggArray = string(options.task.inputs(:,1));
 
@@ -128,7 +128,7 @@ else
 end
 
 for iEgg = 1:options.task.nEggs
-    options.task.eggArray(strcmp(options.task.avatarArray,num2str(iEgg))) = string(eggs.([cellName,num2str(iEgg)]));
+    options.task.eggArray(strcmp(options.task.eggArray,num2str(iEgg))) = string(eggs.([cellName,num2str(iEgg)]));
 end
 
 %% options screen
@@ -169,7 +169,7 @@ options.screen.pointsText = 'You collected the following amount of points: ';
 options.screen.qTextL = '                       Never';
 options.screen.qTextR = 'Always                      ';
 options.screen.expEndText     = ['Thank you! ' ...
-    'You finished the ',options.task.name, ' ',expMode, '.'];
+    'You finished the ',options.task.name, '/ Egg task ',expMode, '.'];
 
 %% options keyboard
 % use KbDemo to identify kbName and Keycode
@@ -178,30 +178,34 @@ switch expType
     case 'behav'
         if strcmp(handedness,'right')
             options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
-
+            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand middle finger
+            options.keys.stop    = KbName('LeftAlt');    % KeyCode: 226, dominant hand index finger
         else
             options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
             options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+            options.keys.stop    = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
         end
 
     case 'fmri'
         if strcmp(handedness,'right')
-            options.keys.collect = KbName('1');   % CHANGE: This should dominant hand index finger
-            options.keys.reject  = KbName('2'); % CHANGE: This should dominant hand ring finger
+            options.keys.collect = KbName('1'); % CHANGE: This should dominant hand index finger
+            options.keys.reject  = KbName('2'); % CHANGE: This should dominant hand middle finger
+            options.keys.stop    = KbName('3'); % KeyCode: 226, dominant hand index finger
         else
-            options.keys.collect = KbName('3');     % KeyCode: 226, dominant hand index finger
-            options.keys.reject  = KbName('4'); % KeyCode: 224, dominant hand ring finger
+            options.keys.collect = KbName('3'); % KeyCode: 226, dominant hand index finger
+            options.keys.reject  = KbName('4'); % KeyCode: 224, dominant hand middle finger
+            options.keys.stop    = KbName('1'); % CHANGE: This should dominant hand index finger
         end
 
     otherwise
         if strcmp(handedness,'right')
             options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
-
+            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand middle finger
+            options.keys.stop    = KbName('LeftAlt');    % KeyCode: 226, dominant hand index finger
         else
             options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
             options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+            options.keys.stop    = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
         end
 end
 
@@ -223,14 +227,14 @@ if strcmp(expMode,'debug')
 else
     options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 400;  % in ms
-    options.dur.showSmile       = 1000;   % in sec
+    options.dur.showChoiceITI   = randi([500,1500],options.task.nTrials,1);
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
-    options.dur.showIntroScreen = 30000; % in ms
+    options.dur.showIntroScreen = 50000; % in ms
     options.dur.showReadyScreen =  1500;
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([2000,5000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 %% MESSAGES
@@ -246,7 +250,7 @@ options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,opti
 mkdir(options.files.savePath);
 options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';
-options.files.dataFileName = [options.files.namePrefix,'_',options.files.dataFileExtension];
-options.files.dataFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
+options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
+options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
 
 end

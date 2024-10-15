@@ -23,54 +23,35 @@ switch expType
     case 'behav'
         switch expMode
             case 'practice'
-                imgIntro = imread('stimuli/behav_practice_intro','png');
-                imgMinus = imread('stimuli/behav_practice_minuspoint','png');
-                imgPlus  = imread('stimuli/behav_practice_pluspoint','png');
-
-                % MAKE images into a textures that can be drawn to the screen
-                stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
-                stimuli.minus = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
-                stimuli.plus  = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
+                imgIntro  = imread('stimuli/behav_practice_intro','png');
+                imgIntro2 = imread('stimuli/behav_practice_intro2','png');
+                imgMinus  = imread('stimuli/behav_practice_minuspoint','png');
+                imgPlus   = imread('stimuli/behav_practice_pluspoint','png');
 
             case 'experiment'
-                imgIntro = imread('stimuli/behav_main_intro','png');
-                imgMinus = imread('stimuli/minus_point','png');
-                imgPlus  = imread('stimuli/plus_point','png');
+                imgIntro  = imread('stimuli/behav_main_intro','png');
+                imgIntro2 = imread('stimuli/behav_main_intro2','png');
+                imgMinus  = imread('stimuli/minus_point','png');
+                imgPlus   = imread('stimuli/plus_point','png');
 
-                % MAKE images into a textures that can be drawn to the screen
-                stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
-                stimuli.minus = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
-                stimuli.plus  = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
         end
 
     case 'fmri'
         imgMinus      = imread('stimuli/minus_point','png');
         imgPlus       = imread('stimuli/plus_point','png');
-        stimuli.minus = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
-        stimuli.plus  = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
 
         switch expMode
             case 'practice'
-                imgIntro      = imread('stimuli/fmri_practice_intro','png');
-
-                % make images into a textures that can be drawn to the screen
-                stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+                imgIntro  = imread('stimuli/fmri_practice_intro','png');
+                imgIntro2 = imread('stimuli/fmri_practice_intro2','png');
 
             case 'experiment'
-                imgIntro = imread('stimuli/fmri_main_intro','png');
-                imgMinus = imread('stimuli/minus_point','png');
-                imgPlus  = imread('stimuli/plus_point','png');
-
-                % MAKE images into a textures that can be drawn to the screen
-                stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
-                stimuli.minus = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
-                stimuli.plus  = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
+                imgIntro  = imread('stimuli/fmri_main_intro','png');
+                imgIntro2 = imread('stimuli/fmri_main_intro2','png');
 
             case 'debug'
-                imgIntro      = imread('stimuli/fmri_practice_intro','png');
-
-                % make images into a textures that can be drawn to the screen
-                stimuli.intro = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+                imgIntro  = imread('stimuli/fmri_practice_intro','png');
+                imgIntro2 = imread('stimuli/fmri_practice_intro2','png');
         end
 end
 
@@ -83,12 +64,27 @@ imgM2_egg = imread('stimuli/m2_eggFace','png');
 imgM3_egg = imread('stimuli/m3_eggFace','png');
 imgM4_egg = imread('stimuli/m4_eggFace','png');
 
+imgF1_eggCollected = imread('stimuli/f1_eggCollected','png');
+imgF2_eggCollected = imread('stimuli/f2_eggCollected','png');
+imgF3_eggCollected = imread('stimuli/f3_eggCollected','png');
+imgF4_eggCollected = imread('stimuli/f4_eggCollected','png');
+imgM1_eggCollected = imread('stimuli/m1_eggCollected','png');
+imgM2_eggCollected = imread('stimuli/m2_eggCollected','png');
+imgM3_eggCollected = imread('stimuli/m3_eggCollected','png');
+imgM4_eggCollected = imread('stimuli/m4_eggCollected','png');
+imgNo_eggCollected = imread('stimuli/no_eggCollected','png');
+
 imgCoin   = imread('stimuli/outcome_coin','png');
 imgNoCoin = imread('stimuli/outcome_noCoin','png');
 imgITI    = imread('stimuli/iti_fixation','png');
 imgReady  = imread('stimuli/task_starting','png');
 
-% Make images into a textures that can be drawn to the screen
+%% MAKE images into a textures that can be drawn to the screen
+stimuli.intro  = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+stimuli.intro2 = Screen('MakeTexture', options.screen.windowPtr, imgIntro2);
+stimuli.minus  = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
+stimuli.plus   = Screen('MakeTexture', options.screen.windowPtr, imgPlus);
+
 stimuli.f1_egg = Screen('MakeTexture', options.screen.windowPtr, imgF1_egg);
 stimuli.f2_egg = Screen('MakeTexture', options.screen.windowPtr, imgF2_egg);
 stimuli.f3_egg = Screen('MakeTexture', options.screen.windowPtr, imgF3_egg);
@@ -97,6 +93,16 @@ stimuli.m1_egg = Screen('MakeTexture', options.screen.windowPtr, imgM1_egg);
 stimuli.m2_egg = Screen('MakeTexture', options.screen.windowPtr, imgM2_egg);
 stimuli.m3_egg = Screen('MakeTexture', options.screen.windowPtr, imgM3_egg);
 stimuli.m4_egg = Screen('MakeTexture', options.screen.windowPtr, imgM4_egg);
+
+stimuli.f1_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgF1_eggCollected );
+stimuli.f2_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgF2_eggCollected );
+stimuli.f3_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgF3_eggCollected );
+stimuli.f4_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgF4_eggCollected );
+stimuli.m1_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgM1_eggCollected );
+stimuli.m2_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgM2_eggCollected );
+stimuli.m3_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgM3_eggCollected );
+stimuli.m4_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgM4_eggCollected );
+stimuli.no_eggCollected  = Screen('MakeTexture', options.screen.windowPtr, imgNo_eggCollected );
 
 stimuli.coin   = Screen('MakeTexture', options.screen.windowPtr, imgCoin);
 stimuli.noCoin = Screen('MakeTexture', options.screen.windowPtr, imgNoCoin);

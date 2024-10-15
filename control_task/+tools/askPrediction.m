@@ -77,9 +77,5 @@ RT      = 0;
 
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
-    % show face
-    Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
 end

@@ -78,11 +78,6 @@ if strcmp(respMode,'start')
 
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
-    % show face
-    Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
-
 else
     while waiting
         % show screen with stimulus and wait for participant to press a
@@ -95,10 +90,6 @@ else
 
         if any(keyCode == options.keys.stopSmile)
             waiting = 0;
-            % show face
-            Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
-            Screen('Flip', options.screen.windowPtr);
-            eventListener.commandLine.wait2(options.dur.beforeOutcome,options,dataFile,0);
             
             % in case ESC is pressed this will be logged and saved and the experiment stops here
         elseif any(keyCode == options.keys.escape)

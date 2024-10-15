@@ -1,4 +1,4 @@
-function dataFile = cleanDataFields(dataFile,trial)
+function dataFile = cleanDataFields(dataFile,trial,predictField,questField,smileTimeField)
 
 % -----------------------------------------------------------------------
 % cleanDataFields.m eliminates excess zeros from data vectors
@@ -18,11 +18,11 @@ function dataFile = cleanDataFields(dataFile,trial)
 % -------------------------------------------------------------------------
 %
 
-dataFile.SAPPrediction.congruent = dataFile.SAPPrediction.congruent(1:trial,:);
-dataFile.SAPPrediction.response  = dataFile.SAPPrediction.response(1:trial,:);
-dataFile.SAPPrediction.rt        = dataFile.SAPPrediction.rt(1:trial,:);
-dataFile.SAPQuestion.response    = dataFile.SAPQuestion.response(1:trial,:);
-dataFile.SAPQuestion.rt          = dataFile.SAPQuestion.rt(1:trial,:);
-dataFile.SAPSmileTime.rt         = dataFile.SAPSmileTime.rt(1:trial,:);
+dataFile.(predictField).congruent = dataFile.(predictField).congruent(1:trial,:);
+dataFile.(predictField).response  = dataFile.(predictField).response(1:trial,:);
+dataFile.(predictField).rt        = dataFile.(predictField).rt(1:trial,:);
+dataFile.(questField).response    = dataFile.(questField).response(1:trial,:);
+dataFile.(questField).rt          = dataFile.(questField).rt(1:trial,:);
+dataFile.(smileTimeField).rt      = dataFile.(smileTimeField).rt(1:trial,:);
 
 end

@@ -56,7 +56,7 @@ switch expMode
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
@@ -73,8 +73,6 @@ switch expMode
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 ; 1 0 1 1 0 1]';
         options.task.nAvatars = max(options.task.inputs);
-        rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1);
 
         options.task.showPoints = 1;
 
@@ -84,6 +82,8 @@ switch expMode
         else
             options.task.nTrials  = 4;
         end
+        rng(1,"twister");
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
     case 'debug'
         % stimulus durations
@@ -94,7 +94,7 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = max(options.task.inputs);
         options.task.nTrials  = size(options.task.inputs,1);
-        options.task.slidingBarStart = rand(options.task.nTrials,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 1;
         options.doKeyboard      = 1;
@@ -150,10 +150,8 @@ switch expMode
             options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
                 '\n Use your other index finger to stop the sliding bar.'];
             options.screen.startPredictText = ['Do you choose to smile at this person because you think that they will smile back?' ...
-                '\n Use your ',handedness,' index finger to start smiling '...
-                '\n and your other index finger once you stopped smiling.' ...
-                '\n Use your ',handedness,' middle finger if you choose not to smile' ...
-                '\n because you predict that this person will not smile back.'];
+                '\n',handedness,' index finger to start smiling and other index finger once you stopped smiling.' ...
+                '\n',handedness,' middle finger if you choose not to smile because you think this person won''t smile back.'];
         else
             if strcmp(handedness,'right')
                 options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
@@ -179,7 +177,7 @@ else
         '\n You will receive an additional AUD 5 to your reimbursement.'];
     options.screen.finalTagetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
         '\n You will receive an additional AUD 10 to your reimbursement.'];
-        options.screen.noTagetText = 'You have not collected enough points to reach one of the reimbursed targets.';
+    options.screen.noTagetText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
 
 options.screen.pointsText = 'You collected the following amount of points: ';
@@ -242,21 +240,24 @@ if strcmp(expMode,'debug') % in ms
     options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
     options.dur.showReadyScreen = 200;
+    options.dur.afterSmileITI   = randi([150,250],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([150,250],options.task.nTrials,1);
     options.dur.rtTimeout       = 500;
     options.dur.showWarning     = 500;
     options.dur.ITI             = randi([150,250],options.task.nTrials,1);
 else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 1000;  % in ms
-    options.dur.showSmile       = 15000;
+    options.dur.showStimulus    = 500;  % in ms
+    options.dur.showSmile       = 10000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showReadyScreen =  1500;
-    options.dur.beforeOutcome   =  500;
+    options.dur.afterSmileITI   = randi([100,1000],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([500,1500],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([2000,5000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 %% MESSAGES
