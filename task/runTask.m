@@ -81,7 +81,6 @@ while taskRunning
 
     if resp == 1
         % make sure that participants delineate smile periods with start and stop button
-        % if strcmp(expType,'fmri')
         ticID   = tic();
 
         % make sure participants pressed the stop button to indicate that they have
@@ -89,26 +88,16 @@ while taskRunning
         dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
         RT = toc(ticID);
         [~,dataFile] = eventListener.logData(RT,smileTimeField,'rt',dataFile,trial);
-
-        % else
-        %     Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-        %     Screen('Flip', options.screen.windowPtr);
-        %     eventListener.commandLine.wait2(options.dur.afterSmileITI(trial),options,dataFile,0);
-        % end
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.afterSmileITI(trial),options,dataFile,0);
     else
-        % show outcome
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+        % show stimulus again before outcome presentation with jitter
+        Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.afterNeutralITI(trial),options,dataFile,0);
     end
-
-    % show stimulus again and jitter
-    Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.beforeOutcome,options,dataFile,0);
+        % show outcome
+        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
     % log congruency and show points slide
     if resp==outcome
@@ -159,7 +148,7 @@ dataFile.(questField).sliderStart = options.task.slidingBarStart;
 output.saveData(options,dataFile);
 
 % show end screen
-DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[],[255 255 255],[],[],[],1);
+DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 

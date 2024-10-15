@@ -72,7 +72,7 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 ; 1 0 1 1 0 1]';
-        options.task.nAvatars = max(options.task.inputs);
+        options.task.nAvatars = max(options.task.inputs(:,1));
 
         options.task.showPoints = 1;
 
@@ -92,7 +92,7 @@ switch expMode
         options.screen.number = max(screens);
         % options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nAvatars = max(options.task.inputs);
+        options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
@@ -105,7 +105,7 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nAvatars = max(options.task.inputs);
+        options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         options.task.slidingBarStart = rand(options.task.nTrials,1);
 
@@ -119,12 +119,10 @@ rowIdx      = find(RandTable.PID==str2num(PID));
 avatars     = RandTable(rowIdx,:);
 options.task.avatarArray = string(options.task.inputs(:,1));
 
-if strcmp(expMode,'debug')
-    cellName  = 'fmri_experiment_a';
-elseif strcmp(expType,'behav') || strcmp(expMode,'experiment')
-    cellName  = 'fmri_experiment_a';
-else
-    cellName  = [expType,'_',expMode,'_a'];
+if strcmp(expMode,'practice')
+    cellName  = 'practice_a';
+elseif trcmp(expMode,'experiment')
+    cellName  = 'experiment_a';
 end
 
 for iAvatar = 1:options.task.nAvatars
@@ -253,8 +251,8 @@ else % in ms
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showReadyScreen =  1500;
-    options.dur.afterSmileITI   = randi([100,1000],options.task.nTrials,1);
-    options.dur.afterNeutralITI = randi([500,1500],options.task.nTrials,1);
+    options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
     options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2

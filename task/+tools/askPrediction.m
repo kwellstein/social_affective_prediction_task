@@ -78,6 +78,10 @@ if strcmp(respMode,'start')
 
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
+
+    Screen('DrawTexture', options.screen.windowPtr,cue,[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 else
     while waiting
         % show screen with stimulus and wait for participant to press a
@@ -89,8 +93,16 @@ else
         RT      = toc(ticID);
 
         if any(keyCode == options.keys.stopSmile)
+            stimulusDuration = options.dur.afterSmileITI(trial)- (RT*1000);
+            Screen('DrawTexture', options.screen.windowPtr,cue,[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
+            if stimulusDuration<200
+                eventListener.commandLine.wait2(200,options,dataFile,0);
+            else
+                eventListener.commandLine.wait2(stimulusDuration,options,dataFile,0);
+            end
             waiting = 0;
-            
+
             % in case ESC is pressed this will be logged and saved and the experiment stops here
         elseif any(keyCode == options.keys.escape)
             DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...

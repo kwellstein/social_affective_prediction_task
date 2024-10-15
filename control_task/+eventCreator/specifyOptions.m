@@ -56,7 +56,7 @@ switch expMode
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);        
         rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
@@ -72,10 +72,10 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nEggs    = max(options.task.inputs);
+        options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 1;
 
@@ -94,10 +94,10 @@ switch expMode
         % options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.showPoints = 1;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nEggs    = max(options.task.inputs);
+        options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.doKeyboard = 1;
 
@@ -109,7 +109,7 @@ switch expMode
         options.task.showPoints = 1;
         options.task.nTrials  = 8;
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nEGGS = 2;
+        options.task.nEGGS = max(options.task.inputs(:,1));
         options.doKeyboard = 1;
 end
 
@@ -119,12 +119,10 @@ rowIdx    = find(RandTable.PID==str2double(PID));
 eggs      = RandTable(rowIdx,:);
 options.task.eggArray = string(options.task.inputs(:,1));
 
-if strcmp(expMode,'debug')
-    cellName  = 'fmri_experiment_a';
-elseif strcmp(expType,'behav') || strcmp(expMode,'experiment')
-    cellName  = 'fmri_experiment_a';
-else
-    cellName  = [expType,'_',expMode,'_a'];
+if strcmp(expMode,'practice')
+    cellName  = 'practice_a';
+elseif  strcmp(expMode,'experiment')
+    cellName  = 'experiment_a';
 end
 
 for iEgg = 1:options.task.nEggs

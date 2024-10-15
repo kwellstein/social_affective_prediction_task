@@ -30,20 +30,27 @@ if options.task.sequenceIdx>1
 
     % find the indices for valid files that can be loaded
     d = dir(options.files.savePath);
-    fileIdx = zeros(1,size(d,1));
+    dFileIdx = zeros(1,size(d,1));
+    oFileIdx = zeros(1,size(d,1));
     for f = 1:size(d,1)
         if endsWith(d(f).name,'dataFile.mat')
-        fileIdx(f) = f;
+        dFileIdx(f) = f;
         else
-            fileIdx(f) = 0;
+            dFileIdx(f) = 0;
+        end
+        if endsWith(d(f).name,'optionsFile.mat')
+        oFileIdx(f) = f;
+        else
+            oFileIdx(f) = 0;
         end
     end
 
-fileIdx(fileIdx==0)=[];
+dFileIdx(dFileIdx==0)=[];
+oFileIdx(oFileIdx==0)=[];
 
-    for i = 1:size(fileIdx,2)
-        dataFileName = d(fileIdx(i)).name;
-        optFileName  = d(fileIdx(i)).name;
+    for i = 1:size(dFileIdx,2)
+        dataFileName = d(dFileIdx(i)).name;
+        optFileName  = d(oFileIdx(i)).name;
         data = load([options.files.savePath,filesep,dataFileName]);
         opt  = load([options.files.savePath,filesep,optFileName]);
         fieldName = [opt.task.name,'Summary'];
@@ -68,13 +75,13 @@ end
 
 %% show points screens
 % show points screen
-DrawFormattedText(options.screen.windowPtr,pointsText,'center',[],[255 255 255],[],[],[],1);
+DrawFormattedText(options.screen.windowPtr,pointsText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
+eventListener.commandLine.wait2(options.dur.showOutcome,options,[],0);
 
 % show target screen
-DrawFormattedText(options.screen.windowPtr,targetText,'center',[],[255 255 255],[],[],[],1);
+DrawFormattedText(options.screen.windowPtr,targetText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
+eventListener.commandLine.wait2(options.dur.showOutcome,options,[],0);
 
 end

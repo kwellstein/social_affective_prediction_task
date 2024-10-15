@@ -67,13 +67,7 @@ while taskRunning
     % pick egg of current trial
     firstSlide  = [char(egg),'_egg'];  % prediction
     choiceSlide = [char(egg),'_eggCollected'];  % choice stimulus if decided to collect
-
-    if outcome
-        outcomeSlide = 'coin';   % if outcome is 1
-    else
-        outcomeSlide = 'noCoin'; % if outcome is 0
-    end
-
+    
     % show egg
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
@@ -93,14 +87,12 @@ while taskRunning
         eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
     end
 
-    % show outcome
-    Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+
 
     % log congruency and show points slide
     if resp==outcome
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
+        outcomeSlide = 'coin';  
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
@@ -108,6 +100,7 @@ while taskRunning
         end
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
+        outcomeSlide = 'noCoin'; % if outcome is 0
         dataFile     = eventListener.logEvent('exp','_missedTrial ',dataFile,trial,[]);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
@@ -115,12 +108,19 @@ while taskRunning
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
+        outcomeSlide = 'noCoin'; % if outcome is 0
+
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     end
+
+    % show outcome
+    Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
     % Show Fixation cross % ADD JITTER with optseq2!!!!
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
@@ -147,7 +147,7 @@ dataFile.(questField).sliderStart = options.task.slidingBarStart;
 output.saveData(options,dataFile);
 
 % show end screen
-DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center',[],[255 255 255],[],[],[],1);
+DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
