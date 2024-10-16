@@ -182,6 +182,8 @@ switch expType
         end
 
     case 'fmri'
+        options.keys.taskStart =  KbName('5'); 
+        
         if strcmp(handedness,'right')
             options.keys.collect = KbName('1'); % CHANGE: This should dominant hand index finger
             options.keys.reject  = KbName('2'); % CHANGE: This should dominant hand middle finger

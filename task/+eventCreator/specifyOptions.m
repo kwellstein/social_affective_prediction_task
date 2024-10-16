@@ -165,16 +165,16 @@ switch expMode
 end
 
 if options.task.sequenceIdx<options.task.maxSequenceIdx
-    options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
+    options.screen.firstTargetText = ['You collected more than ', num2str(options.task.firstTarget),' points! ' ...
         '\n You will receive an additional AUD 5 to your reimbursement if you keep this score.'];
-    options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
+    options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points! ' ...
         '\n You will receive an additional AUD 10 to your reimbursement if you keep this score.'];
     options.screen.noTagretText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
         '\n Keep collecting points in the next task!'];
 else
-    options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points across all tasks! ' ...
+    options.screen.firstTargetText = ['You collected more than ', num2str(options.task.firstTarget),' points across all tasks! ' ...
         '\n You will receive an additional AUD 5 to your reimbursement.'];
-    options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
+    options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points across all tasks! ' ...
         '\n You will receive an additional AUD 10 to your reimbursement.'];
     options.screen.noTagretText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
@@ -205,7 +205,8 @@ switch expType
 
     case 'fmri'
         options.keys.escape     = KbName('ESCAPE');
-
+        options.keys.taskStart  = KbName('5');
+        
         if strcmp(handedness,'right')
             options.keys.startSmile = KbName('1'); % CHANGE: This should dominant hand index finger
             options.keys.stopSmile  = KbName('3'); % CHANGE: This should non-dominant hand index finger

@@ -54,13 +54,14 @@ totalPoints = sum(points);
 pointsText  = [options.screen.pointsText,num2str(totalPoints)];
 
 %% select text to be shown on screen
-if totalPoints >= options.task.firstTarget
-    targetText = options.screen.firstTargetText;
-elseif totalPoints >= options.task.finalTarget
-    targetText = options.screen.finalTargetText;
+if totalPoints >= options.task.finalTarget
+    targetText = options.screen.finalTagetText;
+elseif totalPoints >= options.task.firstTarget
+    targetText = options.screen.firstTagetText;
 else
-    targetText = options.screen.noTargetText;
+    targetText = options.screen.noTagetText;
 end
+
 
 %% show points screens
 % show points screen

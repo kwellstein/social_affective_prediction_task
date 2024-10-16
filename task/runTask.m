@@ -33,9 +33,27 @@ function dataFile = runTask(stimuli,expMode,options,dataFile)
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 
+%% INITIALIZE
+predictField   = [options.task.name,'Prediction'];
+questField     = [options.task.name,'Question'];
+smileTimeField = [options.task.name,'SmileTime'];
+taskRunning    = 1;
+trial          = 0;
+
+%% START task and send trigger
+if strcmp(expType,'fmri')
+    waitForTrigger = 1;
+    while waitForTrigger
+        keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+        if keyCode == options.keys.taskStart
+            waitForTrigger = 0;
+        end
+    end
+end
+
+dataFile.events.exp_startTime = GetSecs();
 
 %% SHOW intro
-
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
@@ -45,14 +63,6 @@ Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 dataFile = eventListener.logEvent(expMode,'_startTime',dataFile,[],[]);
 
-%% INITIALIZE
-predictField   = [options.task.name,'Prediction'];
-questField     = [options.task.name,'Question'];
-smileTimeField = [options.task.name,'SmileTime'];
-
-dataFile.events.exp_startTime = GetSecs();
-taskRunning = 1;
-trial       = 0;
 %% START task trials
 
 while taskRunning
