@@ -58,6 +58,6 @@ dataFile.SAPCPrediction.congruent = zeros(200,1); % if congruent ==1, if incongu
 % COL 1: response on sliding bar, COL 2: time point
 dataFile.SAPCQuestion.response = zeros(200,2);
 dataFile.SAPCQuestion.rt       = zeros(200,1);
-dataFile.SAPCSummary.points    = 0;
+dataFile.Summary.points    = 0;
 
 end

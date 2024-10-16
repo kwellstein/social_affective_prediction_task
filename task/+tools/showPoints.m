@@ -31,32 +31,22 @@ if options.task.sequenceIdx>1
     % find the indices for valid files that can be loaded
     d = dir(options.files.savePath);
     dFileIdx = zeros(1,size(d,1));
-    oFileIdx = zeros(1,size(d,1));
     for f = 1:size(d,1)
         if endsWith(d(f).name,'dataFile.mat')
-        dFileIdx(f) = f;
+            dFileIdx(f) = f;
         else
             dFileIdx(f) = 0;
         end
-        if endsWith(d(f).name,'optionsFile.mat')
-        oFileIdx(f) = f;
-        else
-            oFileIdx(f) = 0;
-        end
+       
     end
 
 dFileIdx(dFileIdx==0)=[];
-oFileIdx(oFileIdx==0)=[];
 
     for i = 1:size(dFileIdx,2)
         dataFileName = d(dFileIdx(i)).name;
-        optFileName  = d(oFileIdx(i)).name;
         data = load([options.files.savePath,filesep,dataFileName]);
-        opt  = load([options.files.savePath,filesep,optFileName]);
-        fieldName = [opt.task.name,'Summary'];
-        points(i+1) = data.(fieldName).points;
-        clear data
-        clear opt
+        points(i+1) = data.dataFile.Summary.points;
+        clear data;
     end
 end
 
@@ -65,11 +55,11 @@ pointsText  = [options.screen.pointsText,num2str(totalPoints)];
 
 %% select text to be shown on screen
 if totalPoints >= options.task.firstTarget
-    targetText = options.screen.firstTagetText;
+    targetText = options.screen.firstTargetText;
 elseif totalPoints >= options.task.finalTarget
-    targetText = options.screen.finalTagetText;
+    targetText = options.screen.finalTargetText;
 else
-    targetText = options.screen.noTagetText;
+    targetText = options.screen.noTargetText;
 end
 
 
@@ -77,11 +67,11 @@ end
 % show points screen
 DrawFormattedText(options.screen.windowPtr,pointsText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showOutcome,options,[],0);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
 
 % show target screen
 DrawFormattedText(options.screen.windowPtr,targetText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showOutcome,options,[],0);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
 
 end

@@ -46,7 +46,6 @@ Screen('Flip', options.screen.windowPtr);
 dataFile = eventListener.logEvent(expMode,'_startTime',dataFile,[],[]);
 
 %% INITIALIZE
-summaryField   = [options.task.name,'Summary'];
 predictField   = [options.task.name,'Prediction'];
 questField     = [options.task.name,'Question'];
 smileTimeField = [options.task.name,'SmileTime'];
@@ -139,7 +138,7 @@ end
 
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
-dataFile.(summaryField).points = sum(dataFile.(predictField).congruent);
+dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField,smileTimeField);
 dataFile.(questField).sliderStart = options.task.slidingBarStart;
@@ -152,6 +151,8 @@ DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','c
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
-tools.showPoints(options,dataFile.(summaryField).points);
+if strcmp(expMode,'experiment')
+    tools.showPoints(options,dataFile.Summary.points);
+end
 
 end

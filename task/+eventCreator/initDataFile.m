@@ -59,6 +59,6 @@ dataFile.SAPPrediction.congruent = zeros(200,1); % if congruent ==1, if incongur
 % COL 1: response on sliding bar, COL 2: time point
 dataFile.SAPQuestion.response = zeros(200,2);
 dataFile.SAPQuestion.rt       = zeros(200,1);
-dataFile.SAPSummary.points    = 0;
+dataFile.Summary.points    = 0;
 
 end

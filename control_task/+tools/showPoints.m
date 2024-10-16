@@ -23,7 +23,7 @@ function showPoints(options,currPoints)
 % _______________________________________________________________________________%
 
 %% collect and sum up all points across tasks
-points = zeros(1,options.task.sequenceIdx);
+points    = zeros(1,options.task.sequenceIdx);
 points(1) = currPoints;
 
 if options.task.sequenceIdx>1
@@ -31,32 +31,22 @@ if options.task.sequenceIdx>1
     % find the indices for valid files that can be loaded
     d = dir(options.files.savePath);
     dFileIdx = zeros(1,size(d,1));
-    oFileIdx = zeros(1,size(d,1));
     for f = 1:size(d,1)
-        if endsWith(d(f).name,'dataFile.mat')
-        dFileIdx(f) = f;
+        if endsWith(d(f).name,'_dataFile.mat')
+            dFileIdx(f) = f;
         else
             dFileIdx(f) = 0;
         end
-        if endsWith(d(f).name,'optionsFile.mat')
-        oFileIdx(f) = f;
-        else
-            oFileIdx(f) = 0;
-        end
+       
     end
 
 dFileIdx(dFileIdx==0)=[];
-oFileIdx(oFileIdx==0)=[];
 
     for i = 1:size(dFileIdx,2)
         dataFileName = d(dFileIdx(i)).name;
-        optFileName  = d(oFileIdx(i)).name;
         data = load([options.files.savePath,filesep,dataFileName]);
-        opt  = load([options.files.savePath,filesep,optFileName]);
-        fieldName = [opt.task.name,'Summary'];
-        points(i+1) = data.(fieldName).points;
-        clear data
-        clear opt
+        points(i+1) = data.dataFile.Summary.points;
+        clear data;
     end
 end
 
@@ -65,13 +55,12 @@ pointsText  = [options.screen.pointsText,num2str(totalPoints)];
 
 %% select text to be shown on screen
 if totalPoints >= options.task.firstTarget
-    targetText = options.screen.firstTagetText;
+    targetText = options.screen.firstTargetText;
 elseif totalPoints >= options.task.finalTarget
-    targetText = options.screen.finalTagetText;
+    targetText = options.screen.finalTargetText;
 else
-    targetText = options.screen.noTagetText;
+    targetText = options.screen.noTargetText;
 end
-
 
 %% show points screens
 % show points screen

@@ -62,7 +62,7 @@ switch expMode
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
         else
-            options.doKeyboard    = 0;
+            options.doKeyboard  = 0;
         end
 
     case 'practice'
@@ -71,7 +71,7 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
+        options.task.inputs   = [1 2 2 1 ; 1 0 1 0 ]';
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
@@ -80,10 +80,8 @@ switch expMode
         options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
-            options.task.nTrials  = 8;
             options.doKeyboard = 1;
         else
-            options.task.nTrials  = 4;
         end
 
     case 'debug'
@@ -138,9 +136,8 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 
 switch expMode
     case 'experiment'
-        options.screen.predictText    = 'collect?';
-        options.screen.qText       = ['\n How often do you make a profit from reselling this type of egg? ' ...
-            '\n Use your other index finger to stop the sliding bar.'];
+        options.screen.predictText  = 'collect?';
+        options.screen.qText        ='\n How often is this egg profitable?';
     case 'practice'
         options.screen.qText       = ['\n How often do you make a profit from reselling this type of egg? ' ...
             '\n Use your other index finger to stop the sliding bar.'];
@@ -149,18 +146,18 @@ switch expMode
 end
 
 if options.task.sequenceIdx<options.task.maxSequenceIdx
-    options.screen.firstTagetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
+    options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
         '\n You will receive an additional AUD 5 to your reimbursement if you keep this score.'];
-    options.screen.finalTagetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
+    options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
         '\n You will receive an additional AUD 10 to your reimbursement if you keep this score.'];
-    options.screen.noTagetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
+    options.screen.noTargetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
         '\n Keep collecting points in the next task!'];
 else
-    options.screen.firstTagetText = ['You collected more than ', options.task.firstTarget,' points across all tasks! ' ...
+    options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points across all tasks! ' ...
         '\n You will receive an additional AUD 5 to your reimbursement.'];
-    options.screen.finalTagetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
+    options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
         '\n You will receive an additional AUD 10 to your reimbursement.'];
-    options.screen.noTagetText = 'You have not collected enough points to reach one of the reimbursed targets.';
+    options.screen.noTargetText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
 
 options.screen.pointsText = 'You collected the following amount of points: ';

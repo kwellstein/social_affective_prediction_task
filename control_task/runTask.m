@@ -44,13 +44,18 @@ Screen('DrawTexture', options.screen.windowPtr, stimuli.intro2,[], options.scree
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
 
+if strcmp(expMode,'practice')
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro3,[], options.screen.rect);
+    Screen('Flip', options.screen.windowPtr);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
+end
+
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 dataFile = eventListener.logEvent(expMode,'_startTime',dataFile,[],[]);
 
 %% INITIALIZE
-summaryField   = [options.task.name,'Summary'];
 predictField   = [options.task.name,'Prediction'];
 questField     = [options.task.name,'Question'];
 
@@ -67,7 +72,7 @@ while taskRunning
     % pick egg of current trial
     firstSlide  = [char(egg),'_egg'];  % prediction
     choiceSlide = [char(egg),'_eggCollected'];  % choice stimulus if decided to collect
-    
+
     % show egg
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
@@ -90,9 +95,22 @@ while taskRunning
 
 
     % log congruency and show points slide
-    if resp==outcome
+    if resp==outcome % if congurent outcome
+        % log data
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
-        outcomeSlide = 'coin';  
+        % select slide to be presented
+        if strcmp(expMode,'experiment')
+            outcomeSlide = 'coin'; % experiment mode, show simple coin
+        elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
+            outcomeSlide = 'collectCoin'; % collected egg and earned coin
+        elseif resp==0
+            outcomeSlide = 'rejectCoin';% rejected egg and earned coin
+        end
+        % show outcome
+        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
@@ -108,7 +126,17 @@ while taskRunning
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
-        outcomeSlide = 'noCoin'; % if outcome is 0
+        if strcmp(expMode,'experiment')
+            outcomeSlide = 'noCoin'; % if outcome is 0
+        elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
+            outcomeSlide = 'collectNoCoin'; % collected bad egg
+        elseif resp==0
+            outcomeSlide = 'rejectNoCoin';% rejected good egg
+        end
+        % show outcome
+        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
@@ -116,11 +144,6 @@ while taskRunning
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     end
-
-    % show outcome
-    Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
     % Show Fixation cross % ADD JITTER with optseq2!!!!
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
@@ -138,7 +161,7 @@ end
 
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
-dataFile.(summaryField).points = sum(dataFile.(predictField).congruent);
+dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField);
 dataFile.(questField).sliderStart = options.task.slidingBarStart;
@@ -151,5 +174,8 @@ DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','c
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
-tools.showPoints(options,dataFile.(summaryField).points);
+if strcmp(expMode,'experiment')
+    tools.showPoints(options,dataFile.Summary.points);
+end
+
 end
