@@ -71,13 +71,14 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.inputs   = [1 2 2 1 2 1 ; 1 0 1 1 0 1]';
+        options.task.inputs   = [1 2 2 1 2 1 2 1 1 2; ...
+                                 1 0 1 1 0 1 0 1 1 0]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
         options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
-            options.task.nTrials  = 6;
+            options.task.nTrials  = 10;
             options.doKeyboard    = 1;
         else
             options.task.nTrials  = 4;
@@ -146,17 +147,19 @@ switch expMode
 
     case 'practice'
         if strcmp(expType,'behav')
-            options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
+            options.screen.qText       = [
+                '\n How often does this person usually smile back when receiving a smile? ' ...
                 '\n Use your other index finger to stop the sliding bar.'];
-            options.screen.startPredictText = ['Do you choose to smile at this person because you think that they will smile back?' ...
+            options.screen.startPredictText = ['Smile prediction phase:'...
+                '\n Do you choose to smile at this person because you think that they will smile back?' ...
                 '\n -> ',handedness,' index finger to start smiling & other index finger once you stopped smiling.' ...
-                '\n -> ',handedness,' middle finger if you choose not to smile because you they won''t smile back.'];
+                '\n -> ',handedness,' middle finger to stay neutral because you think they won''t smile back.'];
         else
             if strcmp(handedness,'right')
-                options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
+                options.screen.qText       = ['\n How often does this person smile back? ' ...
                     '\n Use your left index finger to stop the sliding bar.'];
             else
-                options.screen.qText       = ['\n How often does this person usually smile back when receiving a smile? ' ...
+                options.screen.qText       = ['\n How often does this person smile back?? ' ...
                     '\n Use your right index finger to stop the sliding bar.'];
             end
             options.screen.startPredictText = ['Choose to smile: use ',handedness,' index finger to start & other index finger once your face is neutral again.' ...
@@ -232,7 +235,7 @@ end
 
 %% DURATIONS OF EVENTS
 % CHANGE
-if strcmp(expMode,'debug') % in ms
+if strcmp(expMode,'debug')
     options.dur.waitnxtkeypress = 2000; % in ms
     options.dur.showStimulus    = 500; % in ms
     options.dur.showSmile       = 15000;
@@ -245,6 +248,20 @@ if strcmp(expMode,'debug') % in ms
     options.dur.rtTimeout       = 500;
     options.dur.showWarning     = 500;
     options.dur.ITI             = randi([150,250],options.task.nTrials,1);
+
+elseif strcmp(expMode,'practice')
+options.dur.waitnxtkeypress = 5000; % in ms
+    options.dur.showStimulus    = 500;  % in ms
+    options.dur.showSmile       = 10000;
+    options.dur.showOutcome     = 500;
+    options.dur.showPoints      = 500;
+    options.dur.showIntroScreen = 35000; % in ms
+    options.dur.showReadyScreen =  1500;
+    options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
+    options.dur.rtTimeout       =  1500;
+    options.dur.showWarning     =  1000;
+    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 500;  % in ms

@@ -103,7 +103,7 @@ options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
 %% RUN TASK
-runTask(stimuli,expMode,options,dataFile);
+runTask(stimuli,expMode,expType,options,dataFile);
 
 Screen('CloseAll');
 

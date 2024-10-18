@@ -104,7 +104,7 @@ loopStartTime = GetSecs();
             DrawFormattedText(options.screen.windowPtr,options.messages.wrongButton,'center','center',[0 1 1],[],[],[],1.5);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
-            disp(['Participant pressed wrong button on trial ',num2str(trial),'... ']);
+            % disp(['Participant pressed wrong button on trial ',num2str(trial),'... ']);
         end
     end
 

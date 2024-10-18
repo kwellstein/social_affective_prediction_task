@@ -99,12 +99,12 @@ dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness);
 options  = eventCreator.specifyOptions(PID,expMode,expType,handedness);
 
 %% SETUP ENVIRONMENT
-options  = tools.prepEnvironment(options);
+options = tools.prepEnvironment(options);
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
 %% RUN TASK
-runTask(stimuli,expMode,options,dataFile);
+runTask(stimuli,expMode,expType,options,dataFile);
 
 Screen('CloseAll');
 

@@ -21,49 +21,49 @@ function stimuli = initVisuals(options,expMode,expType)
 
 switch expType
     case 'behav'
-        imgIntro  = imread('stimuli/behav_main_intro','png');
-        imgIntro2 = imread('stimuli/behav_main_intro2','png');
-
         switch expMode
             case 'practice'
-                imgIntro3  = imread('stimuli/behav_practice_intro','png');
+                imgIntro  = imread('stimuli/behav_practice_intro','png');
+                imgIntro2 = imread('stimuli/behav_practice_intro2','png');
+                imgIntro3 = imread('stimuli/behav_practice_intro3','png');
                 imgMinus  = imread('stimuli/behav_practice_minuspoint','png');
                 imgPlus   = imread('stimuli/behav_practice_pluspoint','png');
                 imgCollectCoin   = imread('stimuli/outcome_collected_coin','png');
                 imgRejectCoin    = imread('stimuli/outcome_collected_coin','png');
                 imgCollectNoCoin = imread('stimuli/outcome_collected_noCoin','png');
                 imgRejectNoCoin  = imread('stimuli/outcome_rejected_noCoin','png');
-                stimuli.intro3 = Screen('MakeTexture', options.screen.windowPtr, imgIntro3);
-                stimuli.collectCoin  = Screen('MakeTexture', options.screen.windowPtr,imgCollectCoin);
-                stimuli.rejectCoin  = Screen('MakeTexture', options.screen.windowPtr,imgRejectCoin);
-                stimuli.collectNoCoin  = Screen('MakeTexture', options.screen.windowPtr,imgCollectNoCoin);
+                stimuli.intro2 = Screen('MakeTexture', options.screen.windowPtr, imgIntro2);
+                stimuli.intro3        = Screen('MakeTexture', options.screen.windowPtr, imgIntro3);
+                stimuli.collectCoin   = Screen('MakeTexture', options.screen.windowPtr,imgCollectCoin);
+                stimuli.rejectCoin    = Screen('MakeTexture', options.screen.windowPtr,imgRejectCoin);
+                stimuli.collectNoCoin = Screen('MakeTexture', options.screen.windowPtr,imgCollectNoCoin);
                 stimuli.rejectNoCoin  = Screen('MakeTexture', options.screen.windowPtr,imgRejectNoCoin);
 
             case 'experiment'
-                imgMinus  = imread('stimuli/minus_point','png');
-                imgPlus   = imread('stimuli/plus_point','png');
+                imgIntro  = imread('stimuli/behav_main_intro','png');
 
         end
 
     case 'fmri'
-        imgIntro  = imread('stimuli/fmri_main_intro','png');
-        imgIntro2 = imread('stimuli/fmri_main_intro2','png');
-        imgMinus      = imread('stimuli/minus_point','png');
-        imgPlus       = imread('stimuli/plus_point','png');
-
         switch expMode
             case 'practice'
-                imgIntro3  = imread('stimuli/fmri_practice_intro','png');
-
+                imgIntro  = imread('stimuli/fmri_practice_intro','png');
+                imgIntro2 = imread('stimuli/fmri_practice_intro2','png');
+                imgIntro3 = imread('stimuli/fmri_practice_intro3','png');
                 imgCollectCoin   = imread('stimuli/outcome_collected_coin','png');
                 imgRejectCoin    = imread('stimuli/outcome_collected_coin','png');
                 imgCollectNoCoin = imread('stimuli/outcome_collected_noCoin','png');
                 imgRejectNoCoin  = imread('stimuli/outcome_rejected_noCoin','png');
-                stimuli.intro3 = Screen('MakeTexture', options.screen.windowPtr, imgIntro3);
-                stimuli.collectCoin  = Screen('MakeTexture', options.screen.windowPtr,imgCollectCoin);
-                stimuli.rejectCoin  = Screen('MakeTexture', options.screen.windowPtr,imgRejectCoin);
-                stimuli.collectNoCoin  = Screen('MakeTexture', options.screen.windowPtr,imgCollectNoCoin);
+                stimuli.intro2 = Screen('MakeTexture', options.screen.windowPtr, imgIntro2);
+                stimuli.intro3        = Screen('MakeTexture', options.screen.windowPtr, imgIntro3);
+                stimuli.collectCoin   = Screen('MakeTexture', options.screen.windowPtr,imgCollectCoin);
+                stimuli.rejectCoin    = Screen('MakeTexture', options.screen.windowPtr,imgRejectCoin);
+                stimuli.collectNoCoin = Screen('MakeTexture', options.screen.windowPtr,imgCollectNoCoin);
                 stimuli.rejectNoCoin  = Screen('MakeTexture', options.screen.windowPtr,imgRejectNoCoin);
+
+            case 'experiment'
+                imgIntro  = imread('stimuli/fmri_main_intro','png');
+
         end
 end
 
@@ -95,6 +95,8 @@ imgM3_eggCollected = imread('stimuli/m3_eggCollected','png');
 imgM4_eggCollected = imread('stimuli/m4_eggCollected','png');
 imgNo_eggCollected = imread('stimuli/no_eggCollected','png');
 
+imgMinus = imread('stimuli/minus_point','png');
+imgPlus  = imread('stimuli/plus_point','png');
 imgCoin   = imread('stimuli/outcome_coin','png');
 imgNoCoin = imread('stimuli/outcome_noCoin','png');
 imgITI    = imread('stimuli/iti_fixation','png');
@@ -102,7 +104,6 @@ imgReady  = imread('stimuli/task_starting','png');
 
 %% MAKE images into a textures that can be drawn to the screen
 stimuli.intro  = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
-stimuli.intro2 = Screen('MakeTexture', options.screen.windowPtr, imgIntro2);
 
 stimuli.minus  = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
 stimuli.plus   = Screen('MakeTexture', options.screen.windowPtr, imgPlus);

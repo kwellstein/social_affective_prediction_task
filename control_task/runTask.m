@@ -1,4 +1,4 @@
-function dataFile = runTask(stimuli,expMode,options,dataFile)
+function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %% _______________________________________________________________________________%
 %% runTask.m runs the Social Affective Prediction task
 %
@@ -57,14 +57,15 @@ Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
 
-Screen('DrawTexture', options.screen.windowPtr, stimuli.intro2,[], options.screen.rect);
-Screen('Flip', options.screen.windowPtr);
-[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
-
 if strcmp(expMode,'practice')
-    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro3,[], options.screen.rect);
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro2,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
+
+
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro3,[], options.screen.rect);
+    Screen('Flip', options.screen.windowPtr);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 end
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
@@ -108,24 +109,31 @@ while taskRunning
     if resp==outcome % if congurent outcome
         % log data
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
-        % select slide to be presented
+        
+        % select slide to be presented plus duration as a function of
+        % experiment vs. practice expMode
         if strcmp(expMode,'experiment')
             outcomeSlide = 'coin'; % experiment mode, show simple coin
+            durOutcomeSlide = options.dur.showOutcome;
         elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
             outcomeSlide = 'collectCoin'; % collected egg and earned coin
+            durOutcomeSlide = options.dur.showReadyScreen;
         elseif resp==0
             outcomeSlide = 'rejectCoin';% rejected egg and earned coin
+            durOutcomeSlide = options.dur.showReadyScreen;
         end
-        % show outcome
+
+        % show outcome with different duration and slide as specified in exp-practice loop above!
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+        eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
 
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
+
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         outcomeSlide = 'noCoin'; % if outcome is 0
@@ -138,15 +146,19 @@ while taskRunning
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         if strcmp(expMode,'experiment')
             outcomeSlide = 'noCoin'; % if outcome is 0
+            durOutcomeSlide = options.dur.showOutcome;
         elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
             outcomeSlide = 'collectNoCoin'; % collected bad egg
+            durOutcomeSlide = options.dur.showReadyScreen;
         elseif resp==0
             outcomeSlide = 'rejectNoCoin';% rejected good egg
+            durOutcomeSlide = options.dur.showReadyScreen;
         end
-        % show outcome
+
+        % show outcome with different duration and slide as specified in exp-practice loop above!
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+        eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
 
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
