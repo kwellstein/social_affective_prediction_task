@@ -54,7 +54,7 @@ if strcmp(respMode,'start')
             DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
-            dataFile        = eventListener.logEvent('exp','_abort', [],trial);
+            dataFile        = eventListener.logEvent('exp','_abort',dataFile,1,trial);
             disp('Game was aborted.')
             Screen('CloseAll');
             sca
@@ -68,7 +68,7 @@ if strcmp(respMode,'start')
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
-            dataFile = eventListener.logEvent('exp','_missedTrial', [],trial);
+            dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
             disp(['Participant missed trial ',num2str(trial),'... ']);
             waiting  = 0;
             resp     = NaN;
@@ -97,9 +97,9 @@ else
             Screen('DrawTexture', options.screen.windowPtr,cue,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             if stimulusDuration<200
-                eventListener.commandLine.wait2(200,options,dataFile,0);
+                [~,~,dataFile] = eventListener.commandLine.wait2(200,options,dataFile,0);
             else
-                eventListener.commandLine.wait2(stimulusDuration,options,dataFile,0);
+                [~,~,dataFile] = eventListener.commandLine.wait2(stimulusDuration,options,dataFile,0);
             end
             waiting = 0;
 
@@ -108,7 +108,7 @@ else
             DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
-            dataFile        = eventListener.logEvent('exp','_abort', [],trial);
+            dataFile        = eventListener.logEvent('exp','_abort',dataFile,1,trial);
             disp('Game was aborted.')
             Screen('CloseAll');
             sca
@@ -120,7 +120,7 @@ else
             DrawFormattedText(options.screen.windowPtr, options.screen.stopPredictText,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
-            dataFile = eventListener.logEvent('exp','_missedTrial', [],trial);
+            dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
             disp('Participant missed a trial.')
             waiting  = 0;
             resp     = NaN;

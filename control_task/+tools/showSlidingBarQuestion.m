@@ -91,7 +91,7 @@ loopStartTime = GetSecs();
             DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
-            dataFile        = eventListener.logEvent('exp','_abort', [],trial);
+            dataFile        = eventListener.logEvent('exp','_abort',dataFile,1,trial);
             disp('Game was aborted.')
             Screen('CloseAll');
             sca
@@ -103,7 +103,7 @@ loopStartTime = GetSecs();
         elseif ~isempty(keyCode) % only used when only a specific button can stop the sliding bar!
             DrawFormattedText(options.screen.windowPtr,options.messages.wrongButton,'center','center',[0 1 1],[],[],[],1.5);
             Screen('Flip', options.screen.windowPtr);
-            eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
+            [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
             disp(['Participant pressed wrong button on trial ',num2str(trial),'... ']);
         end
     end

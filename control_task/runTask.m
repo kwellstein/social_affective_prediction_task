@@ -60,12 +60,11 @@ Screen('Flip', options.screen.windowPtr);
 if strcmp(expMode,'practice')
     Screen('DrawTexture', options.screen.windowPtr, stimuli.intro2,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
-    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
-
+    [~,~,dataFile] = eventListener.commandLine.wait2((options.dur.showIntroScreen/2),options,dataFile,0);
 
     Screen('DrawTexture', options.screen.windowPtr, stimuli.intro3,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
-    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+    [~,~,dataFile] = eventListener.commandLine.wait2((options.dur.showIntroScreen/2),options,dataFile,0);
 end
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
@@ -115,9 +114,11 @@ while taskRunning
         if strcmp(expMode,'experiment')
             outcomeSlide = 'coin'; % experiment mode, show simple coin
             durOutcomeSlide = options.dur.showOutcome;
+
         elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
             outcomeSlide = 'collectCoin'; % collected egg and earned coin
             durOutcomeSlide = options.dur.showReadyScreen;
+
         elseif resp==0
             outcomeSlide = 'rejectCoin';% rejected egg and earned coin
             durOutcomeSlide = options.dur.showReadyScreen;
@@ -137,7 +138,7 @@ while taskRunning
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         outcomeSlide = 'noCoin'; % if outcome is 0
-        dataFile     = eventListener.logEvent('exp','_missedTrial ',dataFile,trial,[]);
+        dataFile     = eventListener.logEvent('exp','_missedTrial ',dataFile,1,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
@@ -147,9 +148,11 @@ while taskRunning
         if strcmp(expMode,'experiment')
             outcomeSlide = 'noCoin'; % if outcome is 0
             durOutcomeSlide = options.dur.showOutcome;
+
         elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
             outcomeSlide = 'collectNoCoin'; % collected bad egg
             durOutcomeSlide = options.dur.showReadyScreen;
+
         elseif resp==0
             outcomeSlide = 'rejectNoCoin';% rejected good egg
             durOutcomeSlide = options.dur.showReadyScreen;
@@ -176,7 +179,6 @@ while taskRunning
     if trial == options.task.nTrials
         taskRunning = 0;
     end
-
 end
 
 %% SAVE data

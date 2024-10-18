@@ -43,10 +43,10 @@ dataFile.descr.handedness = handedness;
 dataFile.events.exp_startTime        = GetSecs;
 dataFile.events.practice_startTime   = [];
 dataFile.events.experiment_startTime = [];
-dataFile.events.exp_abort            = [];
-dataFile.events.exp_missedTrial      = []; logical(dataFile.events.exp_missedTrial);
-dataFile.events.exp_stopCriterion    = []; logical(dataFile.events.exp_stopCriterion);
-dataFile.events.exp_timeOut          = []; logical(dataFile.events.exp_timeOut);
+dataFile.events.exp_abort            = zeros(200,1);
+dataFile.events.exp_missedTrial      = zeros(200,1); logical(dataFile.events.exp_missedTrial);
+dataFile.events.exp_questWrongButton = zeros(200,1); logical(dataFile.events.exp_questWrongButton);
+dataFile.events.exp_timeOut          = zeros(200,1); logical(dataFile.events.exp_timeOut);
 dataFile.events.exp_end              = [];
 
 %% TASK DATA

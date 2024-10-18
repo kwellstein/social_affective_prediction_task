@@ -53,7 +53,7 @@ RT      = 0;
             DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
-            dataFile        = eventListener.logEvent('exp','_abort', [],trial);
+            dataFile = eventListener.logEvent('exp','_abort',dataFile,1,trial);
             disp('Game was aborted.')
             Screen('CloseAll');
             sca
@@ -67,7 +67,7 @@ RT      = 0;
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
-            dataFile = eventListener.logEvent('exp','_missedTrial', [],trial);
+            dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
             disp(['Participant missed trial ',num2str(trial),'... ']);
             waiting  = 0;
             resp     = NaN;

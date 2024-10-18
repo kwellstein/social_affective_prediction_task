@@ -74,7 +74,7 @@ function [elapsed,difference,dataFile] = wait2(timeout,options,dataFile,trial)
      difference   = elapsed - timeout;
      
       if abort 
-           [~,dataFile] = eventListener.logData(abort,'events','exp_abort',dataFile,trial);  
+           dataFile = eventListener.logEvent('exp_','abort',dataFile,1,trial); 
       end
 end
 

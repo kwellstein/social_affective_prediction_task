@@ -29,7 +29,7 @@ if isempty(trial)
 end
 
 if any(keyCode==options.keys.escape)
-        eventListener.logData(1,'events','exp_abort',dataFile,trial);
+        dataFile = eventListener.logEvent('exp_','abort',dataFile,1,trial);  
 
         disp('<strong>Experiment was aborted.</strong>')
         % output.saveInterimData([],options,dataFile,expInfo);
