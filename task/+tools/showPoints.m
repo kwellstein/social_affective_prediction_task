@@ -24,7 +24,6 @@ function showPoints(options,currPoints)
 
 %% collect and sum up all points across tasks
 points = zeros(1,options.task.sequenceIdx);
-points(1) = currPoints;
 
 if options.task.sequenceIdx>1
 
@@ -32,15 +31,14 @@ if options.task.sequenceIdx>1
     d = dir(options.files.savePath);
     dFileIdx = zeros(1,size(d,1));
     for f = 1:size(d,1)
-        if endsWith(d(f).name,'dataFile.mat')
+        if endsWith(d(f).name,'_dataFile.mat')
             dFileIdx(f) = f;
         else
             dFileIdx(f) = 0;
         end
-       
     end
 
-dFileIdx(dFileIdx==0)=[];
+    dFileIdx(dFileIdx==0)=[];
 
     for i = 1:size(dFileIdx,2)
         dataFileName = d(dFileIdx(i)).name;
@@ -48,9 +46,12 @@ dFileIdx(dFileIdx==0)=[];
         points(i+1) = data.dataFile.Summary.points;
         clear data;
     end
+
+    totalPoints = sum(points);
+else
+    totalPoints = currPoints;
 end
 
-totalPoints = sum(points);
 pointsText  = [options.screen.pointsText,num2str(totalPoints)];
 
 %% select text to be shown on screen
@@ -62,11 +63,12 @@ else
     targetText = options.screen.noTargetText;
 end
 
+
 %% show points screens
 % show points screen
 DrawFormattedText(options.screen.windowPtr,pointsText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
+eventListener.commandLine.wait2(options.dur.showOutcome,options,[],0);
 
 % show target screen
 DrawFormattedText(options.screen.windowPtr,targetText,'center','center',[255 255 255],[],[],[],1);
