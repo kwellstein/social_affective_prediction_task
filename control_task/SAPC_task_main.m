@@ -1,11 +1,34 @@
 function SAPC_task_main
 %% _______________________________________________________________________________%
 %% MAIN Function for Social-Affective Prediction Control (SAPC) Task
+% this script allows the experimenter to specify information regarding how
+% the task will be run
 %
-% SYNTAX:  ....
+% SYNTAX:  SAPC_task_main
 %
-% AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024,
-%                    katharina.wellstein@newcastle.edu.au
+% OUT:      expMode: - In 'debug' mode timings are shorter, and the experiment
+%                     won't be full screen. You may use breakpoints.
+%                    - In 'practice' mode you are running the entire
+%                     the practice round as it has been specified in
+%                     specifyOptions.m
+%                    - In 'experiment' mode you are running the entire
+%                     experiment as it has been specified in
+%                     specifyOptions.m
+%
+%           expType: - 'behav': use keyboard and different instructions and
+%                       more as specified in specifyOptions.m
+%                    - 'fmri': use button box and different instructions
+%                       more as specified in specifyOptions.m
+%
+%           PID:    A 4-digit integer (0001:1999) PPIDs have
+%                    been assigned to participants a-priori
+%
+%           handedness: 'left' or 'right', influences keys used for
+%                       responding
+%
+%  AUTHOR:  Coded by: Katharina V. Wellstein, October 2024
+%                     katharina.wellstein@newcastle.edu.au
+%                     https://github.com/kwellstein
 % -------------------------------------------------------------------------------%
 % This file is released under the terms of the GNU General Public Licence
 % (GPL), version 3. You can redistribute it and/or modify it under the
@@ -20,28 +43,7 @@ function SAPC_task_main
 %
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
-% _______________________________________________________________________________%
-%
-%% _______________________________________________________________________________%
-% this script allows the experimenter to specify information on the mode the
-%               task will be run in.
-%
-% SYNTAX:  XX
-%
-% OUT:      expMode: - In 'debug' mode timings are shorter, and the experiment
-%                     won't be full screen. You may use breakpoints.
-%                   - In 'experiment' mode you are running the entire
-%                     experiment as it is intended
-%
-%           PPID:    A 4-digit integer (0001:0999) PPIDs have
-%                   been assigned to participants a-priori
-%
-%           visitNo: A 1-digit integer (1:4). Each participant will be doing
-%                   this task 4 times.
-%
-%  AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024
-%                     katharina.wellstein@newcastle.edu.au
-% _______________________________________________________________________________%
+% _______________________________________________________________________________
 
 %% INITIALIZE
 close all;

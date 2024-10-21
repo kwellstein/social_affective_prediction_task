@@ -1,17 +1,36 @@
 function options = specifyOptions(PID,expMode,expType,handedness)
+
 % -----------------------------------------------------------------------
 % specifyOptions.m creates structs for the different stages in the task
 %                  Change this file if you would like to change task settings
 %
-%   SYNTAX:     options = specifyOptions(expMode,stairType)
+%   SYNTAX:     options = eventCreator.specifyOptions(PID,expMode,expType,handedness)
 %
-%   IN:         expMode:   string, 'debug' or 'experiment'
-%               stairType: string, 'simpleUp','simpleDown','interleaved'
+%   IN:    expMode:  - In 'debug' mode timings are shorter, and the experiment
+%                      won't be full screen. You may use breakpoints.
+%                    - In 'practice' mode you are running the entire
+%                      the practice round as it has been specified in
+%                      specifyOptions.m
+%                    - In 'experiment' mode you are running the entire
+%                      experiment as it has been specified in
+%                      specifyOptions.m
 %
-%   OUT:        options: struct containing general and task specific
+%           expType: - 'behav': use keyboard and different instructions and
+%                       more as specified in specifyOptions.m
+%                    - 'fmri': use button box and different instructions
+%                       more as specified in specifyOptions.m
+%
+%           PID:        A 4-digit integer (0001:1999) PPIDs have
+%                       been assigned to participants a-priori
+%
+%           handedness: 'left' or 'right', influences keys used for responding
+%
+%   OUT:    options:   struct containing general and task specific
 %                        options
 %
-%   AUTHOR:     Katharina V. Wellstein, October 2024
+%   AUTHOR: Coded by: Katharina V. Wellstein, October 2024
+%                     katharina.wellstein@newcastle.edu.au
+%                     https://github.com/kwellstein
 %
 % -------------------------------------------------------------------------------%
 % This file is released under the terms of the GNU General Public Licence
@@ -47,8 +66,6 @@ options.task.finalTarget = 100;
 
 switch expMode
     case 'experiment'
-        % stimulus durations
-        % options.screen.rect   = [0, 0, 1200, 600];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
@@ -66,8 +83,6 @@ switch expMode
         end
 
     case 'practice'
-        % stimulus durations
-        % options.screen.rect   = [0, 0, 1200, 600];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
@@ -88,11 +103,10 @@ switch expMode
         options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
     case 'debug'
-        % stimulus durations
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
-        % options.screen.rect   = Screen('Rect', options.screen.number);
+        
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
@@ -115,7 +129,7 @@ switch expMode
         options.doKeyboard      = 1;
 end
 
-%% Select Stimuli based on Randomisation list
+%% STIMULI selection based on Randomisation list
 RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
 rowIdx      = find(RandTable.PID==str2num(PID));
 avatars     = RandTable(rowIdx,:);
@@ -131,7 +145,7 @@ for iAvatar = 1:options.task.nAvatars
     options.task.avatarArray(strcmp(options.task.avatarArray,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
 end
 
-%% options screen
+%% SCREEN and TEXT
 options.screen.white  = WhiteIndex(options.screen.number);
 options.screen.black  = BlackIndex(options.screen.number);
 options.screen.grey   = options.screen.white / 2;
@@ -188,7 +202,8 @@ options.screen.expEndText = ['Thank you! ' ...
 options.screen.qTextL = '                       Never';
 options.screen.qTextR = 'Always                      ';
 
-%% options keyboard
+
+%% KEYBOARD
 % use KbDemo to identify kbName and Keycode
 KbName('UnifyKeyNames')
 switch expType
@@ -233,8 +248,8 @@ switch expType
         end
 end
 
+
 %% DURATIONS OF EVENTS
-% CHANGE
 if strcmp(expMode,'debug')
     options.dur.waitnxtkeypress = 2000; % in ms
     options.dur.showStimulus    = 500; % in ms
@@ -250,7 +265,7 @@ if strcmp(expMode,'debug')
     options.dur.ITI             = randi([150,250],options.task.nTrials,1);
 
 elseif strcmp(expMode,'practice')
-options.dur.waitnxtkeypress = 5000; % in ms
+    options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 500;  % in ms
     options.dur.showSmile       = 10000;
     options.dur.showOutcome     = 500;
@@ -276,6 +291,7 @@ else % in ms
     options.dur.showWarning     =  1000;
     options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
+
 
 %% MESSAGES
 options.messages.abortText     = 'the experiment was aborted';

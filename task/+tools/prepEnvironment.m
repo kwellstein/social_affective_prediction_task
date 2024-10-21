@@ -1,9 +1,10 @@
 function options = prepEnvironment(options)
+
 %% _______________________________________________________________________________%
 % prepEnvironment.m ensures a 'fresh start' for the task to run by closing
 %                   and resetting everything that might be left over from
 %                   previous runs of this task and saves information on
-%                   devices used into expInfo struct.
+%                   devices used into options struct.
 %
 %   SYNTAX:         options = tools.prepEnvironment(options)
 %
@@ -15,8 +16,10 @@ function options = prepEnvironment(options)
 %       
 %   SUBFUNCTIONS:   findKeyboardNumber.m; PsychDefaultSetup;
 %
-%   AUTHOR:         Katharina V. Wellstein, December 2019 as part of VAGUS
-%                   task adapted for SAP task
+%   AUTHOR:         Coded by: Katharina V. Wellstein, December 2019 as part of VAGUS
+%                             Amended for SAP task October 2024
+%                             katharina.wellstein@newcastle.edu.au
+%                             https://github.com/kwellstein
 % -------------------------------------------------------------------------------%
 % This file is released under the terms of the GNU General Public Licence
 % (GPL), version 3. You can redistribute it and/or modify it under the

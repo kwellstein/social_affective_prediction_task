@@ -1,11 +1,18 @@
 function showPoints(options,currPoints)
+
 %% _______________________________________________________________________________%
-%% MAIN Function for Social-Affective Prediction Control (SAPC) Task
+%  showPoints.m calculates and shows participants the points they accumulated thus far at the end
+%               of the task
 %
-% SYNTAX:  ....
+%   SYNTAX:     tools.showPoints(options,currPoints)
 %
-% AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024,
-%                    katharina.wellstein@newcastle.edu.au
+%   IN:     options:    struct containing general and task specific
+%                        options
+%           currPoints: integer, points accumulated in this task
+%
+%   AUTHOR:     Katharina V. Wellstein, October 2024
+%               katharina.wellstein@newcastle.edu.au
+%               https://github.com/kwellstein
 % -------------------------------------------------------------------------------%
 % This file is released under the terms of the GNU General Public Licence
 % (GPL), version 3. You can redistribute it and/or modify it under the
@@ -21,6 +28,7 @@ function showPoints(options,currPoints)
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
+%
 
 %% collect and sum up all points across tasks
 points = zeros(1,options.task.sequenceIdx);

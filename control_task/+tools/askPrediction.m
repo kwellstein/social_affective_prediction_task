@@ -4,23 +4,43 @@ function [dataFile,RT,resp] = askPrediction(~,cue,options,dataFile,task,trial)
 % askPrediction.m shows the response screen depending on the
 %                     participants response detected by waitForResponse.m
 %
-%   SYNTAX:       [dataFile,rt,resp] = showResponseScreen(cues,options,expInfo,...
-%                                                         dataFile,task,trial)
+%   SYNTAX:       [dataFile,RT,resp] = tools.askPrediction(expMode,cue,options,dataFile,task,trial,respMode)
 %
-%   IN:           cues:     struct, contains names of slides initiated in
+%   IN:           expMode:   string, 'debug','practice' or 'experiment'  
+%                 cue:       struct, contains names of slides initiated in
 %                                   initiate Visuals
 %                 options:  struct, options the tasks will run with
 %                 dataFile: struct, data file initiated in initDataFile.m
 %                 task:     string, task name
 %                 trial:    integer, trial number
+%                 respMode: string, 'start' or 'stop', refering to whether
+%                                   a participant is about to start or stop smiling
 %
 %   OUT:          dataFile: struct, updated data file
-%                 rt:       double, reaction time
-%                 resp:     integer, response (1=ja, 0 = nein)
+%                 RT:       double, reaction time
+%                 resp:     integer, response (1=yes, 0 = no)
 %
 %   AUTHOR:     Katharina V. Wellstein, December 2019
-% -------------------------------------------------------------------------
+%               Amended for SAPS study October 2024
+%               katharina.wellstein@newcastle.edu.au
+%               https://github.com/kwellstein
+% -------------------------------------------------------------------------------%
+% This file is released under the terms of the GNU General Public Licence
+% (GPL), version 3. You can redistribute it and/or modify it under the
+% terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any
+% later version.
 %
+% This file is distributed in the hope that it will be useful, but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along
+% with this program. If not, see <https://www.gnu.org/licenses/>.
+% _______________________________________________________________________________%
+%
+
 %% GET response
 waiting = 1;
 ticID   = tic();

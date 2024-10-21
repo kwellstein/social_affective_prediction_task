@@ -1,22 +1,34 @@
 function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
+
 %% _______________________________________________________________________________%
-%% runTask.m runs the Social Affective Prediction task
+% runTask.m runs the Social Affective Prediction Control task
 %
-% SYNTAX:  XX
+% SYNTAX:  dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
-% OUT:      expMode: - In 'debug' mode timings are shorter, and the experiment
+% IN:       stimuli: struct, contains names of stimuli used in this task run
+%           
+%           expMode: - In 'debug' mode timings are shorter, and the experiment
 %                     won't be full screen. You may use breakpoints.
-%                   - In 'experiment' mode you are running the entire
-%                     experiment as it is intended
+%                    - In 'practice' mode you are running the entire
+%                     the practice round as it has been specified in
+%                     specifyOptions.m
+%                    - In 'experiment' mode you are running the entire
+%                     experiment as it has been specified in
+%                     specifyOptions.m
 %
-%           PPID:    A 4-digit integer (0001:0999) PPIDs have
-%                   been assigned to participants a-priori
-%
-%           visitNo: A 1-digit integer (1:4). Each participant will be doing
-%                   this task 4 times.
+%           expType: - 'behav': use keyboard and different instructions and
+%                       more as specified in specifyOptions.m
+%                    - 'fmri': use button box and different instructions
+%                       more as specified in specifyOptions.m
+%           options:  struct containing general and task specific
+%                        options
+%           dataFile: struct containing all data recorded during task,
+%                     fields specified in initDataFile.m
 %
 %  AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024
 %                     katharina.wellstein@newcastle.edu.au
+%                     katharina.wellstein@newcastle.edu.au
+%                     https://github.com/kwellstein
 % -------------------------------------------------------------------------------%
 % This file is released under the terms of the GNU General Public Licence
 % (GPL), version 3. You can redistribute it and/or modify it under the
@@ -32,7 +44,7 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
-
+%
 %% INITIALIZE
 predictField = [options.task.name,'Prediction'];
 questField   = [options.task.name,'Question'];

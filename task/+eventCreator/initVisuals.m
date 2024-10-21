@@ -1,22 +1,52 @@
 function stimuli = initVisuals(options,expMode,expType)
+
 % -----------------------------------------------------------------------
 % initVisuals.m prepares the experiment slides so that they can be
 %               presented via PsychToolbox
 %
-%   SYNTAX:       stimuli = initVisuals(options)
+%   SYNTAX:       stimuli = eventCreator.initVisuals(options,expMode,expType)
 %
-%   IN:           options:  struct, options the tasks will run with
+%   IN:          options:  struct, options the tasks will run with
 %
-%   OUT:          stimuli:     struct, contains names of slides initiated in
+%                expMode: - In 'debug' mode timings are shorter, and the experiment
+%                           won't be full screen. You may use breakpoints.
+%                         - In 'practice' mode you are running the entire
+%                           the practice round as it has been specified in
+%                           specifyOptions.m
+%                         - In 'experiment' mode you are running the entire
+%                           experiment as it has been specified in
+%                           specifyOptions.m
+%
+%                 expType: - 'behav': use keyboard and different instructions and
+%                            more as specified in specifyOptions.m
+%                          - 'fmri': use button box and different instructions
+%                            more as specified in specifyOptions.m
+%
+%   OUT:          stimuli: struct, contains names of slides initiated in
 %                                 initiate Visuals
 %
-%   SUBFUNCTIONS: GetSecs.m; wait2.m adaptiveStimulation.m;
-%                 simulateStimAmps.m; logEvent.m; logData.m;
-%                 plotAmplitudes.m
-%
 %   AUTHOR:     Coded by: Katharina V. Wellstein, December 2019
-% -------------------------------------------------------------------------
+%                         Amended for SAPS study October 2024
+%                         katharina.wellstein@newcastle.edu.au
+%                         https://github.com/kwellstein
 %
+% -------------------------------------------------------------------------
+% This file is released under the terms of the GNU General Public Licence
+% (GPL), version 3. You can redistribute it and/or modify it under the
+% terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any
+% later version.
+%
+% This file is distributed in the hope that it will be useful, but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+% 
+% You should have received a copy of the GNU General Public License along
+% with this program. If not, see <https://www.gnu.org/licenses/>.
+% _______________________________________________________________________________%
+%
+
 %% LOAD images
 
 switch expType

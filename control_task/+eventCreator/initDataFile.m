@@ -3,16 +3,36 @@ function dataFile = initDataFile(PID,expType,expMode,handedness)
 % -----------------------------------------------------------------------
 % initDataFile.m initializes the datafile for this experiment
 %
-%   SYNTAX:       dataFile = initDataFile
+%   SYNTAX:       dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness)
 %
-%   OUT:          dataFile: struct, contains all variables, for which data
-%                                   will be saved
+%   IN:    expMode:  - In 'debug' mode timings are shorter, and the experiment
+%                      won't be full screen. You may use breakpoints.
+%                    - In 'practice' mode you are running the entire
+%                      the practice round as it has been specified in
+%                      specifyOptions.m
+%                    - In 'experiment' mode you are running the entire
+%                      experiment as it has been specified in
+%                      specifyOptions.m
+%
+%           expType: - 'behav': use keyboard and different instructions and
+%                       more as specified in specifyOptions.m
+%                    - 'fmri': use button box and different instructions
+%                       more as specified in specifyOptions.m
+%
+%           PID:        A 4-digit integer (0001:1999) PPIDs have
+%                       been assigned to participants a-priori
+%
+%           handedness: 'left' or 'right', influences keys used for responding
+%
+%   OUT:    dataFile: struct, contains all variables, for which data will be saved
+%
 %
 %   SUBFUNCTIONS: GetSecs.m
 %
-%   AUTHOR:     Based on: Frederike Petzschner & Sandra Iglesias, 2017
-%               Amended:  Katharina V. Wellstein, December 2019 for VAGUS study,
-%	                                              XX.2024 for SAPS study
+%   AUTHOR:     Coded by: Katharina V. Wellstein, December 2019 for VAGUS study,
+%	            Amended for SAPS study, October 2024
+%                         katharina.wellstein@newcastle.edu.au
+%                         https://github.com/kwellstein
 % -------------------------------------------------------------------------
 % This file is released under the terms of the GNU General Public Licence
 % (GPL), version 3. You can redistribute it and/or modify it under the

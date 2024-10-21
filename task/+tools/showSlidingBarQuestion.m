@@ -16,13 +16,30 @@ function dataFile = showSlidingBarQuestion(cue,options,dataFile,task,trial)
 %
 %   OUT:        dataFile: struct, updated dataFile with responses
 %
-%   SUBFUNCTION(S): logData.m
+%   SUBFUNCTION(S): logData.m; logEvents.m; detectKey.m
 %
 %   AUTHOR(S):  based on:    David M. Cole, 2016
 %               amended by:  Sandra Iglesias & Katharina V. Wellstein, February 2020
-%               last change: Katharina V. Wellstein, May 2021
-% -------------------------------------------------------------------------
-
+%               last change: amended for SAPS study by 
+%                            Katharina V.Wellstein, October 2024
+%                            katharina.wellstein@newcastle.edu.au
+%                            https://github.com/kwellstein
+% -------------------------------------------------------------------------------%
+% This file is released under the terms of the GNU General Public Licence
+% (GPL), version 3. You can redistribute it and/or modify it under the
+% terms of the GNU General Public License as published by the Free Software
+% Foundation, either version 3 of the License, or (at your option) any
+% later version.
+%
+% This file is distributed in the hope that it will be useful, but WITHOUT
+% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+% FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+% more details.
+%
+% You should have received a copy of the GNU General Public License along
+% with this program. If not, see <https://www.gnu.org/licenses/>.
+% _______________________________________________________________________________%
+%
 %% INITIALIZE variables
 oscillationAmp = options.screen.ypixels*0.25; % space the bar will slide accross
 angFreq        = 0.85;                        % sliding bar speed
