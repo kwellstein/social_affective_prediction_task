@@ -82,6 +82,8 @@ switch expType
         end
 end
 
+imgIntroPoints = imread('stimuli/intro_points','png');
+
 imgF1_neutral = imread('stimuli/f1_neutral','png');
 imgF2_neutral = imread('stimuli/f2_neutral','png');
 imgF3_neutral = imread('stimuli/f3_neutral','png');
@@ -144,6 +146,7 @@ stimuli.m2_smile = Screen('MakeTexture', options.screen.windowPtr, imgM2_smile);
 stimuli.m3_smile = Screen('MakeTexture', options.screen.windowPtr, imgM3_smile);
 stimuli.m4_smile = Screen('MakeTexture', options.screen.windowPtr, imgM4_smile);
 
+stimuli.intro_points  = Screen('MakeTexture', options.screen.windowPtr, imgIntroPoints);
 stimuli.ITI    = Screen('MakeTexture', options.screen.windowPtr, imgITI);
 stimuli.ready  = Screen('MakeTexture', options.screen.windowPtr, imgReady);
 end

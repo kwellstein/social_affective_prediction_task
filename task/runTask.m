@@ -74,7 +74,7 @@ Screen('Flip', options.screen.windowPtr);
 % show points info
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
-[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);

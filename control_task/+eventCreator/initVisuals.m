@@ -97,6 +97,8 @@ switch expType
         end
 end
 
+imgIntroPoints  = imread('stimuli/intro_points','png');
+
 imgF1_egg = imread('stimuli/f1_eggFace','png');
 imgF2_egg = imread('stimuli/f2_eggFace','png');
 imgF3_egg = imread('stimuli/f3_eggFace','png');
@@ -134,6 +136,7 @@ imgReady  = imread('stimuli/task_starting','png');
 
 %% MAKE images into a textures that can be drawn to the screen
 stimuli.intro  = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
+stimuli.intro_points  = Screen('MakeTexture', options.screen.windowPtr, imgIntroPoints);
 
 stimuli.minus  = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
 stimuli.plus   = Screen('MakeTexture', options.screen.windowPtr, imgPlus);

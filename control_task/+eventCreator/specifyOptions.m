@@ -236,6 +236,7 @@ if strcmp(expMode,'debug')
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
+    options.dur.showShortIntro  = 500;
     options.dur.showReadyScreen = 200;
     options.dur.rtTimeout       = 500;
     options.dur.showWarning     = 500;
@@ -247,6 +248,7 @@ else
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 50000; % in ms
+    options.dur.showShortIntro  = 10000;
     options.dur.showReadyScreen =  1500;
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;

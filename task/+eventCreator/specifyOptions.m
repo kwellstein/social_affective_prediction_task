@@ -271,6 +271,7 @@ elseif strcmp(expMode,'practice')
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 35000; % in ms
+    options.dur.showShortIntro  = 10000;
     options.dur.showReadyScreen =  1500;
     options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
@@ -284,6 +285,7 @@ else % in ms
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
+    options.dur.showShortIntro  = 10000;
     options.dur.showReadyScreen =  1500;
     options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
