@@ -106,8 +106,9 @@ while taskRunning
     [dataFile,~,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
 
 
-    if resp == 1
-        % make sure that participants delineate smile periods with start and stop button
+        % make sure that participants delineate smile periods with start
+        % and stop button but do this also for when participants choose not
+        % to smile
         ticID   = tic();
 
         % make sure participants pressed the stop button to indicate that they have
@@ -115,12 +116,7 @@ while taskRunning
         dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
         RT = toc(ticID);
         [~,dataFile] = eventListener.logData(RT,smileTimeField,'rt',dataFile,trial);
-    else
-        % show stimulus again before outcome presentation with jitter
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.afterNeutralITI(trial),options,dataFile,0);
-    end
+
         % show outcome
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);

@@ -45,7 +45,7 @@ dataFile.(questField).rt          = dataFile.(questField).rt(1:trial,:);
 
 dataFile.events.exp_abort            = dataFile.events.exp_abort(1:trial,:);
 dataFile.events.exp_missedTrial      = dataFile.events.exp_missedTrial(1:trial,:);
-dataFile.events.exp_questWrongButton = dataFile.events.exp_questWrongButton(1:trial,:);
+% dataFile.events.exp_questWrongButton = dataFile.events.exp_questWrongButton(1:trial,:);
 dataFile.events.exp_timeOut          = dataFile.events.exp_timeOut(1:trial,:);
 
 end
