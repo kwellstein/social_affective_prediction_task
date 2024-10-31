@@ -45,7 +45,7 @@ end
 
 
 if   islogical(dataFile.events.(eventName))
-     dataFile.events.(eventName(trial,:)) = [task, X];
+     dataFile.events.(eventName(trial)) = X;
      
     else  
     eventTime = GetSecs() - dataFile.events.exp_startTime;

@@ -72,7 +72,7 @@ dataFile.events.exp_end              = [];
 %% TASK DATA
 % COL 1: if smile predicted ==1, if neutral predicted == 0
 dataFile.SAPPrediction.rt        = zeros(200,1);
-dataFile.SAPSmileTime.rt         = zeros(200,1);
+dataFile.SAPSAction.rt           = zeros(200,1);
 % COL 1: if smile response ==1, if neutral response == 0, COL 2: time point
 dataFile.SAPPrediction.response  = zeros(200,2);
 dataFile.SAPPrediction.congruent = zeros(200,1); % if congruent ==1, if incongurent == 0

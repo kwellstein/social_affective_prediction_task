@@ -112,7 +112,7 @@ else
         keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
         RT      = toc(ticID);
 
-        if any(keyCode == options.keys.stopSmile)
+        if any(keyCode == options.keys.stop)
             stimulusDuration = options.dur.afterSmileITI(trial)- (RT*1000);
             Screen('DrawTexture', options.screen.windowPtr,cue,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);

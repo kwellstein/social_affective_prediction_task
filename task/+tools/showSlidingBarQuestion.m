@@ -114,7 +114,7 @@ loopStartTime = GetSecs();
             sca
             return;
             
-        elseif keyCode == options.keys.stopSmile
+        elseif keyCode == options.keys.stop
             waitingForResp = 0;
 
         elseif ~isempty(keyCode) % only used when only a specific button can stop the sliding bar!

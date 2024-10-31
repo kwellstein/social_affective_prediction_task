@@ -212,12 +212,12 @@ switch expType
 
         if strcmp(handedness,'right')
             options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+            options.keys.stop       = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
             options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
 
         else
             options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-            options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+            options.keys.stop       = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
             options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
         end
 
@@ -227,23 +227,23 @@ switch expType
         
         if strcmp(handedness,'right')
             options.keys.startSmile = KbName('1'); % CHANGE: This should dominant hand index finger
-            options.keys.stopSmile  = KbName('3'); % CHANGE: This should non-dominant hand index finger
+            options.keys.stop       = KbName('3'); % CHANGE: This should non-dominant hand index finger
             options.keys.noSmile    = KbName('2'); % CHANGE: This should dominant hand ring finger
         else
             options.keys.startSmile = KbName('3'); % KeyCode: 226, dominant hand index finger
-            options.keys.stopSmile  = KbName('2'); % KeyCode: 37, non-dominant hand index finger
+            options.keys.stop       = KbName('2'); % KeyCode: 37, non-dominant hand index finger
             options.keys.noSmile    = KbName('4'); % KeyCode: 224, dominant hand ring finger
         end
 
     otherwise
         if strcmp(handedness,'right')
             options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+            options.keys.stop       = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
             options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
 
         else
             options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-            options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+            options.keys.stop       = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
             options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
         end
 end
