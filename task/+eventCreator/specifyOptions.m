@@ -58,12 +58,6 @@ options.paths.saveDir  = [options.paths.tasksDir,'data/'];
 %% specifing experiment mode specific settings
 options.task.name = 'SAP';
 
-%specify the task number (i.e. the place in the tasks sequence this task has) in this study
-options.task.sequenceIdx    = 1;
-options.task.maxSequenceIdx = 3;
-options.task.firstTarget = 50;
-options.task.finalTarget = 100;
-
 switch expMode
     case 'experiment'
         screens               = Screen('Screens');
@@ -129,10 +123,10 @@ switch expMode
         options.doKeyboard      = 1;
 end
 
-%% STIMULI selection based on Randomisation list
-RandTable   = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
-rowIdx      = find(RandTable.PID==str2num(PID));
-avatars     = RandTable(rowIdx,:);
+%% STIMULI SELECTION based on randomisation list
+stimRandTable   = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','stimuli');
+rowIdx      = find(stimRandTable.PID==str2num(PID));
+avatars     = stimRandTable(rowIdx,:);
 options.task.avatarArray = string(options.task.inputs(:,1));
 
 if strcmp(expMode,'practice')
@@ -144,6 +138,25 @@ end
 for iAvatar = 1:options.task.nAvatars
     options.task.avatarArray(strcmp(options.task.avatarArray,num2str(iAvatar))) = string(avatars.([cellName,num2str(iAvatar)]));
 end
+
+%% TASK SEQUENCE selection based on randomisation list
+taskRandTable = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','tasks');
+rowIdx        = find(taskRandTable.PID==str2num(PID));
+taskCol       = taskRandTable.(options.task.name);
+
+%specify the task number (i.e. the place in the tasks sequence this task has) in this study
+options.task.sequenceIdx    = taskCol(rowIdx);
+
+if startsWith(options.task.PID,'1')
+    options.task.firstTarget    = 50;
+    options.task.finalTarget    = 100;
+    options.task.maxSequenceIdx = 3;
+else
+    options.task.firstTarget    = 15;
+    options.task.finalTarget    = 30;
+    options.task.maxSequenceIdx = 1;
+end
+
 
 %% SCREEN and TEXT
 options.screen.white  = WhiteIndex(options.screen.number);

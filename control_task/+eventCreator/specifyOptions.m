@@ -131,9 +131,9 @@ switch expMode
 end
 
 %% Select Stimuli based on Randomisation list
-RandTable = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
-rowIdx    = find(RandTable.PID==str2double(PID));
-eggs      = RandTable(rowIdx,:);
+stimRandTable = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
+rowIdx        = find(stimRandTable.PID==str2double(PID));
+eggs          = stimRandTable(rowIdx,:);
 options.task.eggArray = string(options.task.inputs(:,1));
 
 if strcmp(expMode,'practice')
@@ -144,6 +144,24 @@ end
 
 for iEgg = 1:options.task.nEggs
     options.task.eggArray(strcmp(options.task.eggArray,num2str(iEgg))) = string(eggs.([cellName,num2str(iEgg)]));
+end
+
+%% TASK SEQUENCE selection based on randomisation list
+taskRandTable = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','tasks');
+rowIdx        = find(taskRandTable.PID==str2num(PID));
+taskCol       = taskRandTable.(options.task.name);
+
+%specify the task number (i.e. the place in the tasks sequence this task has) in this study
+options.task.sequenceIdx    = taskCol(rowIdx);
+
+if startsWith(options.task.PID,'1')
+    options.task.firstTarget    = 50;
+    options.task.finalTarget    = 100;
+    options.task.maxSequenceIdx = 3;
+else
+    options.task.firstTarget    = 15;
+    options.task.finalTarget    = 30;
+    options.task.maxSequenceIdx = 1;
 end
 
 %% options screen
