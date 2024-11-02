@@ -3153,3 +3153,87 @@ ans =
 
     18
 
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1009
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAP task
+You are running the SAP task behaviorally
+The participant's dominant hand is the right one
+{Output argument "options" (and possibly others) not assigned a value in the execution with "tools.prepEnvironment" function.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', 'C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m', 102)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m',102,0)">line 102</a>)
+options = tools.prepEnvironment;
+          ^^^^^^^^^^^^^^^^^^^^^
+} 
+opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m',102,0)
+opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m',102,0)
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1009
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAP task
+You are running the SAP task behaviorally
+The participant's dominant hand is the right one
+{Output argument "options" (and possibly others) not assigned a value in the execution with "tools.prepEnvironment" function.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', 'C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m', 102)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m',102,0)">line 102</a>)
+options = tools.prepEnvironment;
+          ^^^^^^^^^^^^^^^^^^^^^
+} 
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1009
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAP task
+You are running the SAP task behaviorally
+The participant's dominant hand is the right one
+<a href="matlab: opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m',102,1)">102 </a>options = tools.prepEnvironment;
+if system_dependent('IsDebugMode')==1, dbstep in; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+if system_dependent('IsDebugMode')==1, dbstep; end
+[~, uid] = unix('whoami')
+
+uid =
+
+    'desktop-ij9tsug\testing
+     '
+
+if system_dependent('IsDebugMode')==1, dbquit all; end
+SAP_task_main
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1009
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAP task
+You are running the SAP task behaviorally
+The participant's dominant hand is the right one
+<a href="matlab: opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m',102,1)">102 </a>options = tools.prepEnvironment;
+if system_dependent('IsDebugMode')==1, dbstep; end
+PTB-INFO: Multi-display setup in explicit multi-display mode detected. Using the following mapping:
+PTB-INFO: Screen 0 corresponds to the full Windows desktop area. Useful for stereo presentations in stereomode=4 ...
+PTB-INFO: Screen 1 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY1 ...
+PTB-INFO: Screen 2 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY2 ...
+
+PTB-INFO: Your version of Matlab 64-Bit is global system DPI aware. On Windows-8 or later, fullscreen onscreen windows will only work 
+PTB-INFO: properly timing-wise when displayed on displays with the same pixel density as your systems primary display monitor.
+PTB-INFO: For your multi-display setup the stimulus display monitor must have a DPI of (96, 96), matching that of
+PTB-INFO: your primary display monitor. Ideally you will only display on the primary display in the first place.
+PTB-INFO: Displaying on anything with a different DPI will cause mysterious visual timing problems, sync failures etc.
+PTB-INFO: Read 'help RetinaDisplay' for more info on this topic.
+if system_dependent('IsDebugMode')==1, dbstep; end
+{Unrecognized field name "PID".
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', 'C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\+eventCreator\specifyOptions.m', 150)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\+eventCreator\specifyOptions.m',150,0)">line 150</a>)
+if startsWith(options.task.PID,'1')
+              ^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', 'C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m', 105)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\SAP_task_main.m',105,0)">line 105</a>)
+options = eventCreator.specifyOptions(options,PID,expMode,expType,handedness);
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+opentoline('C:\Users\Testing\experiments\SAPS\social_affective_prediction_task\task\+eventCreator\specifyOptions.m',150,0)

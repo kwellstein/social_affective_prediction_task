@@ -98,12 +98,11 @@ end % END expType check
 %% SETUP DATAFILE
 dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness);
 
-%% SETUP OPTIONS
-options  = eventCreator.specifyOptions(PID,expMode,expType,handedness);
-
 %% SETUP ENVIRONMENT
-options = tools.prepEnvironment(options);
+options = tools.prepEnvironment;
 
+%% SETUP OPTIONS
+options = eventCreator.specifyOptions(options,PID,expMode,expType,handedness);
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
