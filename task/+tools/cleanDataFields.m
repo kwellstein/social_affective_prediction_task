@@ -1,4 +1,4 @@
-function dataFile = cleanDataFields(dataFile,trial,predictField,questField,smileTimeField)
+function dataFile = cleanDataFields(dataFile,trial,predictField,questField,actionField)
 
 % -----------------------------------------------------------------------
 % cleanDataFields.m eliminates excess zeros from data vectors
@@ -41,7 +41,7 @@ dataFile.(predictField).response  = dataFile.(predictField).response(1:trial,:);
 dataFile.(predictField).rt        = dataFile.(predictField).rt(1:trial,:);
 dataFile.(questField).response    = dataFile.(questField).response(1:trial,:);
 dataFile.(questField).rt          = dataFile.(questField).rt(1:trial,:);
-dataFile.(smileTimeField).rt      = dataFile.(smileTimeField).rt(1:trial,:);
+dataFile.(actionField).rt         = dataFile.(actionField).rt(1:trial,:);
 
 dataFile.events.exp_abort            = dataFile.events.exp_abort(1:trial,:);
 dataFile.events.exp_missedTrial      = dataFile.events.exp_missedTrial(1:trial,:);

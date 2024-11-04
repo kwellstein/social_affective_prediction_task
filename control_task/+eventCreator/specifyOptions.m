@@ -154,7 +154,7 @@ taskCol       = taskRandTable.(options.task.name);
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
 
-if startsWith(options.task.PID,'1')
+if startsWith(PID,'1')
     options.task.firstTarget    = 50;
     options.task.finalTarget    = 100;
     options.task.maxSequenceIdx = 3;

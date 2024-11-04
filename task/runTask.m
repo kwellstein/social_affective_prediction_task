@@ -49,7 +49,7 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %% INITIALIZE
 predictField   = [options.task.name,'Prediction'];
 questField     = [options.task.name,'Question'];
-smileTimeField = [options.task.name,'SmileTime'];
+actionField    = [options.task.name,'Action'];
 taskRunning    = 1;
 trial          = 0;
 
@@ -115,7 +115,7 @@ while taskRunning
         % stopped smiling
         dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
         RT = toc(ticID);
-        [~,dataFile] = eventListener.logData(RT,smileTimeField,'rt',dataFile,trial);
+        [~,dataFile] = eventListener.logData(RT,actionField,'rt',dataFile,trial);
 
         % show outcome
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
@@ -164,7 +164,7 @@ end
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
-dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField,smileTimeField);
+dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField,actionField);
 dataFile.(questField).sliderStart = options.task.slidingBarStart;
 
 % save all data to

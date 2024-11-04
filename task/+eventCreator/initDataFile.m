@@ -63,16 +63,16 @@ dataFile.descr.handedness = handedness;
 dataFile.events.exp_startTime        = GetSecs;
 dataFile.events.practice_startTime   = [];
 dataFile.events.experiment_startTime = [];
-dataFile.events.exp_abort            = zeros(200,1);
-dataFile.events.exp_missedTrial      = zeros(200,1); logical(dataFile.events.exp_missedTrial);
-dataFile.events.exp_questWrongButton = zeros(200,1); logical(dataFile.events.exp_questWrongButton);
-dataFile.events.exp_timeOut          = zeros(200,1); logical(dataFile.events.exp_timeOut);
+dataFile.events.exp_abort            = false(200,1);
+dataFile.events.exp_missedTrial      = false(200,1);
+dataFile.events.exp_questWrongButton = false(200,1);
+dataFile.events.exp_timeOut          = false(200,1);
 dataFile.events.exp_end              = [];
 
 %% TASK DATA
 % COL 1: if smile predicted ==1, if neutral predicted == 0
 dataFile.SAPPrediction.rt        = zeros(200,1);
-dataFile.SAPSAction.rt           = zeros(200,1);
+dataFile.SAPAction.rt           = zeros(200,1);
 % COL 1: if smile response ==1, if neutral response == 0, COL 2: time point
 dataFile.SAPPrediction.response  = zeros(200,2);
 dataFile.SAPPrediction.congruent = zeros(200,1); % if congruent ==1, if incongurent == 0

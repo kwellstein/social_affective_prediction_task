@@ -147,7 +147,7 @@ taskCol       = taskRandTable.(options.task.name);
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
 
-if startsWith(options.task.PID,'1')
+if startsWith(PID,'1')
     options.task.firstTarget    = 50;
     options.task.finalTarget    = 100;
     options.task.maxSequenceIdx = 3;
@@ -226,23 +226,23 @@ switch expType
         if strcmp(options.PC,'desktop-ij9tsug\testing')
             if strcmp(handedness,'right')
                 options.keys.startSmile = KbName('4');  % KeyCode: 70, dominant hand index finger
-                options.keys.stopSmile  = KbName('2');  % KeyCode: 66, non-dominant hand index finger
+                options.keys.stop  = KbName('2');  % KeyCode: 66, non-dominant hand index finger
                 options.keys.noSmile    = KbName('3');  % KeyCode:71, dominant hand ring finger
             else
                 options.keys.startSmile = KbName('3'); % KeyCode: 66, dominant hand index finger
-                options.keys.stopSmile  = KbName('4'); % KeyCode: 70, non-dominant hand index finger
+                options.keys.stop  = KbName('4'); % KeyCode: 70, non-dominant hand index finger
                 options.keys.noSmile    = KbName('1'); % KeyCode: 65, dominant hand ring finger
             end
         else
 
             if strcmp(handedness,'right')
                 options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-                options.keys.stopSmile  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+                options.keys.stop  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
                 options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
 
             else
                 options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-                options.keys.stopSmile  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+                options.keys.stop  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
                 options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
             end
         end
