@@ -51,8 +51,11 @@ function dataFile = initDataFile(PID,expType,expMode,handedness)
 %
 
 %% EXP METADATA
+
+% get date and time
+
 dataFile.descr.PPID       = PID;
-dataFile.descr.date       = datetime;
+dataFile.descr.date       = extractBefore(char(datetime('now','InputFormat','dd-mm-yyyy')),12);
 dataFile.descr.expType    = expType;
 dataFile.descr.expMode    = expMode;
 dataFile.descr.handedness = handedness;
@@ -60,9 +63,14 @@ dataFile.descr.handedness = handedness;
 %% EVENTS 
 % Time stamps and special occurences (e.g. "abort event")
 
-dataFile.events.exp_startTime        = GetSecs;
-dataFile.events.practice_startTime   = [];
-dataFile.events.experiment_startTime = [];
+dataFile.events.exp_startTime        = [];
+dataFile.events.stimulus_startTime   = zeros(200,1);
+dataFile.events.slider_startTime     = zeros(200,1);
+dataFile.events.predKey_startTime    = zeros(200,1);
+dataFile.events.predAction_startTime = zeros(200,1);
+dataFile.events.predAction_stopTime  = zeros(200,1); 
+dataFile.events.outcome_startTime    = zeros(200,1);
+dataFile.events.iti_startTime        = zeros(200,1);
 dataFile.events.exp_abort            = false(200,1);
 dataFile.events.exp_missedTrial      = false(200,1);
 dataFile.events.exp_questWrongButton = false(200,1);
@@ -71,7 +79,7 @@ dataFile.events.exp_end              = [];
 
 %% TASK DATA
 % COL 1: if smile predicted ==1, if neutral predicted == 0
-dataFile.SAPPrediction.rt        = zeros(200,1);
+dataFile.SAPPrediction.rt       = zeros(200,1);
 dataFile.SAPAction.rt           = zeros(200,1);
 % COL 1: if smile response ==1, if neutral response == 0, COL 2: time point
 dataFile.SAPPrediction.response  = zeros(200,2);

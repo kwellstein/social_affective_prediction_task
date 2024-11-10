@@ -60,6 +60,7 @@ waitingForResp = 1;
 %% START Sliding Bar
 
 % Loop the animation until a key is pressed
+dataFile.events.slider_startTime(trial) = extractAfter(char(datetime('now')),12);
 loopStartTime = GetSecs();
 
     while waitingForResp == 1

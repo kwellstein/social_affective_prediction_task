@@ -62,7 +62,7 @@ if strcmp(expType,'fmri')
     end
 end
 
-dataFile.events.exp_startTime = GetSecs();
+dataFile.events.exp_startTime = extractAfter(char(datetime('now')),12);
 %% SHOW intro
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
@@ -101,6 +101,7 @@ while taskRunning
     choiceSlide = [char(egg),'_eggCollected'];  % choice stimulus if decided to collect
 
     % show egg
+    dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
@@ -108,6 +109,7 @@ while taskRunning
     dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,questField,trial);
     [dataFile,~,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
 
+    dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
     if resp ==1
         % show choice with jitter
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(choiceSlide),[],options.screen.rect, 0);
@@ -118,8 +120,6 @@ while taskRunning
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
     end
-
-
 
     % log congruency and show points slide
     if resp==outcome % if congurent outcome
@@ -142,6 +142,7 @@ while taskRunning
         end
 
         % show outcome with different duration and slide as specified in exp-practice loop above!
+        dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
@@ -187,7 +188,8 @@ while taskRunning
         end
     end
 
-    % Show Fixation cross % ADD JITTER with optseq2!!!!
+    % Show Fixation cross % 
+    dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.ITI(trial),options,dataFile,0);

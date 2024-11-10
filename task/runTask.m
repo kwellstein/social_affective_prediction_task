@@ -6,7 +6,7 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 % SYNTAX:  dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
 % IN:       stimuli: struct, contains names of stimuli used in this task run
-%           
+%
 %           expMode: - In 'debug' mode timings are shorter, and the experiment
 %                     won't be full screen. You may use breakpoints.
 %                    - In 'practice' mode you are running the entire
@@ -64,7 +64,7 @@ if strcmp(expType,'fmri')
     end
 end
 
-dataFile.events.exp_startTime = GetSecs();
+dataFile.events.exp_startTime = extractAfter(char(datetime('now')),12);
 
 %% SHOW intro
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
@@ -98,6 +98,7 @@ while taskRunning
     end
 
     % show first presentation of avatar
+    dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
@@ -106,21 +107,22 @@ while taskRunning
     [dataFile,~,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
 
 
-        % make sure that participants delineate smile periods with start
-        % and stop button but do this also for when participants choose not
-        % to smile
-        ticID   = tic();
+    % make sure that participants delineate smile periods with start
+    % and stop button but do this also for when participants choose not
+    % to smile
+    ticID   = tic();
 
-        % make sure participants pressed the stop button to indicate that they have
-        % stopped smiling
-        dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
-        RT = toc(ticID);
-        [~,dataFile] = eventListener.logData(RT,actionField,'rt',dataFile,trial);
+    % make sure participants pressed the stop button to indicate that they have
+    % stopped smiling
+    dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
+    RT = toc(ticID);
+    [~,dataFile] = eventListener.logData(RT,actionField,'rt',dataFile,trial);
 
-        % show outcome
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+    % show outcome
+    dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
+    Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
     % log congruency and show points slide
     if resp==outcome
@@ -146,7 +148,8 @@ while taskRunning
         end
     end
 
-    % Show Fixation cross % ADD JITTER with optseq2!!!!
+    % Show Fixation cross %
+    dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.ITI(trial),options,dataFile,0);

@@ -124,9 +124,9 @@ switch expMode
 end
 
 %% STIMULI SELECTION based on randomisation list
-stimRandTable   = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','stimuli');
-rowIdx      = find(stimRandTable.PID==str2num(PID));
-avatars     = stimRandTable(rowIdx,:);
+stimRandTable = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','stimuli');
+rowIdx        = find(stimRandTable.PID==str2num(PID));
+avatars       = stimRandTable(rowIdx,:);
 options.task.avatarArray = string(options.task.inputs(:,1));
 
 if strcmp(expMode,'practice')
@@ -156,7 +156,6 @@ else
     options.task.finalTarget    = 30;
     options.task.maxSequenceIdx = 1;
 end
-
 
 %% SCREEN and TEXT
 options.screen.white  = WhiteIndex(options.screen.number);
