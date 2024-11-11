@@ -52,7 +52,7 @@ function dataFile = initDataFile(PID,expType,expMode,handedness)
 
 %% EXP METADATA
 dataFile.descr.PPID    = PID;
-dataFile.descr.date    = datetime;
+dataFile.descr.date    = extractBefore(char(datetime('now','InputFormat','dd-mm-yyyy')),12);
 dataFile.descr.expType = expType;
 dataFile.descr.expMode = expMode;
 dataFile.descr.handedness = handedness;
