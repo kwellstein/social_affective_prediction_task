@@ -29,7 +29,8 @@ GAMMA=1
 INVGAMMA=1
 GREY=0
 
-""" MAY NOT BE NEEDED
+# MAY NOT BE NEEDED
+"""
 Current setup:
     EEG booth: 'L' hand means buttons 'a' and 'b'. 'R' hand means buttons 'f' and 'g'
     fMRI: 'L' hand means buttons 1 and 2. 'R' hand also uses buttons 1 and 2.
