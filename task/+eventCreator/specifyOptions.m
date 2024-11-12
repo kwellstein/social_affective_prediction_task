@@ -51,9 +51,10 @@ function options = specifyOptions(options,PID,expMode,expType,handedness)
 
 %% specify paths
 options.paths.codeDir  = pwd;
-options.paths.inputDir = [pwd,filesep,'+eventCreator/'];
-options.paths.tasksDir = '/Users/kwellste/projects/SEPAB/tasks/';
-options.paths.saveDir  = [options.paths.tasksDir,'data/'];
+options.paths.inputDir = [pwd,filesep,'+eventCreator',filesep];
+options.paths.tasksDir = ['..',filesep];
+options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
+options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
 %% specifing experiment mode specific settings
 options.task.name = 'SAP';
@@ -124,7 +125,7 @@ switch expMode
 end
 
 %% STIMULI SELECTION based on randomisation list
-stimRandTable = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','stimuli');
+stimRandTable = readtable(options.paths.randFile,'Sheet','stimuli');
 rowIdx        = find(stimRandTable.PID==str2num(PID));
 avatars       = stimRandTable(rowIdx,:);
 options.task.avatarArray = string(options.task.inputs(:,1));
@@ -140,7 +141,7 @@ for iAvatar = 1:options.task.nAvatars
 end
 
 %% TASK SEQUENCE selection based on randomisation list
-taskRandTable = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','tasks');
+taskRandTable = readtable(options.paths.randFile,'Sheet','tasks');
 rowIdx        = find(taskRandTable.PID==str2num(PID));
 taskCol       = taskRandTable.(options.task.name);
 
@@ -222,15 +223,15 @@ switch expType
     case 'behav'
         options.keys.escape     = KbName('ESCAPE');
 
-        if strcmp(options.PC,'desktop-ij9tsug\testing')
+        if strcmp(options.PC,'EEGLab_Computer')
             if strcmp(handedness,'right')
-                options.keys.startSmile = KbName('4');  % KeyCode: 70, dominant hand index finger
-                options.keys.stop  = KbName('2');  % KeyCode: 66, non-dominant hand index finger
-                options.keys.noSmile    = KbName('3');  % KeyCode:71, dominant hand ring finger
+                options.keys.startSmile = KbName('4$');  % KeyCode: 70, dominant hand index finger
+                options.keys.stop       = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
+                options.keys.noSmile    = KbName('2@');  % KeyCode:71, dominant hand ring finger
             else
-                options.keys.startSmile = KbName('3'); % KeyCode: 66, dominant hand index finger
-                options.keys.stop  = KbName('4'); % KeyCode: 70, non-dominant hand index finger
-                options.keys.noSmile    = KbName('1'); % KeyCode: 65, dominant hand ring finger
+                options.keys.startSmile = KbName('3#'); % KeyCode: 66, dominant hand index finger
+                options.keys.stop       = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
+                options.keys.noSmile    = KbName('1!'); % KeyCode: 65, dominant hand ring finger
             end
         else
 

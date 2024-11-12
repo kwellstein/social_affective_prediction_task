@@ -43,6 +43,15 @@ dataFile.(questField).response    = dataFile.(questField).response(1:trial,:);
 dataFile.(questField).rt          = dataFile.(questField).rt(1:trial,:);
 dataFile.(actionField).rt         = dataFile.(actionField).rt(1:trial,:);
 
+dataFile.events.task_startTime       = dataFile.events.task_startTime(1:trial,:); 
+dataFile.events.stimulus_startTime   = dataFile.events.stimulus_startTime(1:trial,:);
+dataFile.events.slider_startTime     = dataFile.events.slider_startTime(1:trial,:);
+dataFile.events.predKey_startTime    = dataFile.events.predKey_startTime(1:trial,:);
+dataFile.events.predAction_startTime = dataFile.events.predAction_startTime(1:trial,:);
+dataFile.events.predAction_stopTime  = dataFile.events.predAction_stopTime(1:trial,:);
+dataFile.events.outcome_startTime    = dataFile.events.outcome_startTime(1:trial,:);
+dataFile.events.iti_startTime        = dataFile.events.iti_startTime(1:trial,:); 
+
 dataFile.events.exp_abort            = dataFile.events.exp_abort(1:trial,:);
 dataFile.events.exp_missedTrial      = dataFile.events.exp_missedTrial(1:trial,:);
 dataFile.events.exp_questWrongButton = dataFile.events.exp_questWrongButton(1:trial,:);

@@ -51,9 +51,10 @@ function options = specifyOptions(PID,expMode,expType,handedness)
 
 %% specify paths
 options.paths.codeDir  = pwd;
-options.paths.inputDir = [pwd,filesep,'+eventCreator/'];
-options.paths.tasksDir = '/Users/kwellste/projects/SEPAB/tasks/';
-options.paths.saveDir  = [options.paths.tasksDir,'data/'];
+options.paths.inputDir = [pwd,filesep,'+eventCreator',filesep];
+options.paths.tasksDir = ['..',filesep];
+options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
+options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
 %% specifing experiment mode specific settings
 options.task.name = 'SAPC';
@@ -131,7 +132,7 @@ switch expMode
 end
 
 %% Select Stimuli based on Randomisation list
-stimRandTable = readtable([pwd,'/+eventCreator/stimulus_randomisation.xlsx']);
+stimRandTable = readtable(options.paths.randFile,'Sheet','stimuli');
 rowIdx        = find(stimRandTable.PID==str2double(PID));
 eggs          = stimRandTable(rowIdx,:);
 options.task.eggArray = string(options.task.inputs(:,1));
@@ -147,7 +148,7 @@ for iEgg = 1:options.task.nEggs
 end
 
 %% TASK SEQUENCE selection based on randomisation list
-taskRandTable = readtable([pwd,'/+eventCreator/randomisation.xlsx'],'Sheet','tasks');
+taskRandTable = readtable(options.paths.randFile,'Sheet','tasks');
 rowIdx        = find(taskRandTable.PID==str2num(PID));
 taskCol       = taskRandTable.(options.task.name);
 

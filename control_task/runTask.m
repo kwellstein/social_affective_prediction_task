@@ -87,7 +87,6 @@ Screen('Flip', options.screen.windowPtr);
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
-dataFile = eventListener.logEvent(expMode,'_startTime',dataFile,[],[]);
 
 %% START task trials
 
