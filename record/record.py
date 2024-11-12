@@ -1,10 +1,13 @@
 """
 DESCRIPTION:
-Scripted by Jayson Jeganathan
-Save heart rate, face expression in background
+Scripted by Jayson Jeganathan, Nov 2024
+Amended by Katharina V. Wellstein, Nov 2024
+
+Record heart rate (PPU), video, and eyetracking in background
 """
 
-#SETTABLE PARAMETERS
+# SET PARAMETERS
+
 TOTAL_SECONDS = 1200
 SECONDS_PER_TRIAL = 0.25 #does not save heart if less than 0.25 for some reason
 NUM_TRIALS = int(TOTAL_SECONDS / SECONDS_PER_TRIAL)

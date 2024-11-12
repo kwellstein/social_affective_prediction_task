@@ -7,8 +7,8 @@ import os, PIL, numpy as np
 from psychopy import core, logging, visual,data, monitors, event, gui
 
 #Variables
-dict_screensize={"showy":(1920,1080),"stimmy":(1920,1080),"laptop":(1000,600),"home":(1400,900)} #Showy's has to be actual size (1920,1080) for Eyelink
-dict_gamma={"showy":1.8260829,"stimmy":1,"laptop":1,"home":1} #Showy calculated in LuminanceTest.py to be 1.8260829
+dict_screensize={"Scanner_Computer":(1920,1080),"EEGLab_Computer":(1920,1080),"laptop":(1000,600),"home":(1400,900)} #Showy's has to be actual size (1920,1080) for Eyelink
+dict_gamma={"Scanner_Computer":1.8260829,"EEGLab_Computer":1,"laptop":1,"home":1} #Showy calculated in LuminanceTest.py to be 1.8260829
 dict_fixationbufferseconds={'Task':10,'Test':2,'Practice':2}
 SCREEN=1
 SCREEN_STIMMY_DEFAULT=1 #if pc is Stimmy, defaults to 0
@@ -29,7 +29,7 @@ GAMMA=1
 INVGAMMA=1
 GREY=0
 
-"""
+""" MAY NOT BE NEEDED
 Current setup:
     EEG booth: 'L' hand means buttons 'a' and 'b'. 'R' hand means buttons 'f' and 'g'
     fMRI: 'L' hand means buttons 1 and 2. 'R' hand also uses buttons 1 and 2.
@@ -73,12 +73,13 @@ def set_FIXATION_BUFFER_SECONDS(expInfo):
     else:
         return dict_fixationbufferseconds[expInfo['Configuration']]
 
-def make_expInfo(expName,otherSettings):
+## USED IN record.py!
+def make_expInfo(expName,otherSettings): 
     #add following default settings to expInfo
     expInfo={}
     expInfo['Participant ID']=''
     expInfo['Configuration']=['Test','Task','Practice']
-    expInfo['pc']=['stimmy','showy','home','laptop']
+    expInfo['pc']=['EEGLab_Computer','Scanner_Computer','home','laptop']
     expInfo.update(otherSettings)
 
     items={'fMRI':'M','Heart':'H','Face':'F','Eye':'E','Button':'B'} #contains recording modalities, and their code (for save file name)
@@ -89,7 +90,7 @@ def make_expInfo(expName,otherSettings):
             order.append(item)
     
     dlg = gui.DlgFromDict(dictionary=expInfo,order=order) #get settings from User
-    expInfo['Name']=expName
+    expInfo['Name']= expName
     expInfo['date'] = data.getDateStr()  # add a simple timestamp
 
     global KEYS_MAPPING
@@ -97,7 +98,7 @@ def make_expInfo(expName,otherSettings):
     if 'Button' in expInfo.keys():
         KEYS_allowed=KEYS_MAPPING[expInfo['Button']]
     
-    if expInfo['pc']=='stimmy':
+    if expInfo['pc']=='EEGLab_Computer':
         global SCREEN
         global SCREEN_STIMMY_DEFAULT
         SCREEN=SCREEN_STIMMY_DEFAULT
@@ -114,7 +115,7 @@ def make_expInfo(expName,otherSettings):
     return [expInfo,name]
 
 
-
+## USED IN record.py!
 def make_savefolder(savedir_name):
     """
     savedir_name is for eg 'FaceGNGV3_s_Test_HYMNBLfgf_2021_Jun_15_2034'
@@ -136,7 +137,7 @@ def getStimulusFolder(expInfo):
         folder="D:\\FORSTORAGE\\MY_STIMULI\\"
     elif pc=="laptop":
         folder="C:\\Users\\c3343721\\Desktop\\FaceThings\\MY_STIMULI\\"
-    elif pc in ['showy','stimmy']:
+    elif pc in ['Scanner_Computer','EEGLab_Computer']:
         topdirs=["E","D"] #prefix will be E or D depending on which computer
         for topdir in topdirs:
             thisfolder=topdir+":\\ShowyTest\\PythonTasks\\MY_STIMULI\\"
@@ -282,13 +283,14 @@ def initialiseEyeLink(win,filename,expInfo):
     text.draw()
     win.flip()
 
+## AMEND PATHS!
     pc=expInfo['pc']
     import sys
-    if pc in ["home","showy"]:
+    if pc in "Scanner_Computer":
         #sys.path.append("C:\\Users\\hmri\\Documents\\EyeLink_Training\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
         sys.path.append("D:\\EyeLink_Training\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
         sys.path.append("D:\\EyeLink_Training\\Psychopy2_video\\")
-    elif pc in ["laptop","stimmy"]:
+    elif pc in "EEGLab_Computer":
         sys.path.append("D:\\EyeLink_Training\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
         sys.path.append("D:\\EyeLink_Training\\Psychopy2_video\\")
     import pylink
