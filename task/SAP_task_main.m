@@ -106,6 +106,14 @@ options = eventCreator.specifyOptions(options,PID,expMode,expType,handedness);
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
+if options.doEye
+    options.el = EyelinkInitDefaults(options.screen.windowPtr);
+    EyelinkUpdateDefaults(options.el)
+    constants.eyelink_data_fname   = options.files.eyeFileName;
+    [options.el, options.exit_flag] = setupEyeTracker(options.hardware.tracker, options.screen, constants);
+end
+
+
 %% RUN TASK
 runTask(stimuli,expMode,expType,options,dataFile);
 

@@ -64,6 +64,21 @@ if strcmp(expType,'fmri')
     end
 end
 
+if options.doEye
+    % Must be offline to draw to EyeLink screen
+    Eyelink('Command', 'set_idle_mode');
+
+    % clear tracker display
+    Eyelink('Command', 'clear_screen 0');
+
+    Eyelink('StartRecording');
+
+    % always wait a moment for recording to have definitely started
+    WaitSecs(0.1);
+
+    Eyelink('message', 'SYNCTIME');
+end
+
 dataFile.events.task_startTime = extractAfter(char(datetime('now')),12);
 
 %% SHOW intro
@@ -155,8 +170,23 @@ while taskRunning
     % check if this is the last trial
     if trial == options.task.nTrials
         taskRunning = 0;
-    end
+        if options.doEye
+            Eyelink('StopRecording', 'set_idle_mode'); 
+            try
+                fprintf('Receiving data file ''%s''\n',options.files.eyeFileName);
+                status = Eyelink('ReceiveFile');
+                if status > 0
+                    fprintf('ReceiveFile status %d\n', status);
+                end
+                if 2==exist(edfFile, 'file')
+                    fprintf('Data file ''%s'' can be found in ''%s''\n',options.files.eyeFileName, pwd );
+                end
+            catch
+                fprintf('Problem receiving data file ''%s''\n',options.files.eyeFileName);
+            end
 
+        end
+    end
 end
 
 %% SAVE data

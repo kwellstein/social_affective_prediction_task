@@ -82,7 +82,11 @@ switch expType
         end
 end
 
-imgIntroPoints = imread('stimuli/intro_points','png');
+if options.task.maxSequenceIdx == 3
+    imgIntroPoints  = imread('stimuli/intro_points_allTasks','png');
+else
+    imgIntroPoints  = imread('stimuli/intro_points_2Tasks','png');
+end
 
 imgF1_neutral = imread('stimuli/f1_neutral','png');
 imgF2_neutral = imread('stimuli/f2_neutral','png');

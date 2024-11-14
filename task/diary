@@ -1,0 +1,192 @@
+Enter 'debug', 'practice' or 'experiment' experiment
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1009
+Enter participant's handedness, 'right' or 'left'right
+You are running the SAP task in EXPERIMENT mode
+You are running the SAP task behaviorally
+The participant's dominant hand is the right one
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+
+
+PTB-INFO: This is Psychtoolbox-3 for Apple macOS, under Matlab 64-Bit (Version 3.0.19 - Build date: Dec 16 2023).
+PTB-INFO: OS support status: macOS version 13 Intel is minimally tested and supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: Installation of the PsychtoolboxKernelDriver is strongly recommended if you care about precise visual
+PTB-INFO: onset timestamping or timing. See 'help PsychtoolboxKernelDriver' for installation instructions.
+
+
+PTB-INFO: OpenGL-Renderer is Intel Inc. :: Intel(R) Iris(TM) Plus Graphics 650 :: 2.1 INTEL-20.7.3
+PTB-INFO: Renderer has 1536 MB of VRAM and a maximum 3072 MB of texture memory.
+PTB-INFO: VBL startline = 1080 , VBL Endline = -1
+PTB-INFO: Beamposition queries unsupported or defective on this system. Using basic timestamping as fallback.
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.668585 ms [59.993094 Hz]. (50 valid samples taken, stddev=0.127210 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-WARNING: DrawText: Failed to load external drawtext plugin [dlopen(/Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib, 0x000A): Library not loaded: /Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib
+  Referenced from: <196C96CD-AE88-31D3-B735-C650101C3062> /Users/kwellste/projects/Toolboxes/Psychtoolbox/Psychtoolbox-3/Psychtoolbox/PsychBasic/PsychPlugins/libptbdrawtext_ftgl64.dylib
+  Reason: tried: '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/1.0/lib/libfontconfig.1.dylib' (no such file), '/usr/local/lib/libfontconfig.1.dylib' (no such file), '/usr/lib/libfontconfig.1.dylib' (no such file, not in dyld cache)]. Retrying under generic name [libptbdrawtext_ftgl64.dylib].
+PTB-WARNING: DrawText: Failed to load external drawtext plugin 'libptbdrawtext_ftgl64.dylib' [dlopen(libptbdrawtext_ftgl64.dylib, 0x000A): tried: 'libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibptbdrawtext_ftgl64.dylib' (no such file), '/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/Library/Frameworks/GStreamer.framework/Versions/Current/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/./libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../standalone/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/Contents/MacOS/../../sys/os/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/Applications/MATLAB_R2024a.app/bin/maci64/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache), 'libptbdrawtext_ftgl64.dylib' (no such file), '/usr/local/lib/libptbdrawtext_ftgl64.dylib' (no such file), '/usr/lib/libptbdrawtext_ftgl64.dylib' (no such file, not in dyld cache)]. Reverting to legacy text renderer.
+PTB-WARNING: DrawText: Functionality of Screen('DrawText') and Screen('TextBounds') may be limited and text quality may be impaired.
+PTB-WARNING: DrawText: Type 'help DrawTextPlugin' at the command prompt to receive instructions for troubleshooting.
+
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('tools.showSlidingBarQuestion', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m', 101)" style="font-weight:bold">tools.showSlidingBarQuestion</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+tools/showSlidingBarQuestion.m',101,0)">line 101</a>)
+
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m', 104)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/runTask.m',104,0)">line 104</a>)
+    dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,questField,trial);
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', '/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m', 110)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/SAP_task_main.m',110,0)">line 110</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+} 
+clear all
+
+
+PTB-INFO: There are still 30 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+INFO: PTB's Screen('Flip', 10) command seems to have missed the requested stimulus presentation deadline
+INFO: a total of 11 times out of a total of 675 flips during this session.
+
+INFO: This number is fairly accurate (and indicative of real timing problems in your own code or your system)
+INFO: if you provided requested stimulus onset times with the 'when' argument of Screen('Flip', window [, when]);
+INFO: If you called Screen('Flip', window); without the 'when' argument, this count is more of a ''mild'' indicator
+INFO: of timing behaviour than a hard reliable measurement. Large numbers may indicate problems and should at least
+INFO: deserve your closer attention. Cfe. 'help SyncTrouble', the FAQ section at www.psychtoolbox.org and the
+INFO: examples in the PDF presentation in PsychDocumentation/Psychtoolbox3-Slides.pdf for more info and timing tips.
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+load('SNG_AAA_1001_behav_dataFile.mat')
+dataFile.AAAPrediction.response
+
+ans =
+
+    1.0000  106.4039
+    1.0000  117.5974
+         0  127.0965
+    1.0000  134.5643
+         0  141.8489
+    1.0000  150.7591
+    1.0000  157.9753
+    1.0000  166.4575
+         0  173.7093
+    1.0000  180.9897
+         0  193.4065
+         0  201.1236
+    1.0000  208.9552
+
+dataFile.AAAPrediction.response(:,1)
+
+ans =
+
+     1
+     1
+     0
+     1
+     0
+     1
+     1
+     1
+     0
+     1
+     0
+     0
+     1
+
+sum(dataFile.AAAPrediction.response(:,1))
+
+ans =
+
+     8
+
+length(dataFile.AAAPrediction.response(:,1)
+ length(dataFile.AAAPrediction.response(:,1)
+                                            ↑
+{Invalid expression. When calling a function or indexing a variable, use parentheses. Otherwise, check for mismatched delimiters.
+} 
+length(dataFile.AAAPrediction.response(:,1))
+
+ans =
+
+    13
+
+13/8
+
+ans =
+
+    1.6250
+
+8/13
+
+ans =
+
+    0.6154
+
+8/16
+
+ans =
+
+    0.5000
+
+load('SNG_AAA_1003_behav_dataFile.mat')
+nApproaches = sum(dataFile.AAAPrediction.response(:,1))
+
+nApproaches =
+
+     5
+
+nTrials     = length(dataFile.AAAPrediction.response(:,1))
+
+nTrials =
+
+    13
+
+5/13
+
+ans =
+
+    0.3846
+
+load('SNG_AAA_1003_behav_dataFile.mat')
+nApproaches = sum(dataFile.AAAPrediction.response(:,1))
+
+nApproaches =
+
+    98
+
+nTrials     = length(dataFile.AAAPrediction.response(:,1))
+
+nTrials =
+
+   140
+
+98/140
+
+ans =
+
+    0.7000
+
+0.35*14
+
+ans =
+
+    4.9000
+

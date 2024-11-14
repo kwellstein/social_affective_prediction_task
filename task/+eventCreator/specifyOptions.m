@@ -56,6 +56,20 @@ options.paths.tasksDir = ['..',filesep];
 options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
 options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
+%% DATAFILES & PATHS
+options.files.projectID    = 'SAPS_';
+options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
+options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID];
+mkdir(options.files.savePath);
+options.files.dataFileExtension    = 'dataFile.mat';
+options.files.optionsFileExtension = 'optionsFile.mat';
+options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
+options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
+options.files.eyeFileName = [PID,'eye.edf'];
+
+%% hardware identifiers
+options.hardware.tracker = 'T60';
+
 %% specifing experiment mode specific settings
 options.task.name = 'SAP';
 
@@ -73,8 +87,12 @@ switch expMode
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
+            options.doEye = 1;
+            options.doEMG = 1;
         else
             options.doKeyboard = 0;
+            options.doEye = 1;
+            options.doEMG = 1;
         end
 
     case 'practice'
@@ -82,7 +100,7 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 2 1 1 2; ...
-                                 1 0 1 1 0 1 0 1 1 0]';
+            1 0 1 1 0 1 0 1 1 0]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
         options.task.showPoints = 1;
@@ -90,9 +108,13 @@ switch expMode
         if strcmp(expType,'behav')
             options.task.nTrials  = 10;
             options.doKeyboard    = 1;
+            options.doEye = 1;
+            options.doEMG = 1;
         else
             options.task.nTrials  = 4;
             options.doKeyboard    = 0;
+            options.doEye = 1;
+            options.doEMG = 1;
         end
         rng(1,"twister");
         options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
@@ -101,7 +123,7 @@ switch expMode
         options.screen.rect   = [20, 10, 900, 450];
         screens               = Screen('Screens');
         options.screen.number = max(screens);
-        
+
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
@@ -109,7 +131,8 @@ switch expMode
 
         options.task.showPoints = 1;
         options.doKeyboard      = 1;
-
+        options.doEye = 0;
+        options.doEMG = 0;
     otherwise
         disp(' ...no valid expMode specified, using debug options... ')
         options.screen.rect   = [20, 10, 900, 450];
@@ -122,6 +145,8 @@ switch expMode
 
         options.task.showPoints = 1;
         options.doKeyboard      = 1;
+        options.doEye = 0;
+        options.doEMG = 0;
 end
 
 %% STIMULI SELECTION based on randomisation list
@@ -147,12 +172,28 @@ taskCol       = taskRandTable.(options.task.name);
 
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
+load(fullfile(options.files.savePath,options.files.dataFileName));
 
-if startsWith(PID,'1')
-    options.task.firstTarget    = 50;
-    options.task.finalTarget    = 100;
-    options.task.maxSequenceIdx = 3;
-else
+if startsWith(PID,'1') % healthy participant
+    if strcmp(expMode,'experiment')
+        nTrials     = length(dataFile.AAAPrediction.response(:,1));
+        nApproaches = sum(dataFile.AAAPrediction.response(:,1));
+
+        if nApproaches/nTrials <0.35
+            options.task.firstTarget    = 40;
+            options.task.finalTarget    = 80;
+            options.task.maxSequenceIdx = 2;
+        else
+            options.task.firstTarget    = 50;
+            options.task.finalTarget    = 100;
+            options.task.maxSequenceIdx = 3;
+        end
+    else
+        options.task.firstTarget    = 50;
+        options.task.finalTarget    = 100;
+        options.task.maxSequenceIdx = 3;
+    end
+else % patient
     options.task.firstTarget    = 15;
     options.task.finalTarget    = 30;
     options.task.maxSequenceIdx = 1;
@@ -237,12 +278,12 @@ switch expType
 
             if strcmp(handedness,'right')
                 options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-                options.keys.stop  = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+                options.keys.stop       = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
                 options.keys.noSmile    = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
 
             else
                 options.keys.startSmile = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-                options.keys.stop  = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+                options.keys.stop       = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
                 options.keys.noSmile    = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
             end
         end
@@ -250,7 +291,7 @@ switch expType
     case 'fmri'
         options.keys.escape     = KbName('ESCAPE');
         options.keys.taskStart  = KbName('5');
-        
+
         if strcmp(handedness,'right')
             options.keys.startSmile = KbName('4'); % CHANGE: This should dominant hand index finger
             options.keys.stop       = KbName('3'); % CHANGE: This should non-dominant hand index finger
@@ -325,16 +366,5 @@ end
 options.messages.abortText     = 'the experiment was aborted';
 options.messages.timeOut       = 'you did not answer in time';
 options.messages.wrongButton   = 'you pressed the wrong button';
-
-
-%% DATAFILES & PATHS
-options.files.projectID    = 'SAPS_';
-options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
-options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID];
-mkdir(options.files.savePath);
-options.files.dataFileExtension    = 'dataFile.mat';
-options.files.optionsFileExtension = 'optionsFile.mat';
-options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
-options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
 
 end

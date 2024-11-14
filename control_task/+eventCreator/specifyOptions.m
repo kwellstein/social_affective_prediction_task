@@ -59,12 +59,6 @@ options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xls
 %% specifing experiment mode specific settings
 options.task.name = 'SAPC';
 
-%specify the task number (i.e. the place in the tasks sequence this task has) in this study
-options.task.sequenceIdx    = 2;
-options.task.maxSequenceIdx = 3;
-options.task.firstTarget = 50;
-options.task.finalTarget = 100;
-
 switch expMode
     case 'experiment'
         % stimulus durations
@@ -155,15 +149,31 @@ taskCol       = taskRandTable.(options.task.name);
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
 
-if startsWith(PID,'1')
-    options.task.firstTarget    = 50;
-    options.task.finalTarget    = 100;
-    options.task.maxSequenceIdx = 3;
-else
+if startsWith(PID,'1') % healthy participant
+    if strcmp(expMode,'experiment')
+        nTrials     = length(dataFile.AAAPrediction.response(:,1));
+        nApproaches = sum(dataFile.AAAPrediction.response(:,1));
+
+        if nApproaches/nTrials <0.35
+            options.task.firstTarget    = 40;
+            options.task.finalTarget    = 80;
+            options.task.maxSequenceIdx = 2;
+        else
+            options.task.firstTarget    = 50;
+            options.task.finalTarget    = 100;
+            options.task.maxSequenceIdx = 3;
+        end
+    else
+        options.task.firstTarget    = 50;
+        options.task.finalTarget    = 100;
+        options.task.maxSequenceIdx = 3;
+    end
+else % patient
     options.task.firstTarget    = 15;
     options.task.finalTarget    = 30;
     options.task.maxSequenceIdx = 1;
 end
+
 
 %% options screen
 options.screen.white  = WhiteIndex(options.screen.number);

@@ -62,7 +62,7 @@ switch expType
                 imgRejectCoin    = imread('stimuli/outcome_collected_coin','png');
                 imgCollectNoCoin = imread('stimuli/outcome_collected_noCoin','png');
                 imgRejectNoCoin  = imread('stimuli/outcome_rejected_noCoin','png');
-                stimuli.intro2 = Screen('MakeTexture', options.screen.windowPtr, imgIntro2);
+                stimuli.intro2        = Screen('MakeTexture', options.screen.windowPtr, imgIntro2);
                 stimuli.intro3        = Screen('MakeTexture', options.screen.windowPtr, imgIntro3);
                 stimuli.collectCoin   = Screen('MakeTexture', options.screen.windowPtr,imgCollectCoin);
                 stimuli.rejectCoin    = Screen('MakeTexture', options.screen.windowPtr,imgRejectCoin);
@@ -97,7 +97,11 @@ switch expType
         end
 end
 
-imgIntroPoints  = imread('stimuli/intro_points','png');
+if options.task.maxSequenceIdx == 3
+    imgIntroPoints  = imread('stimuli/intro_points_allTasks','png');
+else
+    imgIntroPoints  = imread('stimuli/intro_points_2Tasks','png');
+end
 
 imgF1_egg = imread('stimuli/f1_eggFace','png');
 imgF2_egg = imread('stimuli/f2_eggFace','png');
