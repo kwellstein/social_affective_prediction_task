@@ -288,12 +288,11 @@ def initialiseEyeLink(win,filename,expInfo):
     pc=expInfo['pc']
     import sys
     if pc in "Scanner_Computer":
-        #sys.path.append("C:\\Users\\hmri\\Documents\\EyeLink_Training\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
-        sys.path.append("D:\\EyeLink_Training\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
-        sys.path.append("D:\\EyeLink_Training\\Psychopy2_video\\")
+        sys.path.append("D:\\eyeLink\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
+        sys.path.append("D:\\eyeLink\\Psychopy2_video\\")
     elif pc in "EEGLab_Computer":
-        sys.path.append("D:\\EyeLink_Training\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
-        sys.path.append("D:\\EyeLink_Training\\Psychopy2_video\\")
+        sys.path.append("D:\\eyeLink\\pylink_forPython3.4-3.6_win\\pylink_forPython3.6_x64\\")
+        sys.path.append("D:\\eyeLink\\Psychopy2_video\\")
     import pylink
     from EyeLinkCoreGraphicsPsychoPy import EyeLinkCoreGraphicsPsychoPy
     if not dummyMode:
