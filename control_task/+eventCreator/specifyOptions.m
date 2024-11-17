@@ -52,12 +52,16 @@ function options = specifyOptions(PID,expMode,expType,handedness)
 %% specify paths
 options.paths.codeDir  = pwd;
 options.paths.inputDir = [pwd,filesep,'+eventCreator',filesep];
-options.paths.tasksDir = ['..',filesep];
+options.paths.tasksDir = ['..',filesep,'..',filesep];
 options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
 options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
+%% hardware identifiers
+options.hardware.tracker = 'T60';
+
 %% specifing experiment mode specific settings
-options.task.name = 'SAPC';
+options.files.projectID    = 'SAPS_';
+options.task.name          = 'SAPC';
 
 switch expMode
     case 'experiment'
@@ -68,7 +72,7 @@ switch expMode
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nEggs    = max(options.task.inputs(:,1));
-        options.task.nTrials  = size(options.task.inputs,1);        
+        options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
         options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
@@ -95,7 +99,12 @@ switch expMode
 
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
+            options.doEye = 1;
+            options.doEMG = 1;
         else
+            options.doKeyboard = 0;
+            options.doEye = 1;
+            options.doEMG = 1;
         end
 
     case 'debug'
@@ -112,6 +121,8 @@ switch expMode
         options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.doKeyboard = 1;
+        options.doEye = 1;
+        options.doEMG = 1;
 
     otherwise
         disp(' ...no valid expMode specified, using debug options... ')
@@ -123,6 +134,8 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nEGGS = max(options.task.inputs(:,1));
         options.doKeyboard = 1;
+        options.doEye = 1;
+        options.doEMG = 1;
 end
 
 %% Select Stimuli based on Randomisation list
@@ -151,8 +164,9 @@ options.task.sequenceIdx    = taskCol(rowIdx);
 
 if startsWith(PID,'1') % healthy participant
     if strcmp(expMode,'experiment')
-        nTrials     = length(dataFile.AAAPrediction.response(:,1));
-        nApproaches = sum(dataFile.AAAPrediction.response(:,1));
+        d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+        nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
+        nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
 
         if nApproaches/nTrials <0.35
             options.task.firstTarget    = 40;
@@ -195,16 +209,16 @@ end
 
 if options.task.sequenceIdx<options.task.maxSequenceIdx
     options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
-        '\n You will receive an additional AUD 5 to your reimbursement if you keep this score.'];
+        '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
     options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
-        '\n You will receive an additional AUD 10 to your reimbursement if you keep this score.'];
+        '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
     options.screen.noTargetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
         '\n Keep collecting points in the next task!'];
 else
     options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points across all tasks! ' ...
-        '\n You will receive an additional AUD 5 to your reimbursement.'];
+        '\n You will receive an additional 5$ to your reimbursement.'];
     options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
-        '\n You will receive an additional AUD 10 to your reimbursement.'];
+        '\n You will receive an additional 10$ to your reimbursement.'];
     options.screen.noTargetText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
 
@@ -220,18 +234,18 @@ KbName('UnifyKeyNames')
 switch expType
     case 'behav'
         if strcmp(handedness,'right')
-            options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand middle finger
-            options.keys.stop    = KbName('LeftAlt');    % KeyCode: 226, dominant hand index finger
+            options.keys.collect = KbName('4$');  % KeyCode: 70, dominant hand index finger
+            options.keys.reject  = KbName('2@');  % KeyCode:71, dominant hand ring finger
+            options.keys.stop    = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
         else
-            options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-            options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
-            options.keys.stop    = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.collect = KbName('3#'); % KeyCode: 66, dominant hand index finger
+            options.keys.reject  = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
+            options.keys.stop    = KbName('1!'); % KeyCode: 65, dominant hand ring finger
         end
 
     case 'fmri'
-        options.keys.taskStart =  KbName('5'); 
-        
+        options.keys.taskStart =  KbName('5');
+
         if strcmp(handedness,'right')
             options.keys.collect = KbName('1'); % CHANGE: This should dominant hand index finger
             options.keys.reject  = KbName('2'); % CHANGE: This should dominant hand middle finger
@@ -275,6 +289,7 @@ else
     options.dur.showStimulus    = 400;  % in ms
     options.dur.showChoiceITI   = randi([500,1500],options.task.nTrials,1);
     options.dur.showOutcome     = 500;
+    options.dur.showPractOutcome =  2000;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 50000; % in ms
     options.dur.showShortIntro  = 10000;
@@ -291,7 +306,6 @@ options.messages.wrongButton   = 'you pressed the wrong button';
 
 
 %% DATAFILES & PATHS
-options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAPC_',PID,'_',expType];
 options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID];
 mkdir(options.files.savePath);

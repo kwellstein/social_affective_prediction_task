@@ -100,9 +100,17 @@ dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness);
 options  = eventCreator.specifyOptions(PID,expMode,expType,handedness);
 
 %% SETUP ENVIRONMENT
-options  = tools.prepEnvironment(options);
+options = tools.prepEnvironment(options);
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
+
+%% START EyeTracker
+if options.doEye
+    options.el = EyelinkInitDefaults(options.screen.windowPtr);
+    EyelinkUpdateDefaults(options.el)
+    constants.eyelink_data_fname    = options.files.eyeFileName;
+    [options.el, options.exit_flag] = tools.setupEyeTracker(options.hardware.tracker, options.screen, constants);
+end
 
 %% RUN TASK
 runTask(stimuli,expMode,expType,options,dataFile);

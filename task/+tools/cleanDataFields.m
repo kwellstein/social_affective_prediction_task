@@ -43,7 +43,7 @@ dataFile.(questField).response    = dataFile.(questField).response(1:trial,:);
 dataFile.(questField).rt          = dataFile.(questField).rt(1:trial,:);
 dataFile.(actionField).rt         = dataFile.(actionField).rt(1:trial,:);
 
-dataFile.events.task_startTime       = dataFile.events.task_startTime(1:trial,:); 
+dataFile.events.task_startTime       = dataFile.events.task_startTime; 
 dataFile.events.stimulus_startTime   = dataFile.events.stimulus_startTime(1:trial,:);
 dataFile.events.slider_startTime     = dataFile.events.slider_startTime(1:trial,:);
 dataFile.events.predKey_startTime    = dataFile.events.predKey_startTime(1:trial,:);

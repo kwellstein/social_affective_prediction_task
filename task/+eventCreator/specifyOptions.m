@@ -52,14 +52,14 @@ function options = specifyOptions(options,PID,expMode,expType,handedness)
 %% specify paths
 options.paths.codeDir  = pwd;
 options.paths.inputDir = [pwd,filesep,'+eventCreator',filesep];
-options.paths.tasksDir = ['..',filesep];
+options.paths.tasksDir = ['..',filesep,'..',filesep];
 options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
 options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
 %% DATAFILES & PATHS
 options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
-options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID];
+options.files.savePath     = [options.paths.saveDir,expMode,filesep,options.files.projectID,PID];
 mkdir(options.files.savePath);
 options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';
@@ -71,7 +71,8 @@ options.files.eyeFileName = [PID,'eye.edf'];
 options.hardware.tracker = 'T60';
 
 %% specifing experiment mode specific settings
-options.task.name = 'SAP';
+options.files.projectID = 'SAPS_';
+options.task.name       = 'SAP';
 
 switch expMode
     case 'experiment'
@@ -99,15 +100,15 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.inputs   = [1 2 2 1 2 1 2 1 1 2; ...
-            1 0 1 1 0 1 0 1 1 0]';
+        options.task.inputs   = [1 2 2 1 2 1 2 1; ...
+            1 0 1 1 0 1 0 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
         options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
-            options.task.nTrials  = 10;
-            options.doKeyboard    = 1;
+            options.task.nTrials = 10;
+            options.doKeyboard   = 1;
             options.doEye = 1;
             options.doEMG = 1;
         else
@@ -172,12 +173,12 @@ taskCol       = taskRandTable.(options.task.name);
 
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
-load(fullfile(options.files.savePath,options.files.dataFileName));
 
 if startsWith(PID,'1') % healthy participant
     if strcmp(expMode,'experiment')
-        nTrials     = length(dataFile.AAAPrediction.response(:,1));
-        nApproaches = sum(dataFile.AAAPrediction.response(:,1));
+        d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+        nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
+        nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
 
         if nApproaches/nTrials <0.35
             options.task.firstTarget    = 40;
@@ -193,7 +194,7 @@ if startsWith(PID,'1') % healthy participant
         options.task.finalTarget    = 100;
         options.task.maxSequenceIdx = 3;
     end
-else % patient
+else
     options.task.firstTarget    = 15;
     options.task.finalTarget    = 30;
     options.task.maxSequenceIdx = 1;
@@ -237,16 +238,16 @@ end
 
 if options.task.sequenceIdx<options.task.maxSequenceIdx
     options.screen.firstTargetText = ['You collected more than ', num2str(options.task.firstTarget),' points! ' ...
-        '\n You will receive an additional AUD 5 to your reimbursement if you keep this score.'];
+        '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
     options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points! ' ...
-        '\n You will receive an additional AUD 10 to your reimbursement if you keep this score.'];
+        '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
     options.screen.noTagretText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
         '\n Keep collecting points in the next task!'];
 else
     options.screen.firstTargetText = ['You collected more than ', num2str(options.task.firstTarget),' points across all tasks! ' ...
-        '\n You will receive an additional AUD 5 to your reimbursement.'];
+        '\n You will receive an additional 5$ to your reimbursement.'];
     options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points across all tasks! ' ...
-        '\n You will receive an additional AUD 10 to your reimbursement.'];
+        '\n You will receive an additional 10$ to your reimbursement.'];
     options.screen.noTagretText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
 

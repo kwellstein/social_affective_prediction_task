@@ -54,9 +54,10 @@ switch uid(1: end-1)
         options.OS       = 'Linux';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber();   
     
-    case 'hmri721-btnysc3\katharina' % Windows User
+    case  'desktop-ij9tsug\testing' % Windows User
         PsychRTBox('CloseAll'); 
         options.OS       = 'Windows';
+        options.PC       = 'EEGLab_Computer';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
 end

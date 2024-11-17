@@ -70,26 +70,26 @@ if options.doEye
 
     % clear tracker display
     Eyelink('Command', 'clear_screen 0');
-
     Eyelink('StartRecording');
 
     % always wait a moment for recording to have definitely started
     WaitSecs(0.1);
-
     Eyelink('message', 'SYNCTIME');
 end
 
-dataFile.events.task_startTime = extractAfter(char(datetime('now')),12);
+dataFile.events.task_startTime = GetSecs();
 
 %% SHOW intro
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
 
-% show points info
-Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points,[], options.screen.rect);
-Screen('Flip', options.screen.windowPtr);
-[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
+if strcmp(expMode,'experiment')
+    % show points info
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points,[], options.screen.rect);
+    Screen('Flip', options.screen.windowPtr);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
+end
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
@@ -170,22 +170,6 @@ while taskRunning
     % check if this is the last trial
     if trial == options.task.nTrials
         taskRunning = 0;
-        if options.doEye
-            Eyelink('StopRecording', 'set_idle_mode'); 
-            try
-                fprintf('Receiving data file ''%s''\n',options.files.eyeFileName);
-                status = Eyelink('ReceiveFile');
-                if status > 0
-                    fprintf('ReceiveFile status %d\n', status);
-                end
-                if 2==exist(edfFile, 'file')
-                    fprintf('Data file ''%s'' can be found in ''%s''\n',options.files.eyeFileName, pwd );
-                end
-            catch
-                fprintf('Problem receiving data file ''%s''\n',options.files.eyeFileName);
-            end
-
-        end
     end
 end
 
@@ -198,8 +182,25 @@ dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField,actionField);
 dataFile.(questField).sliderStart = options.task.slidingBarStart;
 
-% save all data to
+% save all data
 output.saveData(options,dataFile);
+
+if options.doEye
+    Eyelink('StopRecording', 'set_idle_mode');
+    try
+        fprintf('Receiving data file ''%s''\n',options.files.eyeFileName);
+        status = Eyelink('ReceiveFile');
+        if status > 0
+            fprintf('ReceiveFile status %d\n', status);
+        end
+        if 2==exist(edfFile, 'file')
+            fprintf('Data file ''%s'' can be found in ''%s''\n',options.files.eyeFileName, pwd );
+        end
+    catch
+        fprintf('Problem receiving data file ''%s''\n',options.files.eyeFileName);
+    end
+
+end
 
 % show end screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);

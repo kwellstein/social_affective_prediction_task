@@ -37,6 +37,6 @@ save(fullfile([options.files.savePath,'/',options.files.dataFileName]),'dataFile
 save(fullfile([options.files.savePath,'/',options.files.optionsFileName]),'options');
 
 diary off
-save(fullfile([options.files.savePath,'/diary.txt']));
+save(fullfile([options.files.savePath,filesep,options.task.name,'_diary.txt']));
 
 end

@@ -59,8 +59,8 @@ addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
 %% SPECIFY inputs
 expMode    = input('Enter ''debug'', ''practice'' or ''experiment'' ','s');
 expType    = input('Enter ''behav'' or ''fmri'' ','s');
-PID        = input('Enter participant id (PID)','s');
-handedness = input('Enter participant''s handedness, ''right'' or ''left''','s');
+PID        = input('Enter participant id (PID) ','s');
+handedness = input('Enter participant''s handedness, ''right'' or ''left'' ','s');
 
 %% Check if inputs are correct
 
@@ -106,11 +106,12 @@ options = eventCreator.specifyOptions(options,PID,expMode,expType,handedness);
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 
+%% START EyeTracker
 if options.doEye
     options.el = EyelinkInitDefaults(options.screen.windowPtr);
     EyelinkUpdateDefaults(options.el)
-    constants.eyelink_data_fname   = options.files.eyeFileName;
-    [options.el, options.exit_flag] = setupEyeTracker(options.hardware.tracker, options.screen, constants);
+    constants.eyelink_data_fname    = options.files.eyeFileName;
+    [options.el, options.exit_flag] = tools.setupEyeTracker(options.hardware.tracker, options.screen, constants);
 end
 
 

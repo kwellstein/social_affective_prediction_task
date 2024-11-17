@@ -66,6 +66,7 @@ dataFile.events.slider_startTime     = strings(200,1);
 dataFile.events.predKey_startTime    = strings(200,1); 
 dataFile.events.choiceStim_startTime = strings(200,1); 
 dataFile.events.outcome_startTime    = strings(200,1);
+dataFile.events.iti_startTime        = strings(200,1);
 dataFile.events.exp_abort            = false(200,1);
 dataFile.events.exp_missedTrial      = false(200,1); 
 dataFile.events.exp_questWrongButton = false(200,1);
