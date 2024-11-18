@@ -88,11 +88,11 @@ switch expMode
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
-            options.doEye = 1;
+            options.doEye = 0;
             options.doEMG = 1;
         else
             options.doKeyboard = 0;
-            options.doEye = 1;
+            options.doEye = 0;
             options.doEMG = 1;
         end
 

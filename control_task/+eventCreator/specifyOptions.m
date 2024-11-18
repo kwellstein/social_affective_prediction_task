@@ -1,4 +1,4 @@
-function options = specifyOptions(PID,expMode,expType,handedness)
+function options = specifyOptions(options,PID,expMode,expType,handedness)
 
 % -----------------------------------------------------------------------
 % specifyOptions.m creates structs for the different stages in the task
@@ -99,11 +99,11 @@ switch expMode
 
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
-            options.doEye = 1;
+            options.doEye = 0;
             options.doEMG = 1;
         else
             options.doKeyboard = 0;
-            options.doEye = 1;
+            options.doEye = 0;
             options.doEMG = 1;
         end
 
@@ -233,16 +233,31 @@ options.screen.expEndText     = ['Thank you! ' ...
 KbName('UnifyKeyNames')
 switch expType
     case 'behav'
-        if strcmp(handedness,'right')
-            options.keys.collect = KbName('4$');  % KeyCode: 70, dominant hand index finger
-            options.keys.reject  = KbName('2@');  % KeyCode:71, dominant hand ring finger
-            options.keys.stop    = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
-        else
-            options.keys.collect = KbName('3#'); % KeyCode: 66, dominant hand index finger
-            options.keys.reject  = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
-            options.keys.stop    = KbName('1!'); % KeyCode: 65, dominant hand ring finger
-        end
+        options.keys.escape     = KbName('ESCAPE');
 
+        if strcmp(options.PC,'EEGLab_Computer')
+            if strcmp(handedness,'right')
+                options.keys.collect = KbName('4$');  % KeyCode: 70, dominant hand index finger
+                options.keys.stop    = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
+                options.keys.reject  = KbName('2@');  % KeyCode:71, dominant hand ring finger
+            else
+                options.keys.collect = KbName('3#'); % KeyCode: 66, dominant hand index finger
+                options.keys.stop    = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
+                options.keys.reject  = KbName('1!'); % KeyCode: 65, dominant hand ring finger
+            end
+        else
+
+            if strcmp(handedness,'right')
+                options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+                options.keys.stop    = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+                options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+
+            else
+                options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+                options.keys.stop    = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+                options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+            end
+        end
     case 'fmri'
         options.keys.taskStart =  KbName('5');
 

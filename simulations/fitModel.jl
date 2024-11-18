@@ -7,6 +7,12 @@ include("helper_functions/create_agent.jl")
 
 inputsPath = "/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/"
 dataPath   = "/Users/kwellste/projects/SEPAB/tasks/data/experiment/SAPS_1001/"
+avatar_colors = [
+    :red, 
+    :blue, 
+    :green,
+    #:purple
+    ]
 
 # load input sequence
 input_sequence = CSV.File("/Users/kwellste/projects/SEPAB/tasks/social_affective_prediction_task/task/+eventCreator/input_sequence.csv") |> Tables.matrix
@@ -35,14 +41,16 @@ model = create_model(agent, hgf_parameters, input_sequence, actions)
 #Fit single chain with 10 iterations
 fitted_model = fit_model(model; n_iterations = 10, n_chains = 1)
 
-agent_parameters = extract_quantities(model, fitted_model)
-estimates_df = get_estimates(hgf_parameters, DataFrame)
-state_trajectories = get_trajectories(model, fitted_model, [“value”, “action”])
+extract_quantities(model, fitted_model)
+estimates_df     = get_estimates(hgf_parameters, DataFrame)
+state_trajectories = get_trajectories(model, fitted_model, [input_sequence, actions])
 trajectory_estimates_df = get_estimates(state_trajectories)
 
 plot(fitted_model)
+plt = plot_belief_trajectory(agent, n_avatars, avatar_colors)
 plot_parameter_distribution(fitted_model, hgf_parameters)
 
-get_posteriors(fitted_model)
+param_posteriors = get_posteriors(fitted_model)
 
-return fitted_model
+CSV.write("generated_data/Traj_values_SAPS_1001.csv",trajectory_estimates_df)
+CSV.write("generated_data/Posteriors_SAPS_1001.csv",param_posteriors)

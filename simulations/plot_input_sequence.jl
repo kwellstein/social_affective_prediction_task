@@ -18,7 +18,7 @@ include("helper_functions/create_input_sequence.jl")
 avatar_colors = [
     :red, 
     :blue, 
-   # :green, 
+    :green, 
     #:purple
     ]
 

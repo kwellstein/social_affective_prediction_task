@@ -1,4 +1,4 @@
-function options = prepEnvironment(options)
+function options = prepEnvironment
 
 %% _______________________________________________________________________________%
 % prepEnvironment.m ensures a 'fresh start' for the task to run by closing
@@ -45,6 +45,7 @@ switch uid(1: end-1)
         PsychPortAudio('Close');
         PsychRTBox('CloseAll');
         options.OS       = 'Mac';
+        options.PC       = 'Kwellstein';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
         
