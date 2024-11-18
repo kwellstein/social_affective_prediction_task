@@ -41,10 +41,10 @@ model = create_model(agent, hgf_parameters, input_sequence, actions)
 #Fit single chain with 10 iterations
 fitted_model = fit_model(model; n_iterations = 10, n_chains = 1)
 
-extract_quantities(model, fitted_model)
-estimates_df     = get_estimates(hgf_parameters, DataFrame)
-state_trajectories = get_trajectories(model, fitted_model, [input_sequence, actions])
-trajectory_estimates_df = get_estimates(state_trajectories)
+#ActionModels.extract_quantities(model, fitted_model)
+estimates_df     = ActionModels.get_estimates(hgf_parameters, DataFrame)
+state_trajectories = ActionModels.get_trajectories(model, fitted_model, [input_sequence, actions])
+trajectory_estimates_df = ActionModels.get_estimates(state_trajectories)
 
 plot(fitted_model)
 plt = plot_belief_trajectory(agent, n_avatars, avatar_colors)
