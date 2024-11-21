@@ -109,12 +109,12 @@ switch expMode
         if strcmp(expType,'behav')
             options.task.nTrials = 10;
             options.doKeyboard   = 1;
-            options.doEye = 1;
+            options.doEye = 0;
             options.doEMG = 1;
         else
             options.task.nTrials  = 4;
             options.doKeyboard    = 0;
-            options.doEye = 1;
+            options.doEye = 0;
             options.doEMG = 1;
         end
         rng(1,"twister");
@@ -325,7 +325,7 @@ if strcmp(expMode,'debug')
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
-    options.dur.showReadyScreen = 200;
+    options.dur.showShortInfoTxt = 200;
     options.dur.afterSmileITI   = randi([150,250],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([150,250],options.task.nTrials,1);
     options.dur.rtTimeout       = 500;
@@ -340,7 +340,7 @@ elseif strcmp(expMode,'practice')
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 35000; % in ms
     options.dur.showShortIntro  = 10000;
-    options.dur.showReadyScreen =  1500;
+    options.dur.showShortInfoTxt =  1500;
     options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
@@ -354,7 +354,8 @@ else % in ms
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showShortIntro  = 10000;
-    options.dur.showReadyScreen =  1500;
+    options.dur.showShortInfoTxt= 1200;
+    options.dur.showEyeBaseline = 1200;
     options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;

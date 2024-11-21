@@ -41,12 +41,16 @@ model = create_model(agent, hgf_parameters, input_sequence, actions)
 #Fit single chain with 10 iterations
 fitted_model = fit_model(model; n_iterations = 10, n_chains = 1)
 
-#ActionModels.extract_quantities(model, fitted_model)
-estimates_df     = ActionModels.get_estimates(hgf_parameters, DataFrame)
-state_trajectories = ActionModels.get_trajectories(model, fitted_model, [input_sequence, actions])
+plot(fitted_model)
+
+parameter_estimates_full = extract_quantities(model, fitted_model)
+estimates_df     = get_estimates(parameter_estimates_full, DataFrame)
+state_trajectories = get_trajectories(model, fitted_model, [("xprob1", "precision_prediction_error"),("xbinary1", "posterior_precision"),("xbinary1", "posterior_mean"),
+("xprob2", "precision_prediction_error"),("xbinary2", "posterior_precision"),("xbinary2", "posterior_mean"),
+("xprob3", "precision_prediction_error"),("xbinary3", "posterior_precision"),("xbinary3", "posterior_mean"),("xvol", "posterior_mean"),("xvol", "posterior_precision")]) # [“value”, “action”]
 trajectory_estimates_df = ActionModels.get_estimates(state_trajectories)
 
-plot(fitted_model)
+
 plt = plot_belief_trajectory(agent, n_avatars, avatar_colors)
 plot_parameter_distribution(fitted_model, hgf_parameters)
 

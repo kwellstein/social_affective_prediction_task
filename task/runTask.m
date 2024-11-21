@@ -93,7 +93,18 @@ end
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
-[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortInfoTxt,options,dataFile,0);
+
+% show fixation cross for a baseline pupil measurement
+if options.doEye
+    dataFile.events.eyeBaseline_start = extractAfter(char(datetime('now')),12);
+
+    Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showEyeBaseline,options,dataFile,0);
+
+    dataFile.events.eyeBaseline_end   = extractAfter(char(datetime('now')),12);
+end
 
 %% START task trials
 while taskRunning
@@ -205,7 +216,7 @@ end
 % show end screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showShortInfoTxt,options,dataFile,0);
 
 if strcmp(expMode,'experiment')
     tools.showPoints(options,dataFile.Summary.points);

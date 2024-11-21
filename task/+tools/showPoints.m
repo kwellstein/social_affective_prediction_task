@@ -81,6 +81,6 @@ eventListener.commandLine.wait2(options.dur.showOutcome,options,[],0);
 % show target screen
 DrawFormattedText(options.screen.windowPtr,targetText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,[],0);
+eventListener.commandLine.wait2(options.dur.showShortInfoTxt,options,[],0);
 
 end
