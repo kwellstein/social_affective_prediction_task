@@ -47,7 +47,6 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
 %% INITIALIZE
 predictField = [options.task.name,'Prediction'];
-questField   = [options.task.name,'Question'];
 taskRunning  = 1;
 trial        = 0;
 
@@ -119,7 +118,6 @@ while taskRunning
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
-    dataFile = tools.showSlidingBarQuestion(stimuli.(firstSlide),options,dataFile,questField,trial);
     [dataFile,~,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
 
     dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
@@ -219,8 +217,7 @@ end
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
-dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField);
-dataFile.(questField).sliderStart = options.task.slidingBarStart;
+dataFile = tools.cleanDataFields(dataFile,trial,predictField);
 
 % save all data to
 output.saveData(options,dataFile);

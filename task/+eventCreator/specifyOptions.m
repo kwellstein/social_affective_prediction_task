@@ -245,8 +245,6 @@ end
 options.screen.pointsText = 'You collected the following amount of points: ';
 options.screen.expEndText = ['Thank you! ' ...
     'You finished the ',options.task.name,' ',expMode,'.'];
-options.screen.qTextL = '                       Never';
-options.screen.qTextR = 'Always                      ';
 
 
 %% KEYBOARD

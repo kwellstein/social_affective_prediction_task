@@ -1,16 +1,14 @@
-function dataFile = cleanDataFields(dataFile,trial,predictField,questField)
+function dataFile = cleanDataFields(dataFile,trial,predictField)
 
 % -----------------------------------------------------------------------
 % cleanDataFields.m eliminates excess zeros from data vectors
 %
-%   SYNTAX:       dataFile = tools.cleanDataFields(dataFile,trial,predictField,questField,smileTimeField)
+%   SYNTAX:       dataFile = tools.cleanDataFields(dataFile,trial,predictField)
 %
 %   IN:           dataFile:       struct, contains all variables, for which data
 %                                   will be saved
 %                 trial:          integer, trial number
 %                 predictField:   string, field name for prediction data
-%                 questField:     string, field name for question / sliding bar data
-%                 smileTimeField: string, field name for length of smile data
 %
 %   OUT:          dataFile: struct, updated data file
 %
@@ -37,11 +35,9 @@ function dataFile = cleanDataFields(dataFile,trial,predictField,questField)
 %
 
 
-dataFile.(predictField).congruent = dataFile.(predictField).congruent(1:trial,:);
-dataFile.(predictField).response  = dataFile.(predictField).response(1:trial,:);
-dataFile.(predictField).rt        = dataFile.(predictField).rt(1:trial,:);
-dataFile.(questField).response    = dataFile.(questField).response(1:trial,:);
-dataFile.(questField).rt          = dataFile.(questField).rt(1:trial,:);
+dataFile.(predictFiel).congruent = dataFile.(predictField).congruent(1:trial,:);
+dataFile.(predictFiel).response  = dataFile.(predictField).response(1:trial,:);
+dataFile.(predictFiel).rt        = dataFile.(predictField).rt(1:trial,:);
 
 dataFile.events.stimulus_startTime   = dataFile.events.stimulus_startTime(1:trial,:);
 dataFile.events.slider_startTime     = dataFile.events.slider_startTime(1:trial,:);

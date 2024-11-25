@@ -62,7 +62,6 @@ dataFile.descr.handedness = handedness;
 
 dataFile.events.exp_startTime        = [];
 dataFile.events.stimulus_startTime   = strings(200,1);
-dataFile.events.slider_startTime     = strings(200,1);
 dataFile.events.predKey_startTime    = strings(200,1); 
 dataFile.events.choiceStim_startTime = strings(200,1); 
 dataFile.events.outcome_startTime    = strings(200,1);
@@ -76,12 +75,11 @@ dataFile.events.exp_end              = [];
 %% TASK DATA
 % COL 1: if smile predicted ==1, if neutral predicted == 0
 dataFile.SAPCPrediction.rt        = zeros(200,1);
+
 % COL 1: if smile response ==1, if neutral response == 0, COL 2: time point
 dataFile.SAPCPrediction.response  = zeros(200,2);
 dataFile.SAPCPrediction.congruent = zeros(200,1); % if congruent ==1, if incongurent == 0
-% COL 1: response on sliding bar, COL 2: time point
-dataFile.SAPCQuestion.response = zeros(200,2);
-dataFile.SAPCQuestion.rt       = zeros(200,1);
+
 dataFile.Summary.points    = 0;
 
 end
