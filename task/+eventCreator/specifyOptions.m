@@ -83,7 +83,6 @@ switch expMode
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
@@ -101,24 +100,22 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 2 1; ...
-            1 0 1 1 0 1 0 1]';
+                                 1 0 1 1 0 1 0 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
         options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
-            options.task.nTrials = 10;
+            options.task.nTrials = numel(options.task.inputs(:,2));
             options.doKeyboard   = 1;
             options.doEye = 0;
             options.doEMG = 1;
         else
-            options.task.nTrials  = 4;
-            options.doKeyboard    = 0;
+            options.task.nTrials = numel(options.task.inputs(:,2))/2;
+            options.doKeyboard   = 0;
             options.doEye = 0;
             options.doEMG = 1;
         end
-        rng(1,"twister");
-        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
     case 'debug'
         options.screen.rect   = [20, 10, 900, 450];
@@ -128,7 +125,6 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 1;
         options.doKeyboard      = 1;
@@ -142,7 +138,6 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-        options.task.slidingBarStart = rand(options.task.nTrials,1);
 
         options.task.showPoints = 1;
         options.doKeyboard      = 1;
@@ -209,16 +204,12 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 
 switch expMode
     case 'experiment'
-        options.screen.qText       = '\n frequency of smiling back?';
         options.screen.startPredictText = '\n smile or neutral?';
         options.screen.stopPredictText  = '\n stopped smiling?';
 
 
     case 'practice'
         if strcmp(expType,'behav')
-            options.screen.qText       = [
-                '\n How often does this person usually smile back when receiving a smile? ' ...
-                '\n Use your other index finger to stop the sliding bar.'];
             options.screen.startPredictText = ['Smile prediction phase:'...
                 '\n Do you choose to smile at this person because you think that they will smile back?' ...
                 '\n -> ',handedness,' index finger to start smiling & other index finger once you stopped smiling.' ...

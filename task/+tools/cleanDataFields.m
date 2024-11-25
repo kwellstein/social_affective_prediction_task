@@ -1,4 +1,4 @@
-function dataFile = cleanDataFields(dataFile,trial,predictField,questField,actionField)
+function dataFile = cleanDataFields(dataFile,trial,predictField,actionField)
 
 % -----------------------------------------------------------------------
 % cleanDataFields.m eliminates excess zeros from data vectors
@@ -9,7 +9,6 @@ function dataFile = cleanDataFields(dataFile,trial,predictField,questField,actio
 %                                   will be saved
 %                 trial:          integer, trial number
 %                 predictField:   string, field name for prediction data
-%                 questField:     string, field name for question / sliding bar data
 %                 smileTimeField: string, field name for length of smile data
 %
 %   OUT:          dataFile: struct, updated data file
@@ -39,13 +38,10 @@ function dataFile = cleanDataFields(dataFile,trial,predictField,questField,actio
 dataFile.(predictField).congruent = dataFile.(predictField).congruent(1:trial,:);
 dataFile.(predictField).response  = dataFile.(predictField).response(1:trial,:);
 dataFile.(predictField).rt        = dataFile.(predictField).rt(1:trial,:);
-dataFile.(questField).response    = dataFile.(questField).response(1:trial,:);
-dataFile.(questField).rt          = dataFile.(questField).rt(1:trial,:);
 dataFile.(actionField).rt         = dataFile.(actionField).rt(1:trial,:);
 
 dataFile.events.task_startTime       = dataFile.events.task_startTime; 
 dataFile.events.stimulus_startTime   = dataFile.events.stimulus_startTime(1:trial,:);
-dataFile.events.slider_startTime     = dataFile.events.slider_startTime(1:trial,:);
 dataFile.events.predKey_startTime    = dataFile.events.predKey_startTime(1:trial,:);
 dataFile.events.predAction_startTime = dataFile.events.predAction_startTime(1:trial,:);
 dataFile.events.predAction_stopTime  = dataFile.events.predAction_stopTime(1:trial,:);

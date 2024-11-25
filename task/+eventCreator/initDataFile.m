@@ -68,7 +68,6 @@ dataFile.events.eyeBaseline_start    = [];
 dataFile.events.eyeBaseline_end      = [];
 dataFile.events.task_startTime       = strings(200,1);
 dataFile.events.stimulus_startTime   = strings(200,1);
-dataFile.events.slider_startTime     = strings(200,1);
 dataFile.events.predKey_startTime    = strings(200,1);
 dataFile.events.predAction_startTime = strings(200,1);
 dataFile.events.predAction_stopTime  = strings(200,1); 
@@ -84,12 +83,11 @@ dataFile.events.exp_end              = [];
 % COL 1: if smile predicted ==1, if neutral predicted == 0
 dataFile.SAPPrediction.rt       = zeros(200,1);
 dataFile.SAPAction.rt           = zeros(200,1);
+
 % COL 1: if smile response ==1, if neutral response == 0, COL 2: time point
 dataFile.SAPPrediction.response  = zeros(200,2);
 dataFile.SAPPrediction.congruent = zeros(200,1); % if congruent ==1, if incongurent == 0
-% COL 1: response on sliding bar, COL 2: time point
-dataFile.SAPQuestion.response = zeros(200,2);
-dataFile.SAPQuestion.rt       = zeros(200,1);
+
 dataFile.Summary.points    = 0;
 
 end
