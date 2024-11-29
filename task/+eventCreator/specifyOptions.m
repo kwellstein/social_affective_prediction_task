@@ -323,33 +323,36 @@ if strcmp(expMode,'debug')
 
 elseif strcmp(expMode,'practice')
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 500;  % in ms
-    options.dur.showSmile       = 10000;
+    options.dur.showStimulus    = 1500; % in ms
+    options.dur.showSmile       = 4000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 35000; % in ms
     options.dur.showShortIntro  = 10000;
-    options.dur.showShortInfoTxt =  1500;
-    options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
-    options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
+    options.dur.showShortInfoTxt= 1200;
+    options.dur.showEyeBaseline = 2000;
+    options.dur.afterchoiceITI  = randi([1500,2500],options.task.nTrials,1);
+    options.dur.afterSmileITI   = randi([3500,4500],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([3500,4500],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.ITI             = randi([1000,2000],options.task.nTrials,1);  % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 500;  % in ms
-    options.dur.showSmile       = 10000;
+    options.dur.showStimulus    = 1500; % in ms
+    options.dur.showSmile       = 4000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showShortIntro  = 10000;
     options.dur.showShortInfoTxt= 1200;
-    options.dur.showEyeBaseline = 1200;
-    options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
-    options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
+    options.dur.showEyeBaseline = 2000;
+    options.dur.afterchoiceITI  = randi([1500,2500],options.task.nTrials,1);
+    options.dur.afterSmileITI   = randi([3500,4500],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([3500,4500],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.ITI             = randi([1000,2000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 

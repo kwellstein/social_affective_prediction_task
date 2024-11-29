@@ -101,6 +101,17 @@ Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
+% show fixation cross for a baseline pupil measurement
+if options.doEye
+    dataFile.events.eyeBaseline_start = extractAfter(char(datetime('now')),12);
+
+    Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(options.dur.showEyeBaseline,options,dataFile,0);
+
+    dataFile.events.eyeBaseline_end   = extractAfter(char(datetime('now')),12);
+end
+
 %% START task trials
 
 while taskRunning
@@ -114,13 +125,29 @@ while taskRunning
 
     % show egg
     dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
+
+
+    %% 1ST EVENT: Prediction Phase
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
-    [dataFile,~,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
+    [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
 
     dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
+    
+    % show avatar again to make sure this event is constant in timing 
+    restEventDur = options.dur.afterchoiceITI(trial)-RT;
+
+    if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
+    end
+    clear RT;
+
+    %% 2ND EVENT: Show Choice
+
     if resp ==1
         % show choice with jitter
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(choiceSlide),[],options.screen.rect, 0);
@@ -132,7 +159,9 @@ while taskRunning
         eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
     end
 
+    %% 3RD EVENT: Show Outcome
     % log congruency and show points slide
+    
     if resp==outcome % if congurent outcome
         % log data
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
