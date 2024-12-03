@@ -100,7 +100,7 @@ Eyelink('command', 'link_sample_data  = LEFT,RIGHT,GAZE,HREF,GAZERES,AREA,HTARGE
         Eyelink('command', 'sample_rate = %d', 1000);
 
         % Will call the calibration routine
-        % EyelinkDoTrackerSetup(el);
+        EyelinkDoTrackerSetup(el);
 
     case 'none'
         el = [];

@@ -35,7 +35,9 @@ function dataFile = logEvent(task,event,dataFile,X,trial)
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 %
-
+if trial == 0
+    trial = 1;
+end
 if strcmp(task,'debug')
    task = 'practice'; 
    eventName   = [task event];

@@ -33,8 +33,12 @@ function saveData(options,dataFile)
 
 mkdir(fullfile(options.files.savePath));
 
-save(fullfile([options.files.savePath,'/',options.files.dataFileName]),'dataFile');
-save(fullfile([options.files.savePath,'/',options.files.optionsFileName]),'options');
+save(fullfile([options.files.savePath,filesep,options.files.dataFileName]),'dataFile');
+save(fullfile([options.files.savePath,filesep,options.files.optionsFileName]),'options');
+
+if options.doEye
+    movefile(options.files.eyeFileName,options.files.savePath)
+end
 
 diary off
 save(fullfile([options.files.savePath,filesep,options.task.name,'_diary.txt']));

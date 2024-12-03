@@ -1,4 +1,4 @@
-function [dataFile,RT,resp] = askPrediction(~,cue,options,dataFile,task,trial,respMode)
+function [dataFile,RT,resp] = askPrediction(expMode,cue,options,dataFile,task,trial,respMode)
 
 % -----------------------------------------------------------------------
 % askPrediction.m shows the response screen depending on the
@@ -84,7 +84,7 @@ if strcmp(respMode,'start')
             % if the participant takes too long (as defined in the options)
             % this will be logged and saved as NaN. A time-out message will be
             % displayed
-        elseif RT > options.dur.rtTimeout
+        elseif RT*1000 > options.dur.rtTimeout
             DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
@@ -106,6 +106,7 @@ if strcmp(respMode,'start')
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 else
     while waiting
+        ticID = tic();
         % show screen with stimulus and wait for participant to press a
         % button or time-out
         Screen('DrawTexture', options.screen.windowPtr, cue,[],options.screen.rect, 0);
@@ -118,8 +119,9 @@ else
             stimulusDuration = options.dur.afterSmileITI(trial)- (RT*1000);
             Screen('DrawTexture', options.screen.windowPtr,cue,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
-            if stimulusDuration<200
-                [~,~,dataFile] = eventListener.commandLine.wait2(200,options,dataFile,0);
+            % show avatar again to make sure this event is constant in timing 
+            if stimulusDuration<0
+                [~,~,dataFile] = eventListener.commandLine.wait2(100,options,dataFile,0);
             else
                 [~,~,dataFile] = eventListener.commandLine.wait2(stimulusDuration,options,dataFile,0);
             end
@@ -138,12 +140,16 @@ else
 
             % if the participant takes too long (as defined in the options)this will
             % be logged and saved as NaN. A time-out message will be displayed
-        elseif RT > options.dur.showSmile
-            DrawFormattedText(options.screen.windowPtr, options.screen.stopPredictText,...
+        elseif RT*1000 > options.dur.afterSmileITI(trial)
+            if strcmp(expMode,'practice')
+                 DrawFormattedText(options.screen.windowPtr, options.screen.stopPredictText,...
                 'center', 'center', options.screen.grey);
+            else
+
             Screen('Flip', options.screen.windowPtr);
             dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
-            disp('Participant missed a trial.')
+            end
+
             waiting  = 0;
             resp     = NaN;
         end % END STARTSMILE detection loop

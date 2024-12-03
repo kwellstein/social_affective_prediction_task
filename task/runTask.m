@@ -137,27 +137,13 @@ while taskRunning
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
     end
-    clear RT;
 
     %% 2ND EVENT: Action Phase
     % make sure that participants delineate smile periods with start
     % and stop button but do this also for when participants choose not
     % to smile
+     dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
 
-    % make sure participants pressed the stop button to indicate that they have
-    % stopped smiling
-    [dataFile,RT,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
-    [~,dataFile] = eventListener.logData(RT,actionField,'rt',dataFile,trial);
-
-   % show avatar again to make sure this event is constant in timing 
-    restEventDur = options.dur.aftersmileITI(trial)-RT;
-
-    if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
-        Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
-    end
-    clear RT;
     
     %% 3RD EVENT: Outcome Phase
     % show outcome
@@ -176,7 +162,7 @@ while taskRunning
         end
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
-        dataFile     = eventListener.logEvent('exp','_missedTrial ',dataFile,trial,[]);
+        dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
@@ -212,24 +198,12 @@ dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 dataFile = tools.cleanDataFields(dataFile,trial,predictField,actionField);
 
 % save all data
+if options.doEye
+    Eyelink('GetQueuedData');
+    Eyelink('ReceiveFile');
+end
 output.saveData(options,dataFile);
 
-if options.doEye
-    Eyelink('StopRecording', 'set_idle_mode');
-    try
-        fprintf('Receiving data file ''%s''\n',options.files.eyeFileName);
-        status = Eyelink('ReceiveFile');
-        if status > 0
-            fprintf('ReceiveFile status %d\n', status);
-        end
-        if 2==exist(edfFile, 'file')
-            fprintf('Data file ''%s'' can be found in ''%s''\n',options.files.eyeFileName, pwd );
-        end
-    catch
-        fprintf('Problem receiving data file ''%s''\n',options.files.eyeFileName);
-    end
-
-end
 
 % show end screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);

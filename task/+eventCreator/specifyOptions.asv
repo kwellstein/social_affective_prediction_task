@@ -71,8 +71,7 @@ options.files.eyeFileName = [PID,'eye.edf'];
 options.hardware.tracker = 'T60';
 
 %% specifing experiment mode specific settings
-options.files.projectID = 'SAPS_';
-options.task.name       = 'SAP';
+options.task.name = 'SAP';
 
 switch expMode
     case 'experiment'
@@ -83,15 +82,16 @@ switch expMode
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
-            options.doEye = 0;
+            options.doEye = 1;
             options.doEMG = 1;
         else
             options.doKeyboard = 0;
-            options.doEye = 0;
+            options.doEye = 1;
             options.doEMG = 1;
         end
 
@@ -99,25 +99,25 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.inputs   = [1 2 2; ...
-                                  1 0 1]';
-        % options.task.inputs   = [1 2 2 1 2 1 2 1; ...
-        %                          1 0 1 1 0 1 0 1]';
+        options.task.inputs   = [1 2 2 1 2 1 2 1 1 2; ...
+            1 0 1 1 0 1 0 1 1 0]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
         options.task.showPoints = 1;
 
         if strcmp(expType,'behav')
-            options.task.nTrials = numel(options.task.inputs(:,2));
-            options.doKeyboard   = 1;
+            options.task.nTrials  = 10;
+            options.doKeyboard    = 1;
             options.doEye = 1;
             options.doEMG = 1;
         else
-            options.task.nTrials = numel(options.task.inputs(:,2))/2;
-            options.doKeyboard   = 0;
-            options.doEye = 0;
+            options.task.nTrials  = 4;
+            options.doKeyboard    = 0;
+            options.doEye = 1;
             options.doEMG = 1;
         end
+        rng(1,"twister");
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
     case 'debug'
         options.screen.rect   = [20, 10, 900, 450];
@@ -127,6 +127,7 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1)*100;
 
         options.task.showPoints = 1;
         options.doKeyboard      = 1;
@@ -140,6 +141,7 @@ switch expMode
         options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
+        options.task.slidingBarStart = rand(options.task.nTrials,1);
 
         options.task.showPoints = 1;
         options.doKeyboard      = 1;
@@ -173,9 +175,9 @@ options.task.sequenceIdx    = taskCol(rowIdx);
 
 if startsWith(PID,'1') % healthy participant
     if strcmp(expMode,'experiment')
-        d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-        nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-        nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
+        load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+        nTrials     = length(dataFile.AAAPrediction.response(:,1));
+        nApproaches = sum(dataFile.AAAPrediction.response(:,1));
 
         if nApproaches/nTrials <0.35
             options.task.firstTarget    = 40;
@@ -191,7 +193,7 @@ if startsWith(PID,'1') % healthy participant
         options.task.finalTarget    = 100;
         options.task.maxSequenceIdx = 3;
     end
-else
+else % patient
     options.task.firstTarget    = 15;
     options.task.finalTarget    = 30;
     options.task.maxSequenceIdx = 1;
@@ -206,15 +208,20 @@ options.screen.inc    = options.screen.white - options.screen.grey;
 
 switch expMode
     case 'experiment'
+        options.screen.qText       = '\n frequency of smiling back?';
         options.screen.startPredictText = '\n smile or neutral?';
+        options.screen.stopPredictText  = '\n stopped smiling?';
+
 
     case 'practice'
         if strcmp(expType,'behav')
+            options.screen.qText       = [
+                '\n How often does this person usually smile back when receiving a smile? ' ...
+                '\n Use your other index finger to stop the sliding bar.'];
             options.screen.startPredictText = ['Smile prediction phase:'...
                 '\n Do you choose to smile at this person because you think that they will smile back?' ...
                 '\n -> ',handedness,' index finger to start smiling & other index finger once you stopped smiling.' ...
                 '\n -> ',handedness,' middle finger to stay neutral because you think they won''t smile back.'];
-             options.screen.stopPredictText  = '\n You have not pressed the button to stop.';
         else
             if strcmp(handedness,'right')
                 options.screen.qText       = ['\n How often does this person smile back? ' ...
@@ -225,28 +232,29 @@ switch expMode
             end
             options.screen.startPredictText = ['Choose to smile: use ',handedness,' index finger to start & other index finger once your face is neutral again.' ...
                 '\n Choose to stay neutral: indicate choice with ',handedness,' middle finger.'];
-            options.screen.stopPredictText  = '\n You have not pressed the button to stop.';
         end
 end
 
 if options.task.sequenceIdx<options.task.maxSequenceIdx
     options.screen.firstTargetText = ['You collected more than ', num2str(options.task.firstTarget),' points! ' ...
-        '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
+        '\n You will receive an additional AUD 5 to your reimbursement if you keep this score.'];
     options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points! ' ...
-        '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
+        '\n You will receive an additional AUD 10 to your reimbursement if you keep this score.'];
     options.screen.noTagretText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
         '\n Keep collecting points in the next task!'];
 else
     options.screen.firstTargetText = ['You collected more than ', num2str(options.task.firstTarget),' points across all tasks! ' ...
-        '\n You will receive an additional 5$ to your reimbursement.'];
+        '\n You will receive an additional AUD 5 to your reimbursement.'];
     options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points across all tasks! ' ...
-        '\n You will receive an additional 10$ to your reimbursement.'];
+        '\n You will receive an additional AUD 10 to your reimbursement.'];
     options.screen.noTagretText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
 
 options.screen.pointsText = 'You collected the following amount of points: ';
 options.screen.expEndText = ['Thank you! ' ...
     'You finished the ',options.task.name,' ',expMode,'.'];
+options.screen.qTextL = '                       Never';
+options.screen.qTextR = 'Always                      ';
 
 
 %% KEYBOARD
@@ -316,7 +324,7 @@ if strcmp(expMode,'debug')
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 1000;
     options.dur.showIntroScreen = 1000;
-    options.dur.showShortInfoTxt = 200;
+    options.dur.showReadyScreen = 200;
     options.dur.afterSmileITI   = randi([150,250],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([150,250],options.task.nTrials,1);
     options.dur.rtTimeout       = 500;
@@ -325,36 +333,32 @@ if strcmp(expMode,'debug')
 
 elseif strcmp(expMode,'practice')
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 1500; % in ms
-    options.dur.showSmile       = 4000;
+    options.dur.showStimulus    = 500;  % in ms
+    options.dur.showSmile       = 10000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 35000; % in ms
     options.dur.showShortIntro  = 10000;
-    options.dur.showShortInfoTxt= 1200;
-    options.dur.showEyeBaseline = 2000;
-    options.dur.afterchoiceITI  = randi([500,1000],options.task.nTrials,1);
-    options.dur.afterSmileITI   = randi([2500,3500],options.task.nTrials,1);
-    options.dur.afterNeutralITI = randi([2500,3500],options.task.nTrials,1);
-    options.dur.rtTimeout       = 5000;
-    options.dur.showWarning     =  1500;
-    options.dur.ITI             = randi([1000,2000],options.task.nTrials,1);  % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.showReadyScreen =  1500;
+    options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
+    options.dur.rtTimeout       =  1500;
+    options.dur.showWarning     =  1000;
+    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 1500; % in ms
-    options.dur.showSmile       = 4000;
+    options.dur.showStimulus    = 500;  % in ms
+    options.dur.showSmile       = 10000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showShortIntro  = 10000;
-    options.dur.showShortInfoTxt= 1200;
-    options.dur.showEyeBaseline = 2000;
-    options.dur.afterchoiceITI  = randi([500,1000],options.task.nTrials,1);
-    options.dur.afterSmileITI   = randi([2500,3500],options.task.nTrials,1);
-    options.dur.afterNeutralITI = randi([2500,3500],options.task.nTrials,1);
+    options.dur.showReadyScreen =  1500;
+    options.dur.afterSmileITI   = randi([1000,2000],options.task.nTrials,1);
+    options.dur.afterNeutralITI = randi([1000,2000],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
-    options.dur.showWarning     =  1500;
-    options.dur.ITI             = randi([1000,2000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.showWarning     =  1000;
+    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end
 
 
