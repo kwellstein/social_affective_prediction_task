@@ -83,7 +83,7 @@ dataFile.events.predKey_startTime(trial) = extractAfter(char(datetime('now')),12
             % if the participant takes too long (as defined in the options)
             % this will be logged and saved as NaN. A time-out message will be
             % displayed
-        elseif RT > options.dur.rtTimeout
+        elseif RT*1000 > options.dur.rtTimeout
             DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);

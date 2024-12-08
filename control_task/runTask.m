@@ -123,19 +123,17 @@ while taskRunning
     firstSlide  = [char(egg),'_egg'];  % prediction
     choiceSlide = [char(egg),'_eggCollected'];  % choice stimulus if decided to collect
 
-    % show egg
+    %% 1ST EVENT: Prediction Phase
+    % show first presentation of avatar
     dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
 
-
-    %% 1ST EVENT: Prediction Phase
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
 
-    dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
-    
+
     % show avatar again to make sure this event is constant in timing 
     restEventDur = options.dur.afterchoiceITI(trial)-RT;
 
@@ -147,6 +145,7 @@ while taskRunning
     clear RT;
 
     %% 2ND EVENT: Show Choice
+    dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
 
     if resp ==1
         % show choice with jitter
@@ -183,6 +182,7 @@ while taskRunning
 
         % show outcome with different duration and slide as specified in exp-practice loop above!
         dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
+        
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
@@ -248,25 +248,13 @@ dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial,predictField);
 
-% save all data to
-output.saveData(options,dataFile);
-
+% save all data
 if options.doEye
-    Eyelink('StopRecording', 'set_idle_mode');
-    try
-        fprintf('Receiving data file ''%s''\n',options.files.eyeFileName);
-        status = Eyelink('ReceiveFile');
-        if status > 0
-            fprintf('ReceiveFile status %d\n', status);
-        end
-        if 2==exist(edfFile, 'file')
-            fprintf('Data file ''%s'' can be found in ''%s''\n',options.files.eyeFileName, pwd );
-        end
-    catch
-        fprintf('Problem receiving data file ''%s''\n',options.files.eyeFileName);
-    end
-
+    Eyelink('GetQueuedData');
+    Eyelink('ReceiveFile');
 end
+
+output.saveData(options,dataFile);
 
 % show end screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);

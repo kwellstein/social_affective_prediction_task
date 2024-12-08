@@ -106,6 +106,7 @@ if options.doEye
 end
 
 %% START task trials
+
 while taskRunning
     trial   = trial + 1; % next step
     avatar  = options.task.avatarArray(trial);
@@ -123,6 +124,7 @@ while taskRunning
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
     dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
+    
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);

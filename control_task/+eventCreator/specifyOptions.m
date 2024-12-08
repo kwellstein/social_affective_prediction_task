@@ -52,7 +52,7 @@ function options = specifyOptions(options,PID,expMode,expType,handedness)
 %% specify paths
 options.paths.codeDir  = pwd;
 options.paths.inputDir = [pwd,filesep,'+eventCreator',filesep];
-options.paths.tasksDir = ['..',filesep,'..',filesep];
+options.paths.tasksDir = ['..',filesep];
 options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
 options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
@@ -291,18 +291,19 @@ if strcmp(expMode,'debug')
     options.dur.ITI             = randi([150,250],options.task.nTrials,1);
 else
     options.dur.waitnxtkeypress = 5000; % in ms
-    options.dur.showStimulus    = 1500;  % in ms
-    options.dur.showOutcome     = 500;
+    options.dur.showStimulus    = 1000;  % in ms
+    options.dur.showOutcome     = 1000;
     options.dur.showPractOutcome = 2000;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showShortIntro  = 10000;
     options.dur.showShortInfoTxt= 1200;
     options.dur.showEyeBaseline = 2000;
-    options.dur.afterChoiceITI  = randi([1500,2500],options.task.nTrials,1);
+    options.dur.afterChoiceITI  = randi([500,1500],options.task.nTrials,1);
+    options.dur.showChoiceITI   = randi([2500,3500],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([1000,2000],options.task.nTrials,1); 
+    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); 
 
 
 end

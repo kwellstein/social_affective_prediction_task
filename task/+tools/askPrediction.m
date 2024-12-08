@@ -100,10 +100,6 @@ if strcmp(respMode,'start')
     dataFile.events.predAction_startTime(trial) = extractAfter(char(datetime('now')),12);
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
-
-    Screen('DrawTexture', options.screen.windowPtr,cue,[],options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 else
     while waiting
         ticID = tic();
