@@ -56,6 +56,10 @@ options.paths.tasksDir = ['..',filesep];
 options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
 options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
+%% specifing experiment mode specific settings
+options.files.projectID = 'SAPS_';
+options.task.name       = 'SAP';
+
 %% DATAFILES & PATHS
 options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
@@ -65,14 +69,11 @@ options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';
 options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
 options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
-options.files.eyeFileName = [PID,'eye.edf'];
+options.files.eyeFileName = [PID,options.task.name,'.edf'];
 
 %% hardware identifiers
 options.hardware.tracker = 'T60';
 
-%% specifing experiment mode specific settings
-options.files.projectID = 'SAPS_';
-options.task.name       = 'SAP';
 
 switch expMode
     case 'experiment'
@@ -99,10 +100,9 @@ switch expMode
         screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
-        options.task.inputs   = [1 2 2; ...
-                                  1 0 1]';
-        % options.task.inputs   = [1 2 2 1 2 1 2 1; ...
-        %                          1 0 1 1 0 1 0 1]';
+
+       options.task.inputs   = [1 2 2 1 2 1 2 1; ...
+                                  1 0 1 1 0 1 0 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
         options.task.showPoints = 1;
@@ -110,13 +110,13 @@ switch expMode
         if strcmp(expType,'behav')
             options.task.nTrials = numel(options.task.inputs(:,2));
             options.doKeyboard   = 1;
-            options.doEye = 1;
-            options.doEMG = 1;
+            options.doEye = 0;
+            options.doEMG = 0;
         else
             options.task.nTrials = numel(options.task.inputs(:,2))/2;
             options.doKeyboard   = 0;
             options.doEye = 0;
-            options.doEMG = 1;
+            options.doEMG = 0;
         end
 
     case 'debug'
@@ -172,29 +172,29 @@ taskCol       = taskRandTable.(options.task.name);
 options.task.sequenceIdx    = taskCol(rowIdx);
 
 if startsWith(PID,'1') % healthy participant
-    if strcmp(expMode,'experiment')
-        d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-        nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-        nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
-
-        if nApproaches/nTrials <0.35
-            options.task.firstTarget    = 40;
-            options.task.finalTarget    = 80;
-            options.task.maxSequenceIdx = 2;
-        else
-            options.task.firstTarget    = 50;
-            options.task.finalTarget    = 100;
-            options.task.maxSequenceIdx = 3;
-        end
-    else
+    % if strcmp(expMode,'experiment')
+    %     d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+    %     nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
+    %     nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
+    % 
+    %     if nApproaches/nTrials <0.35
+    %         options.task.firstTarget    = 40;
+    %         options.task.finalTarget    = 80;
+    %         options.task.maxSequenceIdx = 2;
+    %     else
+    %         options.task.firstTarget    = 50;
+    %         options.task.finalTarget    = 100;
+    %         options.task.maxSequenceIdx = 3;
+    %     end
+    % else
         options.task.firstTarget    = 50;
         options.task.finalTarget    = 100;
         options.task.maxSequenceIdx = 3;
-    end
-else
-    options.task.firstTarget    = 15;
-    options.task.finalTarget    = 30;
-    options.task.maxSequenceIdx = 1;
+%     end
+% else
+%     options.task.firstTarget    = 15;
+%     options.task.finalTarget    = 30;
+%     options.task.maxSequenceIdx = 1;
 end
 
 %% SCREEN and TEXT
@@ -333,11 +333,11 @@ elseif strcmp(expMode,'practice')
     options.dur.showShortIntro  = 10000;
     options.dur.showShortInfoTxt= 1200;
     options.dur.showEyeBaseline = 2000;
-    options.dur.afterchoiceITI  = randi([500,1000],options.task.nTrials,1);
+    options.dur.afterchoiceITI  = randi([500,1500],options.task.nTrials,1);
     options.dur.afterSmileITI   = randi([2500,3500],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([2500,3500],options.task.nTrials,1);
     options.dur.rtTimeout       = 5000;
-    options.dur.showWarning     =  1500;
+    options.dur.showWarning     = 1500;
     options.dur.ITI             = randi([1000,2000],options.task.nTrials,1);  % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
@@ -348,11 +348,12 @@ else % in ms
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showShortIntro  = 10000;
     options.dur.showShortInfoTxt= 1200;
-    options.dur.showEyeBaseline = 2000;
+    options.dur.showEyeBaseline = 3000;
+    options.dur.showMRIBaseline = 10000;
     options.dur.afterchoiceITI  = randi([500,1000],options.task.nTrials,1);
     options.dur.afterSmileITI   = randi([2500,3500],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([2500,3500],options.task.nTrials,1);
-    options.dur.rtTimeout       =  1500;
+    options.dur.rtTimeout       =  2000;
     options.dur.showWarning     =  1500;
     options.dur.ITI             = randi([1000,2000],options.task.nTrials,1); % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 end

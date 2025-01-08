@@ -77,8 +77,12 @@ switch expMode
         options.task.showPoints = 0;
         if strcmp(expType,'behav')
             options.doKeyboard = 1;
+            options.doEye = 0;
+            options.doEMG = 1;
         else
             options.doKeyboard  = 0;
+            options.doEye = 0;
+            options.doEMG = 1;
         end
 
     case 'practice'
@@ -115,7 +119,7 @@ switch expMode
         options.task.nTrials  = size(options.task.inputs,1);
 
         options.doKeyboard = 1;
-        options.doEye = 1;
+        options.doEye = 0;
         options.doEMG = 1;
 
     otherwise
@@ -129,7 +133,7 @@ switch expMode
 
         options.task.showPoints = 1;
         options.doKeyboard = 1;
-        options.doEye = 1;
+        options.doEye = 0;
         options.doEMG = 1;
 end
 
@@ -158,29 +162,29 @@ taskCol       = taskRandTable.(options.task.name);
 options.task.sequenceIdx    = taskCol(rowIdx);
 
 if startsWith(PID,'1') % healthy participant
-    if strcmp(expMode,'experiment')
-        d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-        nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-        nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
-
-        if nApproaches/nTrials <0.35
-            options.task.firstTarget    = 40;
-            options.task.finalTarget    = 80;
-            options.task.maxSequenceIdx = 2;
-        else
-            options.task.firstTarget    = 50;
-            options.task.finalTarget    = 100;
-            options.task.maxSequenceIdx = 3;
-        end
-    else
-        options.task.firstTarget    = 50;
-        options.task.finalTarget    = 100;
-        options.task.maxSequenceIdx = 3;
-    end
-else % patient
-    options.task.firstTarget    = 15;
-    options.task.finalTarget    = 30;
-    options.task.maxSequenceIdx = 1;
+    % if strcmp(expMode,'experiment')
+    %     d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+    %     nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
+    %     nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
+    %
+    %     if nApproaches/nTrials <0.35
+    %         options.task.firstTarget    = 40;
+    %         options.task.finalTarget    = 80;
+    %         options.task.maxSequenceIdx = 2;
+    %     else
+    %         options.task.firstTarget    = 50;
+    %         options.task.finalTarget    = 100;
+    %         options.task.maxSequenceIdx = 3;
+    %     end
+    % else
+    options.task.firstTarget    = 50;
+    options.task.finalTarget    = 100;
+    options.task.maxSequenceIdx = 3;
+    %     end
+    % else % patient
+    %     options.task.firstTarget    = 15;
+    %     options.task.finalTarget    = 30;
+    %     options.task.maxSequenceIdx = 1;
 end
 
 
@@ -303,7 +307,8 @@ else
     options.dur.showChoiceITI   = randi([2500,3500],options.task.nTrials,1);
     options.dur.rtTimeout       =  1500;
     options.dur.showWarning     =  1000;
-    options.dur.ITI             = randi([500,1500],options.task.nTrials,1); 
+    options.dur.showReadyScreen =  1000;
+    options.dur.ITI             = randi([500,1500],options.task.nTrials,1);
 
 
 end

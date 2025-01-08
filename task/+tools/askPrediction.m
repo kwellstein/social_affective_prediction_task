@@ -76,6 +76,7 @@ if strcmp(respMode,'start')
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
             dataFile        = eventListener.logEvent('exp','_abort',dataFile,1,trial);
+            output.saveData(options,dataFile);
             disp('Game was aborted.')
             Screen('CloseAll');
             sca
@@ -129,6 +130,7 @@ else
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
             dataFile        = eventListener.logEvent('exp','_abort',dataFile,1,trial);
+            output.saveData(options,dataFile);
             disp('Game was aborted.')
             Screen('CloseAll');
             sca

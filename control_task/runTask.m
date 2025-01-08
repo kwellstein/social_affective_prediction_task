@@ -135,7 +135,7 @@ while taskRunning
 
 
     % show avatar again to make sure this event is constant in timing 
-    restEventDur = options.dur.afterchoiceITI(trial)-RT;
+    restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
     if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
@@ -196,7 +196,7 @@ while taskRunning
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         outcomeSlide = 'noCoin'; % if outcome is 0
-        dataFile     = eventListener.logEvent('exp','_missedTrial ',dataFile,1,trial);
+        dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);

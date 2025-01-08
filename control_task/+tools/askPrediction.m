@@ -75,6 +75,8 @@ dataFile.events.predKey_startTime(trial) = extractAfter(char(datetime('now')),12
                 'center', 'center', options.screen.grey);
             Screen('Flip', options.screen.windowPtr);
             dataFile = eventListener.logEvent('exp','_abort',dataFile,1,trial);
+            output.saveData(options,dataFile);
+            
             disp('Game was aborted.')
             Screen('CloseAll');
             sca
