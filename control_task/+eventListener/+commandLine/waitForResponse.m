@@ -45,7 +45,8 @@ while waiting
     Screen('Flip', options.screen.windowPtr);
     
     % detect response
-    keyCode = eventListener.commandLine.detectKey(expInfo.KBNumber, options.doKeyboard);
+    [ ~, ~, keyCode,  ~] = KbCheck;
+    keyCode = find(keyCode);
     rt      = toc(ticID);
     
     if any(keyCode == options.keys.yes)

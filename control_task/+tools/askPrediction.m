@@ -6,7 +6,7 @@ function [dataFile,RT,resp] = askPrediction(~,cue,options,dataFile,task,trial)
 %
 %   SYNTAX:       [dataFile,RT,resp] = tools.askPrediction(expMode,cue,options,dataFile,task,trial,respMode)
 %
-%   IN:           expMode:   string, 'debug','practice' or 'experiment'  
+%   IN:           expMode:   string, 'debug','practice' or 'experiment'
 %                 cue:       struct, contains names of slides initiated in
 %                                   initiate Visuals
 %                 options:  struct, options the tasks will run with
@@ -48,57 +48,58 @@ RT      = 0;
 
 dataFile.events.predKey_startTime(trial) = extractAfter(char(datetime('now')),12);
 %% WAIT for response
-    while waiting
+while waiting
 
-        % show predictionslide
-        Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
-        Screen('TextSize', options.screen.windowPtr, 50);
-        DrawFormattedText(options.screen.windowPtr,options.screen.predictText,'center',[],[255 255 255],[],[],[],1);
+    % show predictionslide
+    Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
+    Screen('TextSize', options.screen.windowPtr, 50);
+    DrawFormattedText(options.screen.windowPtr,options.screen.predictText,'center',[],[255 255 255],[],[],[],1);
+    Screen('Flip', options.screen.windowPtr);
+
+    % detect response
+    [ ~, ~, keyCode,  ~] = KbCheck;
+    keyCode = find(keyCode);
+    RT      = toc(ticID);
+
+    if any(keyCode == options.keys.collect)
+        resp    = 1;
+        waiting = 0;
+
+    elseif any(keyCode == options.keys.reject)
+        resp    = 0;
+        waiting = 0;
+
+        % in case ESC is pressed this will be logged and saved and the
+        % experiment stops here
+    elseif any(keyCode == options.keys.escape)
+        DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
+            'center', 'center', options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
+        dataFile = eventListener.logEvent('exp','_abort',dataFile,1,trial);
+        output.saveData(options,dataFile);
 
-        % detect response
-        keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
-        RT      = toc(ticID);
+        disp('Game was aborted.')
+        Screen('CloseAll');
+        sca
+        return;
 
-        if any(keyCode == options.keys.collect)
-            resp    = 1;
-            waiting = 0;
+        % if the participant takes too long (as defined in the options)
+        % this will be logged and saved as NaN. A time-out message will be
+        % displayed
+    elseif RT*1000 > options.dur.rtTimeout
+        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
+            'center', 'center', options.screen.grey);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
+        dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
+        disp(['Participant missed trial ',num2str(trial),'... ']);
+        waiting  = 0;
+        resp     = NaN;
 
-        elseif any(keyCode == options.keys.reject)
-            resp    = 0;
-            waiting = 0;
+    end % END COLLECT detection loop
+end % END REJECT loop
 
-            % in case ESC is pressed this will be logged and saved and the
-            % experiment stops here
-        elseif any(keyCode == options.keys.escape)
-            DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
-                'center', 'center', options.screen.grey);
-            Screen('Flip', options.screen.windowPtr);
-            dataFile = eventListener.logEvent('exp','_abort',dataFile,1,trial);
-            output.saveData(options,dataFile);
-            
-            disp('Game was aborted.')
-            Screen('CloseAll');
-            sca
-            return;
-
-            % if the participant takes too long (as defined in the options)
-            % this will be logged and saved as NaN. A time-out message will be
-            % displayed
-        elseif RT*1000 > options.dur.rtTimeout
-            DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
-                'center', 'center', options.screen.grey);
-            Screen('Flip', options.screen.windowPtr);
-            eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
-            dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
-            disp(['Participant missed trial ',num2str(trial),'... ']);
-            waiting  = 0;
-            resp     = NaN;
-
-        end % END COLLECT detection loop
-    end % END REJECT loop
-
-    [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
-    [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
+[~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
+[~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
 
 end

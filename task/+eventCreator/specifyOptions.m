@@ -6,9 +6,7 @@ function options = specifyOptions(options,PID,expMode,expType,handedness)
 %
 %   SYNTAX:     options = eventCreator.specifyOptions(PID,expMode,expType,handedness)
 %
-%   IN:    expMode:  - In 'debug' mode timings are shorter, and the experiment
-%                      won't be full screen. You may use breakpoints.
-%                    - In 'practice' mode you are running the entire
+%   IN:    expMode:  - In 'practice' mode you are running the entire
 %                      the practice round as it has been specified in
 %                      specifyOptions.m
 %                    - In 'experiment' mode you are running the entire
@@ -61,7 +59,6 @@ options.files.projectID = 'SAPS_';
 options.task.name       = 'SAP';
 
 %% DATAFILES & PATHS
-options.files.projectID    = 'SAPS_';
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
 options.files.savePath     = [options.paths.saveDir,expMode,filesep,options.files.projectID,PID];
 mkdir(options.files.savePath);
@@ -69,11 +66,10 @@ options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';
 options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
 options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
-options.files.eyeFileName = [PID,options.task.name,'.edf'];
+options.files.eyeFileName     = [PID,options.task.name,'.edf'];
 
 %% hardware identifiers
 options.hardware.tracker = 'T60';
-
 
 switch expMode
     case 'experiment'
@@ -84,17 +80,9 @@ switch expMode
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-
+        options.doEye = 0;
+        options.doEMG = 1;
         options.task.showPoints = 0;
-        if strcmp(expType,'behav')
-            options.doKeyboard = 1;
-            options.doEye = 0;
-            options.doEMG = 1;
-        else
-            options.doKeyboard = 0;
-            options.doEye = 0;
-            options.doEMG = 1;
-        end
 
     case 'practice'
         screens               = Screen('Screens');
@@ -105,44 +93,13 @@ switch expMode
                                   1 0 1 1 0 1 0 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
-        options.task.showPoints = 1;
-
         if strcmp(expType,'behav')
             options.task.nTrials = numel(options.task.inputs(:,2));
-            options.doKeyboard   = 1;
-            options.doEye = 0;
-            options.doEMG = 0;
         else
             options.task.nTrials = numel(options.task.inputs(:,2))/2;
-            options.doKeyboard   = 0;
-            options.doEye = 0;
-            options.doEMG = 0;
         end
 
-    case 'debug'
-        options.screen.rect   = [20, 10, 900, 450];
-        screens               = Screen('Screens');
-        options.screen.number = max(screens);
-
-        options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nAvatars = max(options.task.inputs(:,1));
-        options.task.nTrials  = size(options.task.inputs,1);
-
         options.task.showPoints = 1;
-        options.doKeyboard      = 1;
-        options.doEye = 0;
-        options.doEMG = 0;
-    otherwise
-        disp(' ...no valid expMode specified, using debug options... ')
-        options.screen.rect   = [20, 10, 900, 450];
-        screens               = Screen('Screens');
-        options.screen.number = max(screens);
-        options.task.inputs   = [1 2 2 1 2 1 1 2; 1 0 1 1 0 0 1 1]';
-        options.task.nAvatars = max(options.task.inputs(:,1));
-        options.task.nTrials  = size(options.task.inputs,1);
-
-        options.task.showPoints = 1;
-        options.doKeyboard      = 1;
         options.doEye = 0;
         options.doEMG = 0;
 end
@@ -171,31 +128,25 @@ taskCol       = taskRandTable.(options.task.name);
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
 
-if startsWith(PID,'1') % healthy participant
-    % if strcmp(expMode,'experiment')
-    %     d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-    %     nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-    %     nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
-    % 
-    %     if nApproaches/nTrials <0.35
-    %         options.task.firstTarget    = 40;
-    %         options.task.finalTarget    = 80;
-    %         options.task.maxSequenceIdx = 2;
-    %     else
-    %         options.task.firstTarget    = 50;
-    %         options.task.finalTarget    = 100;
-    %         options.task.maxSequenceIdx = 3;
-    %     end
-    % else
-        options.task.firstTarget    = 50;
-        options.task.finalTarget    = 100;
-        options.task.maxSequenceIdx = 3;
+% if strcmp(expMode,'experiment')
+%     d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+%     nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
+%     nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
+%
+%     if nApproaches/nTrials <0.35
+%         options.task.firstTarget    = 40;
+%         options.task.finalTarget    = 80;
+%         options.task.maxSequenceIdx = 2;
+%     else
+%         options.task.firstTarget    = 50;
+%         options.task.finalTarget    = 100;
+%         options.task.maxSequenceIdx = 3;
 %     end
 % else
-%     options.task.firstTarget    = 15;
-%     options.task.finalTarget    = 30;
-%     options.task.maxSequenceIdx = 1;
-end
+options.task.firstTarget    = 50;
+options.task.finalTarget    = 100;
+options.task.maxSequenceIdx = 3;
+%     end
 
 %% SCREEN and TEXT
 options.screen.white  = WhiteIndex(options.screen.number);
@@ -216,13 +167,6 @@ switch expMode
                 '\n -> ',handedness,' middle finger to stay neutral because you think they won''t smile back.'];
              options.screen.stopPredictText  = '\n You have not pressed the button to stop.';
         else
-            if strcmp(handedness,'right')
-                options.screen.qText       = ['\n How often does this person smile back? ' ...
-                    '\n Use your left index finger to stop the sliding bar.'];
-            else
-                options.screen.qText       = ['\n How often does this person smile back?? ' ...
-                    '\n Use your right index finger to stop the sliding bar.'];
-            end
             options.screen.startPredictText = ['Choose to smile: use ',handedness,' index finger to start & other index finger once your face is neutral again.' ...
                 '\n Choose to stay neutral: indicate choice with ',handedness,' middle finger.'];
             options.screen.stopPredictText  = '\n You have not pressed the button to stop.';
@@ -285,15 +229,15 @@ switch expType
         options.keys.taskStart  = KbName('5');
 
         if strcmp(handedness,'right')
-            options.keys.startSmile = KbName('4'); % CHANGE: This should dominant hand index finger
-            options.keys.stop       = KbName('3'); % CHANGE: This should non-dominant hand index finger
+            options.keys.startSmile = KbName('1'); % CHANGE: This should dominant hand index finger
+            options.keys.stop       = KbName('4'); % CHANGE: This should non-dominant hand index finger
             options.keys.noSmile    = KbName('2'); % CHANGE: This should dominant hand ring finger
         else
-            options.keys.startSmile = KbName('2'); % KeyCode: 226, dominant hand index finger
-            options.keys.stop       = KbName('4'); % KeyCode: 37, non-dominant hand index finger
-            options.keys.noSmile    = KbName('1'); % KeyCode: 224, dominant hand ring finger
+            options.keys.startSmile = KbName('4'); % KeyCode: 226, dominant hand index finger
+            options.keys.stop       = KbName('1'); % KeyCode: 37, non-dominant hand index finger
+            options.keys.noSmile    = KbName('3'); % KeyCode: 224, dominant hand ring finger
         end
-
+            
     otherwise
         if strcmp(handedness,'right')
             options.keys.startSmile = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
@@ -309,21 +253,7 @@ end
 
 
 %% DURATIONS OF EVENTS
-if strcmp(expMode,'debug')
-    options.dur.waitnxtkeypress = 2000; % in ms
-    options.dur.showStimulus    = 500; % in ms
-    options.dur.showSmile       = 15000;
-    options.dur.showOutcome     = 500;
-    options.dur.showPoints      = 1000;
-    options.dur.showIntroScreen = 1000;
-    options.dur.showShortInfoTxt = 200;
-    options.dur.afterSmileITI   = randi([150,250],options.task.nTrials,1);
-    options.dur.afterNeutralITI = randi([150,250],options.task.nTrials,1);
-    options.dur.rtTimeout       = 500;
-    options.dur.showWarning     = 500;
-    options.dur.ITI             = randi([150,250],options.task.nTrials,1);
-
-elseif strcmp(expMode,'practice')
+if  strcmp(expMode,'practice')
     options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 1500; % in ms
     options.dur.showSmile       = 4000;

@@ -7,8 +7,8 @@ function [options,abort] = checkEscape(options,dataFile,trial)
 %   SYNTAX:     [options,abort] = eventListener.commandLine.checkEscape(options,expInfo,dataFile,trial)
 %
 %   IN:          dataFile: struct,  data file initiated in initDataFile.m
-%   IN:          expInfo:  struct,  contains key info on how the experiment is 
-%                                   run instance 
+%   IN:          expInfo:  struct,  contains key info on how the experiment is
+%                                   run instance
 %                options:  struct,  options the tasks will run with
 %                trial:    integer, trial number
 %
@@ -22,27 +22,25 @@ function [options,abort] = checkEscape(options,dataFile,trial)
 % -------------------------------------------------------------------------
 %
 
-keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+[ ~, ~, keyCode,  ~] = KbCheck;
+keyCode = find(keyCode);
 
 if isempty(trial)
     trial = 1;
 end
 
 if any(keyCode==options.keys.escape)
-        eventListener.logData(1,'events','exp_abort',dataFile,trial);
-        abort = 1;
-       
-        disp('<strong>Experiment was aborted.</strong>')
-        % output.saveInterimData([],options,dataFile,expInfo);
-        
-        % save(fullfile([expInfo.saveData,'/',expInfo.PPID,'_',expInfo.RMNO,'_V',num2str(expInfo.visit.number),'/+expLog/workspace_',expInfo.PPID,'.mat']));
-        ShowCursor;
-        sca;
-        PsychPortAudio('DeleteBuffer');
-        PsychPortAudio('Close');
-        
-        % stop the experiment:
-        error('ESC key was detected; experiment was aborted.');
+    eventListener.logData(1,'events','exp_abort',dataFile,trial);
+    abort = 1;
+
+    disp('<strong>Experiment was aborted.</strong>')
+    ShowCursor;
+    sca;
+    PsychPortAudio('DeleteBuffer');
+    PsychPortAudio('Close');
+
+    % stop the experiment:
+    error('ESC key was detected; experiment was aborted.');
 else
     abort = 0;
 end

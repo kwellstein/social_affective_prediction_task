@@ -6,7 +6,7 @@ function [dataFile,RT,resp] = askPrediction(expMode,cue,options,dataFile,task,tr
 %
 %   SYNTAX:       [dataFile,RT,resp] = tools.askPrediction(expMode,cue,options,dataFile,task,trial,respMode)
 %
-%   IN:           expMode:   string, 'debug','practice' or 'experiment'  
+%   IN:           expMode:   string, 'debug','practice' or 'experiment'
 %                 cue:       struct, contains names of slides initiated in
 %                                   initiate Visuals
 %                 options:  struct, options the tasks will run with
@@ -58,7 +58,8 @@ if strcmp(respMode,'start')
         Screen('Flip', options.screen.windowPtr);
 
         % detect response
-        keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+        [ ~, ~, keyCode,  ~] = KbCheck;
+        keyCode = find(keyCode);
         RT      = toc(ticID);
 
         if any(keyCode == options.keys.startSmile)
@@ -109,14 +110,15 @@ else
         Screen('DrawTexture', options.screen.windowPtr, cue,[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
 
-        keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+        [ ~, ~, keyCode,  ~] = KbCheck;
+        keyCode = find(keyCode);
         RT      = toc(ticID);
 
         if any(keyCode == options.keys.stop)
             stimulusDuration = options.dur.afterSmileITI(trial)- (RT*1000);
             Screen('DrawTexture', options.screen.windowPtr,cue,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
-            % show avatar again to make sure this event is constant in timing 
+            % show avatar again to make sure this event is constant in timing
             if stimulusDuration<0
                 [~,~,dataFile] = eventListener.commandLine.wait2(100,options,dataFile,0);
             else
@@ -140,12 +142,12 @@ else
             % be logged and saved as NaN. A time-out message will be displayed
         elseif RT*1000 > options.dur.afterSmileITI(trial)
             if strcmp(expMode,'practice')
-                 DrawFormattedText(options.screen.windowPtr, options.screen.stopPredictText,...
-                'center', 'center', options.screen.grey);
+                DrawFormattedText(options.screen.windowPtr, options.screen.stopPredictText,...
+                    'center', 'center', options.screen.grey);
             else
 
-            Screen('Flip', options.screen.windowPtr);
-            dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
+                Screen('Flip', options.screen.windowPtr);
+                dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
             end
 
             waiting  = 0;

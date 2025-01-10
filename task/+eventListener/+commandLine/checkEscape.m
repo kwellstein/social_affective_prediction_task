@@ -7,8 +7,8 @@ function [options,abort] = checkEscape(options,dataFile,trial)
 %   SYNTAX:     [options,abort] = eventListener.commandLine.checkEscape(options,expInfo,dataFile,trial)
 %
 %   IN:          dataFile: struct,  data file initiated in initDataFile.m
-%   IN:          expInfo:  struct,  contains key info on how the experiment is 
-%                                   run instance 
+%   IN:          expInfo:  struct,  contains key info on how the experiment is
+%                                   run instance
 %                options:  struct,  options the tasks will run with
 %                trial:    integer, trial number
 %
@@ -22,24 +22,25 @@ function [options,abort] = checkEscape(options,dataFile,trial)
 % -------------------------------------------------------------------------
 %
 
-keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+[ ~, ~, keyCode,  ~] = KbCheck;
+keyCode = find(keyCode);
 
 if isempty(trial)
     trial = 1;
 end
 
 if any(keyCode==options.keys.escape)
-        dataFile = eventListener.logEvent('exp_','abort',dataFile,1,trial);  
+    dataFile = eventListener.logEvent('exp_','abort',dataFile,1,trial);
 
-        disp('<strong>Experiment was aborted.</strong>')
-        % output.saveInterimData([],options,dataFile,expInfo);
+    disp('<strong>Experiment was aborted.</strong>')
+    % output.saveInterimData([],options,dataFile,expInfo);
 
-        ShowCursor;
-        PsychPortAudio('DeleteBuffer');
-        PsychPortAudio('Close');
-        Screen('CloseAll');
-        sca;
-        abort = 1;
+    ShowCursor;
+    PsychPortAudio('DeleteBuffer');
+    PsychPortAudio('Close');
+    Screen('CloseAll');
+    sca;
+    abort = 1;
 else
     abort = 0;
 end

@@ -6,7 +6,7 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 % SYNTAX:  dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
 % IN:       stimuli: struct, contains names of stimuli used in this task run
-%           
+%
 %           expMode: - In 'debug' mode timings are shorter, and the experiment
 %                     won't be full screen. You may use breakpoints.
 %                    - In 'practice' mode you are running the entire
@@ -54,7 +54,8 @@ trial        = 0;
 if strcmp(expType,'fmri')
     waitForTrigger = 1;
     while waitForTrigger
-        keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+        [ ~, ~, keyCode,  ~] = KbCheck;
+        keyCode = find(keyCode);
         if keyCode == options.keys.taskStart
             waitForTrigger = 0;
         end
@@ -134,7 +135,7 @@ while taskRunning
     [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
 
 
-    % show avatar again to make sure this event is constant in timing 
+    % show avatar again to make sure this event is constant in timing
     restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
     if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
@@ -160,11 +161,11 @@ while taskRunning
 
     %% 3RD EVENT: Show Outcome
     % log congruency and show points slide
-    
+
     if resp==outcome % if congurent outcome
         % log data
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
-        
+
         % select slide to be presented plus duration as a function of
         % experiment vs. practice expMode
         if strcmp(expMode,'experiment')
@@ -182,7 +183,7 @@ while taskRunning
 
         % show outcome with different duration and slide as specified in exp-practice loop above!
         dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
-        
+
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
@@ -228,7 +229,7 @@ while taskRunning
         end
     end
 
-    % Show Fixation cross % 
+    % Show Fixation cross %
     dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);

@@ -24,7 +24,8 @@ waiting = 1;
 keyCode = [];
 
 while waiting
-    keyCode = eventListener.commandLine.detectKey(expInfo.KBNumber, options.doKeyboard);
+    [ ~, ~, keyCode,  ~] = KbCheck;
+    keyCode = find(keyCode);
     if any(keyCode==options.keys.next)
         waiting = 0;
     elseif any(keyCode==options.keys.escape)

@@ -56,7 +56,8 @@ trial          = 0;
 if strcmp(expType,'fmri')
     waitForTrigger = 1;
     while waitForTrigger
-        keyCode = eventListener.commandLine.detectKey(options.KBNumber, options.doKeyboard);
+        [ ~, ~, keyCode,  ~] = KbCheck;
+        keyCode = find(keyCode);
         if keyCode == options.keys.taskStart
             waitForTrigger = 0;
         end
@@ -124,14 +125,14 @@ while taskRunning
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
     dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
-    
+
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     [dataFile,RT,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
 
-   % show avatar again to make sure this event is constant in timing 
+    % show avatar again to make sure this event is constant in timing
     restEventDur = options.dur.afterchoiceITI(trial)-RT;
 
     if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
@@ -144,9 +145,9 @@ while taskRunning
     % make sure that participants delineate smile periods with start
     % and stop button but do this also for when participants choose not
     % to smile
-     dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
+    dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
 
-    
+
     %% 3RD EVENT: Outcome Phase
     % show outcome
     dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
