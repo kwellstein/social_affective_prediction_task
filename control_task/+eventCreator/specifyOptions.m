@@ -69,7 +69,7 @@ switch expMode
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-        options.doEye = 0;
+        options.doEye = 1;
         options.doEMG = 1;
         options.task.showPoints = 0;
 

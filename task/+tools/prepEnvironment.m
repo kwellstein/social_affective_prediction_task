@@ -9,11 +9,11 @@ function options = prepEnvironment
 %   SYNTAX:         options = tools.prepEnvironment(options)
 %
 %   IN:             options: struct containing general options needed to
-%                            run this task plus general technical information 
+%                            run this task plus general technical information
 %                            about the task run.
 %
 %   OUT:            options: struct, updated file containing KBNumber, OS
-%       
+%
 %   SUBFUNCTIONS:   findKeyboardNumber.m; PsychDefaultSetup;
 %
 %   AUTHOR:         Coded by: Katharina V. Wellstein, December 2019 as part of VAGUS
@@ -31,7 +31,7 @@ function options = prepEnvironment
 % ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 % FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 % more details.
-% 
+%
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
@@ -48,19 +48,30 @@ switch uid(1: end-1)
         options.PC = 'Macbook';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
-        
+         ListenChar(-1);
+         
     case 'user' %  LINUX
         PsychPortAudio('Close');
         PsychRTBox('CloseAll');
         options.OS       = 'Linux';
-        options.KBNumber = eventListener.commandLine.findKeyboardNumber();   
-    
-    case  'desktop-ij9tsug\testing' % Windows User
-        PsychRTBox('CloseAll'); 
+        options.KBNumber = eventListener.commandLine.findKeyboardNumber();
+         ListenChar(-1);
+         
+    case  'desktop-ij9tsug\testing' % EEG computer ("stimmy")
+        PsychRTBox('CloseAll');
         options.OS       = 'Windows';
         options.PC       = 'EEGLab_Computer';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
+         ListenChar(-1);
+         
+    case  'desktop-sqh0ch5\hmri' % fMRI scanner computer ("showy")
+        PsychRTBox('CloseAll');
+        options.OS       = 'Windows';
+        options.PC       = 'Scanner_Computer';
+        options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
+        Screen('Preference', 'SkipSyncTests', 1);
+         ListenChar(-1);
+end
 end
 
-end

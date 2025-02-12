@@ -1,7 +1,7 @@
 function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 
 %% _______________________________________________________________________________%
-% runTask.m runs the Social Affective Prediction task
+% runTask.m runs the Social Affective Prediction Control task
 %
 % SYNTAX:  dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
@@ -10,7 +10,7 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %           expMode: - In 'practice' mode you are running the entire
 %                     the practice round as it has been specified in
 %                     specifyOptions.m
-%                    - In 'experiment' mode you are running the entire
+%                     - In 'experiment' mode you are running the entire
 %                     experiment as it has been specified in
 %                     specifyOptions.m
 %
@@ -42,12 +42,10 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 %
-
 %% INITIALIZE
-predictField   = [options.task.name,'Prediction'];
-actionField    = [options.task.name,'Action'];
-taskRunning    = 1;
-trial          = 0;
+predictField = [options.task.name,'Prediction'];
+taskRunning  = 1;
+trial        = 0;
 
 %% START task and send trigger
 if strcmp(expType,'fmri')
@@ -74,14 +72,23 @@ if options.doEye
     Eyelink('message', 'SYNCTIME');
 end
 
-dataFile.events.task_startTime = GetSecs();
+dataFile.events.exp_startTime = GetSecs();
 
 %% SHOW intro
+
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
 
-if strcmp(expMode,'experiment')
+if strcmp(expMode,'practice')
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro2,[], options.screen.rect);
+    Screen('Flip', options.screen.windowPtr);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
+
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro3,[], options.screen.rect);
+    Screen('Flip', options.screen.windowPtr);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
+else
     % show points info
     Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
@@ -90,7 +97,7 @@ end
 
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
-[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortInfoTxt,options,dataFile,0);
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
 % show fixation cross for a baseline pupil measurement
 if options.doEye
@@ -107,17 +114,12 @@ end
 
 while taskRunning
     trial   = trial + 1; % next step
-    avatar  = options.task.avatarArray(trial);
+    egg     = options.task.eggArray(trial);
     outcome = options.task.inputs(trial,2);
 
-    % pick avatar of current trial
-    firstSlide = [char(avatar),'_neutral'];  % prediction
-
-    if outcome
-        outcomeSlide = [char(avatar),'_smile'];   % if outcome is 1
-    else
-        outcomeSlide = [char(avatar),'_noSmile']; % if outcome is 0 %TODO: once stimuli are ready, add neutral outcome slides
-    end
+    % pick egg of current trial
+    firstSlide  = [char(egg),'_egg'];  % prediction
+    choiceSlide = [char(egg),'_eggCollected'];  % choice stimulus if decided to collect
 
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
@@ -127,10 +129,11 @@ while taskRunning
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
-    [dataFile,RT,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
+    [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
 
+if ~isnan(resp)
     % show avatar again to make sure this event is constant in timing
-    restEventDur = options.dur.afterchoiceITI(trial)-RT;
+    restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
     if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
@@ -138,43 +141,82 @@ while taskRunning
         eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
     end
 
-    %% 2ND EVENT: Action Phase
-    % make sure that participants delineate smile periods with start
-    % and stop button but do this also for when participants choose not
-    % to smile
-    if ~isnan(resp)
-        dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
+    %% 2ND EVENT: Show Choice
+    dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
 
-        %% 3RD EVENT: Outcome Phase
-        % show outcome
+    if resp ==1
+        % show choice with jitter
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.(choiceSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
+    else
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.no_eggCollected,[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
+    end
+end
+    %% 3RD EVENT: Show Outcome
+    % log congruency and show points slide
+
+    if resp==outcome % if congurent outcome
+        % log data
+        [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
+
+        % select slide to be presented plus duration as a function of
+        % experiment vs. practice expMode
+        if strcmp(expMode,'experiment')
+            outcomeSlide = 'coin'; % experiment mode, show simple coin
+            durOutcomeSlide = options.dur.showOutcome;
+
+        elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
+            outcomeSlide = 'collectCoin'; % collected egg and earned coin
+            durOutcomeSlide = options.dur.showPractOutcome;
+
+        elseif resp==0
+            outcomeSlide = 'rejectCoin';% rejected egg and earned coin
+            durOutcomeSlide = options.dur.showPractOutcome;
+        end
+
+        % show outcome with different duration and slide as specified in exp-practice loop above!
         dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
+
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
-    else
-        dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
-    end
+        eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
 
-    % log congruency and show points slide
-    if resp==outcome
-        [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
+
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
+        outcomeSlide = 'noCoin'; % if outcome is 0
         dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
-        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
+        if strcmp(expMode,'experiment')
+            outcomeSlide = 'noCoin'; % if outcome is 0
+            durOutcomeSlide = options.dur.showOutcome;
+
+        elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
+            outcomeSlide = 'collectNoCoin'; % collected bad egg
+            durOutcomeSlide = options.dur.showReadyScreen;
+
+        elseif resp==0
+            outcomeSlide = 'rejectNoCoin';% rejected good egg
+            durOutcomeSlide = options.dur.showReadyScreen;
+        end
+
+        % show outcome with different duration and slide as specified in exp-practice loop above!
+        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
+
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
@@ -199,22 +241,21 @@ end
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
-
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
-dataFile = tools.cleanDataFields(dataFile,trial,predictField,actionField);
+dataFile = tools.cleanDataFields(dataFile,trial,predictField);
 
 % save all data
 if options.doEye
     Eyelink('GetQueuedData');
     Eyelink('ReceiveFile');
 end
-output.saveData(options,dataFile);
 
+output.saveData(options,dataFile);
 
 % show end screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showShortInfoTxt,options,dataFile,0);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
 if strcmp(expMode,'experiment')
     tools.showPoints(options,dataFile.Summary.points);

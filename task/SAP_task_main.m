@@ -7,9 +7,7 @@ function SAP_task_main
 %
 % SYNTAX:  SAP_task_main
 %
-% OUT:      expMode: - In 'debug' mode timings are shorter, and the experiment
-%                     won't be full screen. You may use breakpoints.
-%                    - In 'practice' mode you are running the entire
+% OUT:      expMode:  - In 'practice' mode you are running the entire
 %                     the practice round as it has been specified in
 %                     specifyOptions.m
 %                    - In 'experiment' mode you are running the entire
@@ -57,21 +55,19 @@ diary on
 addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
 
 %% SPECIFY inputs
-expMode    = input('Enter ''debug'', ''practice'' or ''experiment'' ','s');
+expMode    = input('Enter ''practice'' or ''experiment'' ','s');
 expType    = input('Enter ''behav'' or ''fmri'' ','s');
 PID        = input('Enter participant id (PID) ','s');
 handedness = input('Enter participant''s handedness, ''right'' or ''left'' ','s');
 
 %% Check if inputs are correct
 
-if strcmp(expMode, 'debug')     % expMode check
-    disp('You are running the SAP task in DEBUG mode');
-elseif strcmp(expMode, 'experiment')
+if strcmp(expMode, 'experiment')
     disp('You are running the SAP task in EXPERIMENT mode');
 elseif strcmp(expMode, 'practice')
     disp('You are running the PRACTICE of the SAP task');
 else
-    expMode = input('Your input is not correct, type either ''debug'',''practice'' or ''experiment'' :','s');
+    expMode = input('Your input is not correct, type either ''practice'' or ''experiment'' :','s');
 end                             % END of mode check
 
 if strcmp(expType, 'behav')% expType check
@@ -117,7 +113,7 @@ end
 
 %% RUN TASK
 runTask(stimuli,expMode,expType,options,dataFile);
-
+ListenChar(0);
 Screen('CloseAll');
 
 end

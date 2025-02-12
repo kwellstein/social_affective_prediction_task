@@ -48,19 +48,30 @@ switch uid(1: end-1)
         options.PC       = 'Kwellstein';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
+        ListenChar(-1);
         
     case 'user' %  LINUX
         PsychPortAudio('Close');
         PsychRTBox('CloseAll');
         options.OS       = 'Linux';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber();   
+        ListenChar(-1);
     
-    case  'desktop-ij9tsug\testing' % Windows User
+    case  'desktop-ij9tsug\testing' % EEG computer ("stimmy")
         PsychRTBox('CloseAll'); 
         options.OS       = 'Windows';
         options.PC       = 'EEGLab_Computer';
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
+        ListenChar(-1);
+        
+    case  'desktop-sqh0ch5\hmri' % fMRI scanner computer ("showy")
+        PsychRTBox('CloseAll'); 
+        options.OS       = 'Windows';
+        options.PC       = 'Scanner_Computer';
+        options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
+        Screen('Preference', 'SkipSyncTests', 1);
+        ListenChar(-1);
 end
 
 end

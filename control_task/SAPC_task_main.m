@@ -116,7 +116,7 @@ end
 
 %% RUN TASK
 runTask(stimuli,expMode,expType,options,dataFile);
-
+ListenChar(0);
 Screen('CloseAll');
 
 end

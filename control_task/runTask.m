@@ -7,12 +7,10 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
 % IN:       stimuli: struct, contains names of stimuli used in this task run
 %
-%           expMode: - In 'debug' mode timings are shorter, and the experiment
-%                     won't be full screen. You may use breakpoints.
-%                    - In 'practice' mode you are running the entire
+%           expMode: - In 'practice' mode you are running the entire
 %                     the practice round as it has been specified in
 %                     specifyOptions.m
-%                    - In 'experiment' mode you are running the entire
+%                     - In 'experiment' mode you are running the entire
 %                     experiment as it has been specified in
 %                     specifyOptions.m
 %
@@ -26,7 +24,6 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %                     fields specified in initDataFile.m
 %
 %  AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024
-%                     katharina.wellstein@newcastle.edu.au
 %                     katharina.wellstein@newcastle.edu.au
 %                     https://github.com/kwellstein
 % -------------------------------------------------------------------------------%
@@ -134,7 +131,7 @@ while taskRunning
 
     [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
 
-
+if ~isnan(resp)
     % show avatar again to make sure this event is constant in timing
     restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
@@ -143,7 +140,6 @@ while taskRunning
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
     end
-    clear RT;
 
     %% 2ND EVENT: Show Choice
     dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
@@ -158,7 +154,7 @@ while taskRunning
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
     end
-
+end
     %% 3RD EVENT: Show Outcome
     % log congruency and show points slide
 
@@ -199,9 +195,8 @@ while taskRunning
         outcomeSlide = 'noCoin'; % if outcome is 0
         dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
         Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
-        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         if strcmp(expMode,'experiment')
@@ -229,7 +224,7 @@ while taskRunning
         end
     end
 
-    % Show Fixation cross %
+    %% ITI Show Fixation cross 
     dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);

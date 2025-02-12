@@ -80,7 +80,7 @@ switch expMode
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-        options.doEye = 0;
+        options.doEye = 1;
         options.doEMG = 1;
         options.task.showPoints = 0;
 
