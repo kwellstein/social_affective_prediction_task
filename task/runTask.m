@@ -130,7 +130,7 @@ while taskRunning
     [dataFile,RT,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
 
     % show avatar again to make sure this event is constant in timing
-    restEventDur = options.dur.afterchoiceITI(trial)-RT;
+    restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
     if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);

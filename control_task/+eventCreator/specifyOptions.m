@@ -142,7 +142,7 @@ switch expMode
         options.screen.predictText  = 'collect?';
     case 'practice'
         options.screen.predictText = ['Do you choose to collect this egg because you believe you can resell it at your shop?' ...
-            '\n Use your index finger to collect or your middle finger to reject the egg.'];
+            '\n Use your ',handedness,' index finger to collect or your ',handedness,' middle finger to reject the egg.'];
 end
 
 if options.task.sequenceIdx<options.task.maxSequenceIdx

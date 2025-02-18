@@ -161,14 +161,15 @@ switch expMode
 
     case 'practice'
         if strcmp(expType,'behav')
-            options.screen.startPredictText = ['Smile prediction phase:'...
-                '\n Do you choose to smile at this person because you think that they will smile back?' ...
-                '\n -> ',handedness,' index finger to start smiling & other index finger once you stopped smiling.' ...
-                '\n -> ',handedness,' middle finger to stay neutral because you think they won''t smile back.'];
+            options.screen.startPredictText = ['Do you choose to smile at this person because you think that they will smile back?' ...
+                '\n -> ',handedness,' index finger to start smiling.' ...
+                '\n -> ',handedness,' middle finger to stay neutral because you think they won''t smile back.'...
+                '\n -> other index finger  once you are finished showing your choice.'];
              options.screen.stopPredictText  = '\n You have not pressed the button to stop.';
         else
-            options.screen.startPredictText = ['Choose to smile: use ',handedness,' index finger to start & other index finger once your face is neutral again.' ...
-                '\n Choose to stay neutral: indicate choice with ',handedness,' middle finger.'];
+            options.screen.startPredictText = ['Choose to smile: use ',handedness,' index finger to start smiling.' ...
+                '\n Choose to stay neutral: indicate choice with ',handedness,' middle finger.' ...
+                '\n Use other index finger once you are finished showing your choice.'];
             options.screen.stopPredictText  = '\n You have not pressed the button to stop.';
         end
 end
@@ -259,14 +260,14 @@ if  strcmp(expMode,'practice')
     options.dur.showSmile       = 4000;
     options.dur.showOutcome     = 500;
     options.dur.showPoints      = 500;
-    options.dur.showIntroScreen = 35000; % in ms
+    options.dur.showIntroScreen = 25000; % in ms
     options.dur.showShortIntro  = 10000;
     options.dur.showShortInfoTxt= 1200;
     options.dur.showEyeBaseline = 2000;
-    options.dur.afterchoiceITI  = randi([500,1500],options.task.nTrials,1);
+    options.dur.afterChoiceITI  = randi([500,1500],options.task.nTrials,1);
     options.dur.afterSmileITI   = randi([2500,3500],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([2500,3500],options.task.nTrials,1);
-    options.dur.rtTimeout       = 5000;
+    options.dur.rtTimeout       = 10000;
     options.dur.showWarning     = 1500;
     options.dur.ITI             = randi([1000,2000],options.task.nTrials,1);  % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
 else % in ms
@@ -280,7 +281,7 @@ else % in ms
     options.dur.showShortInfoTxt= 1200;
     options.dur.showEyeBaseline = 3000;
     options.dur.showMRIBaseline = 10000;
-    options.dur.afterchoiceITI  = randi([500,1000],options.task.nTrials,1);
+    options.dur.afterChoiceITI  = randi([500,1000],options.task.nTrials,1);
     options.dur.afterSmileITI   = randi([2500,3500],options.task.nTrials,1);
     options.dur.afterNeutralITI = randi([2500,3500],options.task.nTrials,1);
     options.dur.rtTimeout       =  2000;
