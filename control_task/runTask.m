@@ -1,7 +1,7 @@
 function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 
 %% _______________________________________________________________________________%
-% runTask.m runs the Social Affective Prediction Control task
+%% runTask.m runs the Social Affective Prediction Control task
 %
 % SYNTAX:  dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
@@ -42,12 +42,14 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
 %
+
+
 %% INITIALIZE
 predictField = [options.task.name,'Prediction'];
 taskRunning  = 1;
 trial        = 0;
 
-
+%% START task and send trigger
 if options.doEye
     % Must be offline to draw to EyeLink screen
     Eyelink('Command', 'set_idle_mode');
@@ -62,7 +64,7 @@ if options.doEye
 end
 
 % split off to reading PPU data
-f = parfeval(@readDataFromCOM,0);
+f = parfeval(backgroundPool,@readDataFromCOM,0);
 
 dataFile.events.exp_startTime = GetSecs();
 
@@ -87,6 +89,11 @@ else
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
 end
 
+% show ready screen
+Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
+Screen('Flip', options.screen.windowPtr);
+[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+
 %% START task and send trigger
 if strcmp(expType,'fmri')
     waitForTrigger = 1;
@@ -99,24 +106,23 @@ if strcmp(expType,'fmri')
     end
 end
 
-% show ready screen
-Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
-Screen('Flip', options.screen.windowPtr);
-[~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
+dataFile.events.task_startTime = GetSecs();
 
 % show baseline
-if strcmp(expType,'fmri') && strcmp(expMode,'experiment')
+dataFile.events.baseline_start = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
+
+if strcmp(expType,'fmri') && strcmp(expMode,'experiment')
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showMRIBaseline,options,dataFile,0);
 else
-    Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI,[], options.screen.rect);
-    Screen('Flip', options.screen.windowPtr);
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showEyeBaseline,options,dataFile,0);
-
 end
 
-% START TASK TRIALS
+dataFile.events.baseline_end   = extractAfter(char(datetime('now')),12);
+
+%% START TASK
+
 while taskRunning
     trial   = trial + 1; % next step
     egg     = options.task.eggArray(trial);
@@ -128,23 +134,17 @@ while taskRunning
 
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
-    dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
+    dataFile.events.stimulus_startTime(trial)     = extractAfter(char(datetime('now')),12);
+     dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
 
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
-
-if ~isnan(resp)
-    % show avatar again to make sure this event is constant in timing
     restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
-    if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
-        Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
-    end
+if ~isnan(resp)
 
     %% 2ND EVENT: Show Choice
     dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
@@ -152,13 +152,11 @@ if ~isnan(resp)
     if resp ==1
         % show choice with jitter
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(choiceSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
     else
         Screen('DrawTexture', options.screen.windowPtr, stimuli.no_eggCollected,[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showChoiceITI(trial),options,dataFile,0);
     end
+    Screen('Flip', options.screen.windowPtr);
+    eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
 end
     %% 3RD EVENT: Show Outcome
     % log congruency and show points slide
@@ -183,7 +181,8 @@ end
         end
 
         % show outcome with different duration and slide as specified in exp-practice loop above!
-        dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
+        dataFile.events.outcome_startTime(trial)    = extractAfter(char(datetime('now')),12);
+        dataFile.events.outcome_startTimeStp(trial) = GetSecs();
 
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
@@ -230,7 +229,9 @@ end
     end
 
     %% ITI Show Fixation cross 
-    dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
+    dataFile.events.iti_startTime(trial)    = extractAfter(char(datetime('now')),12);
+    dataFile.events.iti_startTimeStp(trial) = GetSecs();
+
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.ITI(trial),options,dataFile,0);
@@ -268,4 +269,8 @@ end
 %% STOP parallel process
 cancel(f);
 fclose("all");
+load('sObj')
+sObj =[];
+delete([pwd,filesep,'sObj.mat']);
+
 end

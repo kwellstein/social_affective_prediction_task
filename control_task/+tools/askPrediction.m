@@ -46,7 +46,8 @@ waiting = 1;
 ticID   = tic();
 RT      = 0;
 
-dataFile.events.predKey_startTime(trial) = extractAfter(char(datetime('now')),12);
+dataFile.events.actionKey_startTime(trial) = extractAfter(char(datetime('now')),12);
+dataFile.events.actionKey_startTimeStp(trial) = GetSecs();
 %% WAIT for response
 while waiting
 

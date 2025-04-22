@@ -73,6 +73,7 @@ while elapsed <= timeout
 
     if abort == 1
         dataFile = eventListener.logEvent('exp_','abort',dataFile,1,trial);
+        output.saveData(options,dataFile);
     end
 
 end

@@ -1,4 +1,4 @@
-function readDataFromCOM(options)
+function readDataFromCOM
 
 %% _______________________________________________________________________________%
 % readDataFromCOM.m reads data from a device connected with a serialport
@@ -27,25 +27,20 @@ function readDataFromCOM(options)
 % You should have received a copy of the GNU General Public License along
 % with this program. If not, see <https://www.gnu.org/licenses/>.
 % _______________________________________________________________________________%
-fopen(options.sObj);
-flush(options.sObj);
 
+sObj = serialport("COM3",9600);
+save('sObj');
+fopen(sObj);
+flush(sObj);
+reading = 1;
 
-startReadTime = extractAfter(char(datetime('now')),12);
-startReadTimeStamp = GetSecs(); %
-reading       = 1;
+fileID = fopen('ppu_data.txt','w');
+fprintf(fileID,'%6s %12s\n','data','time');
 
 while reading
-    iRead = 1;
-    options.PPU.dataPoints(:,iRead)      = fread(options.sObj);
-    options.PPU.dataTimestamps(:,iRead)  = extractAfter(char(datetime('now')),12);
-    iRead = iRead+1;
-    if startReadTime >= startReadTime + options.dur.taskDur/60000
-        reading = 0;
-    end
+    data = str2num(readline(sObj));
+    time = extractAfter(char(datetime('now')),12);
+    fprintf(fileID,'%d %12s\n',data,time);
 end
-
-save([options.paths.saveDir,'PPUData.mat'],options.PPU);
-fclose(options.sObj);
 
 end

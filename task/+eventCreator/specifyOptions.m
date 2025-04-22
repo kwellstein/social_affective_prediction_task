@@ -60,7 +60,7 @@ options.task.name       = 'SAP';
 
 %% DATAFILES & PATHS
 options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
-options.files.savePath     = [options.paths.saveDir,expMode,filesep,options.files.projectID,PID];
+options.files.savePath     = [options.paths.saveDir,expMode,filesep,options.files.projectID,PID,filesep];
 mkdir(options.files.savePath);
 options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';
@@ -77,10 +77,11 @@ switch expMode
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nAvatars = max(options.task.inputs(:,1));
-        options.task.nTrials  = size(options.task.inputs,1);
+        options.task.nTrials  = 15;%size(options.task.inputs,1);
         rng(1,"twister");
         options.doEye = 0;
         options.doEMG = 0;
+        options.doPPU = 1;
         options.task.showPoints = 0;
 
     case 'practice'
@@ -100,6 +101,7 @@ switch expMode
         options.task.showPoints = 0;
         options.doEye = 0;
         options.doEMG = 0;
+        options.doPPU = 1;
 end
 
 %% STIMULI SELECTION based on randomisation list
@@ -126,25 +128,25 @@ taskCol       = taskRandTable.(options.task.name);
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
 % 
-% if strcmp(expMode,'experiment')
-%     d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-%     nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-%     nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
-% 
-%     if nApproaches/nTrials <0.35
-%         options.task.firstTarget    = 40;
-%         options.task.finalTarget    = 80;
-%         options.task.maxSequenceIdx = 2;
-%     else
-%         options.task.firstTarget    = 50;
-%         options.task.finalTarget    = 100;
-%         options.task.maxSequenceIdx = 3;
-%     end
-% else
+if strcmp(expMode,'experiment')
+    d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+    nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
+    nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
+
+    if nApproaches/nTrials <0.35
+        options.task.firstTarget    = 40;
+        options.task.finalTarget    = 80;
+        options.task.maxSequenceIdx = 2;
+    else
+        options.task.firstTarget    = 50;
+        options.task.finalTarget    = 100;
+        options.task.maxSequenceIdx = 3;
+    end
+else
 options.task.firstTarget    = 50;
 options.task.finalTarget    = 100;
 options.task.maxSequenceIdx = 3;
-% end
+end
 
 %% SCREEN and TEXT
 options.screen.white  = WhiteIndex(options.screen.number);
@@ -250,6 +252,7 @@ if  strcmp(expMode,'practice')
     options.dur.showIntroScreen = 20000; % in ms
     options.dur.showShortIntro  = 10000;
     options.dur.showShortInfoTxt= 1200;
+    options.dur.showReadyScreen = 1000;
     options.dur.showEyeBaseline = 3000;
     options.dur.showMRIBaseline = 0;
     options.dur.afterActionITI  = randi([2000,3500],options.task.nTrials,1);
@@ -264,6 +267,7 @@ else % in ms
     options.dur.showIntroScreen = 20000; % in ms
     options.dur.showShortIntro  = 10000;
     options.dur.showShortInfoTxt= 1200;
+    options.dur.showReadyScreen = 1000;
     options.dur.showEyeBaseline = 3000;
     options.dur.showMRIBaseline = 10000;
     options.dur.afterActionITI  = randi([2000,3000],options.task.nTrials,1);

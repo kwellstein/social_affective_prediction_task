@@ -71,6 +71,7 @@ switch expMode
         options.task.nTrials  = size(options.task.inputs,1);
         options.doEye = 0;
         options.doEMG = 0;
+        options.doPPU = 1;
         options.task.showPoints = 0;
 
     case 'practice'
@@ -82,6 +83,7 @@ switch expMode
         options.task.nTrials  = size(options.task.inputs,1);
         options.doEye = 0;
         options.doEMG = 0;
+        options.doPPU = 1;
         options.task.showPoints = 1;
 end
 
@@ -174,48 +176,40 @@ switch expType
         if strcmp(options.PC,'EEGLab_Computer')
             if strcmp(handedness,'right')
                 options.keys.collect = KbName('4$');  % KeyCode: 70, dominant hand index finger
-                options.keys.stop    = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
-                options.keys.reject  = KbName('2@');  % KeyCode:71, dominant hand ring finger
+                options.keys.reject    = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
             else
                 options.keys.collect = KbName('3#'); % KeyCode: 66, dominant hand index finger
-                options.keys.stop    = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
-                options.keys.reject  = KbName('1!'); % KeyCode: 65, dominant hand ring finger
+                options.keys.reject    = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
             end
         else
 
             if strcmp(handedness,'right')
-                options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-                options.keys.stop    = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
-                options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand ring finger
+                options.keys.collect = KbName('RightArrow');  % KeyCode: 37, dominant hand index finger
+                options.keys.reject  = KbName('LeftAlt'); % KeyCode: 79, dominant hand ring finger
 
             else
                 options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-                options.keys.stop    = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
-                options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
+                options.keys.reject  = KbName('RightArrow'); % KeyCode: 224, dominant hand ring finger
             end
         end
     case 'fmri'
         options.keys.taskStart =  KbName('5');
 
         if strcmp(handedness,'right')
-            options.keys.startSmile = KbName('1'); % CHANGE: This should dominant hand index finger
-            options.keys.stop       = KbName('4'); % CHANGE: This should non-dominant hand index finger
-            options.keys.noSmile    = KbName('2'); % CHANGE: This should dominant hand ring finger
+            options.keys.collect = KbName('1'); % CHANGE: This should dominant hand index finger
+            options.keys.reject    = KbName('4'); % CHANGE: This should dominant hand ring finger
         else
-            options.keys.startSmile = KbName('4'); % KeyCode: 226, dominant hand index finger
-            options.keys.stop       = KbName('1'); % KeyCode: 37, non-dominant hand index finger
-            options.keys.noSmile    = KbName('3'); % KeyCode: 224, dominant hand ring finger
+            options.keys.collect = KbName('4'); % KeyCode: 226, dominant hand index finger
+            options.keys.reject    = KbName('1'); % KeyCode: 224, dominant hand ring finger
         end
 
     otherwise
         if strcmp(handedness,'right')
-            options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.reject  = KbName('RightArrow'); % KeyCode: 79, dominant hand middle finger
-            options.keys.stop    = KbName('LeftAlt');    % KeyCode: 226, dominant hand index finger
+            options.keys.collect = KbName('RightArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.reject  = KbName('LeftAlt'); % KeyCode: 79, dominant hand middle finger
         else
             options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-            options.keys.reject  = KbName('LeftControl'); % KeyCode: 224, dominant hand ring finger
-            options.keys.stop    = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.reject  = KbName('RightArrow'); % KeyCode: 224, dominant hand ring finger
         end
 end
 
@@ -223,20 +217,27 @@ options.keys.escape     = KbName('ESCAPE');
 
 %% DURATIONS OF EVENTS
 options.dur.waitnxtkeypress = 5000; % in ms
-options.dur.showStimulus    = 1000;  % in ms
-options.dur.showOutcome     = 1000;
+options.dur.showStimulus    = 500;  % in ms
+options.dur.showOutcome     = 500;
 options.dur.showPractOutcome = 2000;
 options.dur.showPoints      = 500;
-options.dur.showIntroScreen = 40000; % in ms
-options.dur.showShortIntro  = 20000;
+options.dur.showIntroScreen = 30000; % in ms
+options.dur.showShortIntro  = 10000;
 options.dur.showShortInfoTxt= 1200;
-options.dur.showEyeBaseline = 2000;
-options.dur.afterChoiceITI  = randi([500,1500],options.task.nTrials,1);
-options.dur.showChoiceITI   = randi([2500,3500],options.task.nTrials,1);
+options.dur.showEyeBaseline = 3000;
+options.dur.showMRIBaseline = 10000;
+options.dur.afterChoiceITI  = randi([2000,3000],options.task.nTrials,1);
 options.dur.rtTimeout       =  1500;
-options.dur.showWarning     =  1000;
+options.dur.showWarning     =  1500;
 options.dur.showReadyScreen =  1000;
-options.dur.ITI             = randi([500,1500],options.task.nTrials,1);
+options.dur.ITI             = randi([2500,3500],options.task.nTrials,1);
+
+options.dur.taskDur = options.task.nTrials*(options.dur.showStimulus+options.dur.showOutcome)...
+        +sum(options.dur.afterChoiceITI)+sum(options.dur.ITI);
+options.dur.expDur = options.dur.taskDur + options.dur.showMRIBaseline+options.dur.showIntroScreen ...
+     + options.dur.showShortIntro + options.dur.showShortInfoTxt;
+options.dur.mriDur = options.dur.taskDur + options.dur.showMRIBaseline+options.dur.showShortInfoTxt;
+
 
 %% MESSAGES
 options.messages.abortText     = 'the experiment was aborted';

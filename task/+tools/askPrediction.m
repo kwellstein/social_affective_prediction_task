@@ -47,6 +47,7 @@ ticID   = tic();
 RT      = 0;
 
 dataFile.events.predAction_startTime(trial) = extractAfter(char(datetime('now')),12);
+dataFile.events.predAction_startTimeStp(trial) = GetSecs();
 
 %% WAIT for response
 
@@ -109,10 +110,9 @@ while waiting
         resp     = NaN;
 
     end % END STARTSMILE detection loop
-
+end
     dataFile.events.predAction_stopTime(trial) = extractAfter(char(datetime('now')),12);
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
 
-end
 end

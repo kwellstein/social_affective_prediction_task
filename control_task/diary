@@ -3014,3 +3014,650 @@ Participant missed trial 66...
 [> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\task\+output\saveData.m', 34)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\task\+output\saveData.m',34,0)">line 34</a>)
 In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\task\runTask.m', 244)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\task\runTask.m',244,0)">line 244</a>)
 In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAP_task_main', 'C:\Users\Testing\projects\SAPS\SAP\task\SAP_task_main.m', 115)" style="font-weight:bold">SAP_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\task\SAP_task_main.m',115,0)">line 115</a>)] 
+Enter 'debug', 'practice' or 'experiment' behav
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1004
+Enter participant's handedness, 'right' or 'left'right
+Your input is not correct, type either 'debug','practice' or 'experiment' :practice
+You are running the SAPC task behaviorally
+The participant's dominant hand is the right one
+PTB-INFO: Multi-display setup in explicit multi-display mode detected. Using the following mapping:
+PTB-INFO: Screen 0 corresponds to the full Windows desktop area. Useful for stereo presentations in stereomode=4 ...
+PTB-INFO: Screen 1 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY1 ...
+PTB-INFO: Screen 2 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY5 ...
+
+PTB-INFO: Your version of Matlab 64-Bit is global system DPI aware. On Windows-8 or later, fullscreen onscreen windows will only work 
+PTB-INFO: properly timing-wise when displayed on displays with the same pixel density as your systems primary display monitor.
+PTB-INFO: For your multi-display setup the stimulus display monitor must have a DPI of (96, 96), matching that of
+PTB-INFO: your primary display monitor. Ideally you will only display on the primary display in the first place.
+PTB-INFO: Displaying on anything with a different DPI will cause mysterious visual timing problems, sync failures etc.
+PTB-INFO: Read 'help RetinaDisplay' for more info on this topic.
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m', 242)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m',242,0)">line 242</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 104)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',104,0)">line 104</a>)] 
+
+
+PTB-INFO: This is Psychtoolbox-3 for Microsoft Windows, under Matlab 64-Bit (Version 3.0.19 - Build date: Jul 31 2024).
+PTB-INFO: OS support status: Windows 11 (Version 11.0) is not supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: The detected endline of the vertical blank interval is equal or lower than the startline. This indicates
+PTB-INFO: that i couldn't detect the duration of the vertical blank interval and won't be able to correct timestamps
+PTB-INFO: for it. This will introduce a very small and constant offset (typically << 1 msec). Read 'help BeampositionQueries'
+PTB-INFO: for how to correct this, should you really require that last few microseconds of precision.
+PTB-INFO: Btw. this can also mean that your systems beamposition queries are slightly broken. It may help timing precision to
+PTB-INFO: enable the beamposition workaround, as explained in 'help ConserveVRAMSettings', section 'kPsychUseBeampositionQueryWorkaround'.
+
+
+PTB-INFO: OpenGL-Renderer is NVIDIA Corporation :: Quadro RTX 4000/PCIe/SSE2 :: 4.6.0 NVIDIA 556.39
+PTB-INFO: VBL startline = 1080 , VBL Endline = 1079
+PTB-INFO: Measured monitor refresh interval from beamposition = 16.666596 ms [60.000255 Hz].
+PTB-INFO: Will use beamposition query for accurate Flip time stamping.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.676876 ms [59.963269 Hz]. (50 valid samples taken, stddev=0.082101 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-INFO: ==============================================================================================================================
+PTB-INFO: WINDOWS DWM DESKTOP COMPOSITOR IS ACTIVE. On this Windows-10 or later system, Psychtoolbox can no longer reliably detect if
+PTB-INFO: this will cause trouble for timing and integrity of visual stimuli or not. You might be just fine, or you could be in trouble.
+PTB-INFO: Use external measurement equipment and independent procedures to verify reliability of timing if you care about proper timing.
+PTB-INFO: ==============================================================================================================================
+
+
+PTB-ERROR: Screen('Flip'); beamposition timestamping computed an *impossible stimulus onset value* of 524089.919720 secs, which would indicate that
+PTB-ERROR: stimulus onset happened *before* it was actually requested! (Earliest theoretically possible 524089.923004 secs).
+
+PTB-ERROR: Some more diagnostic values (only for experts): rawTimestamp = 524089.923769, scanline = 262
+PTB-ERROR: Some more diagnostic values (only for experts): line_pre_swaprequest = 212, line_post_swaprequest = 243, time_post_swaprequest = 524089.923467
+PTB-ERROR: Some more diagnostic values (only for experts): preflip_vblcount = 0, preflip_vbltimestamp = 524089.919725
+PTB-ERROR: Some more diagnostic values (only for experts): postflip_vblcount = 0, postflip_vbltimestamp = -1.000000, vbltimestampquery_retrycount = 0
+
+PTB-ERROR: This error can be due to either of the following causes:
+PTB-ERROR: Very unlikely: Something is broken in your systems beamposition timestamping. I've disabled high precision
+PTB-ERROR: timestamping for now. Returned timestamps will be less robust and accurate.
+
+PTB-ERROR: The most likely cause would be that Synchronization of stimulus onset (buffer swap) to the
+PTB-ERROR: vertical blank interval VBL is not working properly, or swap completion signalling to PTB is broken.
+PTB-ERROR: Please run the script PerceptualVBLSyncTest to check this. With non-working sync to VBL, all stimulus timing
+PTB-ERROR: is futile. Also run OSXCompositorIdiocyTest on macOS. Also read 'help SyncTrouble' !
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 8 workers.
+Participant missed trial 1... 
+Participant missed trial 3... 
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 34)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',34,0)">line 34</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)] 
+{Unrecognized field name "doPPU".
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 43)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',43,0)">line 43</a>)
+if options.doPPU
+   ^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+output.saveData(options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+PTB-INFO: Enforcing script abortion and restoring desktop by executing Screen('CloseAll') now!
+PTB-INFO: Please ignore the false error message (INTERNAL PSYCHTOOLBOX ERROR) caused by this...
+
+
+PTB-INFO: There are still 31 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1004
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAPC task
+You are running the SAPC task behaviorally
+The participant's dominant hand is the right one
+PTB-INFO: Multi-display setup in explicit multi-display mode detected. Using the following mapping:
+PTB-INFO: Screen 0 corresponds to the full Windows desktop area. Useful for stereo presentations in stereomode=4 ...
+PTB-INFO: Screen 1 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY1 ...
+PTB-INFO: Screen 2 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY5 ...
+
+PTB-INFO: Your version of Matlab 64-Bit is global system DPI aware. On Windows-8 or later, fullscreen onscreen windows will only work 
+PTB-INFO: properly timing-wise when displayed on displays with the same pixel density as your systems primary display monitor.
+PTB-INFO: For your multi-display setup the stimulus display monitor must have a DPI of (96, 96), matching that of
+PTB-INFO: your primary display monitor. Ideally you will only display on the primary display in the first place.
+PTB-INFO: Displaying on anything with a different DPI will cause mysterious visual timing problems, sync failures etc.
+PTB-INFO: Read 'help RetinaDisplay' for more info on this topic.
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m', 244)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m',244,0)">line 244</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 104)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',104,0)">line 104</a>)] 
+
+
+PTB-INFO: This is Psychtoolbox-3 for Microsoft Windows, under Matlab 64-Bit (Version 3.0.19 - Build date: Jul 31 2024).
+PTB-INFO: OS support status: Windows 11 (Version 11.0) is not supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: The detected endline of the vertical blank interval is equal or lower than the startline. This indicates
+PTB-INFO: that i couldn't detect the duration of the vertical blank interval and won't be able to correct timestamps
+PTB-INFO: for it. This will introduce a very small and constant offset (typically << 1 msec). Read 'help BeampositionQueries'
+PTB-INFO: for how to correct this, should you really require that last few microseconds of precision.
+PTB-INFO: Btw. this can also mean that your systems beamposition queries are slightly broken. It may help timing precision to
+PTB-INFO: enable the beamposition workaround, as explained in 'help ConserveVRAMSettings', section 'kPsychUseBeampositionQueryWorkaround'.
+
+
+PTB-INFO: OpenGL-Renderer is NVIDIA Corporation :: Quadro RTX 4000/PCIe/SSE2 :: 4.6.0 NVIDIA 556.39
+PTB-INFO: VBL startline = 1080 , VBL Endline = 1079
+PTB-INFO: Measured monitor refresh interval from beamposition = 16.666618 ms [60.000174 Hz].
+PTB-INFO: Will use beamposition query for accurate Flip time stamping.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.681070 ms [59.948193 Hz]. (50 valid samples taken, stddev=0.113568 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-INFO: ==============================================================================================================================
+PTB-INFO: WINDOWS DWM DESKTOP COMPOSITOR IS ACTIVE. On this Windows-10 or later system, Psychtoolbox can no longer reliably detect if
+PTB-INFO: this will cause trouble for timing and integrity of visual stimuli or not. You might be just fine, or you could be in trouble.
+PTB-INFO: Use external measurement equipment and independent procedures to verify reliability of timing if you care about proper timing.
+PTB-INFO: ==============================================================================================================================
+
+
+PTB-ERROR: Screen('Flip'); beamposition timestamping computed an *impossible stimulus onset value* of 524495.018302 secs, which would indicate that
+PTB-ERROR: stimulus onset happened *before* it was actually requested! (Earliest theoretically possible 524495.021116 secs).
+
+PTB-ERROR: Some more diagnostic values (only for experts): rawTimestamp = 524495.022013, scanline = 240
+PTB-ERROR: Some more diagnostic values (only for experts): line_pre_swaprequest = 180, line_post_swaprequest = 214, time_post_swaprequest = 524495.021621
+PTB-ERROR: Some more diagnostic values (only for experts): preflip_vblcount = 0, preflip_vbltimestamp = 524495.018346
+PTB-ERROR: Some more diagnostic values (only for experts): postflip_vblcount = 0, postflip_vbltimestamp = -1.000000, vbltimestampquery_retrycount = 0
+
+PTB-ERROR: This error can be due to either of the following causes:
+PTB-ERROR: Very unlikely: Something is broken in your systems beamposition timestamping. I've disabled high precision
+PTB-ERROR: timestamping for now. Returned timestamps will be less robust and accurate.
+
+PTB-ERROR: The most likely cause would be that Synchronization of stimulus onset (buffer swap) to the
+PTB-ERROR: vertical blank interval VBL is not working properly, or swap completion signalling to PTB is broken.
+PTB-ERROR: Please run the script PerceptualVBLSyncTest to check this. With non-working sync to VBL, all stimulus timing
+PTB-ERROR: is futile. Also run OSXCompositorIdiocyTest on macOS. Also read 'help SyncTrouble' !
+Participant missed trial 2... 
+Participant missed trial 4... 
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 34)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',34,0)">line 34</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)] 
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('movefile')" style="font-weight:bold">movefile</a>
+No matching files named 'C:\Users\Testing\projects\SAPS\SAP\control_task\ppu_data.txt' were found.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 44)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',44,0)">line 44</a>)
+    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt']);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+output.saveData(options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',44,1)">44  </a>    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt']);
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('parallel.internal.queue.addSources', 'C:\Program Files\MATLAB\R2024b\toolbox\parallel\cluster\+parallel\+internal\+queue\addSources.m', 14)" style="font-weight:bold">parallel.internal.queue.addSources</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\parallel\cluster\+parallel\+internal\+queue\addSources.m',14,0)">line 14</a>)
+Unable to open file "C:\Users\Testing\AppData\Roaming\MathWorks\MATLAB\local_cluster_jobs\R2024b\Job3.in.mat", the error returned was: Unable to find file or
+directory 'C:\Users\Testing\AppData\Roaming\MathWorks\MATLAB\local_cluster_jobs\R2024b\Job3.in.mat'..
+} 
+<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\parallel\cluster\+parallel\+internal\+queue\addSources.m',14,1)">14  </a>if ~client.ParallelJob.AutoAttachFiles
+PTB-INFO: Enforcing script abortion and restoring desktop by executing Screen('CloseAll') now!
+PTB-INFO: Please ignore the false error message (INTERNAL PSYCHTOOLBOX ERROR) caused by this...
+
+
+PTB-INFO: There are still 31 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+cancel(f);
+{Unrecognized function or variable 'f'.
+} 
+if system_dependent('IsDebugMode')==1, dbquit; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+ListenChar(0)
+SAPC_task_main
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1004
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAPC task
+You are running the SAPC task behaviorally
+The participant's dominant hand is the right one
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m', 244)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m',244,0)">line 244</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 104)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',104,0)">line 104</a>)] 
+
+
+PTB-INFO: This is Psychtoolbox-3 for Microsoft Windows, under Matlab 64-Bit (Version 3.0.19 - Build date: Jul 31 2024).
+PTB-INFO: OS support status: Windows 11 (Version 11.0) is not supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: The detected endline of the vertical blank interval is equal or lower than the startline. This indicates
+PTB-INFO: that i couldn't detect the duration of the vertical blank interval and won't be able to correct timestamps
+PTB-INFO: for it. This will introduce a very small and constant offset (typically << 1 msec). Read 'help BeampositionQueries'
+PTB-INFO: for how to correct this, should you really require that last few microseconds of precision.
+PTB-INFO: Btw. this can also mean that your systems beamposition queries are slightly broken. It may help timing precision to
+PTB-INFO: enable the beamposition workaround, as explained in 'help ConserveVRAMSettings', section 'kPsychUseBeampositionQueryWorkaround'.
+
+
+PTB-INFO: OpenGL-Renderer is NVIDIA Corporation :: Quadro RTX 4000/PCIe/SSE2 :: 4.6.0 NVIDIA 556.39
+PTB-INFO: VBL startline = 1080 , VBL Endline = 1079
+PTB-INFO: Measured monitor refresh interval from beamposition = 16.666537 ms [60.000468 Hz].
+PTB-INFO: Beamposition queries are supported, but disabled. Using basic timestamping as fallback:
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.666022 ms [60.002321 Hz]. (50 valid samples taken, stddev=0.032074 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-INFO: ==============================================================================================================================
+PTB-INFO: WINDOWS DWM DESKTOP COMPOSITOR IS ACTIVE. On this Windows-10 or later system, Psychtoolbox can no longer reliably detect if
+PTB-INFO: this will cause trouble for timing and integrity of visual stimuli or not. You might be just fine, or you could be in trouble.
+PTB-INFO: Use external measurement equipment and independent procedures to verify reliability of timing if you care about proper timing.
+PTB-INFO: ==============================================================================================================================
+Participant missed trial 3... 
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 34)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',34,0)">line 34</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)] 
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('movefile')" style="font-weight:bold">movefile</a>
+No matching files named 'C:\Users\Testing\projects\SAPS\SAP\control_task\ppu_data.txt' were found.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 44)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',44,0)">line 44</a>)
+    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt']);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+output.saveData(options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',44,1)">44  </a>    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt']);
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('parallel.internal.queue.addSources', 'C:\Program Files\MATLAB\R2024b\toolbox\parallel\cluster\+parallel\+internal\+queue\addSources.m', 14)" style="font-weight:bold">parallel.internal.queue.addSources</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\parallel\cluster\+parallel\+internal\+queue\addSources.m',14,0)">line 14</a>)
+Unable to open file "C:\Users\Testing\AppData\Roaming\MathWorks\MATLAB\local_cluster_jobs\R2024b\Job3.in.mat", the error returned was: Unable to find file or directory
+'C:\Users\Testing\AppData\Roaming\MathWorks\MATLAB\local_cluster_jobs\R2024b\Job3.in.mat'..
+} 
+<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\parallel\cluster\+parallel\+internal\+queue\addSources.m',14,1)">14  </a>if ~client.ParallelJob.AutoAttachFiles
+PTB-INFO: Enforcing script abortion and restoring desktop by executing Screen('CloseAll') now!
+PTB-INFO: Please ignore the false error message (INTERNAL PSYCHTOOLBOX ERROR) caused by this...
+
+
+PTB-INFO: There are still 31 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+if system_dependent('IsDebugMode')==1, dbquit; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+istenChar(0)
+{Unrecognized function or variable 'istenChar'.
+} 
+ListenChar(0)
+serialportlist("available")
+
+ans = 
+
+  1×3 <a href="matlab:helpPopup('string')" style="font-weight:bold">string</a> array
+
+    "COM1"    "COM3"    "COM4"
+
+SAPC_task_main
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1004
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAPC task
+You are running the SAPC task behaviorally
+The participant's dominant hand is the right one
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m', 244)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m',244,0)">line 244</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 104)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',104,0)">line 104</a>)] 
+
+
+PTB-INFO: This is Psychtoolbox-3 for Microsoft Windows, under Matlab 64-Bit (Version 3.0.19 - Build date: Jul 31 2024).
+PTB-INFO: OS support status: Windows 11 (Version 11.0) is not supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: The detected endline of the vertical blank interval is equal or lower than the startline. This indicates
+PTB-INFO: that i couldn't detect the duration of the vertical blank interval and won't be able to correct timestamps
+PTB-INFO: for it. This will introduce a very small and constant offset (typically << 1 msec). Read 'help BeampositionQueries'
+PTB-INFO: for how to correct this, should you really require that last few microseconds of precision.
+PTB-INFO: Btw. this can also mean that your systems beamposition queries are slightly broken. It may help timing precision to
+PTB-INFO: enable the beamposition workaround, as explained in 'help ConserveVRAMSettings', section 'kPsychUseBeampositionQueryWorkaround'.
+
+
+PTB-INFO: OpenGL-Renderer is NVIDIA Corporation :: Quadro RTX 4000/PCIe/SSE2 :: 4.6.0 NVIDIA 556.39
+PTB-INFO: VBL startline = 1080 , VBL Endline = 1079
+PTB-INFO: Measured monitor refresh interval from beamposition = 16.666604 ms [60.000225 Hz].
+PTB-INFO: Beamposition queries are supported, but disabled. Using basic timestamping as fallback:
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.666106 ms [60.002018 Hz]. (50 valid samples taken, stddev=0.031737 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-INFO: ==============================================================================================================================
+PTB-INFO: WINDOWS DWM DESKTOP COMPOSITOR IS ACTIVE. On this Windows-10 or later system, Psychtoolbox can no longer reliably detect if
+PTB-INFO: this will cause trouble for timing and integrity of visual stimuli or not. You might be just fine, or you could be in trouble.
+PTB-INFO: Use external measurement equipment and independent procedures to verify reliability of timing if you care about proper timing.
+PTB-INFO: ==============================================================================================================================
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 8 workers.
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 34)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',34,0)">line 34</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)] 
+<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',43,1)">43  </a>if options.doPPU
+PTB-INFO: Enforcing script abortion and restoring desktop by executing Screen('CloseAll') now!
+PTB-INFO: Please ignore the false error message (INTERNAL PSYCHTOOLBOX ERROR) caused by this...
+
+
+PTB-INFO: There are still 31 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+ListenChar(0)
+if system_dependent('IsDebugMode')==1, dbcont; end
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('movefile')" style="font-weight:bold">movefile</a>
+No matching files named 'C:\Users\Testing\projects\SAPS\SAP\control_task\ppu_data.txt' were found.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 44)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',44,0)">line 44</a>)
+    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt']);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+output.saveData(options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+options.paths.codeDir
+
+ans =
+
+    'C:\Users\Testing\projects\SAPS\SAP\control_task'
+
+sObj = serialport("COM3",9600);
+save('sObj');
+fopen(sObj);
+flush(sObj);
+reading = 1;
+
+fileID = fopen('ppu_data.txt','w');
+fprintf(fileID,'%6s %12s\n','data','time');
+
+while reading
+    data = str2num(readline(sObj));
+    time = extractAfter(char(datetime('now')),12);
+    fprintf(fileID,'%d %12s\n',data,time);
+end
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('matlabshared.asyncio.internal.Stream/isDeviceDone', 'C:\Program Files\MATLAB\R2024b\toolbox\shared\asynciolib\+matlabshared\+asyncio\+internal\Stream.m', 76)" style="font-weight:bold">matlabshared.asyncio.internal.Stream/isDeviceDone</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\shared\asynciolib\+matlabshared\+asyncio\+internal\Stream.m',76,0)">line 76</a>)
+
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('matlabshared.asyncio.internal.Stream/wait', 'C:\Program Files\MATLAB\R2024b\toolbox\shared\asynciolib\+matlabshared\+asyncio\+internal\Stream.m', 199)" style="font-weight:bold">matlabshared.asyncio.internal.Stream/wait</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\shared\asynciolib\+matlabshared\+asyncio\+internal\Stream.m',199,0)">line 199</a>)
+                done = obj.isDeviceDone() || ~obj.isOpen();
+                       ^^^^^^^^^^^^^^^^^^
+In matlabshared.transportlib.internal.asyncIOTransportChannel.AsyncIOTransportChannel/waitForDataAvailable
+
+In matlabshared.transportlib.internal.asyncIOTransportChannel.AsyncIOTransportChannel/readUntil
+
+In matlabshared.seriallib.internal.Serial/readUntil
+
+In matlabshared.transportclients.internal.StringClient.StringClient/readRaw
+
+In matlabshared.transportclients.internal.StringClient.StringClient/read
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('matlabshared.transportlib.internal.client.ClientImpl/readline', 'C:\Program Files\MATLAB\R2024b\toolbox\shared\transportlib\+matlabshared\+transportlib\+internal\+client\ClientImpl.m', 133)" style="font-weight:bold">matlabshared.transportlib.internal.client.ClientImpl/readline</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\shared\transportlib\+matlabshared\+transportlib\+internal\+client\ClientImpl.m',133,0)">line 133</a>)
+                data = read(obj.StringClient, precision);
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('matlabshared.transportlib.internal.client.GenericClient/readline', 'C:\Program Files\MATLAB\R2024b\toolbox\shared\transportlib\+matlabshared\+transportlib\+internal\+client\GenericClient.m', 692)" style="font-weight:bold">matlabshared.transportlib.internal.client.GenericClient/readline</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\shared\transportlib\+matlabshared\+transportlib\+internal\+client\GenericClient.m',692,0)">line 692</a>)
+                data = readline(obj.ClientImpl, varargin{:});
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('internal.Serialport/readline', 'C:\Program Files\MATLAB\R2024b\toolbox\matlab\serialport\interface\+internal\Serialport.m', 507)" style="font-weight:bold">internal.Serialport/readline</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2024b\toolbox\matlab\serialport\interface\+internal\Serialport.m',507,0)">line 507</a>)
+                data = readline(obj.Client, varargin{:});
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+if system_dependent('IsDebugMode')==1, dbquit; end
+help parfeval
+ <strong>parfeval</strong> - Run function in background
+    This MATLAB function schedules the function fcn to run in the
+    background.
+
+    Syntax
+      F = <strong>parfeval</strong>(backgroundPool,fcn,numFcnOut,X1,...,Xm)
+      F = <strong>parfeval</strong>(fcn,numFcnOut,X1,...,Xm)
+
+    Input Arguments
+      <a href="matlab:web('C:\Program Files\MATLAB\R2024b\help/matlab/ref/parfeval.html#mw_67bd9e88-7c74-487b-902a-b1096bb2c249')">fcn</a> - Function to run
+        function handle
+      <a href="matlab:web('C:\Program Files\MATLAB\R2024b\help/matlab/ref/parfeval.html#mw_6353cac3-5336-4646-a953-f4df69429b5c')">numFcnOut</a> - Number of output arguments requested
+        nonnegative integer scalar
+      <a href="matlab:web('C:\Program Files\MATLAB\R2024b\help/matlab/ref/parfeval.html#mw_7ea4f1da-203c-41d1-b794-a429c0f3a8fe')">X1,...,Xm</a> - Input arguments
+        comma-separated list of variables or expressions
+
+    Output Arguments
+      <a href="matlab:web('C:\Program Files\MATLAB\R2024b\help/matlab/ref/parfeval.html#mw_d398454b-bf36-4b2f-969f-bf8ed938afd1')">F</a> - Output Future
+        parallel.Future object
+
+    Examples
+      <a href="matlab:openExample('matlab/RunFunctionInTheBackgroundExample')">Run Functions in Background</a>
+      <a href="matlab:openExample('matlab/StopMATLABFunctionRunningInTheBackgroundExample')">Stop Functions Running in Background</a>
+
+    See also <a href="matlab:help backgroundPool -displayBanner">backgroundPool</a>, <a href="matlab:help parallel.Pool.parfeval -displayBanner">parfeval (Parallel Computing Toolbox)</a>, <a href="matlab:help parallel.Future.cancel -displayBanner">cancel</a>,
+      <a href="matlab:help parallel.Future.afterEach -displayBanner">afterEach</a>, <a href="matlab:help afterAll -displayBanner">afterAll</a>, <a href="matlab:help fetchNext -displayBanner">fetchNext</a>, <a href="matlab:help parallel.Future.fetchOutputs -displayBanner">fetchOutputs</a>, <a href="matlab:help parallel.Future.wait -displayBanner">wait</a>, <a href="matlab:help parallel.Future -displayBanner">Future</a>
+
+    <a href="matlab:doc parfeval">Documentation for parfeval</a>
+    <a href="matlab:matlab.lang.internal.introspective.overloads.displayOverloads('parfeval')">Other uses of parfeval</a>
+
+help backgroundPool -displayBanner
+--- help for <strong>parallel.BackgroundPool</strong> ---
+
+ <strong>parallel.BackgroundPool</strong> - Environment for running code in the background
+    Use the background pool to run code in the background.
+
+    Creation
+      Syntax
+        p = backgroundPool
+
+    Properties
+      <a href="matlab:web('C:\Program Files\MATLAB\R2024b\help\matlab/ref/parallel.backgroundpool.html#prop_FevalQueue')">FevalQueue</a> - Queue of FevalFuture objects to run on the background pool
+        FevalQueue object
+      <a href="matlab:web('C:\Program Files\MATLAB\R2024b\help\matlab/ref/parallel.backgroundpool.html#prop_NumWorkers')">NumWorkers</a> - Number of workers
+        positive integer scalar
+      <a href="matlab:web('C:\Program Files\MATLAB\R2024b\help\matlab/ref/parallel.backgroundpool.html#prop_Busy')">Busy</a> - Flag that indicates whether the background pool is busy
+        true | false
+
+    Examples
+      <a href="matlab:openExample('matlab/RunFunctionInTheBackgroundExample')">Run Functions in Background</a>
+      <a href="matlab:openExample('matlab/ReadFromS3BucketInTheBackgroundExample')">Read Images from S3 Bucket in Background</a>
+
+    See also <a href="matlab:help parfeval -displayBanner">parfeval</a>, <a href="matlab:help matlab/parfevalOnAll -displayBanner">parfevalOnAll</a>, <a href="matlab:help cancelAll -displayBanner">cancelAll</a>
+
+    Introduced in MATLAB in R2021b
+    <a href="matlab:doc parallel.BackgroundPool">Documentation for parallel.BackgroundPool</a>
+
+ p = backgroundPool
+
+p = 
+
+ <a href="matlab: helpPopup parallel.BackgroundPool" style="font-weight:bold">BackgroundPool</a> with properties: 
+
+           NumWorkers: 8
+                 Busy: false
+
+load('sObj.mat')
+sObj =[]
+
+sObj =
+
+     []
+
+clear all
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 8 workers.
+SAPC_task_main
+Enter 'debug', 'practice' or 'experiment' practice
+Enter 'behav' or 'fmri' behav
+Enter participant id (PID)1004
+Enter participant's handedness, 'right' or 'left'right
+You are running the PRACTICE of the SAPC task
+You are running the SAPC task behaviorally
+The participant's dominant hand is the right one
+PTB-INFO: Multi-display setup in explicit multi-display mode detected. Using the following mapping:
+PTB-INFO: Screen 0 corresponds to the full Windows desktop area. Useful for stereo presentations in stereomode=4 ...
+PTB-INFO: Screen 1 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY1 ...
+PTB-INFO: Screen 2 corresponds to the display area of the monitor with the Windows-internal name \\.\DISPLAY5 ...
+
+PTB-INFO: Your version of Matlab 64-Bit is global system DPI aware. On Windows-8 or later, fullscreen onscreen windows will only work 
+PTB-INFO: properly timing-wise when displayed on displays with the same pixel density as your systems primary display monitor.
+PTB-INFO: For your multi-display setup the stimulus display monitor must have a DPI of (96, 96), matching that of
+PTB-INFO: your primary display monitor. Ideally you will only display on the primary display in the first place.
+PTB-INFO: Displaying on anything with a different DPI will cause mysterious visual timing problems, sync failures etc.
+PTB-INFO: Read 'help RetinaDisplay' for more info on this topic.
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('eventCreator.specifyOptions', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m', 244)" style="font-weight:bold">eventCreator.specifyOptions</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+eventCreator\specifyOptions.m',244,0)">line 244</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 104)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',104,0)">line 104</a>)] 
+
+
+PTB-INFO: This is Psychtoolbox-3 for Microsoft Windows, under Matlab 64-Bit (Version 3.0.19 - Build date: Jul 31 2024).
+PTB-INFO: OS support status: Windows 11 (Version 11.0) is not supported.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+PTB-INFO: For information about paid support, support memberships and other commercial services, please type
+PTB-INFO: 'PsychPaidSupportAndServices'.
+
+PTB-INFO: The detected endline of the vertical blank interval is equal or lower than the startline. This indicates
+PTB-INFO: that i couldn't detect the duration of the vertical blank interval and won't be able to correct timestamps
+PTB-INFO: for it. This will introduce a very small and constant offset (typically << 1 msec). Read 'help BeampositionQueries'
+PTB-INFO: for how to correct this, should you really require that last few microseconds of precision.
+PTB-INFO: Btw. this can also mean that your systems beamposition queries are slightly broken. It may help timing precision to
+PTB-INFO: enable the beamposition workaround, as explained in 'help ConserveVRAMSettings', section 'kPsychUseBeampositionQueryWorkaround'.
+
+
+PTB-INFO: OpenGL-Renderer is NVIDIA Corporation :: Quadro RTX 4000/PCIe/SSE2 :: 4.6.0 NVIDIA 556.39
+PTB-INFO: VBL startline = 1080 , VBL Endline = 1079
+PTB-INFO: Measured monitor refresh interval from beamposition = 16.666616 ms [60.000181 Hz].
+PTB-INFO: Will use beamposition query for accurate Flip time stamping.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.665708 ms [60.003451 Hz]. (50 valid samples taken, stddev=0.018713 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+PTB-INFO: ==============================================================================================================================
+PTB-INFO: WINDOWS DWM DESKTOP COMPOSITOR IS ACTIVE. On this Windows-10 or later system, Psychtoolbox can no longer reliably detect if
+PTB-INFO: this will cause trouble for timing and integrity of visual stimuli or not. You might be just fine, or you could be in trouble.
+PTB-INFO: Use external measurement equipment and independent procedures to verify reliability of timing if you care about proper timing.
+PTB-INFO: ==============================================================================================================================
+
+
+PTB-ERROR: Screen('Flip'); beamposition timestamping computed an *impossible stimulus onset value* of 525525.314762 secs, which would indicate that
+PTB-ERROR: stimulus onset happened *before* it was actually requested! (Earliest theoretically possible 525525.316852 secs).
+
+PTB-ERROR: Some more diagnostic values (only for experts): rawTimestamp = 525525.317481, scanline = 176
+PTB-ERROR: Some more diagnostic values (only for experts): line_pre_swaprequest = 134, line_post_swaprequest = 154, time_post_swaprequest = 525525.317163
+PTB-ERROR: Some more diagnostic values (only for experts): preflip_vblcount = 0, preflip_vbltimestamp = 525525.314844
+PTB-ERROR: Some more diagnostic values (only for experts): postflip_vblcount = 0, postflip_vbltimestamp = -1.000000, vbltimestampquery_retrycount = 0
+
+PTB-ERROR: This error can be due to either of the following causes:
+PTB-ERROR: Very unlikely: Something is broken in your systems beamposition timestamping. I've disabled high precision
+PTB-ERROR: timestamping for now. Returned timestamps will be less robust and accurate.
+
+PTB-ERROR: The most likely cause would be that Synchronization of stimulus onset (buffer swap) to the
+PTB-ERROR: vertical blank interval VBL is not working properly, or swap completion signalling to PTB is broken.
+PTB-ERROR: Please run the script PerceptualVBLSyncTest to check this. With non-working sync to VBL, all stimulus timing
+PTB-ERROR: is futile. Also run OSXCompositorIdiocyTest on macOS. Also read 'help SyncTrouble' !
+Participant missed trial 3... 
+[Warning: Directory already exists.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 34)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',34,0)">line 34</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)] 
+<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',43,1)">43  </a>if options.doPPU
+PTB-INFO: Enforcing script abortion and restoring desktop by executing Screen('CloseAll') now!
+PTB-INFO: Please ignore the false error message (INTERNAL PSYCHTOOLBOX ERROR) caused by this...
+
+
+PTB-INFO: There are still 31 textures, offscreen windows or proxy windows open. Screen('CloseAll') will auto-close them.
+PTB-INFO: This may be fine for studies where you only use a few textures or windows, but a large number of open
+PTB-INFO: textures or offscreen windows can be an indication that you forgot to dispose no longer needed items
+PTB-INFO: via a proper call to Screen('Close', [windowOrTextureIndex]); , e.g., at the end of each trial. These
+PTB-INFO: stale objects linger around and can consume significant memory ressources, causing degraded performance,
+PTB-INFO: timing trouble (if the system has to resort to disk paging) and ultimately out of memory conditions or
+PTB-INFO: crashes. Please check your code. (Screen('Close') is a quick way to release all textures and offscreen windows)
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+if system_dependent('IsDebugMode')==1, dbcont; end
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('movefile')" style="font-weight:bold">movefile</a>
+Cannot read from source: C:\Users\Testing\projects\SAPS\SAP\control_task\ppu_data.txt.
+Use the 'f' option to override.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('output.saveData', 'C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m', 44)" style="font-weight:bold">output.saveData</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\+output\saveData.m',44,0)">line 44</a>)
+    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt']);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('runTask', 'C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m', 258)" style="font-weight:bold">runTask</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\runTask.m',258,0)">line 258</a>)
+output.saveData(options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('SAPC_task_main', 'C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m', 118)" style="font-weight:bold">SAPC_task_main</a> (<a href="matlab: opentoline('C:\Users\Testing\projects\SAPS\SAP\control_task\SAPC_task_main.m',118,0)">line 118</a>)
+runTask(stimuli,expMode,expType,options,dataFile);
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+cancel(f);
+{Unrecognized function or variable 'f'.
+} 
+if system_dependent('IsDebugMode')==1, dbquit; end
