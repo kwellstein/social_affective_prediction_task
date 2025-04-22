@@ -35,12 +35,11 @@ function dataFile = cleanDataFields(dataFile,trial,predictField)
 %
 
 
-dataFile.(predictFiel).congruent = dataFile.(predictField).congruent(1:trial,:);
-dataFile.(predictFiel).response  = dataFile.(predictField).response(1:trial,:);
-dataFile.(predictFiel).rt        = dataFile.(predictField).rt(1:trial,:);
+dataFile.(predictField).congruent = dataFile.(predictField).congruent(1:trial,:);
+dataFile.(predictField).response  = dataFile.(predictField).response(1:trial,:);
+dataFile.(predictField).rt        = dataFile.(predictField).rt(1:trial,:);
 
 dataFile.events.stimulus_startTime   = dataFile.events.stimulus_startTime(1:trial,:);
-dataFile.events.slider_startTime     = dataFile.events.slider_startTime(1:trial,:);
 dataFile.events.predKey_startTime    = dataFile.events.predKey_startTime(1:trial,:);
 dataFile.events.choiceStim_startTime = dataFile.events.choiceStim_startTime(1:trial,:);
 dataFile.events.outcome_startTime    = dataFile.events.outcome_startTime(1:trial,:);

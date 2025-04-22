@@ -63,12 +63,11 @@ dataFile.descr.handedness = handedness;
 %% EVENTS 
 % Time stamps and special occurences (e.g. "abort event")
 
-dataFile.events.exp_startTime        = [];
-dataFile.events.eyeBaseline_start    = [];
-dataFile.events.eyeBaseline_end      = [];
+dataFile.events.exp_startTime     = [];
+dataFile.events.baseline_start    = [];
+dataFile.events.baseline_end      = [];
 dataFile.events.task_startTime       = strings(200,1);
 dataFile.events.stimulus_startTime   = strings(200,1);
-dataFile.events.predKey_startTime    = strings(200,1);
 dataFile.events.predAction_startTime = strings(200,1);
 dataFile.events.predAction_stopTime  = strings(200,1); 
 dataFile.events.outcome_startTime    = strings(200,1);

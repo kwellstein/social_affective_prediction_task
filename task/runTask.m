@@ -1,7 +1,7 @@
 function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 
 %% _______________________________________________________________________________%
-% runTask.m runs the Social Affective Prediction task
+%% runTask.m runs the Social Affective Prediction task
 %
 % SYNTAX:  dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %
@@ -50,31 +50,21 @@ taskRunning    = 1;
 trial          = 0;
 
 %% START task and send trigger
-if strcmp(expType,'fmri')
-    waitForTrigger = 1;
-    while waitForTrigger
-        [ ~, ~, keyCode,  ~] = KbCheck;
-        keyCode = find(keyCode);
-        if keyCode == options.keys.taskStart
-            waitForTrigger = 0;
-        end
-    end
-end
-
 if options.doEye
     % Must be offline to draw to EyeLink screen
     Eyelink('Command', 'set_idle_mode');
-
+    
     % clear tracker display
     Eyelink('Command', 'clear_screen 0');
     Eyelink('StartRecording');
-
+    
     % always wait a moment for recording to have definitely started
     WaitSecs(0.1);
     Eyelink('message', 'SYNCTIME');
 end
 
-dataFile.events.task_startTime = GetSecs();
+% split off to reading PPU data
+f = parfeval(@readDataFromCOM,0);
 
 %% SHOW intro
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
@@ -92,58 +82,90 @@ Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortInfoTxt,options,dataFile,0);
 
-% show fixation cross for a baseline pupil measurement
-if options.doEye
-    dataFile.events.eyeBaseline_start = extractAfter(char(datetime('now')),12);
-
-    Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
-    Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showEyeBaseline,options,dataFile,0);
-
-    dataFile.events.eyeBaseline_end   = extractAfter(char(datetime('now')),12);
+if strcmp(expType,'fmri')
+    waitForTrigger = 1;
+    while waitForTrigger
+        [ ~, ~, keyCode,  ~] = KbCheck;
+        keyCode = find(keyCode);
+        if keyCode == options.keys.taskStart
+            waitForTrigger = 0;
+        end
+    end
 end
 
-%% START task trials
+%% START TASK
+dataFile.events.task_startTime = GetSecs();
 
+% if options.doEMG==1
+%     parPulse(options.EMG.portNo) % get port address
+%     parPulse(options.EMG.expStart,0,15,1)
+% end
+
+
+% show baseline
+dataFile.events.baseline_start = extractAfter(char(datetime('now')),12);
+Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
+Screen('Flip', options.screen.windowPtr);
+
+if strcmp(expType,'fmri') && strcmp(expMode,'experiment')
+    eventListener.commandLine.wait2(options.dur.showMRIBaseline,options,dataFile,0);
+else
+
+    eventListener.commandLine.wait2(options.dur.showEyeBaseline,options,dataFile,0);
+end
+dataFile.events.baseline_end   = extractAfter(char(datetime('now')),12);
+
+
+% START TASK TRIALS
 while taskRunning
+
     trial   = trial + 1; % next step
     avatar  = options.task.avatarArray(trial);
     outcome = options.task.inputs(trial,2);
-
+    
     % pick avatar of current trial
     firstSlide = [char(avatar),'_neutral'];  % prediction
-
+    
     if outcome
         outcomeSlide = [char(avatar),'_smile'];   % if outcome is 1
     else
         outcomeSlide = [char(avatar),'_noSmile']; % if outcome is 0 %TODO: once stimuli are ready, add neutral outcome slides
     end
-
+    
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
     dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
-
+    
+    % if options.doEMG==1
+    %     parPulse(options.EMG.portNo) % get port address
+    %     parPulse(options.EMG.trialStart,0,15,1)
+    % end
+    
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
-
-    [dataFile,RT,resp] = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'start');
-
+    
+    [dataFile,RT,resp] = tools.askPrediction(stimuli.(firstSlide),options,dataFile,predictField,trial);
+    
     % show avatar again to make sure this event is constant in timing
-    restEventDur = options.dur.afterChoiceITI(trial)-RT;
-
-    if restEventDur>0 % in case the choice took longer than 500-1000ms, do not show face again
+    restEventDur = options.dur.afterActionITI(trial)-RT;
+    
+    if restEventDur>0 % in case the choice took longer than allocated action event time
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
     end
-
+    
     %% 2ND EVENT: Action Phase
     % make sure that participants delineate smile periods with start
     % and stop button but do this also for when participants choose not
     % to smile
     if ~isnan(resp)
-        dataFile = tools.askPrediction(expMode,stimuli.(firstSlide),options,dataFile,predictField,trial,'stop');
+      
+        % if options.doEMG==1
+        %     parPulse(options.EMG.portNo) % get port address
+        %     parPulse(options.EMG.respStop,0,15,1)
+        % end
 
         %% 3RD EVENT: Outcome Phase
         % show outcome
@@ -157,7 +179,7 @@ while taskRunning
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
     end
-
+    
     % log congruency and show points slide
     if resp==outcome
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
@@ -166,6 +188,7 @@ while taskRunning
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
+        
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
@@ -181,19 +204,29 @@ while taskRunning
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     end
+    % if options.doEMG==1
+    %     parPulse(options.EMG.portNo) % get port address
+    %     parPulse(options.EMG.trialStop,0,15,1)
+    % end
 
-    % Show Fixation cross %
+
+    %% ITI Show Fixation cross 
     dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.ITI(trial),options,dataFile,0);
-
+    
     % check if this is the last trial
     if trial == options.task.nTrials
         taskRunning = 0;
+        
     end
 end
 
+% if options.doEMG==1
+%     parPulse(options.EMG.portNo) % get port address
+%     parPulse(options.EMG.expStop,0,15,1)
+% end
 %% SAVE data
 
 % log experiment end time
@@ -219,5 +252,8 @@ eventListener.commandLine.wait2(options.dur.showShortInfoTxt,options,dataFile,0)
 if strcmp(expMode,'experiment')
     tools.showPoints(options,dataFile.Summary.points);
 end
+%% STOP parallel process
+cancel(f);
+fclose("all");
 
 end

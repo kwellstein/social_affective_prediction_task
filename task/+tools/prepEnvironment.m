@@ -57,10 +57,11 @@ switch uid(1: end-1)
         options.KBNumber = eventListener.commandLine.findKeyboardNumber();
          ListenChar(-1);
          
-    case  'desktop-ij9tsug\testing' % EEG computer ("stimmy")
+    case  'desktop-gs6gd6n\testing' % EEG computer ("stimmy")
         PsychRTBox('CloseAll');
         options.OS       = 'Windows';
         options.PC       = 'EEGLab_Computer';
+        options.EMG.portNo = 16360;
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
          ListenChar(-1);
@@ -69,6 +70,7 @@ switch uid(1: end-1)
         PsychRTBox('CloseAll');
         options.OS       = 'Windows';
         options.PC       = 'Scanner_Computer';
+        options.EMG.portNo = 16360;
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
          ListenChar(-1);

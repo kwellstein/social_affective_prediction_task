@@ -113,7 +113,9 @@ end
 
 %% RUN TASK
 runTask(stimuli,expMode,expType,options,dataFile);
-ListenChar(0);
+if ~strcmp(expMode, 'practice')
+    ListenChar(0);
+end
 Screen('CloseAll');
 
 end

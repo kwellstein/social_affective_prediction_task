@@ -47,17 +47,6 @@ predictField = [options.task.name,'Prediction'];
 taskRunning  = 1;
 trial        = 0;
 
-%% START task and send trigger
-if strcmp(expType,'fmri')
-    waitForTrigger = 1;
-    while waitForTrigger
-        [ ~, ~, keyCode,  ~] = KbCheck;
-        keyCode = find(keyCode);
-        if keyCode == options.keys.taskStart
-            waitForTrigger = 0;
-        end
-    end
-end
 
 if options.doEye
     % Must be offline to draw to EyeLink screen
@@ -71,6 +60,9 @@ if options.doEye
     WaitSecs(0.1);
     Eyelink('message', 'SYNCTIME');
 end
+
+% split off to reading PPU data
+f = parfeval(@readDataFromCOM,0);
 
 dataFile.events.exp_startTime = GetSecs();
 
@@ -95,23 +87,36 @@ else
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
 end
 
+%% START task and send trigger
+if strcmp(expType,'fmri')
+    waitForTrigger = 1;
+    while waitForTrigger
+        [ ~, ~, keyCode,  ~] = KbCheck;
+        keyCode = find(keyCode);
+        if keyCode == options.keys.taskStart
+            waitForTrigger = 0;
+        end
+    end
+end
+
+% show ready screen
 Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
-% show fixation cross for a baseline pupil measurement
-if options.doEye
-    dataFile.events.eyeBaseline_start = extractAfter(char(datetime('now')),12);
-
-    Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
+% show baseline
+if strcmp(expType,'fmri') && strcmp(expMode,'experiment')
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
-    eventListener.commandLine.wait2(options.dur.showEyeBaseline,options,dataFile,0);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showMRIBaseline,options,dataFile,0);
+else
+    Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI,[], options.screen.rect);
+    Screen('Flip', options.screen.windowPtr);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showEyeBaseline,options,dataFile,0);
 
-    dataFile.events.eyeBaseline_end   = extractAfter(char(datetime('now')),12);
 end
 
-%% START task trials
-
+% START TASK TRIALS
 while taskRunning
     trial   = trial + 1; % next step
     egg     = options.task.eggArray(trial);
@@ -260,5 +265,7 @@ eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 if strcmp(expMode,'experiment')
     tools.showPoints(options,dataFile.Summary.points);
 end
-
+%% STOP parallel process
+cancel(f);
+fclose("all");
 end

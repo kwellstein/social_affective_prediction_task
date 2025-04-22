@@ -57,7 +57,7 @@ switch uid(1: end-1)
         options.KBNumber = eventListener.commandLine.findKeyboardNumber();   
         ListenChar(-1);
     
-    case  'desktop-ij9tsug\testing' % EEG computer ("stimmy")
+    case  'desktop-gs6gd6n\testing' % EEG computer ("stimmy")
         PsychRTBox('CloseAll'); 
         options.OS       = 'Windows';
         options.PC       = 'EEGLab_Computer';

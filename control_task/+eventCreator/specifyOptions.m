@@ -69,8 +69,8 @@ switch expMode
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-        options.doEye = 1;
-        options.doEMG = 1;
+        options.doEye = 0;
+        options.doEMG = 0;
         options.task.showPoints = 0;
 
     case 'practice'
@@ -81,7 +81,7 @@ switch expMode
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         options.doEye = 0;
-        options.doEMG = 1;
+        options.doEMG = 0;
         options.task.showPoints = 1;
 end
 
@@ -109,25 +109,25 @@ taskCol       = taskRandTable.(options.task.name);
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
 
-% if strcmp(expMode,'experiment')
-%     d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-%     nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-%     nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
-%
-%     if nApproaches/nTrials <0.35
-%         options.task.firstTarget    = 40;
-%         options.task.finalTarget    = 80;
-%         options.task.maxSequenceIdx = 2;
-%     else
-%         options.task.firstTarget    = 50;
-%         options.task.finalTarget    = 100;
-%         options.task.maxSequenceIdx = 3;
-%     end
-% else
+if strcmp(expMode,'experiment')
+    d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
+    nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
+    nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
+
+    if nApproaches/nTrials <0.35
+        options.task.firstTarget    = 40;
+        options.task.finalTarget    = 80;
+        options.task.maxSequenceIdx = 2;
+    else
+        options.task.firstTarget    = 50;
+        options.task.finalTarget    = 100;
+        options.task.maxSequenceIdx = 3;
+    end
+else
 options.task.firstTarget    = 50;
 options.task.finalTarget    = 100;
 options.task.maxSequenceIdx = 3;
-%     end
+end
 
 
 %% options screen
@@ -145,20 +145,20 @@ switch expMode
             '\n Use your ',handedness,' index finger to collect or your ',handedness,' middle finger to reject the egg.'];
 end
 
-if options.task.sequenceIdx<options.task.maxSequenceIdx
-    options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
-        '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
-    options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
-        '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
-    options.screen.noTargetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
-        '\n Keep collecting points in the next task!'];
-else
+% if options.task.sequenceIdx<options.task.maxSequenceIdx
+%     options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
+%         '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
+%     options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
+%         '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
+%     options.screen.noTargetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
+%         '\n Keep collecting points in the next task!'];
+% else
     options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points across all tasks! ' ...
         '\n You will receive an additional 5$ to your reimbursement.'];
     options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
         '\n You will receive an additional 10$ to your reimbursement.'];
     options.screen.noTargetText = 'You have not collected enough points to reach one of the reimbursed targets.';
-end
+% end
 
 options.screen.pointsText = 'You collected the following amount of points: ';
 options.screen.expEndText     = ['Thank you! ' ...
@@ -227,8 +227,8 @@ options.dur.showStimulus    = 1000;  % in ms
 options.dur.showOutcome     = 1000;
 options.dur.showPractOutcome = 2000;
 options.dur.showPoints      = 500;
-options.dur.showIntroScreen = 30000; % in ms
-options.dur.showShortIntro  = 10000;
+options.dur.showIntroScreen = 40000; % in ms
+options.dur.showShortIntro  = 20000;
 options.dur.showShortInfoTxt= 1200;
 options.dur.showEyeBaseline = 2000;
 options.dur.afterChoiceITI  = randi([500,1500],options.task.nTrials,1);
