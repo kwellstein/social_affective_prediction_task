@@ -89,7 +89,7 @@ switch expMode
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 2 1; ...
-                                  1 0 1 1 0 1 0 1]';
+            1 0 1 1 0 1 0 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
 
         if strcmp(expType,'behav')
@@ -101,7 +101,7 @@ switch expMode
         options.task.showPoints = 0;
         options.doEye = 0;
         options.doEMG = 0;
-        options.doPPU = 1;
+        options.doPPU = 0;
 end
 
 %% STIMULI SELECTION based on randomisation list
@@ -127,7 +127,7 @@ taskCol       = taskRandTable.(options.task.name);
 
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
-% 
+%
 if strcmp(expMode,'experiment')
     d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
     nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
@@ -143,9 +143,9 @@ if strcmp(expMode,'experiment')
         options.task.maxSequenceIdx = 3;
     end
 else
-options.task.firstTarget    = 50;
-options.task.finalTarget    = 100;
-options.task.maxSequenceIdx = 3;
+    options.task.firstTarget    = 50;
+    options.task.finalTarget    = 100;
+    options.task.maxSequenceIdx = 3;
 end
 
 %% SCREEN and TEXT
@@ -193,45 +193,17 @@ options.messages.wrongButton   = 'you pressed the wrong button';
 % use KbDemo to identify kbName and Keycode
 KbName('UnifyKeyNames');
 
-switch expType
-    case 'behav'
-        options.keys.escape     = KbName('ESCAPE');
 
-        if strcmp(options.PC,'EEGLab_Computer')
-            options.keys.space =  KbName('space');
-            if strcmp(handedness,'right')
-                options.keys.smile   = KbName('4$');  % KeyCode: 70, dominant hand index finger
-                options.keys.noSmile = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
-            else
-                options.keys.smile   = KbName('3#'); % KeyCode: 66, dominant hand index finger
-                options.keys.noSmile = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
-            end
-        else
-                options.keys.space  =  KbName('space');
-            if strcmp(handedness,'right')
-                options.keys.smile   = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-                options.keys.noSmile = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
-
-            else
-                options.keys.smile   = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-                options.keys.noSmile = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
-            end
-        end
-
-    case 'fmri'
-        options.keys.escape    = KbName('ESCAPE');
-        options.keys.taskStart = KbName('5');
-        options.keys.space     = KbName('space');
-
-        if strcmp(handedness,'right')
-            options.keys.smile   = KbName('1'); % CHANGE: This should dominant hand index finger
-            options.keys.noSmile = KbName('4'); % CHANGE: This should non-dominant hand index finger
-        else
-            options.keys.smile   = KbName('4'); % KeyCode: 226, dominant hand index finger
-            options.keys.noSmile = KbName('1'); % KeyCode: 37, non-dominant hand index finger
-        end
-            
-    otherwise
+if strcmp(options.PC,'EEGLab_Computer')
+    if strcmp(handedness,'right')
+        options.keys.smile   = KbName('4$');  % KeyCode: 70, dominant hand index finger
+        options.keys.noSmile = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
+    else
+        options.keys.smile   = KbName('3#'); % KeyCode: 66, dominant hand index finger
+        options.keys.noSmile = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
+    end
+elseif strcmp(options.PC,'Scanner_Computer')
+    if strcmp(expType,'behav')
         if strcmp(handedness,'right')
             options.keys.smile   = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
             options.keys.noSmile = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
@@ -240,8 +212,29 @@ switch expType
             options.keys.smile   = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
             options.keys.noSmile = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
         end
+    else
+        options.keys.taskStart = KbName('5%');
+        if strcmp(handedness,'right')
+            options.keys.smile   = KbName('1!'); % CHANGE: This should dominant hand index finger
+            options.keys.noSmile = KbName('4$'); % CHANGE: This should non-dominant hand index finger
+        else
+            options.keys.smile   = KbName('4$'); % KeyCode: 226, dominant hand index finger
+            options.keys.noSmile = KbName('1!'); % KeyCode: 37, non-dominant hand index finger
+        end
+    end
+else
+    if strcmp(handedness,'right')
+        options.keys.collect = KbName('RightArrow');  % KeyCode: 37, dominant hand index finger
+        options.keys.reject  = KbName('LeftAlt'); % KeyCode: 79, dominant hand ring finger
+
+    else
+        options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+        options.keys.reject  = KbName('RightArrow'); % KeyCode: 224, dominant hand ring finger
+    end
 end
 
+options.keys.escape    = KbName('ESCAPE');
+options.keys.space     = KbName('space');
 
 %% DURATIONS OF EVENTS
 if  strcmp(expMode,'practice')
@@ -270,16 +263,16 @@ else % in ms
     options.dur.showReadyScreen = 1000;
     options.dur.showEyeBaseline = 3000;
     options.dur.showMRIBaseline = 10000;
-    options.dur.afterActionITI  = randi([2000,3000],options.task.nTrials,1);
+    options.dur.afterActionITI  = randi([1000,2000],options.task.nTrials,1);
     options.dur.rtTimeout       =  2500;
     options.dur.showWarning     =  1500;
     options.dur.ITI             = randi([2500,3500],options.task.nTrials,1);
 end
 
 options.dur.taskDur = options.task.nTrials*(options.dur.showStimulus+options.dur.showOutcome)...
-        +sum(options.dur.afterActionITI)+sum(options.dur.ITI);
+    +sum(options.dur.afterActionITI)+sum(options.dur.ITI);
 options.dur.expDur = options.dur.taskDur + options.dur.showMRIBaseline+options.dur.showIntroScreen ...
-     + options.dur.showShortIntro + options.dur.showShortInfoTxt;
+    + options.dur.showShortIntro + options.dur.showShortInfoTxt;
 options.dur.mriDur = options.dur.taskDur + options.dur.showMRIBaseline+options.dur.showShortInfoTxt;
 
 

@@ -54,8 +54,6 @@ options.paths.tasksDir = ['..',filesep];
 options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
 options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
-%% hardware identifiers
-options.hardware.tracker = 'T60';
 
 %% specifing experiment mode specific settings
 options.files.projectID    = 'SAPS_';
@@ -83,7 +81,7 @@ switch expMode
         options.task.nTrials  = size(options.task.inputs,1);
         options.doEye = 0;
         options.doEMG = 0;
-        options.doPPU = 1;
+        options.doPPU = 0;
         options.task.showPoints = 1;
 end
 
@@ -147,20 +145,20 @@ switch expMode
             '\n Use your ',handedness,' index finger to collect or your ',handedness,' middle finger to reject the egg.'];
 end
 
-% if options.task.sequenceIdx<options.task.maxSequenceIdx
-%     options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
-%         '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
-%     options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
-%         '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
-%     options.screen.noTargetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
-%         '\n Keep collecting points in the next task!'];
-% else
+if options.task.sequenceIdx<options.task.maxSequenceIdx
+    options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points! ' ...
+        '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
+    options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points! ' ...
+        '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
+    options.screen.noTargetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
+        '\n Keep collecting points in the next task!'];
+else
     options.screen.firstTargetText = ['You collected more than ', options.task.firstTarget,' points across all tasks! ' ...
         '\n You will receive an additional 5$ to your reimbursement.'];
     options.screen.finalTargetText = ['You collected more than ', options.task.finalTarget,' points across all tasks! ' ...
         '\n You will receive an additional 10$ to your reimbursement.'];
     options.screen.noTargetText = 'You have not collected enough points to reach one of the reimbursed targets.';
-% end
+end
 
 options.screen.pointsText = 'You collected the following amount of points: ';
 options.screen.expEndText     = ['Thank you! ' ...
@@ -169,51 +167,51 @@ options.screen.expEndText     = ['Thank you! ' ...
 %% options keyboard
 % use KbDemo to identify kbName and Keycode
 KbName('UnifyKeyNames')
-switch expType
-    case 'behav'
-        options.keys.escape     = KbName('ESCAPE');
 
-        if strcmp(options.PC,'EEGLab_Computer')
-            if strcmp(handedness,'right')
-                options.keys.collect = KbName('4$');  % KeyCode: 70, dominant hand index finger
-                options.keys.reject    = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
-            else
-                options.keys.collect = KbName('3#'); % KeyCode: 66, dominant hand index finger
-                options.keys.reject    = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
-            end
-        else
+if strcmp(options.PC,'EEGLab_Computer')
+    if strcmp(handedness,'right')
+        options.keys.collect = KbName('4$');  % KeyCode: 70, dominant hand index finger
+        options.keys.reject  = KbName('3#');  % KeyCode: 66, non-dominant hand index finger
+    else
+        options.keys.collect = KbName('3#'); % KeyCode: 66, dominant hand index finger
+        options.keys.reject  = KbName('4$'); % KeyCode: 70, non-dominant hand index finger
+    end
 
-            if strcmp(handedness,'right')
-                options.keys.collect = KbName('RightArrow');  % KeyCode: 37, dominant hand index finger
-                options.keys.reject  = KbName('LeftAlt'); % KeyCode: 79, dominant hand ring finger
-
-            else
-                options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-                options.keys.reject  = KbName('RightArrow'); % KeyCode: 224, dominant hand ring finger
-            end
-        end
-    case 'fmri'
-        options.keys.taskStart =  KbName('5');
-
+elseif strcmp(options.PC,'Scanner_Computer')
+    if strcmp(expType,'behav')
         if strcmp(handedness,'right')
-            options.keys.collect = KbName('1'); % CHANGE: This should dominant hand index finger
-            options.keys.reject    = KbName('4'); % CHANGE: This should dominant hand ring finger
+            options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.reject  = KbName('alt'); % KeyCode: 79, dominant hand middle finger
         else
-            options.keys.collect = KbName('4'); % KeyCode: 226, dominant hand index finger
-            options.keys.reject    = KbName('1'); % KeyCode: 224, dominant hand ring finger
+            options.keys.collect = KbName('alt');     % KeyCode: 226, dominant hand index finger
+            options.keys.reject  = KbName('LeftArrow'); % KeyCode: 224, dominant hand ring finger
         end
+    else
 
-    otherwise
+        options.keys.taskStart = KbName('5%');
         if strcmp(handedness,'right')
-            options.keys.collect = KbName('RightArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.reject  = KbName('LeftAlt'); % KeyCode: 79, dominant hand middle finger
+            options.keys.collect = KbName('1!'); % CHANGE: This should dominant hand index finger
+            options.keys.reject  = KbName('4$'); % CHANGE: This should dominant hand ring finger
         else
-            options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-            options.keys.reject  = KbName('RightArrow'); % KeyCode: 224, dominant hand ring finger
+            options.keys.collect = KbName('4$'); % KeyCode: 226, dominant hand index finger
+            options.keys.reject  = KbName('1!'); % KeyCode: 224, dominant hand ring finger
         end
+    end
+else
+    
+    if strcmp(handedness,'right')
+        options.keys.collect = KbName('RightArrow');  % KeyCode: 37, dominant hand index finger
+        options.keys.reject  = KbName('LeftAlt'); % KeyCode: 79, dominant hand ring finger
+
+    else
+        options.keys.collect = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
+        options.keys.reject  = KbName('RightArrow'); % KeyCode: 224, dominant hand ring finger
+    end
 end
 
-options.keys.escape     = KbName('ESCAPE');
+
+options.keys.escape = KbName('ESCAPE');
+options.keys.space  = KbName('space');
 
 %% DURATIONS OF EVENTS
 options.dur.waitnxtkeypress = 5000; % in ms
@@ -227,7 +225,7 @@ options.dur.showShortInfoTxt= 1200;
 options.dur.showEyeBaseline = 3000;
 options.dur.showMRIBaseline = 10000;
 options.dur.afterChoiceITI  = randi([2000,3000],options.task.nTrials,1);
-options.dur.rtTimeout       =  1500;
+options.dur.rtTimeout       =  2000;
 options.dur.showWarning     =  1500;
 options.dur.showReadyScreen =  1000;
 options.dur.ITI             = randi([2500,3500],options.task.nTrials,1);
@@ -253,5 +251,19 @@ options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';
 options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
 options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
+
+%% DEFINE EMG triggers
+if options.doEMG == 1
+    options.EMG.expStart     = 1;
+    options.EMG.expStop      = 2;
+    options.EMG.trialStart   = 3;
+    options.EMG.smileStart   = 4;
+    options.EMG.neutralStart = 5;
+    options.EMG.respStop     = 6;
+    options.EMG.trialStop    = 9;
+end
+
+% hardware identifiers
+options.hardware.tracker = 'T60';
 
 end

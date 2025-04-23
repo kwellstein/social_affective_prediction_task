@@ -65,7 +65,9 @@ if options.doEye
 end
 
 % split off to reading PPU data
-f = parfeval(@readDataFromCOM,0);
+if options.doPPU
+    f = parfeval(@readDataFromCOM,0);
+end
 
 dataFile.events.exp_startTime = GetSecs();
 
@@ -244,12 +246,21 @@ dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial,predictField,actionField);
 
-% save all data
+% MOVE eyelink data
 if options.doEye
     Eyelink('GetQueuedData');
     Eyelink('ReceiveFile');
 end
 
+% STOP parallel process
+if options.doPPU
+cancel(f);
+
+fclose("all");
+load('sObj')
+sObj =[];
+delete([pwd,filesep,'sObj.mat']);
+end
 output.saveData(options,dataFile);
 
 
@@ -261,12 +272,6 @@ eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 if strcmp(expMode,'experiment')
     tools.showPoints(options,dataFile.Summary.points);
 end
-%% STOP parallel process
-cancel(f);
 
-fclose("all");
-load('sObj')
-sObj =[];
-delete([pwd,filesep,'sObj.mat']);
 
 end

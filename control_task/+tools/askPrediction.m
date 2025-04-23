@@ -88,7 +88,7 @@ while waiting
         % this will be logged and saved as NaN. A time-out message will be
         % displayed
     elseif RT*1000 > options.dur.rtTimeout
-        durMissedTrial = options.dur.showChoiceITI(trial)+options.dur.afterChoiceITI(trial)-(RT*1000);
+        durMissedTrial = options.dur.afterChoiceITI(trial)-(RT*1000);
         DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
             'center', 'center', options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
@@ -97,7 +97,7 @@ while waiting
         disp(['Participant missed trial ',num2str(trial),'... ']);
         waiting  = 0;
         resp     = NaN;
-
+        RT = options.dur.afterChoiceITI(trial);
     end % END COLLECT detection loop
 end % END REJECT loop
 

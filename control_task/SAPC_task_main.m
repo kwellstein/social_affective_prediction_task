@@ -50,6 +50,10 @@ close all;
 clearvars;
 clc;
 
+% open debug functions
+edit debug_noResponse.m
+edit debug_closePorts.m
+
 diary on
 % add toolbox to path
 addpath(genpath(fullfile([pwd,'/Psychtoolbox-3'])));
