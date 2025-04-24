@@ -136,13 +136,14 @@ while taskRunning
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
     dataFile.events.stimulus_startTime(trial)     = extractAfter(char(datetime('now')),12);
-     dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
+    dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
 
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
+    RT = RT*1000; % convert to ms
     restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
 if ~isnan(resp)
@@ -248,6 +249,7 @@ end
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
+
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial,predictField);
 
@@ -268,7 +270,7 @@ end
 
 output.saveData(options,dataFile);
 
-% show end screen
+%% SHOW END screen
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
 Screen('Flip', options.screen.windowPtr);
 eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);

@@ -153,6 +153,7 @@ while taskRunning
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
     
     [dataFile,RT,resp] = tools.askPrediction(stimuli.(firstSlide),options,dataFile,predictField,trial);
+    RT = RT*1000; % convert to ms
     
     % show avatar again to make sure this event is constant in timing
     restEventDur = options.dur.afterActionITI(trial)-RT;
