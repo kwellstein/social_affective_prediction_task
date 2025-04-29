@@ -1,4 +1,4 @@
-function options = specifyOptions(options,PID,expMode,expType,handedness)
+function options = specifyOptions(options,PID,expMode,expType,handedness,nTasks)
 
 % -----------------------------------------------------------------------
 % specifyOptions.m creates structs for the different stages in the task
@@ -109,12 +109,10 @@ taskCol       = taskRandTable.(options.task.name);
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
 
+% specify how many points will be needed for bonus vouchers depending on
+% how many tasks are going to be played by participant
 if strcmp(expMode,'experiment')
-    d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-    nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-    nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
-
-    if nApproaches/nTrials <0.35
+    if nTasks==2
         options.task.firstTarget    = 40;
         options.task.finalTarget    = 80;
         options.task.maxSequenceIdx = 2;
@@ -123,10 +121,6 @@ if strcmp(expMode,'experiment')
         options.task.finalTarget    = 100;
         options.task.maxSequenceIdx = 3;
     end
-else
-options.task.firstTarget    = 50;
-options.task.finalTarget    = 100;
-options.task.maxSequenceIdx = 3;
 end
 
 
@@ -180,11 +174,11 @@ if strcmp(options.PC,'EEGLab_Computer')
 elseif strcmp(options.PC,'Scanner_Computer')
     if strcmp(expType,'behav')
         if strcmp(handedness,'right')
-            options.keys.collect = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.reject  = KbName('alt'); % KeyCode: 79, dominant hand middle finger
+            options.keys.collect = KbName('RightArrow');  % KeyCode: 37, dominant hand index finger
+            options.keys.reject  = KbName('LeftArrow'); % KeyCode: 79, dominant hand middle finger
         else
-            options.keys.collect = KbName('alt');     % KeyCode: 226, dominant hand index finger
-            options.keys.reject  = KbName('LeftArrow'); % KeyCode: 224, dominant hand ring finger
+            options.keys.collect = KbName('LeftArrow');     % KeyCode: 226, dominant hand index finger
+            options.keys.reject  = KbName('RightArrow'); % KeyCode: 224, dominant hand ring finger
         end
     else
 
@@ -245,7 +239,7 @@ options.messages.wrongButton   = 'you pressed the wrong button';
 
 %% DATAFILES & PATHS
 options.files.namePrefix   = ['SNG_SAPC_',PID,'_',expType];
-options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID];
+options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID,filesep];
 mkdir(options.files.savePath);
 options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';

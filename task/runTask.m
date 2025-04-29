@@ -71,6 +71,12 @@ end
 
 dataFile.events.exp_startTime = GetSecs();
 
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.expStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
 %% SHOW intro
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
@@ -102,13 +108,16 @@ if strcmp(expType,'fmri')
     end
 end
 
-% if options.doEMG==1
-%     parPulse(options.EMG.portNo) % get port address
-%     parPulse(options.EMG.expStart,0,15,1)
-% end
-
 
 dataFile.events.task_startTime = GetSecs();
+
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.taskStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
+
 % show baseline
 dataFile.events.baseline_start = extractAfter(char(datetime('now')),12);
 Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
@@ -140,19 +149,29 @@ while taskRunning
     
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
-    dataFile.events.stimulus_startTime(trial) = extractAfter(char(datetime('now')),12);
+    dataFile.events.stimulus_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
 
-    % if options.doEMG==1
-    %     parPulse(options.EMG.portNo) % get port address
-    %     parPulse(options.EMG.trialStart,0,15,1)
-    % end
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.trialStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
     
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
     
     [dataFile,RT,resp] = tools.askPrediction(stimuli.(firstSlide),options,dataFile,predictField,trial);
+
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.respKey,0,options.EMG.pinMask,options.EMG.pulseDur);
+    end
+
     RT = RT*1000; % convert to ms
     
     % show avatar again to make sure this event is constant in timing
@@ -171,14 +190,17 @@ while taskRunning
     
     %% 3RD EVENT: Outcome Phase
     % show outcome
-    dataFile.events.outcome_startTime(trial) = extractAfter(char(datetime('now')),12);
+    dataFile.events.outcome_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.outcome_startTimeStp(trial) = GetSecs();
-    if ~isnan(resp)   
-        % if options.doEMG==1
-        %     parPulse(options.EMG.portNo) % get port address
-        %     parPulse(options.EMG.respStop,0,15,1)
-        % end
 
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.outcomeStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+    end
+
+    if ~isnan(resp)   
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
@@ -213,10 +235,13 @@ while taskRunning
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     end
-    % if options.doEMG==1
-    %     parPulse(options.EMG.portNo) % get port address
-    %     parPulse(options.EMG.trialStop,0,15,1)
-    % end
+
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.trialStop,0,options.EMG.pinMask,options.EMG.pulseDur);
+    end
 
 
     %% ITI Show Fixation cross 
@@ -234,10 +259,14 @@ while taskRunning
     end
 end
 
-% if options.doEMG==1
-%     parPulse(options.EMG.portNo) % get port address
-%     parPulse(options.EMG.expStop,0,15,1)
-% end
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.taskStop,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
+
+
 %% SAVE data
 
 % log experiment end time
@@ -262,6 +291,7 @@ load('sObj')
 sObj =[];
 delete([pwd,filesep,'sObj.mat']);
 end
+
 output.saveData(options,dataFile);
 
 
@@ -274,5 +304,11 @@ if strcmp(expMode,'experiment')
     tools.showPoints(options,dataFile.Summary.points);
 end
 
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.expStop,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
 
 end

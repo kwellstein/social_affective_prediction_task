@@ -1,4 +1,4 @@
-function options = specifyOptions(options,PID,expMode,expType,handedness)
+function options = specifyOptions(options,PID,expMode,expType,handedness,nTasks)
 
 % -----------------------------------------------------------------------
 % specifyOptions.m creates structs for the different stages in the task
@@ -77,7 +77,7 @@ switch expMode
         options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nAvatars = max(options.task.inputs(:,1));
-        options.task.nTrials  = 15;%size(options.task.inputs,1);
+        options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
         options.doEye = 0;
         options.doEMG = 0;
@@ -127,13 +127,11 @@ taskCol       = taskRandTable.(options.task.name);
 
 %specify the task number (i.e. the place in the tasks sequence this task has) in this study
 options.task.sequenceIdx    = taskCol(rowIdx);
-%
-if strcmp(expMode,'experiment')
-    d = load([options.paths.saveDir,'practice',filesep,options.files.projectID,PID,filesep,'SNG_AAA_',PID,'_behav_dataFile.mat']);
-    nTrials     = length(d.dataFile.AAAPrediction.response(:,1));
-    nApproaches = sum(d.dataFile.AAAPrediction.response(:,1));
 
-    if nApproaches/nTrials <0.35
+% specify how many points will be needed for bonus vouchers depending on
+% how many tasks are going to be played by participant
+if strcmp(expMode,'experiment')
+    if nTasks==2
         options.task.firstTarget    = 40;
         options.task.finalTarget    = 80;
         options.task.maxSequenceIdx = 2;
@@ -142,11 +140,8 @@ if strcmp(expMode,'experiment')
         options.task.finalTarget    = 100;
         options.task.maxSequenceIdx = 3;
     end
-else
-    options.task.firstTarget    = 50;
-    options.task.finalTarget    = 100;
-    options.task.maxSequenceIdx = 3;
 end
+
 
 %% SCREEN and TEXT
 options.screen.white  = WhiteIndex(options.screen.number);
@@ -205,12 +200,12 @@ if strcmp(options.PC,'EEGLab_Computer')
 elseif strcmp(options.PC,'Scanner_Computer')
     if strcmp(expType,'behav')
         if strcmp(handedness,'right')
-            options.keys.smile   = KbName('LeftArrow');  % KeyCode: 37, dominant hand index finger
-            options.keys.noSmile = KbName('LeftAlt');    % KeyCode: 226, non-dominant hand index finger
+            options.keys.smile   = KbName('RightArrow');  % KeyCode: 39, dominant hand index finger
+            options.keys.noSmile = KbName('LeftArrow');    % KeyCode: 37, non-dominant hand index finger
 
         else
-            options.keys.smile   = KbName('LeftAlt');     % KeyCode: 226, dominant hand index finger
-            options.keys.noSmile = KbName('LeftArrow');   % KeyCode: 37, non-dominant hand index finger
+            options.keys.smile   = KbName('LeftArrow');     % KeyCode: 37, dominant hand index finger
+            options.keys.noSmile = KbName('RightArrow');   % KeyCode: 39, non-dominant hand index finger
         end
     else
         options.keys.taskStart = KbName('5%');
@@ -279,15 +274,29 @@ options.dur.mriDur = options.dur.taskDur + options.dur.showMRIBaseline+options.d
 %% DEFINE EMG triggers
 
 if options.doEMG == 1
-    options.EMG.expStart     = 1;
-    options.EMG.expStop      = 2;
-    options.EMG.trialStart   = 3;
-    options.EMG.smileStart   = 4;
-    options.EMG.neutralStart = 5;
-    options.EMG.respStop     = 6;
-    options.EMG.trialStop    = 9;
+
+    % triggers / code values
+    options.EMG.expStart   = 100;
+    options.EMG.expStop    = 200;
+    options.EMG.taskStart  = 110;
+    options.EMG.taskStop   = 210;
+    options.EMG.trialStart = 10;
+    options.EMG.predStart  = 11;
+    options.EMG.neutralKey = 3;
+    options.EMG.smileKey   = 4;
+    options.EMG.outcomeStart = 12;
+    options.EMG.trialStop  = 20;
+
+    % port settings
+    options.EMG.pulseDur = 0.05;
+    options.EMG.pinMask  = 255; % Value from 0 to 255 expressing which pins will be used when signals are sent, 255 = all 8 pins of the data port of the parallel port
+
+    % Initialise parallel port
+    parPulse(options.EMG.portAddress);
+
 end
 
 % hardware identifiers
 options.hardware.tracker = 'T60';
+options.PPU.ascii0       = 48; % subtract from ppu data in cleanDataFields.m
 end

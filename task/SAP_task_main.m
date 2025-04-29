@@ -95,6 +95,12 @@ else
     expType = input('Your input is not correct, type either ''right'' or ''left'' :','s');
 end % END expType check
 
+if strcmp(expMode,'experiment')
+    nTasks = input('Enter no of Tasks this participant will play. Enter ''2'' if they will not play the AAA task, otherwise enter ''3'' : ');
+else
+    nTasks = 3;
+end
+
 %% SETUP DATAFILE
 dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness);
 
@@ -102,7 +108,7 @@ dataFile = eventCreator.initDataFile(PID,expType,expMode,handedness);
 options = tools.prepEnvironment;
 
 %% SETUP OPTIONS
-options = eventCreator.specifyOptions(options,PID,expMode,expType,handedness);
+options = eventCreator.specifyOptions(options,PID,expMode,expType,handedness,nTasks);
 options = eventCreator.initScreen(options,expMode);
 stimuli = eventCreator.initVisuals(options,expMode,expType);
 

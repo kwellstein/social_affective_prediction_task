@@ -61,7 +61,7 @@ switch uid(1: end-1)
         PsychRTBox('CloseAll');
         options.OS       = 'Windows';
         options.PC       = 'EEGLab_Computer';
-        options.EMG.portNo = 16360;
+        options.EMG.portAddress = 16359;
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
          ListenChar(-1);
@@ -70,7 +70,7 @@ switch uid(1: end-1)
         PsychRTBox('CloseAll');
         options.OS       = 'Windows';
         options.PC       = 'Scanner_Computer';
-        options.EMG.portNo = 16360;
+        options.EMG.portAddress = 16359;
         options.KBNumber = eventListener.commandLine.findKeyboardNumber(options.OS);
         Screen('Preference', 'SkipSyncTests', 1);
          ListenChar(-1);

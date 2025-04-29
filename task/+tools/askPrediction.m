@@ -59,6 +59,13 @@ while waiting
     DrawFormattedText(options.screen.windowPtr,options.screen.startPredictText,'center',[],[255 255 255],[],[],[],1);
     Screen('Flip', options.screen.windowPtr);
 
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.predStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+    end
+
     % detect response
     [ ~, ~, keyCode,  ~] = KbCheck;
     keyCode = find(keyCode);
@@ -66,20 +73,28 @@ while waiting
 
     if any(keyCode == options.keys.smile)
         resp    = 1;
-        % if options.doEMG==1
-        %     parPulse(options.EMG.portNo) % get port address
-        %     parPulse(options.EMG.smileStart,0,15,1)
-        % end
+
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.smileKey ,0,options.EMG.pinMask,options.EMG.pulseDur);
+    end
         waiting = 0;
+
 
     elseif any(keyCode == options.keys.noSmile)
         resp    = 0;
-        % if options.doEMG==1
-        %     parPulse(options.EMG.portNo) % get port address
-        %     parPulse(options.EMG.neutralStart,0,15,1)
-        % end
+
+        if options.doEMG == 1
+            % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+            % set pins to the code value and then afterwards set the pins to zero
+            parPulse(options.EMG.portAddress,options.EMG.neutralKey ,0,options.EMG.pinMask,options.EMG.pulseDur);
+        end
         waiting = 0;
 
+        
         % in case ESC is pressed this will be logged and saved and the
         % experiment stops here
     elseif any(keyCode == options.keys.escape)
@@ -111,7 +126,7 @@ while waiting
 
     end % END STARTSMILE detection loop
 end
-    dataFile.events.predAction_stopTime(trial) = extractAfter(char(datetime('now')),12);
+ 
     [~,dataFile] = eventListener.logData(RT,task,'rt',dataFile,trial);
     [~,dataFile] = eventListener.logData(resp,task,'response',dataFile,trial);
 
