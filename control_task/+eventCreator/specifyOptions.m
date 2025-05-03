@@ -54,11 +54,22 @@ options.paths.tasksDir = ['..',filesep];
 options.paths.saveDir  = [options.paths.tasksDir,'data',filesep];
 options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xlsx'];
 
-
 %% specifing experiment mode specific settings
 options.files.projectID    = 'SAPS_';
 options.task.name          = 'SAPC';
 
+%% DATAFILES & PATHS
+options.files.namePrefix   = ['SNG_',options.task.name,'_',PID,'_',expType];
+options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID,filesep];
+mkdir(options.files.savePath);
+options.files.dataFileExtension    = 'dataFile.mat';
+options.files.optionsFileExtension = 'optionsFile.mat';
+options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
+options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
+options.files.eyeFileName     = [PID,options.task.name,'.edf'];
+options.files.ppuFileName     = [PID,options.task.name,'_ppu'];
+
+%% SETTINGS for different experiment modes
 switch expMode
     case 'experiment'
         screens               = Screen('Screens');
@@ -67,8 +78,8 @@ switch expMode
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-        options.doEye = 0;
-        options.doEMG = 0;
+        options.doEye = 1;
+        options.doEMG = 1;
         options.doPPU = 1;
         options.task.showPoints = 0;
 
@@ -113,14 +124,18 @@ options.task.sequenceIdx    = taskCol(rowIdx);
 % how many tasks are going to be played by participant
 if strcmp(expMode,'experiment')
     if nTasks==2
-        options.task.firstTarget    = 40;
-        options.task.finalTarget    = 80;
-        options.task.maxSequenceIdx = 2;
-    else
         options.task.firstTarget    = 50;
         options.task.finalTarget    = 100;
+        options.task.maxSequenceIdx = 2;
+    else
+        options.task.firstTarget    = 100;
+        options.task.finalTarget    = 150;
         options.task.maxSequenceIdx = 3;
     end
+else
+        options.task.firstTarget    = 100;
+        options.task.finalTarget    = 150;
+        options.task.maxSequenceIdx = 3;
 end
 
 
@@ -158,7 +173,12 @@ options.screen.pointsText = 'You collected the following amount of points: ';
 options.screen.expEndText     = ['Thank you! ' ...
     'You finished the ',options.task.name, '/ Egg task ',expMode, '.'];
 
-%% options keyboard
+% MESSAGES
+options.messages.abortText     = 'the experiment was aborted';
+options.messages.timeOut       = 'you did not answer in time';
+options.messages.wrongButton   = 'you pressed the wrong button';
+
+%% KEYBOARD
 % use KbDemo to identify kbName and Keycode
 KbName('UnifyKeyNames')
 
@@ -231,33 +251,34 @@ options.dur.expDur = options.dur.taskDur + options.dur.showMRIBaseline+options.d
 options.dur.mriDur = options.dur.taskDur + options.dur.showMRIBaseline+options.dur.showShortInfoTxt;
 
 
-%% MESSAGES
-options.messages.abortText     = 'the experiment was aborted';
-options.messages.timeOut       = 'you did not answer in time';
-options.messages.wrongButton   = 'you pressed the wrong button';
-
-
-%% DATAFILES & PATHS
-options.files.namePrefix   = ['SNG_SAPC_',PID,'_',expType];
-options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID,filesep];
-mkdir(options.files.savePath);
-options.files.dataFileExtension    = 'dataFile.mat';
-options.files.optionsFileExtension = 'optionsFile.mat';
-options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
-options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
-
 %% DEFINE EMG triggers
 if options.doEMG == 1
-    options.EMG.expStart     = 1;
-    options.EMG.expStop      = 2;
-    options.EMG.trialStart   = 3;
-    options.EMG.smileStart   = 4;
-    options.EMG.neutralStart = 5;
-    options.EMG.respStop     = 6;
-    options.EMG.trialStop    = 9;
+
+    % triggers / code values
+    options.EMG.thisTaskTrigger = 2; % Trigger value unique to this task!
+    options.EMG.expStart   = 100;
+    options.EMG.expStop    = 200;
+    options.EMG.baselineStart = 300;
+    options.EMG.taskStart  = 110;
+    options.EMG.taskStop   = 210;
+    options.EMG.trialStart = 10;
+    options.EMG.predStart  = 11;
+    options.EMG.noCollectKey = 3;
+    options.EMG.collectKey   = 4;
+    options.EMG.congruentOutcome   = 55;
+    options.EMG.incongruentOutcome = 56;
+    options.EMG.trialStop  = 20;
+
+    % port settings
+    options.EMG.pulseDur = 0.05;
+    options.EMG.pinMask  = 255; % Value from 0 to 255 expressing which pins will be used when signals are sent, 255 = all 8 pins of the data port of the parallel port
+
+    % Initialise parallel port
+    parPulse(options.EMG.portAddress);
+
 end
 
-% hardware identifiers
+% other hardware settings
 options.hardware.tracker = 'T60';
-
+options.PPU.ascii0       = 48; % subtract from ppu data in cleanDataFields.m
 end

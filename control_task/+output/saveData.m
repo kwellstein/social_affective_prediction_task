@@ -36,12 +36,16 @@ mkdir(fullfile(options.files.savePath));
 save(fullfile([options.files.savePath,options.files.dataFileName]),'dataFile');
 save(fullfile([options.files.savePath,options.files.optionsFileName]),'options');
 
-if options.doEye == 1
+if options.doEye
     movefile(options.files.eyeFileName,options.files.savePath)
 end
 
-if options.doPPU == 1
-    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt'],'f');
+if options.doPPU
+    ppu_data      = readtable('ppu_data.txt');
+    ppu_data(:,1) = ppu_data(:,1)-options.PPU.ascii0;
+    delete ppu_data.txt
+    save(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.mat']));
+    writetable(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.csv']));
 end
 
 diary off

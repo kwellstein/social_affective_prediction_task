@@ -59,7 +59,7 @@ options.files.projectID = 'SAPS_';
 options.task.name       = 'SAP';
 
 %% DATAFILES & PATHS
-options.files.namePrefix   = ['SNG_SAP_',PID,'_',expType];
+options.files.namePrefix   = ['SNG_',options.task.name,'_',PID,'_',expType];
 options.files.savePath     = [options.paths.saveDir,expMode,filesep,options.files.projectID,PID,filesep];
 mkdir(options.files.savePath);
 options.files.dataFileExtension    = 'dataFile.mat';
@@ -67,27 +67,25 @@ options.files.optionsFileExtension = 'optionsFile.mat';
 options.files.dataFileName    = [options.files.namePrefix,'_',options.files.dataFileExtension];
 options.files.optionsFileName = [options.files.namePrefix,'_',options.files.optionsFileExtension];
 options.files.eyeFileName     = [PID,options.task.name,'.edf'];
+options.files.ppuFileName     = [PID,options.task.name,'_ppu'];
 
-
-%% Settings for different experiment modes
-switch expMode
-    case 'experiment'
-        screens               = Screen('Screens');
+%% SETTINGS for different experiment modes
+screens               = Screen('Screens');
         options.screen.number = max(screens);
         options.screen.rect   = Screen('Rect', options.screen.number);
+
+switch expMode
+    case 'experiment'
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nAvatars = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
         rng(1,"twister");
-        options.doEye = 0;
-        options.doEMG = 0;
+        options.doEye = 1;
+        options.doEMG = 1;
         options.doPPU = 1;
         options.task.showPoints = 0;
 
     case 'practice'
-        screens               = Screen('Screens');
-        options.screen.number = max(screens);
-        options.screen.rect   = Screen('Rect', options.screen.number);
         options.task.inputs   = [1 2 2 1 2 1 2 1; ...
             1 0 1 1 0 1 0 1]';
         options.task.nAvatars = max(options.task.inputs(:,1));
@@ -100,7 +98,7 @@ switch expMode
 
         options.task.showPoints = 0;
         options.doEye = 0;
-        options.doEMG = 0;
+        options.doEMG = 1;
         options.doPPU = 0;
 end
 
@@ -132,14 +130,18 @@ options.task.sequenceIdx    = taskCol(rowIdx);
 % how many tasks are going to be played by participant
 if strcmp(expMode,'experiment')
     if nTasks==2
-        options.task.firstTarget    = 40;
-        options.task.finalTarget    = 80;
-        options.task.maxSequenceIdx = 2;
-    else
         options.task.firstTarget    = 50;
         options.task.finalTarget    = 100;
+        options.task.maxSequenceIdx = 2;
+    else
+        options.task.firstTarget    = 100;
+        options.task.finalTarget    = 150;
         options.task.maxSequenceIdx = 3;
     end
+else
+        options.task.firstTarget    = 100;
+        options.task.finalTarget    = 150;
+        options.task.maxSequenceIdx = 3;
 end
 
 
@@ -276,15 +278,18 @@ options.dur.mriDur = options.dur.taskDur + options.dur.showMRIBaseline+options.d
 if options.doEMG == 1
 
     % triggers / code values
+    options.EMG.thisTaskTrigger = 1; % Trigger value unique to this task!
     options.EMG.expStart   = 100;
     options.EMG.expStop    = 200;
+    options.EMG.baselineStart = 300;
     options.EMG.taskStart  = 110;
     options.EMG.taskStop   = 210;
     options.EMG.trialStart = 10;
     options.EMG.predStart  = 11;
     options.EMG.neutralKey = 3;
     options.EMG.smileKey   = 4;
-    options.EMG.outcomeStart = 12;
+    options.EMG.congruentOutcome   = 55;
+    options.EMG.incongruentOutcome = 56;
     options.EMG.trialStop  = 20;
 
     % port settings
@@ -296,7 +301,7 @@ if options.doEMG == 1
 
 end
 
-% hardware identifiers
+% other hardware settings
 options.hardware.tracker = 'T60';
 options.PPU.ascii0       = 48; % subtract from ppu data in cleanDataFields.m
 end

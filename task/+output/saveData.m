@@ -41,7 +41,11 @@ if options.doEye
 end
 
 if options.doPPU
-    movefile([options.paths.codeDir,filesep,'ppu_data.txt'],[options.files.savePath,options.task.name,'_ppu_data.txt']);
+    ppu_data      = readtable('ppu_data.txt');
+    ppu_data(:,1) = ppu_data(:,1)-options.PPU.ascii0;
+    delete ppu_data.txt
+    save(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.mat']));
+    writetable(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.csv']));
 end
 
 diary off

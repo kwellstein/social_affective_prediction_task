@@ -222,19 +222,7 @@ end
     dataFile.events.outcome_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.outcome_startTimeStp(trial) = GetSecs();
 
-    if ~isnan(resp) 
-
-        if options.doEMG == 1
-            % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
-            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
-            if resp==outcome
-                % set pins to the code value and then afterwards set the pins to zero
-                parPulse(options.EMG.portAddress,options.EMG.congruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
-            else
-                % set pins to the code value and then afterwards set the pins to zero
-                parPulse(options.EMG.portAddress,options.EMG.incongruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
-            end
-
+    if ~isnan(resp)  
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
@@ -247,6 +235,12 @@ end
     % log congruency and show points slide
     if resp==outcome
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
+        if options.doEMG == 1
+            % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+            % set pins to the code value and then afterwards set the pins to zero
+            parPulse(options.EMG.portAddress,options.EMG.congruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
+        end
 
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
@@ -263,7 +257,12 @@ end
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
-       
+        if options.doEMG == 1
+            % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+            % set pins to the code value and then afterwards set the pins to zero
+            parPulse(options.EMG.portAddress,options.EMG.incongruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
+        end
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);

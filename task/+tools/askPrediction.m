@@ -46,25 +46,23 @@ waiting = 1;
 ticID   = tic();
 RT      = 0;
 
-dataFile.events.predAction_startTime(trial) = extractAfter(char(datetime('now')),12);
+dataFile.events.predAction_startTime(trial)    = extractAfter(char(datetime('now')),12);
 dataFile.events.predAction_startTimeStp(trial) = GetSecs();
 
 %% WAIT for response
-
-while waiting
-
-    % show predictionslide
-    Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
-    Screen('TextSize', options.screen.windowPtr, 50);
-    DrawFormattedText(options.screen.windowPtr,options.screen.startPredictText,'center',[],[255 255 255],[],[],[],1);
-    Screen('Flip', options.screen.windowPtr);
-
     if options.doEMG == 1
         % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
         parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
         % set pins to the code value and then afterwards set the pins to zero
         parPulse(options.EMG.portAddress,options.EMG.predStart,0,options.EMG.pinMask,options.EMG.pulseDur);
     end
+
+while waiting
+    % show predictionslide
+    Screen('DrawTexture', options.screen.windowPtr, cue,[], options.screen.rect, 0);
+    Screen('TextSize', options.screen.windowPtr, 50);
+    DrawFormattedText(options.screen.windowPtr,options.screen.startPredictText,'center',[],[255 255 255],[],[],[],1);
+    Screen('Flip', options.screen.windowPtr);
 
     % detect response
     [ ~, ~, keyCode,  ~] = KbCheck;
@@ -82,18 +80,16 @@ while waiting
     end
         waiting = 0;
 
-
     elseif any(keyCode == options.keys.noSmile)
         resp    = 0;
-
+        waiting = 0;
+        
         if options.doEMG == 1
             % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
             parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
             % set pins to the code value and then afterwards set the pins to zero
             parPulse(options.EMG.portAddress,options.EMG.neutralKey ,0,options.EMG.pinMask,options.EMG.pulseDur);
         end
-        waiting = 0;
-
         
         % in case ESC is pressed this will be logged and saved and the
         % experiment stops here

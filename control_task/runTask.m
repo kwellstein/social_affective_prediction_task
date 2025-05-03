@@ -49,7 +49,15 @@ predictField = [options.task.name,'Prediction'];
 taskRunning  = 1;
 trial        = 0;
 
-%% START task and send trigger
+%% START task and SEND TRIGGERS
+% send trigger indicating that this is the SAPC task
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.thisTaskTrigger,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
+
 if options.doEye
     % Must be offline to draw to EyeLink screen
     Eyelink('Command', 'set_idle_mode');
@@ -67,10 +75,10 @@ if options.doPPU == 1
 % split off to reading PPU data
  f = parfeval(@readDataFromCOM,0);
 end
+
 dataFile.events.exp_startTime = GetSecs();
 
 %% SHOW intro
-
 Screen('DrawTexture', options.screen.windowPtr, stimuli.intro,[], options.screen.rect);
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showIntroScreen,options,dataFile,0);
@@ -95,7 +103,7 @@ Screen('DrawTexture', options.screen.windowPtr, stimuli.ready,[], options.screen
 Screen('Flip', options.screen.windowPtr);
 [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
-%% START task and send trigger
+%% GET scanner trigger
 if strcmp(expType,'fmri')
     waitForTrigger = 1;
     while waitForTrigger
@@ -107,12 +115,18 @@ if strcmp(expType,'fmri')
     end
 end
 
-dataFile.events.task_startTime = GetSecs();
 
-% show baseline
+%% BASELINE
 dataFile.events.baseline_start = extractAfter(char(datetime('now')),12);
-    Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI,[], options.screen.rect);
-    Screen('Flip', options.screen.windowPtr);
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.baselineStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
+
+Screen('DrawTexture', options.screen.windowPtr, stimuli.ITI,[], options.screen.rect);
+Screen('Flip', options.screen.windowPtr);
 
 if strcmp(expType,'fmri') && strcmp(expMode,'experiment')
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showMRIBaseline,options,dataFile,0);
@@ -123,7 +137,7 @@ end
 dataFile.events.baseline_end   = extractAfter(char(datetime('now')),12);
 
 %% START TASK
-
+dataFile.events.task_startTime = GetSecs();
 while taskRunning
     trial   = trial + 1; % next step
     egg     = options.task.eggArray(trial);
@@ -138,11 +152,34 @@ while taskRunning
     dataFile.events.stimulus_startTime(trial)     = extractAfter(char(datetime('now')),12);
     dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
 
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.trialStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
+
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
 
     [dataFile,RT,resp] = tools.askPrediction([],stimuli.(firstSlide),options,dataFile,predictField,trial);
+    if options.doEMG == 1
+        if resp==1
+            % set all the pins to zero before using parallel port as pins are
+            % in an unknown state otherwise neutralKey
+            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+            % set pins to the code value and then afterwards set the pins to zero
+            parPulse(options.EMG.portAddress,options.EMG.collectKey,0,options.EMG.pinMask,options.EMG.pulseDur);
+        else
+            % set all the pins to zero before using parallel port as pins are
+            % in an unknown state otherwise
+            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+            % set pins to the code value and then afterwards set the pins to zero
+            parPulse(options.EMG.portAddress,options.EMG.noCollectKey,0,options.EMG.pinMask,options.EMG.pulseDur);
+        end
+    end
+    
     RT = RT*1000; % convert to ms
     restEventDur = options.dur.afterChoiceITI(trial)-RT;
 
@@ -185,7 +222,13 @@ end
         % show outcome with different duration and slide as specified in exp-practice loop above!
         dataFile.events.outcome_startTime(trial)    = extractAfter(char(datetime('now')),12);
         dataFile.events.outcome_startTimeStp(trial) = GetSecs();
-
+        if options.doEMG == 1
+            % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+            % set pins to the code value and then afterwards set the pins to zero
+            parPulse(options.EMG.portAddress,options.EMG.congruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
+        end
+        
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
@@ -218,7 +261,15 @@ end
             durOutcomeSlide = options.dur.showReadyScreen;
         end
 
-        % show outcome with different duration and slide as specified in exp-practice loop above!
+  
+       if options.doEMG == 1
+            % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+            parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+            % set pins to the code value and then afterwards set the pins to zero
+            parPulse(options.EMG.portAddress,options.EMG.incongruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
+       end
+
+       % show outcome with different duration and slide as specified in exp-practice loop above!
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
@@ -228,6 +279,13 @@ end
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
+    end
+
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.trialStop,0,options.EMG.pinMask,options.EMG.pulseDur);
     end
 
     %% ITI Show Fixation cross 
@@ -244,15 +302,28 @@ end
     end
 end
 
-%% SAVE data
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.taskStop,0,options.EMG.pinMask,options.EMG.pulseDur);
+end
 
+
+%% SHOW END screen
 % log experiment end time
 dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 
-% clean datafields, incl. deleting leftover zeros from structs in initDatafile
-dataFile = tools.cleanDataFields(dataFile,trial,predictField);
+DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
+Screen('Flip', options.screen.windowPtr);
+eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
 
+if strcmp(expMode,'experiment')
+    tools.showPoints(options,dataFile.Summary.points);
+end
+
+%% SAVE data
 % move eyelink data
 if options.doEye
     Eyelink('GetQueuedData');
@@ -268,15 +339,16 @@ if options.doPPU == 1
     delete([pwd,filesep,'sObj.mat']);
 end
 
+% clean datafields, incl. deleting leftover zeros from structs in initDatafile
+dataFile = tools.cleanDataFields(dataFile,trial,predictField);
 output.saveData(options,dataFile);
 
-%% SHOW END screen
-DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
-Screen('Flip', options.screen.windowPtr);
-eventListener.commandLine.wait2(options.dur.showReadyScreen,options,dataFile,0);
-
-if strcmp(expMode,'experiment')
-    tools.showPoints(options,dataFile.Summary.points);
+if options.doEMG == 1
+    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+    % set pins to the code value and then afterwards set the pins to zero
+    parPulse(options.EMG.portAddress,options.EMG.expStop,0,options.EMG.pinMask,options.EMG.pulseDur);
 end
+
 
 end
