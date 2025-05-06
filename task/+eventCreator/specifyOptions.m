@@ -26,7 +26,7 @@ function options = specifyOptions(options,PID,expMode,expType,handedness,nTasks)
 %   OUT:    options:   struct containing general and task specific
 %                        options
 %
-%   AUTHOR: Coded by: Katharina V. Wellstein, October 2024
+%   AUTHOR: Coded by: Katharina V. Wellstein, May 2025
 %                     katharina.wellstein@newcastle.edu.au
 %                     https://github.com/kwellstein
 %
@@ -57,6 +57,7 @@ options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xls
 %% specifing experiment mode specific settings
 options.files.projectID = 'SAPS_';
 options.task.name       = 'SAP';
+options.task.nTasks     = nTasks;
 
 %% DATAFILES & PATHS
 options.files.namePrefix   = ['SNG_',options.task.name,'_',PID,'_',expType];
@@ -71,8 +72,8 @@ options.files.ppuFileName     = [PID,options.task.name,'_ppu'];
 
 %% SETTINGS for different experiment modes
 screens               = Screen('Screens');
-        options.screen.number = max(screens);
-        options.screen.rect   = Screen('Rect', options.screen.number);
+options.screen.number = max(screens);
+options.screen.rect   = Screen('Rect', options.screen.number);
 
 switch expMode
     case 'experiment'
@@ -98,7 +99,7 @@ switch expMode
 
         options.task.showPoints = 0;
         options.doEye = 0;
-        options.doEMG = 1;
+        options.doEMG = 0;
         options.doPPU = 0;
 end
 
@@ -134,13 +135,13 @@ if strcmp(expMode,'experiment')
         options.task.finalTarget    = 100;
         options.task.maxSequenceIdx = 2;
     else
-        options.task.firstTarget    = 100;
-        options.task.finalTarget    = 150;
+        options.task.firstTarget    = 80;
+        options.task.finalTarget    = 160;
         options.task.maxSequenceIdx = 3;
     end
 else
-        options.task.firstTarget    = 100;
-        options.task.finalTarget    = 150;
+        options.task.firstTarget    = 80;
+        options.task.finalTarget    = 160;
         options.task.maxSequenceIdx = 3;
 end
 
@@ -166,14 +167,14 @@ if options.task.sequenceIdx<options.task.maxSequenceIdx
         '\n You will receive an additional 5$ to your reimbursement if you keep this score.'];
     options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points! ' ...
         '\n You will receive an additional 10$ to your reimbursement if you keep this score.'];
-    options.screen.noTagretText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
+    options.screen.noTargetText = ['You have not collected enough points to reach one of the reimbursed targets.' ...
         '\n Keep collecting points in the next task!'];
 else
     options.screen.firstTargetText = ['You collected more than ', num2str(options.task.firstTarget),' points across all tasks! ' ...
         '\n You will receive an additional 5$ to your reimbursement.'];
     options.screen.finalTargetText = ['You collected more than ', num2str(options.task.finalTarget),' points across all tasks! ' ...
         '\n You will receive an additional 10$ to your reimbursement.'];
-    options.screen.noTagretText = 'You have not collected enough points to reach one of the reimbursed targets.';
+    options.screen.noTargetText = 'You have not collected enough points to reach one of the reimbursed targets.';
 end
 
 options.screen.pointsText = 'You collected the following amount of points: ';
@@ -234,6 +235,8 @@ options.keys.escape    = KbName('ESCAPE');
 options.keys.space     = KbName('space');
 
 %% DURATIONS OF EVENTS
+timings = readtable([pwd,filesep,'+eventCreator',filesep,'timings.xlsx']);
+
 if  strcmp(expMode,'practice')
     options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 500; % in ms
@@ -245,10 +248,10 @@ if  strcmp(expMode,'practice')
     options.dur.showReadyScreen = 1000;
     options.dur.showEyeBaseline = 3000;
     options.dur.showMRIBaseline = 0;
-    options.dur.afterActionITI  = randi([2000,3500],options.task.nTrials,1);
+    options.dur.afterActionITI  = timings.afterActionITI;
     options.dur.rtTimeout       = 10000;
     options.dur.showWarning     = 1500;
-    options.dur.ITI             = randi([2500,3500],options.task.nTrials,1);  % Jayson: mean 2000, min 400s, max 11600 used OptimizeX, OptSec2
+    options.dur.ITI             = timings.ITI;
 else % in ms
     options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 500; % in ms
@@ -260,10 +263,10 @@ else % in ms
     options.dur.showReadyScreen = 1000;
     options.dur.showEyeBaseline = 3000;
     options.dur.showMRIBaseline = 10000;
-    options.dur.afterActionITI  = randi([1000,2000],options.task.nTrials,1);
-    options.dur.rtTimeout       =  2500;
+    options.dur.afterActionITI  = timings.afterActionITI;
+    options.dur.rtTimeout       =  2000;
     options.dur.showWarning     =  1500;
-    options.dur.ITI             = randi([2500,3500],options.task.nTrials,1);
+    options.dur.ITI             = timings.ITI;
 end
 
 options.dur.taskDur = options.task.nTrials*(options.dur.showStimulus+options.dur.showOutcome)...

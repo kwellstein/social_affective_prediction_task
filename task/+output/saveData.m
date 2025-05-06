@@ -42,10 +42,10 @@ end
 
 if options.doPPU
     ppu_data      = readtable('ppu_data.txt');
-    ppu_data(:,1) = ppu_data(:,1)-options.PPU.ascii0;
+%     ppu_data.data = ppu_data.data-options.PPU.ascii0;
     delete ppu_data.txt
     save(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.mat']));
-    writetable(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.csv']));
+%     writetable(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.csv']));
 end
 
 diary off

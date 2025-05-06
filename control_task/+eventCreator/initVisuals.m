@@ -97,11 +97,10 @@ switch expType
         end
 end
 
-if options.task.maxSequenceIdx == 3
-    imgIntroPoints  = imread('stimuli/intro_points_allTasks','png');
-else
-    imgIntroPoints  = imread('stimuli/intro_points_2Tasks','png');
-end
+
+imgIntroPointsAllTasks  = imread('stimuli/intro_points_allTasks','png');
+imgIntroPoints2Tasks    = imread('stimuli/intro_points_2Tasks','png');
+
 
 imgF1_egg = imread('stimuli/f1_eggFace','png');
 imgF2_egg = imread('stimuli/f2_eggFace','png');
@@ -111,15 +110,7 @@ imgM1_egg = imread('stimuli/m1_eggFace','png');
 imgM2_egg = imread('stimuli/m2_eggFace','png');
 imgM3_egg = imread('stimuli/m3_eggFace','png');
 imgM4_egg = imread('stimuli/m4_eggFace','png');
-%
-% imgF1_egg = imread('stimuli/f1_egg','png');
-% imgF2_egg = imread('stimuli/f2_egg','png');
-% imgF3_egg = imread('stimuli/f3_egg','png');
-% imgF4_egg = imread('stimuli/f4_egg','png');
-% imgM1_egg = imread('stimuli/m1_egg','png');
-% imgM2_egg = imread('stimuli/m2_egg','png');
-% imgM3_egg = imread('stimuli/m3_egg','png');
-% imgM4_egg = imread('stimuli/m4_egg','png');
+
 
 imgF1_eggCollected = imread('stimuli/f1_eggCollected','png');
 imgF2_eggCollected = imread('stimuli/f2_eggCollected','png');
@@ -131,8 +122,8 @@ imgM3_eggCollected = imread('stimuli/m3_eggCollected','png');
 imgM4_eggCollected = imread('stimuli/m4_eggCollected','png');
 imgNo_eggCollected = imread('stimuli/no_eggCollected','png');
 
-imgMinus = imread('stimuli/minus_point','png');
-imgPlus  = imread('stimuli/plus_point','png');
+imgMinus  = imread('stimuli/minus_point','png');
+imgPlus   = imread('stimuli/plus_point','png');
 imgCoin   = imread('stimuli/outcome_coin','png');
 imgNoCoin = imread('stimuli/outcome_noCoin','png');
 imgITI    = imread('stimuli/iti_fixation','png');
@@ -140,7 +131,8 @@ imgReady  = imread('stimuli/task_starting','png');
 
 %% MAKE images into a textures that can be drawn to the screen
 stimuli.intro  = Screen('MakeTexture', options.screen.windowPtr, imgIntro);
-stimuli.intro_points  = Screen('MakeTexture', options.screen.windowPtr, imgIntroPoints);
+stimuli.intro_points_2Tasks  = Screen('MakeTexture', options.screen.windowPtr, imgIntroPoints2Tasks);
+stimuli.intro_points_allTasks  = Screen('MakeTexture', options.screen.windowPtr, imgIntroPointsAllTasks);
 
 stimuli.minus  = Screen('MakeTexture', options.screen.windowPtr, imgMinus);
 stimuli.plus   = Screen('MakeTexture', options.screen.windowPtr, imgPlus);

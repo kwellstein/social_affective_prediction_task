@@ -24,7 +24,7 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %           dataFile: struct containing all data recorded during task,
 %                     fields specified in initDataFile.m
 %
-%  AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024
+%  AUTHOR:  Coded by: Katharina V. Wellstein, May 2025
 %                     katharina.wellstein@newcastle.edu.au
 %                     https://github.com/kwellstein
 % -------------------------------------------------------------------------------%
@@ -92,10 +92,15 @@ Screen('Flip', options.screen.windowPtr);
 
 if strcmp(expMode,'experiment')
     % show points info
+    if  options.task.nTasks == 2
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points_2Tasks,[], options.screen.rect);
+    else
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points_allTasks,[], options.screen.rect);
+    end
     Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
-
+    
 end
 
 % show ready screen
@@ -172,20 +177,20 @@ while taskRunning
     % show first presentation of avatar
     dataFile.events.stimulus_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
-
-if options.doEMG == 1
-    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
-    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
-    % set pins to the code value and then afterwards set the pins to zero
-    parPulse(options.EMG.portAddress,options.EMG.trialStart,0,options.EMG.pinMask,options.EMG.pulseDur);
-end
+    
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.trialStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+    end
     
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
     
     [dataFile,RT,resp] = tools.askPrediction(stimuli.(firstSlide),options,dataFile,predictField,trial);
-
+    
     if options.doEMG == 1
         if resp==1
             % set all the pins to zero before using parallel port as pins are
@@ -210,7 +215,7 @@ end
     % make sure that participants delineate smile periods with start
     % and stop button but do this also for when participants choose not
     % to smile
-
+    
     if restEventDur>0 % in case the choice took longer than allocated action event time
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
@@ -221,9 +226,8 @@ end
     % show outcome
     dataFile.events.outcome_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.outcome_startTimeStp(trial) = GetSecs();
-
-    if ~isnan(resp) 
-
+    
+    if ~isnan(resp)
         if options.doEMG == 1
             % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
             parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
@@ -234,20 +238,21 @@ end
                 % set pins to the code value and then afterwards set the pins to zero
                 parPulse(options.EMG.portAddress,options.EMG.incongruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
             end
-
+        end
+        % show outcome slide
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
     else
+        % show same slide agaom because participant didnt answer
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
     end
-    
     % log congruency and show points slide
     if resp==outcome
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
-
+        
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
@@ -263,26 +268,26 @@ end
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
-       
+        
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     end
-
+    
     if options.doEMG == 1
         % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
         parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
         % set pins to the code value and then afterwards set the pins to zero
         parPulse(options.EMG.portAddress,options.EMG.trialStop,0,options.EMG.pinMask,options.EMG.pulseDur);
     end
-
-
-    %% ITI Show Fixation cross 
+    
+    
+    %% ITI Show Fixation cross
     dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
     dataFile.events.iti_startTimeStp(trial) = GetSecs();
-
+    
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.ITI(trial),options,dataFile,0);
@@ -302,10 +307,9 @@ if options.doEMG == 1
 end
 
 
-
 %% SHOW END Sceen
 % log experiment end time
-dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
+dataFile.events.exp_end = GetSecs();
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 
 % show end screen

@@ -26,7 +26,7 @@ function options = specifyOptions(options,PID,expMode,expType,handedness,nTasks)
 %   OUT:    options:   struct containing general and task specific
 %                        options
 %
-%   AUTHOR: Coded by: Katharina V. Wellstein, October 2024
+%   AUTHOR: Coded by: Katharina V. Wellstein, May 2025
 %                     katharina.wellstein@newcastle.edu.au
 %                     https://github.com/kwellstein
 %
@@ -90,7 +90,7 @@ switch expMode
         options.task.inputs   = [1 2 2 1 ; 1 0 1 0 ]';
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-        options.doEye = 0;
+        options.doEye = 1;
         options.doEMG = 0;
         options.doPPU = 0;
         options.task.showPoints = 1;
@@ -128,13 +128,13 @@ if strcmp(expMode,'experiment')
         options.task.finalTarget    = 100;
         options.task.maxSequenceIdx = 2;
     else
-        options.task.firstTarget    = 100;
-        options.task.finalTarget    = 150;
+        options.task.firstTarget    = 80;
+        options.task.finalTarget    = 160;
         options.task.maxSequenceIdx = 3;
     end
 else
-        options.task.firstTarget    = 100;
-        options.task.finalTarget    = 150;
+        options.task.firstTarget    = 80;
+        options.task.finalTarget    = 160;
         options.task.maxSequenceIdx = 3;
 end
 
@@ -228,21 +228,29 @@ options.keys.escape = KbName('ESCAPE');
 options.keys.space  = KbName('space');
 
 %% DURATIONS OF EVENTS
-options.dur.waitnxtkeypress = 5000; % in ms
-options.dur.showStimulus    = 500;  % in ms
-options.dur.showOutcome     = 500;
-options.dur.showPractOutcome = 2000;
-options.dur.showPoints      = 500;
-options.dur.showIntroScreen = 30000; % in ms
-options.dur.showShortIntro  = 10000;
-options.dur.showShortInfoTxt= 1200;
-options.dur.showEyeBaseline = 3000;
-options.dur.showMRIBaseline = 10000;
-options.dur.afterChoiceITI  = randi([2000,3000],options.task.nTrials,1);
-options.dur.rtTimeout       =  2000;
-options.dur.showWarning     =  1500;
-options.dur.showReadyScreen =  1000;
-options.dur.ITI             = randi([2500,3500],options.task.nTrials,1);
+timings = readtable([pwd,filesep,'+eventCreator',filesep,'timings.xlsx']);
+
+if  strcmp(expMode,'practice')
+    options.dur.rtTimeout       =  20000;
+else
+    options.dur.rtTimeout       =  2000;
+end
+    options.dur.waitnxtkeypress = 5000; % in ms
+    options.dur.showStimulus    = 500;  % in ms
+    options.dur.showOutcome     = 500;
+    options.dur.showPractOutcome = 8000;
+    options.dur.showPoints      = 500;
+    options.dur.showIntroScreen = 30000; % in ms
+    options.dur.showShortIntro  = 10000;
+    options.dur.showShortInfoTxt= 1200;
+    options.dur.showEyeBaseline = 3000;
+    options.dur.showMRIBaseline = 10000;
+    options.dur.afterChoiceITI  = timings.afterActionITI;
+    options.dur.rtTimeout       =  2000;
+    options.dur.showWarning     =  1500;
+    options.dur.showReadyScreen =  1000;
+    options.dur.ITI             = timings.ITI;
+
 
 options.dur.taskDur = options.task.nTrials*(options.dur.showStimulus+options.dur.showOutcome)...
         +sum(options.dur.afterChoiceITI)+sum(options.dur.ITI);

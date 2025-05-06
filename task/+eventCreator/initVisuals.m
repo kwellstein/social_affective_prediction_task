@@ -82,11 +82,8 @@ switch expType
         end
 end
 
-if options.task.maxSequenceIdx == 3
-    imgIntroPoints  = imread('stimuli/intro_points_allTasks','png');
-else
-    imgIntroPoints  = imread('stimuli/intro_points_2Tasks','png');
-end
+imgIntroPointsAllTasks = imread('stimuli/intro_points_allTasks','png');
+imgIntroPoints2Tasks   = imread('stimuli/intro_points_2Tasks','png');
 
 imgF1_neutral = imread('stimuli/f1_neutral','png');
 imgF2_neutral = imread('stimuli/f2_neutral','png');
@@ -150,7 +147,8 @@ stimuli.m2_smile = Screen('MakeTexture', options.screen.windowPtr, imgM2_smile);
 stimuli.m3_smile = Screen('MakeTexture', options.screen.windowPtr, imgM3_smile);
 stimuli.m4_smile = Screen('MakeTexture', options.screen.windowPtr, imgM4_smile);
 
-stimuli.intro_points  = Screen('MakeTexture', options.screen.windowPtr, imgIntroPoints);
+stimuli.intro_points_allTasks = Screen('MakeTexture', options.screen.windowPtr, imgIntroPointsAllTasks);
+stimuli.intro_points_2Tasks   = Screen('MakeTexture', options.screen.windowPtr, imgIntroPoints2Tasks);
 stimuli.ITI    = Screen('MakeTexture', options.screen.windowPtr, imgITI);
 stimuli.ready  = Screen('MakeTexture', options.screen.windowPtr, imgReady);
 end

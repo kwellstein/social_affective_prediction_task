@@ -23,7 +23,7 @@ function dataFile = runTask(stimuli,expMode,expType,options,dataFile)
 %           dataFile: struct containing all data recorded during task,
 %                     fields specified in initDataFile.m
 %
-%  AUTHOR:  Coded by: Katharina V. Wellstein, XX.2024
+%  AUTHOR:  Coded by: Katharina V. Wellstein, May 2025
 %                     katharina.wellstein@newcastle.edu.au
 %                     https://github.com/kwellstein
 % -------------------------------------------------------------------------------%
@@ -93,7 +93,12 @@ if strcmp(expMode,'practice')
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
 else
     % show points info
-    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points,[], options.screen.rect);
+    if  options.task.nTasks == 2
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points_2Tasks,[], options.screen.rect);
+    else
+        Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points_allTasks,[], options.screen.rect);
+    end
+    
     Screen('Flip', options.screen.windowPtr);
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
 end
@@ -312,7 +317,7 @@ end
 
 %% SHOW END screen
 % log experiment end time
-dataFile = eventListener.logEvent('exp','_end',dataFile,[],[]);
+dataFile.events.dataFile.events.exp_end = GetSecs();
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
