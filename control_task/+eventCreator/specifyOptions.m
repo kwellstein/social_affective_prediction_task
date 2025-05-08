@@ -57,7 +57,7 @@ options.paths.randFile = [pwd,filesep,'+eventCreator',filesep,'randomisation.xls
 %% specifing experiment mode specific settings
 options.files.projectID    = 'SAPS_';
 options.task.name          = 'SAPC';
-
+options.task.nTasks = nTasks;
 %% DATAFILES & PATHS
 options.files.namePrefix   = ['SNG_',options.task.name,'_',PID,'_',expType];
 options.files.savePath     = [options.paths.saveDir,filesep,expMode,filesep,options.files.projectID,PID,filesep];
@@ -78,9 +78,9 @@ switch expMode
         options.task.inputs   = readmatrix(fullfile([options.paths.inputDir,'input_sequence.csv']));
         options.task.nEggs    = max(options.task.inputs(:,1));
         options.task.nTrials  = size(options.task.inputs,1);
-        options.doEye = 1;
-        options.doEMG = 1;
-        options.doPPU = 1;
+        options.doEye = 0;
+        options.doEMG = 0;
+        options.doPPU = 0;
         options.task.showPoints = 0;
 
     case 'practice'
@@ -231,14 +231,16 @@ options.keys.space  = KbName('space');
 timings = readtable([pwd,filesep,'+eventCreator',filesep,'timings.xlsx']);
 
 if  strcmp(expMode,'practice')
-    options.dur.rtTimeout       =  20000;
+    options.dur.rtTimeout      =  15000;
+    options.dur.afterChoiceITI = timings.afterActionITI*6;
+    options.dur.showOutcome    = 6000;
 else
-    options.dur.rtTimeout       =  2000;
+    options.dur.rtTimeout   =  2000;
+    options.dur.showOutcome = 500;
 end
+
     options.dur.waitnxtkeypress = 5000; % in ms
     options.dur.showStimulus    = 500;  % in ms
-    options.dur.showOutcome     = 500;
-    options.dur.showPractOutcome = 8000;
     options.dur.showPoints      = 500;
     options.dur.showIntroScreen = 30000; % in ms
     options.dur.showShortIntro  = 10000;

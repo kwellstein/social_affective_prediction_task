@@ -62,11 +62,11 @@ end
 if options.doEye
     % Must be offline to draw to EyeLink screen
     Eyelink('Command', 'set_idle_mode');
-    
+
     % clear tracker display
     Eyelink('Command', 'clear_screen 0');
     Eyelink('StartRecording');
-    
+
     % always wait a moment for recording to have definitely started
     WaitSecs(0.1);
     Eyelink('message', 'SYNCTIME');
@@ -97,10 +97,9 @@ if strcmp(expMode,'experiment')
     else
         Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points_allTasks,[], options.screen.rect);
     end
-    Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
-    
+
 end
 
 % show ready screen
@@ -163,34 +162,35 @@ while taskRunning
     trial   = trial + 1; % next step
     avatar  = options.task.avatarArray(trial);
     outcome = options.task.inputs(trial,2);
-    
+
     % pick avatar of current trial
     firstSlide = [char(avatar),'_neutral'];  % prediction
-    
+
     if outcome
         outcomeSlide = [char(avatar),'_smile'];   % if outcome is 1
     else
         outcomeSlide = [char(avatar),'_noSmile']; % if outcome is 0 %TODO: once stimuli are ready, add neutral outcome slides
     end
-    
+
     %% 1ST EVENT: Prediction Phase
     % show first presentation of avatar
     dataFile.events.stimulus_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
-    
+
     if options.doEMG == 1
         % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
         parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
         % set pins to the code value and then afterwards set the pins to zero
         parPulse(options.EMG.portAddress,options.EMG.trialStart,0,options.EMG.pinMask,options.EMG.pulseDur);
     end
-    
+
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.showStimulus,options,dataFile,0);
-    
+
+    %% 2ND EVENT: Action Phase
     [dataFile,RT,resp] = tools.askPrediction(stimuli.(firstSlide),options,dataFile,predictField,trial);
-    
+
     if options.doEMG == 1
         if resp==1
             % set all the pins to zero before using parallel port as pins are
@@ -207,27 +207,22 @@ while taskRunning
         end
     end
     RT = RT*1000; % convert to ms
-    
+
     % show avatar again to make sure this event is constant in timing
     restEventDur = options.dur.afterActionITI(trial)-RT;
-    
-    %% 2ND EVENT: Action Phase
-    % make sure that participants delineate smile periods with start
-    % and stop button but do this also for when participants choose not
-    % to smile
-    
-    if restEventDur>0 % in case the choice took longer than allocated action event time
-        Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
-    end
-    
+
     %% 3RD EVENT: Outcome Phase
     % show outcome
     dataFile.events.outcome_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.outcome_startTimeStp(trial) = GetSecs();
-    
+
     if ~isnan(resp)
+        if restEventDur>0 % in case the choice took longer than allocated action event time
+            Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
+        end
+
         if options.doEMG == 1
             % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
             parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
@@ -243,59 +238,60 @@ while taskRunning
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
-    else
-        % show same slide agaom because participant didnt answer
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(firstSlide),[],options.screen.rect, 0);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
+
+    else % if participant missed the trial
+        % show missed trial slide
+        if restEventDur>0 % in case the choice took longer than allocated action event time
+            DrawFormattedText(options.screen.windowPtr,options.messages.timeOut ,'center','center',[255 255 255],[],[],[],1);
+            Screen('Flip', options.screen.windowPtr);
+            eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
+        end
     end
+
     % log congruency and show points slide
     if resp==outcome
         [~,dataFile] = eventListener.logData(1,predictField,'congruent',dataFile,trial);
-        
+
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
-        
+
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
-        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
-        Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
-        
+
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
     end
-    
+
     if options.doEMG == 1
         % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
         parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
         % set pins to the code value and then afterwards set the pins to zero
         parPulse(options.EMG.portAddress,options.EMG.trialStop,0,options.EMG.pinMask,options.EMG.pulseDur);
     end
-    
-    
+
+
     %% ITI Show Fixation cross
     dataFile.events.iti_startTime(trial) = extractAfter(char(datetime('now')),12);
     dataFile.events.iti_startTimeStp(trial) = GetSecs();
-    
+
     Screen('DrawTexture', options.screen.windowPtr,stimuli.ITI,[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(options.dur.ITI(trial),options,dataFile,0);
-    
+
     % check if this is the last trial
     if trial == options.task.nTrials
         taskRunning = 0;
-        
+
     end
 end
 
@@ -321,16 +317,20 @@ if strcmp(expMode,'experiment')
     tools.showPoints(options,dataFile.Summary.points);
 end
 
+%% SAVE data
 % STOP parallel process
 if options.doPPU
     cancel(f);
     fclose("all");
-    load('sObj')
-    sObj =[];
-    delete([pwd,filesep,'sObj.mat']);
+    exist = dir([pwd,filesep,'sObj.mat']);
+    if exist
+        load('sObj')
+        sObj =[];
+        delete([pwd,filesep,'sObj.mat']);
+        disp('no COM obj saved, check ppu_data file...');
+    end
 end
 
-%% SAVE data
 % MOVE eyelink data
 if options.doEye
     Eyelink('GetQueuedData');

@@ -72,8 +72,8 @@ if options.doEye
 end
 
 if options.doPPU == 1
-% split off to reading PPU data
- f = parfeval(@readDataFromCOM,0);
+    % split off to reading PPU data
+    f = parfeval(@readDataFromCOM,0);
 end
 
 dataFile.events.exp_startTime = GetSecs();
@@ -90,7 +90,7 @@ if strcmp(expMode,'practice')
 
     Screen('DrawTexture', options.screen.windowPtr, stimuli.intro3,[], options.screen.rect);
     Screen('Flip', options.screen.windowPtr);
-    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
+    [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showPractOutcome,options,dataFile,0);
 else
     % show points info
     if  options.task.nTasks == 2
@@ -98,7 +98,7 @@ else
     else
         Screen('DrawTexture', options.screen.windowPtr, stimuli.intro_points_allTasks,[], options.screen.rect);
     end
-    
+
     Screen('Flip', options.screen.windowPtr);
     [~,~,dataFile] = eventListener.commandLine.wait2(options.dur.showShortIntro,options,dataFile,0);
 end
@@ -143,6 +143,7 @@ dataFile.events.baseline_end   = extractAfter(char(datetime('now')),12);
 
 %% START TASK
 dataFile.events.task_startTime = GetSecs();
+
 while taskRunning
     trial   = trial + 1; % next step
     egg     = options.task.eggArray(trial);
@@ -157,12 +158,12 @@ while taskRunning
     dataFile.events.stimulus_startTime(trial)     = extractAfter(char(datetime('now')),12);
     dataFile.events.stimulus_startTimeStp(trial) = GetSecs();
 
-if options.doEMG == 1
-    % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
-    parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
-    % set pins to the code value and then afterwards set the pins to zero
-    parPulse(options.EMG.portAddress,options.EMG.trialStart,0,options.EMG.pinMask,options.EMG.pulseDur);
-end
+    if options.doEMG == 1
+        % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
+        parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
+        % set pins to the code value and then afterwards set the pins to zero
+        parPulse(options.EMG.portAddress,options.EMG.trialStart,0,options.EMG.pinMask,options.EMG.pulseDur);
+    end
 
     Screen('DrawTexture', options.screen.windowPtr, stimuli.(firstSlide),[],options.screen.rect, 0);
     Screen('Flip', options.screen.windowPtr);
@@ -184,11 +185,9 @@ end
             parPulse(options.EMG.portAddress,options.EMG.noCollectKey,0,options.EMG.pinMask,options.EMG.pulseDur);
         end
     end
-    
+
     RT = RT*1000; % convert to ms
     restEventDur = options.dur.afterChoiceITI(trial)-RT;
-
-if ~isnan(resp)
 
     %% 2ND EVENT: Show Choice
     dataFile.events.choiceStim_startTime(trial) = extractAfter(char(datetime('now')),12);
@@ -196,12 +195,14 @@ if ~isnan(resp)
     if resp ==1
         % show choice with jitter
         Screen('DrawTexture', options.screen.windowPtr, stimuli.(choiceSlide),[],options.screen.rect, 0);
-    else
+    elseif resp==0
         Screen('DrawTexture', options.screen.windowPtr, stimuli.no_eggCollected,[],options.screen.rect, 0);
+    else
+        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
     end
     Screen('Flip', options.screen.windowPtr);
     eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
-end
+
     %% 3RD EVENT: Show Outcome
     % log congruency and show points slide
 
@@ -213,30 +214,28 @@ end
         % experiment vs. practice expMode
         if strcmp(expMode,'experiment')
             outcomeSlide = 'coin'; % experiment mode, show simple coin
-            durOutcomeSlide = options.dur.showOutcome;
 
         elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
             outcomeSlide = 'collectCoin'; % collected egg and earned coin
-            durOutcomeSlide = options.dur.showPractOutcome;
 
         elseif resp==0
             outcomeSlide = 'rejectCoin';% rejected egg and earned coin
-            durOutcomeSlide = options.dur.showPractOutcome;
         end
 
         % show outcome with different duration and slide as specified in exp-practice loop above!
         dataFile.events.outcome_startTime(trial)    = extractAfter(char(datetime('now')),12);
         dataFile.events.outcome_startTimeStp(trial) = GetSecs();
+
         if options.doEMG == 1
             % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
             parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
             % set pins to the code value and then afterwards set the pins to zero
             parPulse(options.EMG.portAddress,options.EMG.congruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
         end
-        
+
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.plus,[],options.screen.rect, 0);
@@ -244,40 +243,38 @@ end
             eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
         end
 
-    elseif isnan(resp)
+    elseif isnan(resp) % if no response
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         outcomeSlide = 'noCoin'; % if outcome is 0
         dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
+        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
-    else
+    
+    else % if wrong decision made
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         if strcmp(expMode,'experiment')
             outcomeSlide = 'noCoin'; % if outcome is 0
-            durOutcomeSlide = options.dur.showOutcome;
 
         elseif resp==1 % if NOT experiment mode, show coin and comment as a function of choice made by participant
             outcomeSlide = 'collectNoCoin'; % collected bad egg
-            durOutcomeSlide = options.dur.showReadyScreen;
 
         elseif resp==0
             outcomeSlide = 'rejectNoCoin';% rejected good egg
-            durOutcomeSlide = options.dur.showReadyScreen;
         end
 
-  
-       if options.doEMG == 1
+
+        if options.doEMG == 1
             % set all the pins to zero before using parallel port as pins are in an unknown state otherwise
             parPulse(options.EMG.portAddress,0,0,options.EMG.pinMask,options.EMG.pulseDur);
             % set pins to the code value and then afterwards set the pins to zero
             parPulse(options.EMG.portAddress,options.EMG.incongruentOutcome,0,options.EMG.pinMask,options.EMG.pulseDur);
-       end
+        end
 
-       % show outcome with different duration and slide as specified in exp-practice loop above!
+        % show outcome with different duration and slide as specified in exp-practice loop above!
         Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
         Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(durOutcomeSlide,options,dataFile,0);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
 
         if options.task.showPoints
             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
@@ -293,7 +290,7 @@ end
         parPulse(options.EMG.portAddress,options.EMG.trialStop,0,options.EMG.pinMask,options.EMG.pulseDur);
     end
 
-    %% ITI Show Fixation cross 
+    %% ITI Show Fixation cross
     dataFile.events.iti_startTime(trial)    = extractAfter(char(datetime('now')),12);
     dataFile.events.iti_startTimeStp(trial) = GetSecs();
 
@@ -317,7 +314,7 @@ end
 
 %% SHOW END screen
 % log experiment end time
-dataFile.events.dataFile.events.exp_end = GetSecs();
+dataFile.events.exp_end = GetSecs();
 dataFile.Summary.points = sum(dataFile.(predictField).congruent);
 
 DrawFormattedText(options.screen.windowPtr,options.screen.expEndText,'center','center',[255 255 255],[],[],[],1);
@@ -336,12 +333,16 @@ if options.doEye
 end
 
 % STOP parallel process
-if options.doPPU == 1
+if options.doPPU
     cancel(f);
     fclose("all");
-    load('sObj')
-    sObj =[];
-    delete([pwd,filesep,'sObj.mat']);
+    exist = dir([pwd,filesep,'sObj.mat']);
+    if exist
+        load('sObj')
+        sObj =[];
+        delete([pwd,filesep,'sObj.mat']);
+        disp('no COM obj saved, check ppu_data file...');
+    end
 end
 
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile

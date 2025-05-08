@@ -46,8 +46,8 @@ waiting = 1;
 ticID   = tic();
 RT      = 0;
 
-dataFile.events.actionKey_startTime(trial) = extractAfter(char(datetime('now')),12);
-dataFile.events.actionKey_startTimeStp(trial) = GetSecs();
+dataFile.events.actionKey_startTime(trial)   = extractAfter(char(datetime('now')),12);
+dataFile.events.actionKey_startTimeStp(trial)= GetSecs();
 %% WAIT for response
 while waiting
 
@@ -76,28 +76,23 @@ while waiting
         DrawFormattedText(options.screen.windowPtr, options.messages.abortText,...
             'center', 'center', options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
-        dataFile = eventListener.logEvent('exp','_abort',dataFile,1,trial);
+        eventListener.commandLine.wait2(options.dur.showWarning,options,dataFile,0);
+        dataFile        = eventListener.logEvent('exp','_abort',dataFile,1,trial);
         output.saveData(options,dataFile);
-
         disp('Game was aborted.')
         Screen('CloseAll');
+        ListenChar(0);
         sca
         return;
 
         % if the participant takes too long (as defined in the options)
-        % this will be logged and saved as NaN. A time-out message will be
-        % displayed
+        % this will be logged and saved as NaN. A time-out message will be displayed
     elseif RT*1000 > options.dur.rtTimeout
-        durMissedTrial = options.dur.afterChoiceITI(trial)-(RT*1000);
-        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,...
-            'center', 'center', options.screen.grey);
-        Screen('Flip', options.screen.windowPtr);
-        eventListener.commandLine.wait2(durMissedTrial,options,dataFile,0);
         dataFile = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
         disp(['Participant missed trial ',num2str(trial),'... ']);
         waiting  = 0;
         resp     = NaN;
-        RT = options.dur.afterChoiceITI(trial);
+        
     end % END COLLECT detection loop
 end % END REJECT loop
 
