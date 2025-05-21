@@ -323,10 +323,11 @@ if options.doPPU
     cancel(f);
     fclose("all");
     exist = dir([pwd,filesep,'sObj.mat']);
-    if exist
+    if ~isempty(exist)
         load('sObj')
         sObj =[];
         delete([pwd,filesep,'sObj.mat']);
+    else
         disp('no COM obj saved, check ppu_data file...');
     end
 end

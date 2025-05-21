@@ -40,12 +40,11 @@ if options.doEye
     movefile(options.files.eyeFileName,options.files.savePath)
 end
 
-if options.doPPU
+exist = dir([options.paths.codeDir,filesep,'ppu_data.txt']);
+if ~isempty(exist)
     ppu_data      = readtable('ppu_data.txt');
-%     ppu_data(:,1) = ppu_data(:,1)-options.PPU.ascii0;
     delete ppu_data.txt
-%     save(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.mat']));
-    writetable(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.csv']));
+    save(fullfile([options.files.savePath,filesep,options.files.ppuFileName,'.mat']),'ppu_data');
 end
 
 diary off

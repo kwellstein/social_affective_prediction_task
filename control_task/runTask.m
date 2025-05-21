@@ -332,19 +332,18 @@ if options.doEye
     Eyelink('ReceiveFile');
 end
 
-% STOP parallel process
 if options.doPPU
     cancel(f);
     fclose("all");
     exist = dir([pwd,filesep,'sObj.mat']);
-    if exist
+    if ~isempty(exist)
         load('sObj')
         sObj =[];
         delete([pwd,filesep,'sObj.mat']);
+    else
         disp('no COM obj saved, check ppu_data file...');
     end
 end
-
 % clean datafields, incl. deleting leftover zeros from structs in initDatafile
 dataFile = tools.cleanDataFields(dataFile,trial,predictField);
 output.saveData(options,dataFile);
