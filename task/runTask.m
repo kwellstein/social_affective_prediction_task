@@ -247,7 +247,7 @@ while taskRunning
             eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
         end
         % show outcome slide
-        Screen('DrawTexture', options.screen.windowPtr,stimuli.(outcomeSlide),[],options.screen.rect, 0);
+        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
         Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
     end
