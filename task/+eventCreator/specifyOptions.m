@@ -61,7 +61,7 @@ options.task.nTasks     = nTasks;
 
 %% DATAFILES & PATHS
 options.files.namePrefix   = ['SNG_',options.task.name,'_',PID,'_',expType];
-options.files.savePath     = [options.paths.saveDir,expMode,filesep,options.files.projectID,PID,filesep];
+options.files.savePath     = [options.paths.saveDir,options.files.projectID,PID,filesep,expMode,filesep];
 mkdir(options.files.savePath);
 options.files.dataFileExtension    = 'dataFile.mat';
 options.files.optionsFileExtension = 'optionsFile.mat';

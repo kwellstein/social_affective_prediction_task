@@ -246,6 +246,10 @@ while taskRunning
             Screen('Flip', options.screen.windowPtr);
             eventListener.commandLine.wait2(restEventDur,options,dataFile,0);
         end
+        % show outcome slide
+        DrawFormattedText(options.screen.windowPtr, options.messages.timeOut,'center',[], options.screen.grey);
+        Screen('Flip', options.screen.windowPtr);
+        eventListener.commandLine.wait2(options.dur.showOutcome,options,dataFile,0);
     end
 
     % log congruency and show points slide
@@ -261,7 +265,11 @@ while taskRunning
     elseif isnan(resp)
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
         dataFile     = eventListener.logEvent('exp','_missedTrial',dataFile,1,trial);
+         if options.task.showPoints
+             Screen('DrawTexture', options.screen.windowPtr,stimuli.minus,[],options.screen.rect, 0);
+            Screen('Flip', options.screen.windowPtr);
         eventListener.commandLine.wait2(options.dur.showPoints,options,dataFile,0);
+         end
     else
         [~,dataFile] = eventListener.logData(-1,predictField,'congruent',dataFile,trial);
 
